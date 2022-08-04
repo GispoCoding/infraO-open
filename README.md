@@ -1,4 +1,4 @@
-# Tampereen maamassarekisteri
+# Municipal asset inventory (Finland) 
 
 ## Set up a dev environment
 
@@ -31,14 +31,14 @@ Or alternatively use `./diff.bat`
 `docker-compose run --rm flyway migrate -target="1.1.0"`
 
 ### Running migrations against different platform
-`docker-compose run --rm -e FLYWAY_USER=maamassa_admin -e FLYWAY_PASSWORD=<password> -e FLYWAY_URL=jdbc:postgresql://trepx-paikka1.tre.t.verkko:5432/omaisuudenhallinta_test_db flyway migrate`
+`docker-compose run --rm -e FLYWAY_USER=infrao_admin -e FLYWAY_PASSWORD=<password> -e FLYWAY_URL=jdbc:postgresql://trepx-paikka1.tre.t.verkko:5432/omaisuudenhallinta_test_db flyway migrate`
 
 ## Exporting database documentation:
 
 ```
-psql -p 5433 -d omaisuudenhallinta_db -U maamassa_admin -f .\docs\db\generate_docs.sql
+psql -p 5434 -d infrao -U infrao_admin -f .\docs\db\generate_docs.sql
 ```
 ## Export db model to png
 ```
-& 'C:\Program Files\pgModeler\pgmodeler-cli.exe' --export-to-png --input .\db\maamassa.dbm --output .\docs\db\schema.png
+& 'C:\Program Files\pgModeler\pgmodeler-cli.exe' --export-to-png --input .\db\infrao.dbm --output .\docs\db\schema.png
 ```

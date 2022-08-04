@@ -19,7 +19,7 @@ PgModeler is used to generate diff SQL files and then apply Flyway migration.
 ### Creating incremental migrations
 1. Verify db is up to date by running `docker-compose up flyway`
 2. Modify the pgmodeler model
-3. Run `pgmodeler-cli.exe --diff --save --input jkr.dbm --compare-to jkr --conn-alias local-db --output migrations/V2__add_sailio_table.sql --pgsql-ver 13.0`
+3. Modify accordingly and run `pgmodeler-cli.exe --diff --save --input jkr.dbm --compare-to jkr --conn-alias local-db --output migrations/V2__add_sailio_table.sql --pgsql-ver 13.0`
 4. Validate and modify the migration file
 5. Migrate by running `docker-compose up flyway`
 

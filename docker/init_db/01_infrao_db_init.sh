@@ -1,0 +1,12 @@
+#!/bin/bash
+set -e
+
+psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname "$POSTGRES_DB" <<-EOSQL
+    CREATE USER $INFRAO_USER with login password '$INFRAO_PASSWORD';
+    CREATE DATABASE $INFRAO_DB;
+    GRANT ALL PRIVILEGES ON DATABASE $INFRAO_DB TO $INFRAO_USER;
+EOSQL
+
+psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname "$INFRAO_DB" <<-EOSQL
+    CREATE EXTENSION postgis;
+EOSQL

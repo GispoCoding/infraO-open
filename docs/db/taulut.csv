@@ -1,0 +1,19 @@
+Skeeman nimi;Taulun nimi;Kommentti
+mm;alijaama;Alijäämä-taulussa kuvataan kohteiden maamassa-alijäämät.
+mm;jalostus;"Kohteella tehtävät maamassan jalostukset.
+Raaka-aineena käytetään yhtä maamassaa ja tuotteena syntyy erityyppinen maamassa samalle kohteelle.
+Tuotemaamassa oltava olemassa kohteella, jotta rivi voidaan lisätä. Käytännössä INSERT tehdään v_jalostus taulun kautta."
+mm;kaytto;"Maamassojan käyttö täyttämään alijäämiä.
+Maamassa ja Alijäämä oltava samalla kohteella."
+mm;kohde;"Kohde kuvaa kohdetta, joka käsittelee maamassoja.
+Kohde voi olla esim. työmaa, suunnittelualue, välivarasto, loppusijoituspaikka."
+mm;maamassa;"Maamassa kuvaa kohteessa olevaa fyysistä maa-ainesta.
+Maamassa voi olla myös vielä maassa tai vasta suunnitelmissa."
+mm;siirto;Maamassan siirrot kohteelta toiselle.
+mm;yhteystieto;Henkilöiden yhteystiedot
+mm;yritys;Yritykset/urakoitsijat
+mm_koodistot;kohdetyyppi;Koodistotaulu kohdetyypille
+mm_koodistot;maalaji;"Koodistotaulu Maalajeille.
+Maalaji kuuluu aina yhteen Maalajiryhmään."
+mm_koodistot;maalajiryhma;Maalajiryhmän koodistotaulu
+mm_koodistot;pilaantuneisuusluokka;Koodistotaulu pilaantuneisuusluokalle

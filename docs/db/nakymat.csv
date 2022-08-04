@@ -1,0 +1,10 @@
+Skeeman nimi;N√§kym√§n nimi;Kommentti
+mm;jalostus_v;"Muokattava n‰kym‰, joka yhdist‰‰ maamassan ja jalostusten tietoja.
+K‰ytet‰‰n QGIS:ss‰ k‰sitelless‰ jalostuksia.
+K‰ytt‰en jalostus_v n‰kym‰‰ jalostuksia voidaan lis‰t‰ ilman, ett‰ tuotemaamassa-rivi‰ on olemassa."
+mm;maamassa_operaatiot;N‰kym‰, joka listaa jokaiselle maamassalle tehdyt operaatiot ja laskee maamassan kumuloituvan m‰‰r‰n operaation j‰lkeen.
+mm;siirto_v;"Muokattava n‰kym‰, joka yhdist‰‰ tietoja siirroista ja maamassoista.
+K‰ytet‰‰n QGIS:ssa siirtojen esitt‰miseen.
+Tekem‰ll‰ INSERT kysely n‰kym‰‰n voidaan siirto luoda antamalla ainoastaan l‰hde-maamassa-id, kohteen kohde-id ja m‰‰r‰."
+mm;taytettavat_alijaamat_v;N‰kym‰ t‰ytt‰m‰tt‰ olevista alij‰‰mist‰ Oskari-k‰yttˆ‰ varten.
+mm;vapaat_maamassat_v;N‰kym‰ vapaista maamassoista Oskari-k‰yttˆ‰ varten.

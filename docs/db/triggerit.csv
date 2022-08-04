@@ -1,0 +1,52 @@
+Skeema;Taulu;Triggerin nimi;Ajoitus;Operaatio;Kutusttava funktio;Kommentti
+mm;alijaama;alijaama_after_update_trigger;AFTER;UPDATE;alijaama_after_update_update_tayttamatta;Kun alij‰‰m‰n suunniteltua m‰‰r‰‰ muokataan, niin trigger-funktio p‰ivitt‰‰ t‰ytt‰m‰tt‰-arvon.
+mm;alijaama;alijaama_before_new_fix_alkupvm;BEFORE;INSERT, UPDATE;convert_null_start_date_to_infinity;Ennen insert ja update lauseita muutetaan tyhj‰ p‰iv‰m‰‰r‰ '-infinity'-arvoksi, jotta p‰iv‰m‰‰r‰ll‰ haku toimii ilman null-arvojen huomioimista erikseen.
+mm;alijaama;alijaama_before_new_fix_loppupvm;BEFORE;INSERT, UPDATE;convert_empty_end_date_to_infinity;Ennen insert ja update lauseita muutetaan tyhj‰ p‰iv‰m‰‰r‰ 'infinity'-arvoksi, jotta p‰iv‰m‰‰r‰ll‰ haku toimii ilman null-arvojen huomioimista erikseen.
+mm;alijaama;before_insert_on_am;BEFORE;INSERT;before_insert_on_am;Kun alij‰‰m‰ luodaan, niin trigger-funktio asettaa t‰ytt‰m‰tt‰-arvoksi suunnitellun m‰‰r‰n.
+mm;jalostus;jalostus_after_update_trigger;AFTER;UPDATE;jalostus_after_update_update_mm;Kun jalostuksen tietoja muokataan, niin p‰ivitet‰‰n myˆs tuote-maamassan tiedot.
+mm;jalostus;jalostus_on_delete_trigger;AFTER;DELETE;jalostus_on_delete;Kun jalostus poistetaan, niin poistetaan myˆs tuote-maamassa.
+mm;jalostus;update_vapaana_after_jalostus_mod_trigger;AFTER;INSERT, DELETE, UPDATE;update_vapaana_after_jalostus_mod;Kun jalostuksen m‰‰r‰‰ muutetaan, niin p‰ivitet‰‰n raaka-aine- ja tuote-maamassojen vapaana-m‰‰ri‰.
+mm;jalostus_v;jalostus_v_on_delete_trigger;AFTER;DELETE;jalostus_v_on_delete;Poistetaan varsinainen jalostus-rivi jalostus-taulusta.
+mm;jalostus_v;jalostus_v_on_insert_trigger;AFTER;INSERT;jalostus_v_on_insert;"N‰kym‰‰n voidaan insertoida uusi jalostus ilman, ett‰ tuotemaamassa-rivi‰ on olemassa.
+Ennen jalostuksen luomista, luodaan tuote-maamassa n‰kym‰n NEW arvojen (maalajin, pilaantuneisuusluokan, p‰iv‰m‰‰rien ja m‰‰r‰n avulla).
+
+Pakolliset arvot n‰kym‰n INSERT lauseessa on seuraavat:
+- raakaaine_maamassa_id
+- tuote_maalaji_id
+- raakaaine_maara_suunniteltu
+- tuote_maara_suunniteltu
+
+Vapaaehtoisia tietoja ovat:
+- selite
+- tuote_pilaantuneisuusluokka_id
+- tuote_maara_toteutunut
+- pvm_suunniteltu
+- pvm_toteutunut"
+mm;jalostus_v;jalostus_v_on_update_trigger;AFTER;UPDATE;jalostus_v_on_update;P‰ivitt‰‰ tiedot varsinaiseen jalostus-tauluun.
+mm;kaytto;update_vapaana_after_kaytto_mod;AFTER;INSERT, DELETE, UPDATE;update_vapaana_tayttamatta_after_kaytto_mod;Kun k‰ytˆn m‰‰r‰‰ muutetaan, niin p‰ivitet‰‰n alij‰‰m‰n t‰ytt‰m‰tt‰ ja maamassan vapaana-m‰‰ri‰.
+mm;kohde;kohde_before_new_fix_alkupvm;BEFORE;INSERT, UPDATE;convert_null_start_date_to_infinity;Ennen insert ja update lauseita muutetaan tyhj‰ p‰iv‰m‰‰r‰ '-infinity'-arvoksi, jotta p‰iv‰m‰‰r‰ll‰ haku toimii ilman null-arvojen huomioimista erikseen.
+mm;kohde;kohde_before_new_fix_loppupvm;BEFORE;INSERT, UPDATE;convert_empty_end_date_to_infinity;Ennen insert ja update lauseita muutetaan tyhj‰ p‰iv‰m‰‰r‰ 'infinity'-arvoksi, jotta p‰iv‰m‰‰r‰ll‰ haku toimii ilman null-arvojen huomioimista erikseen.
+mm;maamassa;before_insert_on_mm;BEFORE;INSERT;before_insert_on_mm;Kun maamassa luodaan, niin maamassan vapaana-arvoksi asetetaan aluksi suunniteltu m‰‰r‰.
+mm;maamassa;maamassa_after_update_trigger;AFTER;UPDATE;maamassa_after_update_update_vapaana;Jos maamassan suunniteltua m‰‰r‰‰ muutetaan, niin p‰ivitt‰‰ vapaana-arvon.
+mm;maamassa;maamassa_before_new_fix_alkupvm;BEFORE;INSERT, UPDATE;convert_null_start_date_to_infinity;Ennen insert ja update lauseita muutetaan tyhj‰ p‰iv‰m‰‰r‰ '-infinity'-arvoksi, jotta p‰iv‰m‰‰r‰ll‰ haku toimii ilman null-arvojen huomioimista erikseen.
+mm;maamassa;maamassa_before_new_fix_loppupvm;BEFORE;INSERT, UPDATE;convert_empty_end_date_to_infinity;Ennen insert ja update lauseita muutetaan tyhj‰ p‰iv‰m‰‰r‰ 'infinity'-arvoksi, jotta p‰iv‰m‰‰r‰ll‰ haku toimii ilman null-arvojen huomioimista erikseen.
+mm;siirto;siirto_after_update_trigger;AFTER;UPDATE;siirto_after_update_update_mm;Kun siirron tietoja muokataan, niin p‰ivitet‰‰n myˆs siirretyn maamassan tiedot.
+mm;siirto;siirto_on_delete_trigger;AFTER;DELETE;siirto_on_delete;Kun siirto poistetaan, niin poistetaan myˆs siirretty maamassa kohde kohteelta.
+mm;siirto;update_vapaana_after_siirto_mod;AFTER;INSERT, DELETE, UPDATE;update_vapaana_after_siirto_mod;Kun siirto-rivin tietoja muokataan, niin p‰ivitet‰‰n vastaavat tiedot vastaaville maamassa-kohteille.
+mm;siirto_v;siirto_v_on_delete_trigger;AFTER;DELETE;siirto_v_on_delete;Poistetaan varsinainen siirto-rivi siirto-taulusta.
+mm;siirto_v;siirto_v_on_insert_trigger;AFTER;INSERT;siirto_v_on_insert;"""instead of insert""-triggeri.
+N‰kym‰‰n voidaan insertoida uusi siirto ilman, ett‰ kohdemaamassa-rivi‰ on olemassa.
+Ennen siirron luomista, luodaan kohdemaamassa-rivi n‰kym‰n NEW arvojen (p‰iv‰m‰‰rien ja m‰‰r‰n avulla).
+
+Pakolliset arvot n‰kym‰n INSERT lauseessa on seuraavat:
+- lahde_maamassa_id
+- kohde_kohde_id
+- maara_suunniteltu
+
+Vapaaehtoisia tietoja ovat:
+- selite
+- maara_toteutunut
+- urakoitsija_yritys_id
+- pvm_suunniteltu
+- pvm_toteutunut"
+mm;siirto_v;siirto_v_on_update_trigger;AFTER;UPDATE;siirto_v_on_update;P‰ivitt‰‰ tiedot varsinaiseen siirto-tauluun.

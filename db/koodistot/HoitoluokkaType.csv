@@ -1,0 +1,34 @@
+id;selite
+1;R1 Rakennettu arvoviheralue
+2;R2 Toimintaviheralue
+3;R3 Käyttöviheralue
+4;R4 Suoja- ja vaihettumisviheralue
+5;A1 Arvoniitty
+6;A2 Käyttöniitty
+7;A3 Maisemaniitty
+8;A4 Avoin alue
+9;A5 Maisemapelto
+10;M1 Arvometsä
+11;M2 Lähimetsä
+12;M3 Ulkoilu- ja virkistysmetsä
+13;M4 Suojametsä
+14;M5 Talousmetsä
+15;S Suojelualueet
+16;ei hoidossa
+17;U urheilualue
+18;ajoradat, luokka I
+19;ajoradat, luokka Il
+20;ajoradat, luokka Ill
+21;kevyen liikenteen raitti, luokka l
+22;kevyen liikenteen raitti, luokka ll
+23;kevyen liikenteen väylä, luokka l
+24;kevyen liikenteen väylä, luokka ll
+25;jalkakäytävä, luokka l
+26;jalkakäytävä, luokka ll
+27;torit ja aukiot, luokka l
+28;torit ja aukiot, luokka ll
+29;kiinteistön kunnossapitovastuu
+30;ei kunnossapitoa
+31;ei talvikunnossapitoa
+32;muu
+33;ei tiedossa

@@ -1,0 +1,16 @@
+id;selite
+1;R1 Rakennettu arvoviheralue
+2;R2 Toimintaviheralue
+3;R3 Käyttöviheralue
+4;R4 Suoja- ja vaihettumisviheralue
+5;A1 Arvoniitty
+6;A2 Käyttöniitty
+7;A3 Maisemaniitty
+8;A4 Avoin alue
+9;A5 Maisemapelto
+10;M1 Arvometsä
+11;M2 Lähimetsä
+12;M3 Ulkoilu- ja virkistysmetsä
+13;M4 Suojametsä
+14;M5 Talousmetsä
+

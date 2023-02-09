@@ -14,8 +14,10 @@ services:
     environment:
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
       - INFRAO_DB=${INFRAO_DB}
-      - INFRAO_USER=${INFRAO_USER}
-      - INFRAO_PASSWORD=${INFRAO_PASSWORD}
+      - INFRAO_DBA=${INFRAO_DBA}
+      - INFRAO_DBA_PASSWORD=${INFRAO_DBA_PASSWORD}
+      - INFRAO_ADMIN=${INFRAO_ADMIN}
+      - INFRAO_ADMIN_PASSWORD=${INFRAO_ADMIN_PASSWORD}
     ports:
       - 5434:5432
   flyway:
@@ -24,8 +26,8 @@ services:
       - db
     profiles: ["dev"]
     environment:
-      - FLYWAY_USER=${INFRAO_USER}
-      - FLYWAY_PASSWORD=${INFRAO_PASSWORD}
+      - FLYWAY_USER=${INFRAO_DBA}
+      - FLYWAY_PASSWORD=${INFRAO_DBA_PASSWORD}
       - FLYWAY_URL=jdbc:postgresql://db/${INFRAO_DB}
     volumes:
       - ./db/migrations:/flyway/sql

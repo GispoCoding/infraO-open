@@ -1,0 +1,33 @@
+id;selite
+1;ajoradat, luokka I
+2;ajoradat, luokka II
+3;ajoradat, luokka III
+4;kevyen liikenteen raitti, luokka I
+5;kevyen liikenteen raitti, luokka II
+6;kevyen liikenteen väylä, luokka I
+7;kevyen liikenteen väylä, luokka II
+8;jalkakäytävä, luokka I
+9;jalkakäytävä, luokka II
+10;torit ja aukiot, luokka I
+11;torit ja aukiot, luokka II
+12;kiinteistön kunnossapitovastuu
+13;ei kunnossapitoa
+14;ei talvikunnosspitoa
+15;A1 edustusviheralue
+16;A2 käyttöviheralue
+17;A3 käyttö- ja suojaviheralue
+18;B1 maisemapelto
+19;B2 käyttöniitty
+20;B3 maisemaniitty ja laidunalue
+21;B4 avoin alue ja näkymät
+22;B5 arvoniitty
+23;C1 lähimetsä
+24;C2 ulkoilu- ja virkistysmetsä
+25;C3 suojametsä
+26;C4 talousmetsä
+27;C5 arvometsä
+28;E erityisalue
+29;ei hoidossa
+30;U urheilualue
+31;muu
+32;ei tiedossa

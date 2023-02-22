@@ -48,3 +48,8 @@ psql -p 5434 -d infrao -U infrao_admin -f .\docs\db\generate_docs.sql
 ```
 & 'C:\Program Files\pgModeler\pgmodeler-cli.exe' --export-to-png --input .\db\infrao.dbm --output .\docs\db\schema.png
 ```
+Or in Linux, accordingly:
+```
+/opt/pgModeler/pgmodeler-cli --export-to-png --input db/infrao.dbm --output docs/db/schema.png
+```
+

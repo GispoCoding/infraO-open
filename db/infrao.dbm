@@ -3,7 +3,7 @@
 CAUTION: Do not modify this file unless you know what you are doing.
  Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.9.4" use-changelog="false" last-position="0,1371" last-zoom="0.6" max-obj-count="57"
+<dbmodel pgmodeler-ver="0.9.4" use-changelog="false" last-position="0,0" last-zoom="0.4" max-obj-count="74"
 	 default-schema="public" default-owner="infrao_admin"
 	 layers="Default layer"
 	 active-layers="0"
@@ -26,7 +26,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<tablespace name="pg_default"/>
 </database>
 
-<schema name="public" layers="0" fill-color="#e1e1e1" sql-disabled="true">
+<schema name="public" layers="0" rect-visible="true" fill-color="#e1e1e1" sql-disabled="true">
 </schema>
 
 <schema name="koodistot" layers="0" fill-color="#1f5d8e">
@@ -37,7 +37,11 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<role name="infrao_admin"/>
 </schema>
 
-<schema name="abstraktit" layers="0" rect-visible="true" fill-color="#e1e1e1">
+<schema name="abstraktit" layers="0" fill-color="#e1e1e1">
+	<role name="infrao_admin"/>
+</schema>
+
+<schema name="meta" layers="0" fill-color="#e1e1e1">
 	<role name="infrao_admin"/>
 </schema>
 
@@ -49,7 +53,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="viheralueenkayttotarkoitus" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
-	<position x="413.841" y="3951.9"/>
+	<position x="666.744" y="9959.75"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
 	</column>
@@ -85,7 +89,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="varustemateriaali" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
-	<position x="1211.71" y="3121.61"/>
+	<position x="615.45" y="125"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
 	</column>
@@ -123,7 +127,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="hoitoluokkatyyppi" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
-	<position x="1357.89" y="125"/>
+	<position x="1688.78" y="7236"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
 	</column>
@@ -179,7 +183,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="viheralue" layers="0" collapse-mode="2" max-obj-count="1" z-value="0">
 	<schema name="kohteet"/>
 	<role name="infrao_admin"/>
-	<position x="829.587" y="3951.9"/>
+	<position x="50" y="9959.75"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
 	</column>
@@ -196,7 +200,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="viheralueenosa" layers="0" collapse-mode="2" max-obj-count="3" z-value="0">
 	<schema name="kohteet"/>
 	<role name="infrao_admin"/>
-	<position x="972.936" y="125"/>
+	<position x="1303.82" y="7236"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
 	</column>
@@ -219,7 +223,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="katuosanlaji" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
-	<position x="503.566" y="308.05"/>
+	<position x="706.279" y="7419.05"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
 	</column>
@@ -260,7 +264,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="talvihoidonluokka" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
-	<position x="553.566" y="491.1"/>
+	<position x="756.279" y="7602.1"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
 	</column>
@@ -288,7 +292,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="katualue" layers="0" collapse-mode="2" max-obj-count="1" z-value="0">
 	<schema name="kohteet"/>
 	<role name="infrao_admin"/>
-	<position x="1139.3" y="3951.9"/>
+	<position x="359.716" y="9959.75"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
 	</column>
@@ -302,146 +306,20 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<role name="postgres"/>
 </sequence>
 
-<table name="katualueenosa" layers="0" collapse-mode="2" max-obj-count="6" z-value="0">
+<extension name="postgis">
 	<schema name="kohteet"/>
-	<role name="infrao_admin"/>
-	<position x="50" y="50"/>
-	<column name="id" not-null="true">
-		<type name="serial" length="0"/>
-	</column>
-	<column name="kunnossapitoluokka_id" not-null="true">
-		<type name="integer" length="0"/>
-	</column>
-	<column name="katuosanlaji_id">
-		<type name="integer" length="0"/>
-	</column>
-	<column name="talvihoidonluokka_id">
-		<type name="integer" length="0"/>
-	</column>
-	<column name="pintamateriaali_id">
-		<type name="integer" length="0"/>
-	</column>
-	<constraint name="katualueenosa_pk" type="pk-constr" table="kohteet.katualueenosa">
-		<columns names="id" ref-type="src-columns"/>
-	</constraint>
-</table>
+	<prepended-sql><![CDATA[create extension postgis;]]></prepended-sql>
+</extension>
 
 <sequence name="melu_id_seq" cycle="false" start="1" increment="1" min-value="1" max-value="2147483647" cache="1">
 	<schema name="public"/>
 	<role name="postgres"/>
 </sequence>
 
-<table name="melu" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
-	<schema name="kohteet"/>
-	<role name="infrao_admin"/>
-	<position x="50" y="2053.6"/>
-	<column name="id" not-null="true">
-		<type name="serial" length="0"/>
-	</column>
-	<column name="melutyyppi_id" not-null="true">
-		<type name="integer" length="0"/>
-	</column>
-	<constraint name="melu_pk" type="pk-constr" table="kohteet.melu">
-		<columns names="id" ref-type="src-columns"/>
-	</constraint>
-</table>
-
-<sequence name="liikunta_id_seq" cycle="false" start="1" increment="1" min-value="1" max-value="2147483647" cache="1">
-	<schema name="public"/>
-	<role name="postgres"/>
-</sequence>
-
-<table name="liikunta" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
-	<schema name="kohteet"/>
-	<role name="infrao_admin"/>
-	<position x="402.003" y="1473.3"/>
-	<column name="id" not-null="true">
-		<type name="serial" length="0"/>
-	</column>
-	<column name="liikuntatyyppi_id" not-null="true">
-		<type name="integer" length="0"/>
-	</column>
-	<constraint name="liikunta_pk" type="pk-constr" table="kohteet.liikunta">
-		<columns names="id" ref-type="src-columns"/>
-	</constraint>
-</table>
-
-<sequence name="ymparistotaide_id_seq" cycle="false" start="1" increment="1" min-value="1" max-value="2147483647" cache="1">
-	<schema name="public"/>
-	<role name="postgres"/>
-</sequence>
-
-<sequence name="liikuntatyyppi_id_seq" cycle="false" start="1" increment="1" min-value="1" max-value="2147483647" cache="1">
-	<schema name="koodistot"/>
-	<role name="postgres"/>
-</sequence>
-
-<table name="liikuntatyyppi" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
-	<schema name="koodistot"/>
-	<role name="infrao_admin"/>
-	<position x="50" y="1398.3"/>
-	<column name="id" not-null="true">
-		<type name="serial" length="0"/>
-	</column>
-	<column name="selite" not-null="true">
-		<type name="text" length="0"/>
-	</column>
-	<constraint name="liikuntatyyppi_pk" type="pk-constr" table="koodistot.liikuntatyyppi">
-		<columns names="id" ref-type="src-columns"/>
-	</constraint>
-	<initial-data>
-<![CDATA[id•selite⸣
-1•jalkapallomaali⸣
-2•jääkiekkomaali⸣
-3•koripalloteline⸣
-4•kuntoilutelineet⸣
-5•lentopallotolppa⸣
-6•luistinkoppi⸣
-7•palloseinä⸣
-8•skeittiramppi⸣
-9•sählymaali⸣
-10•talviliukumäki(siirrettävä)⸣
-11•muu⸣
-12•ei tiedossa]]>
-	</initial-data>
-</table>
-
-<sequence name="kaluste_id_seq" cycle="false" start="1" increment="1" min-value="1" max-value="2147483647" cache="1">
-	<schema name="public"/>
-	<role name="postgres"/>
-</sequence>
-
-<extension name="postgis">
-	<schema name="kohteet"/>
-	<prepended-sql><![CDATA[create extension postgis;]]></prepended-sql>
-</extension>
-
-<sequence name="valaistus_id_seq" cycle="false" start="1" increment="1" min-value="1" max-value="2147483647" cache="1">
-	<schema name="public"/>
-	<role name="postgres"/>
-</sequence>
-
-<table name="valaistus" layers="0" collapse-mode="2" max-obj-count="1" z-value="0">
-	<schema name="kohteet"/>
-	<role name="infrao_admin"/>
-	<position x="1446.33" y="3951.9"/>
-	<column name="id" not-null="true">
-		<type name="serial" length="0"/>
-	</column>
-	<constraint name="valaistus_pk" type="pk-constr" table="kohteet.valaistus">
-		<columns names="id" ref-type="src-columns"/>
-	</constraint>
-</table>
-
-<sequence name="hulevesi_id_seq" cycle="false" start="1" increment="1" min-value="1" max-value="2147483647" cache="1">
-	<schema name="public"/>
-	<role name="postgres"/>
-</sequence>
-
-<table name="abstraktivaruste" layers="0" collapse-mode="2" max-obj-count="15" z-value="0">
+<table name="abstractvaruste" layers="0" collapse-mode="2" max-obj-count="15" z-value="0">
 	<schema name="abstraktit"/>
 	<role name="infrao_admin"/>
-	<position x="1769.39" y="2602.36"/>
+	<position x="50" y="50"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
 	</column>
@@ -481,7 +359,179 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<column name="geom_line">
 		<type name="geometry" length="0" spatial-type="LINESTRING" variation="0" srid="3067"/>
 	</column>
-	<constraint name="abstrakti_varuste_pk" type="pk-constr" table="abstraktit.abstraktivaruste">
+	<constraint name="abstractvaruste_pk" type="pk-constr" table="abstraktit.abstractvaruste">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<sequence name="liikunta_id_seq" cycle="false" start="1" increment="1" min-value="1" max-value="2147483647" cache="1">
+	<schema name="public"/>
+	<role name="postgres"/>
+</sequence>
+
+<table name="katualueenosa" layers="0" collapse-mode="2" max-obj-count="24" z-value="0">
+	<schema name="kohteet"/>
+	<role name="infrao_admin"/>
+	<position x="50" y="7161"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="paatostieto_id">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="kunnossapito">
+		<type name="varchar" length="255"/>
+	</column>
+	<column name="leveys">
+		<type name="double precision" length="0"/>
+	</column>
+	<column name="perusparannusvuosi">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="pinta_ala">
+		<type name="double precision" length="0"/>
+	</column>
+	<column name="pituus">
+		<type name="double precision" length="0"/>
+	</column>
+	<column name="puhtaanapito">
+		<type name="varchar" length="255"/>
+	</column>
+	<column name="talvikunnossapito">
+		<type name="varchar" length="255"/>
+	</column>
+	<column name="kuuluu_id">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="sisaltaa_id">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="luokka_id">
+		<type name="integer" length="255"/>
+	</column>
+	<column name="kunnossapitoluokka_id" not-null="true">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="katuosanlaji_id">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="pintamateriaali_id">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="viherosanlajityypi_id">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="suunnitelmalinkkitieto_id">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="talvihoidonluokka_id">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="sisaltaakasvillisuus_id">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="geom">
+		<type name="geometry" length="0" spatial-type="MULTIPOLYGON" variation="0" srid="3067"/>
+		<comment><![CDATA[sijaintitieto]]></comment>
+	</column>
+	<constraint name="katualueenosa_pk" type="pk-constr" table="kohteet.katualueenosa">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<sequence name="ymparistotaide_id_seq" cycle="false" start="1" increment="1" min-value="1" max-value="2147483647" cache="1">
+	<schema name="public"/>
+	<role name="postgres"/>
+</sequence>
+
+<sequence name="liikuntatyyppi_id_seq" cycle="false" start="1" increment="1" min-value="1" max-value="2147483647" cache="1">
+	<schema name="koodistot"/>
+	<role name="postgres"/>
+</sequence>
+
+<table name="liikuntatyyppi" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
+	<schema name="koodistot"/>
+	<role name="infrao_admin"/>
+	<position x="2317.75" y="1589.4"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="selite" not-null="true">
+		<type name="text" length="0"/>
+	</column>
+	<constraint name="liikuntatyyppi_pk" type="pk-constr" table="koodistot.liikuntatyyppi">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+	<initial-data>
+<![CDATA[id•selite⸣
+1•jalkapallomaali⸣
+2•jääkiekkomaali⸣
+3•koripalloteline⸣
+4•kuntoilutelineet⸣
+5•lentopallotolppa⸣
+6•luistinkoppi⸣
+7•palloseinä⸣
+8•skeittiramppi⸣
+9•sählymaali⸣
+10•talviliukumäki(siirrettävä)⸣
+11•muu⸣
+12•ei tiedossa]]>
+	</initial-data>
+</table>
+
+<sequence name="kaluste_id_seq" cycle="false" start="1" increment="1" min-value="1" max-value="2147483647" cache="1">
+	<schema name="public"/>
+	<role name="postgres"/>
+</sequence>
+
+<table name="melu" layers="0" collapse-mode="2" max-obj-count="16" z-value="0">
+	<schema name="kohteet"/>
+	<role name="infrao_admin"/>
+	<position x="1065.45" y="4006.85"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="melutyyppi_id" not-null="true">
+		<type name="integer" length="0"/>
+	</column>
+	<constraint name="melu_pk" type="pk-constr" table="kohteet.melu">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<sequence name="valaistus_id_seq" cycle="false" start="1" increment="1" min-value="1" max-value="2147483647" cache="1">
+	<schema name="public"/>
+	<role name="postgres"/>
+</sequence>
+
+<table name="valaistus" layers="0" collapse-mode="2" max-obj-count="15" z-value="0">
+	<schema name="kohteet"/>
+	<role name="infrao_admin"/>
+	<position x="1365.45" y="6692.75"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<constraint name="valaistus_pk" type="pk-constr" table="kohteet.valaistus">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<sequence name="hulevesi_id_seq" cycle="false" start="1" increment="1" min-value="1" max-value="2147483647" cache="1">
+	<schema name="public"/>
+	<role name="postgres"/>
+</sequence>
+
+<table name="liikunta" layers="0" collapse-mode="2" max-obj-count="16" z-value="0">
+	<schema name="kohteet"/>
+	<role name="infrao_admin"/>
+	<position x="1015.45" y="3549.4"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="liikuntatyyppi_id" not-null="true">
+		<type name="integer" length="0"/>
+	</column>
+	<constraint name="liikunta_pk" type="pk-constr" table="kohteet.liikunta">
 		<columns names="id" ref-type="src-columns"/>
 	</constraint>
 </table>
@@ -491,10 +541,10 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<role name="postgres"/>
 </sequence>
 
-<table name="jate" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
+<table name="jate" layers="0" collapse-mode="2" max-obj-count="16" z-value="0">
 	<schema name="kohteet"/>
 	<role name="infrao_admin"/>
-	<position x="50" y="3593.85"/>
+	<position x="865.45" y="2137.85"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
 	</column>
@@ -511,10 +561,10 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<role name="postgres"/>
 </sequence>
 
-<table name="opaste" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
+<table name="opaste" layers="0" collapse-mode="2" max-obj-count="16" z-value="0">
 	<schema name="kohteet"/>
 	<role name="infrao_admin"/>
-	<position x="50" y="3285.8"/>
+	<position x="1165.45" y="4921.75"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
 	</column>
@@ -531,19 +581,22 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<role name="postgres"/>
 </sequence>
 
-<table name="rakenne" layers="0" collapse-mode="2" max-obj-count="1" z-value="0">
+<table name="rakenne" layers="0" collapse-mode="2" max-obj-count="16" z-value="0">
 	<schema name="kohteet"/>
 	<role name="infrao_admin"/>
-	<position x="50" y="4159.95"/>
+	<position x="1315.45" y="6235.3"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
+	</column>
+	<column name="rakennetyyyppi_id">
+		<type name="integer" length="0"/>
 	</column>
 	<constraint name="rakenne_pk" type="pk-constr" table="kohteet.rakenne">
 		<columns names="id" ref-type="src-columns"/>
 	</constraint>
 </table>
 
-<sequence name="ajaratamerkinta_id_seq" cycle="false" start="1" increment="1" min-value="1" max-value="2147483647" cache="1">
+<sequence name="ajoratamerkinta_id_seq" cycle="false" start="1" increment="1" min-value="1" max-value="2147483647" cache="1">
 	<schema name="public"/>
 	<role name="postgres"/>
 </sequence>
@@ -553,12 +606,18 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<role name="postgres"/>
 </sequence>
 
-<table name="liikennemerkki" layers="0" collapse-mode="2" max-obj-count="1" z-value="0">
+<table name="liikennemerkki" layers="0" collapse-mode="2" max-obj-count="18" z-value="0">
 	<schema name="kohteet"/>
 	<role name="infrao_admin"/>
-	<position x="353.122" y="4159.95"/>
+	<position x="965.45" y="3052.75"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
+	</column>
+	<column name="liikennemerkkityyppi_id">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="liikennemerkkityyppi2020_id">
+		<type name="integer" length="0"/>
 	</column>
 	<constraint name="liikennemerkki_pk" type="pk-constr" table="kohteet.liikennemerkki">
 		<columns names="id" ref-type="src-columns"/>
@@ -570,12 +629,15 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<role name="postgres"/>
 </sequence>
 
-<table name="leikkivaline" layers="0" collapse-mode="2" max-obj-count="1" z-value="0">
+<table name="leikkivaline" layers="0" collapse-mode="2" max-obj-count="16" z-value="0">
 	<schema name="kohteet"/>
 	<role name="infrao_admin"/>
-	<position x="693.212" y="4159.95"/>
+	<position x="915.45" y="2595.3"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
+	</column>
+	<column name="leikkivalinetyyppi_id">
+		<type name="integer" length="0"/>
 	</column>
 	<constraint name="leikkivaline_pk" type="pk-constr" table="kohteet.leikkivaline">
 		<columns names="id" ref-type="src-columns"/>
@@ -587,12 +649,15 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<role name="postgres"/>
 </sequence>
 
-<table name="muuvaruste" layers="0" collapse-mode="2" max-obj-count="1" z-value="0">
+<table name="muuvaruste" layers="0" collapse-mode="2" max-obj-count="16" z-value="0">
 	<schema name="kohteet"/>
 	<role name="infrao_admin"/>
-	<position x="1013.38" y="4159.95"/>
+	<position x="1115.45" y="4464.3"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
+	</column>
+	<column name="muuvarustetyyppi_id">
+		<type name="integer" length="0"/>
 	</column>
 	<constraint name="muuvaruste_pk" type="pk-constr" table="kohteet.muuvaruste">
 		<columns names="id" ref-type="src-columns"/>
@@ -604,10 +669,10 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<role name="postgres"/>
 </sequence>
 
-<table name="liikennevalo" layers="0" collapse-mode="2" max-obj-count="1" z-value="0">
+<table name="liikennevalo" layers="0" collapse-mode="2" max-obj-count="15" z-value="0">
 	<schema name="kohteet"/>
 	<role name="infrao_admin"/>
-	<position x="1339" y="4159.95"/>
+	<position x="1265.45" y="5817.05"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
 	</column>
@@ -624,7 +689,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="kunnossapitoluokka" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
-	<position x="453.566" y="125"/>
+	<position x="656.279" y="7236"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
 	</column>
@@ -679,7 +744,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="melutyyppi" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
-	<position x="375.237" y="2128.6"/>
+	<position x="2367.75" y="1772.45"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
 	</column>
@@ -700,14 +765,34 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	</initial-data>
 </table>
 
-<table name="abstraktipaikkatietopalvelukohde" layers="0" collapse-mode="2" max-obj-count="1" z-value="0">
+<table name="abstractpaikkatietopalvelukohde" layers="0" collapse-mode="2" max-obj-count="8" z-value="0">
 	<schema name="abstraktit"/>
 	<role name="infrao_admin"/>
-	<position x="1937.51" y="4278.55"/>
+	<position x="1082.49" y="9959.75"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
 	</column>
-	<constraint name="abstrakti_paikkatietopalvelukohde_pk" type="pk-constr" table="abstraktit.abstraktipaikkatietopalvelukohde">
+	<column name="name">
+		<type name="text" length="0"/>
+	</column>
+	<column name="abstract">
+		<type name="boolean" length="0"/>
+	</column>
+	<column name="metatieto">
+		<type name="text" length="0"/>
+	</column>
+	<column name="yksilointitieto">
+		<type name="text" length="0"/>
+	</column>
+	<column name="alkuhetki">
+		<type name="date" length="0"/>
+		<comment><![CDATA[Kohteen luontipäivämäärä]]></comment>
+	</column>
+	<column name="loppuhetki">
+		<type name="date" length="0"/>
+		<comment><![CDATA[Milloin kohde on poistettu. Tämän avulla voidaan tunnistaa poistetut kohteet, jos järjestelmät tukevat historiatietojen tallentamista]]></comment>
+	</column>
+	<constraint name="abstractpaikkatietopalvelukohde_pk" type="pk-constr" table="abstraktit.abstractpaikkatietopalvelukohde">
 		<columns names="id" ref-type="src-columns"/>
 	</constraint>
 </table>
@@ -715,7 +800,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="kalustetyyppi" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
-	<position x="393.753" y="2744.7"/>
+	<position x="2067.75" y="674.15"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
 	</column>
@@ -742,7 +827,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="opastetyyppi" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
-	<position x="390.073" y="3360.8"/>
+	<position x="2467.75" y="2138.55"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
 	</column>
@@ -765,7 +850,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="jatetyyppi" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
-	<position x="364.433" y="3668.85"/>
+	<position x="2117.75" y="857.2"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
 	</column>
@@ -788,7 +873,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="pintamateriaali" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
-	<position x="603.566" y="674.15"/>
+	<position x="806.279" y="7785.15"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
 	</column>
@@ -825,7 +910,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="hulevesityyppi" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
-	<position x="1225.16" y="3724.34"/>
+	<position x="2017.75" y="491.1"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
 	</column>
@@ -868,7 +953,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="ajoratamerkintatyyppi" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
-	<position x="50" y="1725.95"/>
+	<position x="1967.75" y="308.05"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
 	</column>
@@ -891,7 +976,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="puutyyppi" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
-	<position x="467.779" y="1217.25"/>
+	<position x="503.589" y="8642.35"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
 	</column>
@@ -910,10 +995,10 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	</initial-data>
 </table>
 
-<table name="abstraktikasvillisuus" layers="0" collapse-mode="2" max-obj-count="6" z-value="0">
+<table name="abstractkasvillisuus" layers="0" collapse-mode="2" max-obj-count="6" z-value="0">
 	<schema name="abstraktit"/>
 	<role name="infrao_admin"/>
-	<position x="1511.82" y="821.745"/>
+	<position x="50" y="8384.3"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
 	</column>
@@ -929,7 +1014,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<column name="puulaji_id">
 		<type name="integer" length="0"/>
 	</column>
-	<constraint name="abstrakti_kasvillisuus_pk" type="pk-constr" table="abstraktit.abstraktikasvillisuus">
+	<constraint name="abstractkasvillisuus_pk" type="pk-constr" table="abstraktit.abstractkasvillisuus">
 		<columns names="id" ref-type="src-columns"/>
 	</constraint>
 </table>
@@ -937,7 +1022,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="puulaji" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
-	<position x="467.112" y="982.2"/>
+	<position x="453.589" y="8459.3"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
 	</column>
@@ -1577,7 +1662,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="ymparistotaidetyyppi" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
-	<position x="629.49" y="2432.65"/>
+	<position x="1917.75" y="125"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
 	</column>
@@ -1603,7 +1688,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="kaluste" layers="0" collapse-mode="2" max-obj-count="16" z-value="0">
 	<schema name="kohteet"/>
 	<role name="infrao_admin"/>
-	<position x="662.849" y="2940.79"/>
+	<position x="815.45" y="1680.4"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
 	</column>
@@ -1618,7 +1703,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="kantavuusluokkatyyppi" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
-	<position x="352.903" y="4654.45"/>
+	<position x="1527.3" y="9959.75"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
 	</column>
@@ -1643,7 +1728,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="kasvilaji" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
-	<position x="50" y="4654.45"/>
+	<position x="1916.89" y="9959.75"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
 	</column>
@@ -3148,7 +3233,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="kasviryhmatyyppi" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
-	<position x="453.528" y="4940.9"/>
+	<position x="2623.12" y="9959.75"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
 	</column>
@@ -3177,7 +3262,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="leikkivalinetyyppi" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
-	<position x="1643.74" y="4368"/>
+	<position x="2167.75" y="1040.25"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
 	</column>
@@ -3209,22 +3294,10 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	</initial-data>
 </table>
 
-<table name="liikennevalinetyyppi" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
-	<schema name="koodistot"/>
-	<role name="infrao_admin"/>
-	<position x="1481.64" y="4654.45"/>
-	<column name="id">
-		<type name="serial" length="0"/>
-	</column>
-	<column name="selite">
-		<type name="text" length="0"/>
-	</column>
-</table>
-
 <table name="liikennemerkkityyppi" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
-	<position x="865.512" y="4368"/>
+	<position x="2217.75" y="1223.3"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
 	</column>
@@ -3515,7 +3588,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="liikennemerkkityyppi2020" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
-	<position x="50" y="4940.9"/>
+	<position x="2267.75" y="1406.35"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
 	</column>
@@ -4155,7 +4228,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="muutoshoitoluokkatyyppi" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
-	<position x="1240.41" y="4368"/>
+	<position x="2219.79" y="9959.75"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
 	</column>
@@ -4187,7 +4260,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="muuvarustetyyppi" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
-	<position x="742.494" y="4654.45"/>
+	<position x="2417.75" y="1955.5"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
 	</column>
@@ -4222,7 +4295,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="toiminnallinenluokka" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
-	<position x="1102.93" y="4654.45"/>
+	<position x="856.279" y="7968.2"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
 	</column>
@@ -4253,7 +4326,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="hulevesi" layers="0" collapse-mode="2" max-obj-count="16" z-value="0">
 	<schema name="kohteet"/>
 	<role name="infrao_admin"/>
-	<position x="1168.41" y="3278.43"/>
+	<position x="765.45" y="1222.95"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
 	</column>
@@ -4265,10 +4338,10 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	</constraint>
 </table>
 
-<table name="ajaratamerkinta" layers="0" collapse-mode="2" max-obj-count="18" z-value="0">
+<table name="ajoratamerkinta" layers="0" collapse-mode="2" max-obj-count="18" z-value="0">
 	<schema name="kohteet"/>
 	<role name="infrao_admin"/>
-	<position x="853.571" y="1666.66"/>
+	<position x="715.45" y="765.5"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
 	</column>
@@ -4278,7 +4351,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<column name="jyrsittypintakytkin">
 		<type name="boolean" length="0"/>
 	</column>
-	<constraint name="ajoratamerkinta_pk" type="pk-constr" table="kohteet.ajaratamerkinta">
+	<constraint name="ajoratamerkinta_pk" type="pk-constr" table="kohteet.ajoratamerkinta">
 		<columns names="id" ref-type="src-columns"/>
 	</constraint>
 </table>
@@ -4286,7 +4359,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="ymparistotaide" layers="0" collapse-mode="2" max-obj-count="16" z-value="0">
 	<schema name="kohteet"/>
 	<role name="infrao_admin"/>
-	<position x="1050" y="2504.32"/>
+	<position x="665.45" y="308.05"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
 	</column>
@@ -4298,29 +4371,583 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	</constraint>
 </table>
 
-<relationship name="ymparistotaide_inherits_abstraktivaruste" type="relgen" layers="0"
+<relationship name="ymparistotaide_inherits_abstractvaruste" type="relgen" layers="0"
 	 pk-pattern="{dt}_pk"
 	 custom-color="#e9cb5a"
 	 src-table="kohteet.ymparistotaide"
-	 dst-table="abstraktit.abstraktivaruste"/>
+	 dst-table="abstraktit.abstractvaruste"/>
 
-<relationship name="ajaratamerkinta_inherits_abstraktivaruste" type="relgen" layers="0"
+<relationship name="ajoratamerkinta_inherits_abstractvaruste" type="relgen" layers="0"
 	 pk-pattern="{dt}_pk"
 	 custom-color="#c4fc79"
-	 src-table="kohteet.ajaratamerkinta"
-	 dst-table="abstraktit.abstraktivaruste"/>
+	 src-table="kohteet.ajoratamerkinta"
+	 dst-table="abstraktit.abstractvaruste"/>
 
-<relationship name="hulevesi_inherits_abstraktivaruste" type="relgen" layers="0"
+<relationship name="hulevesi_inherits_abstractvaruste" type="relgen" layers="0"
 	 pk-pattern="{dt}_pk"
 	 custom-color="#e30277"
 	 src-table="kohteet.hulevesi"
-	 dst-table="abstraktit.abstraktivaruste"/>
+	 dst-table="abstraktit.abstractvaruste"/>
 
-<relationship name="kaluste_inherits_abstraktivaruste" type="relgen" layers="0"
+<relationship name="kaluste_inherits_abstractvaruste" type="relgen" layers="0"
 	 pk-pattern="{dt}_pk"
 	 custom-color="#964293"
 	 src-table="kohteet.kaluste"
-	 dst-table="abstraktit.abstraktivaruste"/>
+	 dst-table="abstraktit.abstractvaruste"/>
+
+<table name="aineistotoimituksentiedot" layers="0" collapse-mode="2" max-obj-count="14" z-value="0">
+	<schema name="meta"/>
+	<role name="infrao_admin"/>
+	<position x="50" y="9621.3"/>
+	<column name="id">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="toimitus_id">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="aineistonnimi">
+		<type name="text" length="0"/>
+		<comment><![CDATA[Aineistoa kuvaava nimi,]]></comment>
+	</column>
+	<column name="aineistotoimittaja">
+		<type name="text" length="0"/>
+		<comment><![CDATA[Kuka on tehnyt kyseisen siirtotiedoston, yhteyshenkilö]]></comment>
+	</column>
+	<column name="tila">
+		<type name="text" length="0"/>
+		<comment><![CDATA[Aineiston valmiustila; onko kokonaan valmis, luonnos, demo]]></comment>
+	</column>
+	<column name="toimituspvm">
+		<type name="date" length="0"/>
+		<comment><![CDATA[Milloin kyseinen siirtotiedosto on tehty]]></comment>
+	</column>
+	<column name="kuntakoodi">
+		<type name="text" length="0"/>
+	</column>
+	<column name="kielitieto">
+		<type name="text" length="0"/>
+		<comment><![CDATA[Kunnan kieli tai kielitieto]]></comment>
+	</column>
+	<column name="metatietotunniste">
+		<type name="text" length="0"/>
+		<comment><![CDATA[Paikkatietohakemistossa aineiston yksilöivä metatietotunniste. Muita nimityksiä: UUID, tiedostotunniste, resurssitunniste, aineiston ID. Esim: 924a68ba-665f-4ea0-a830- 26e80112b5dc]]></comment>
+	</column>
+	<column name="metatietoxmlurl">
+		<type name="text" length="0"/>
+		<comment><![CDATA[URL, joka palauttaa aineiston metatiedot XML tiedostona ISO 19139 skeeman mukaisesti. Esim: http://geonetwork.nls.fi/geonetwork/srv/fi/iso19139.xml?uuid=924a68ba-665f-4ea0-a830-26e80112b5dc]]></comment>
+	</column>
+	<column name="metatietourl">
+		<type name="text" length="0"/>
+		<comment><![CDATA[URL www-sivulle, josta aineiston metatiedot ovat luettavissa ”selkokielisenä”. Esim: http://www.paikkatietoikkuna.fi/web/fi/paikkatietoaineisto?inspireMetadat aUIID=924a68ba-665f-4ea0-a830-26e80112b5dc]]></comment>
+	</column>
+	<column name="tietotuoteurl">
+		<type name="text" length="0"/>
+		<comment><![CDATA[URL, josta saadaan aineistoon liittyvän tietotuotteen tiedot]]></comment>
+	</column>
+</table>
+
+<genericsql name="infraokohteet">
+	<definition><![CDATA[CREATE TABLE abstraktit.InfraoKohteet (
+  id SERIAL PRIMARY KEY,
+  -- add any additional columns for InfraoKohteet
+);]]></definition>
+</genericsql>
+
+<table name="aineistotilatype" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
+	<schema name="koodistot"/>
+	<role name="infrao_admin"/>
+	<position x="50" y="10265.8"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="selite">
+		<type name="text" length="0"/>
+	</column>
+	<constraint name="aineistotilatype_pk" type="pk-constr" table="koodistot.aineistotilatype">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+	<initial-data>
+<![CDATA[id•selite⸣
+1•valmis⸣
+2•keskeneräinen⸣
+3•muu⸣
+4•ei tiedossa]]>
+	</initial-data>
+</table>
+
+<table name="infraokohteet" layers="0" collapse-mode="2" max-obj-count="1" z-value="0">
+	<schema name="meta"/>
+	<role name="infrao_admin"/>
+	<comment><![CDATA[Skeeman juurielementti ]]></comment>
+	<position x="476.283" y="9701.3"/>
+	<column name="id">
+		<type name="serial" length="0"/>
+	</column>
+</table>
+
+<table name="abstractinfraomaisuuskohde" layers="0" collapse-mode="2" max-obj-count="1" z-value="0">
+	<schema name="abstraktit"/>
+	<role name="infrao_admin"/>
+	<position x="394.731" y="10265.8"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<constraint name="abstractinfraomaisuuskohde_pk" type="pk-constr" table="abstraktit.abstractinfraomaisuuskohde">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<relationship name="jate_inherits_abstractvaruste" type="relgen" layers="0"
+	 pk-pattern="{dt}_pk"
+	 custom-color="#b219b9"
+	 src-table="kohteet.jate"
+	 dst-table="abstraktit.abstractvaruste"/>
+
+<relationship name="leikkivaline_inherits_abstractvaruste" type="relgen" layers="0"
+	 pk-pattern="{dt}_pk"
+	 custom-color="#7aeeff"
+	 src-table="kohteet.leikkivaline"
+	 dst-table="abstraktit.abstractvaruste"/>
+
+<relationship name="liikennemerkki_inherits_abstractvaruste" type="relgen" layers="0"
+	 pk-pattern="{dt}_pk"
+	 custom-color="#8e09a4"
+	 src-table="kohteet.liikennemerkki"
+	 dst-table="abstraktit.abstractvaruste"/>
+
+<relationship name="liikunta_inherits_abstractvaruste" type="relgen" layers="0"
+	 pk-pattern="{dt}_pk"
+	 custom-color="#afe81b"
+	 src-table="kohteet.liikunta"
+	 dst-table="abstraktit.abstractvaruste"/>
+
+<table name="liitetype" layers="0" collapse-mode="2" max-obj-count="4" z-value="0">
+	<schema name="abstraktit"/>
+	<role name="infrao_admin"/>
+	<comment><![CDATA[Liitteen sisältöä kuvaava teksti]]></comment>
+	<position x="1098.87" y="10265.8"/>
+	<column name="id">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="linkkiliitteeseen">
+		<type name="text" length="0"/>
+	</column>
+	<column name="muokkaushetki">
+		<type name="date" length="0"/>
+	</column>
+	<column name="versionumero">
+		<type name="text" length="0"/>
+	</column>
+</table>
+
+<relationship name="melu_inherits_abstractvaruste" type="relgen" layers="0"
+	 pk-pattern="{dt}_pk"
+	 custom-color="#26245b"
+	 src-table="kohteet.melu"
+	 dst-table="abstraktit.abstractvaruste"/>
+
+<relationship name="muuvaruste_inherits_abstractvaruste" type="relgen" layers="0"
+	 pk-pattern="{dt}_pk"
+	 custom-color="#1c6b45"
+	 src-table="kohteet.muuvaruste"
+	 dst-table="abstraktit.abstractvaruste"/>
+
+<table name="nimi" layers="0" collapse-mode="2" max-obj-count="3" z-value="0">
+	<schema name="abstraktit"/>
+	<role name="infrao_admin"/>
+	<comment><![CDATA[Voidaan käyttää esim. nimistö tai osoitekohteessa]]></comment>
+	<position x="816.603" y="10265.8"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="teksti">
+		<type name="text" length="0"/>
+	</column>
+	<column name="lang" default-value="fi">
+		<type name="varchar" length="10"/>
+	</column>
+	<constraint name="nimi_pk" type="pk-constr" table="abstraktit.nimi">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<relationship name="opaste_inherits_abstractvaruste" type="relgen" layers="0"
+	 pk-pattern="{dt}_pk"
+	 custom-color="#476de2"
+	 src-table="kohteet.opaste"
+	 dst-table="abstraktit.abstractvaruste"/>
+
+<table name="osoite" layers="0" collapse-mode="2" max-obj-count="18" z-value="0">
+	<schema name="abstraktit"/>
+	<role name="infrao_admin"/>
+	<position x="628.489" y="9133.45"/>
+	<column name="id" not-null="true">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="kunta">
+		<type name="varchar" length="255"/>
+	</column>
+	<column name="osoitenumero">
+		<type name="integer" length="0"/>
+		<comment><![CDATA[Yksi osoitenumero esim. "24"]]></comment>
+	</column>
+	<column name="osoitenumero2">
+		<type name="integer" length="0"/>
+		<comment><![CDATA[Osoitenumeroväli esimerkiksi 35-37 jälikimmäinen numero]]></comment>
+	</column>
+	<column name="jakokirjain">
+		<type name="varchar" length="255"/>
+		<comment><![CDATA[numeron perään tuleva pieni kirjain]]></comment>
+	</column>
+	<column name="jakokirjain2">
+		<type name="varchar" length="255"/>
+		<comment><![CDATA[Jakokirjainvälin jälkimmäinen osa]]></comment>
+	</column>
+	<column name="porras">
+		<type name="varchar" length="255"/>
+	</column>
+	<column name="huoneisto">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="huoneistojakokirjain">
+		<type name="varchar" length="255"/>
+		<comment><![CDATA[Huoneistonumeron perään tuleva pieni kirjain]]></comment>
+	</column>
+	<column name="postinmero">
+		<type name="varchar" length="5"/>
+	</column>
+	<column name="postitoimipaikannimi">
+		<type name="varchar" length="255"/>
+	</column>
+	<column name="geom_point">
+		<type name="geometry" length="0" spatial-type="POINT" variation="0" srid="3067"/>
+	</column>
+	<column name="geom_poly">
+		<type name="geometry" length="0" spatial-type="POLYGON" variation="0" srid="3067"/>
+	</column>
+	<column name="geom_line">
+		<type name="geometry" length="0" spatial-type="LINESTRING" variation="0" srid="3067"/>
+	</column>
+	<column name="viitesijaintialue">
+		<type name="varchar" length="255"/>
+		<comment><![CDATA[Esim. Korso, Tikkurila]]></comment>
+	</column>
+	<constraint name="osoite_pk" type="pk-constr" table="abstraktit.osoite">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="pysakointiruutu" layers="0" collapse-mode="2" max-obj-count="16" z-value="0">
+	<schema name="kohteet"/>
+	<role name="infrao_admin"/>
+	<position x="1215.45" y="5379.2"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="latauspistekytkin">
+		<type name="boolean" length="0"/>
+	</column>
+	<constraint name="pysakointiruutu_pk" type="pk-constr" table="kohteet.pysakointiruutu">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<relationship name="pysakointiruutu_inherits_abstractvaruste" type="relgen" layers="0"
+	 pk-pattern="{dt}_pk"
+	 custom-color="#7364f0"
+	 src-table="kohteet.pysakointiruutu"
+	 dst-table="abstraktit.abstractvaruste"/>
+
+<table name="rakennetyyppi" layers="0" collapse-mode="2" max-obj-count="1" z-value="0">
+	<schema name="koodistot"/>
+	<role name="infrao_admin"/>
+	<position x="2517.75" y="2321.6"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<constraint name="rakennetyyppi_pk" type="pk-constr" table="koodistot.rakennetyyppi">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+	<initial-data>
+<![CDATA[id•selite⸣
+1•aita⸣
+2•esteettömyysramppi⸣
+3•istutuslaatikko⸣
+4•kaide⸣
+5•katos⸣
+6•kahluuallas⸣
+7•katsomo ja lava⸣
+8•kesäkukkalaatikko⸣
+9•kivijalka⸣
+10•koristeallas⸣
+11•koristemuuri⸣
+12•kulkuesteet (pollarit, puomit)⸣
+13•laituri, aallonmurtaja⸣
+14•lintu- ja näköalatorni⸣
+15•lipputanko⸣
+16•luistinkoppi⸣
+17•mankeli⸣
+18•matonpesuallas⸣
+19•muovireunus⸣
+20•muuri⸣
+21•pergola, huvimaja⸣
+22•pitkospuut⸣
+23•pollari⸣
+24•portti⸣
+25•puureunukset⸣
+26•pysäkki ilman katosta⸣
+27•pysäkkikatos⸣
+28•pysäköintilippuautomaatti⸣
+29•pyöräteline⸣
+30•rantamuuri⸣
+31•reunatuki⸣
+32•silta⸣
+33•skeittiramppi⸣
+34•sosiaalitila⸣
+35•suihkulähde⸣
+36•terassi⸣
+37•tukimuuri⸣
+38•uima-allas⸣
+39•muu⸣
+40•ei tiedossa]]>
+	</initial-data>
+</table>
+
+<relationship name="liikennevalo_inherits_abstractvaruste" type="relgen" layers="0"
+	 pk-pattern="{dt}_pk"
+	 custom-color="#ffbfcd"
+	 src-table="kohteet.liikennevalo"
+	 dst-table="abstraktit.abstractvaruste"/>
+
+<relationship name="rakenne_inherits_abstractvaruste" type="relgen" layers="0"
+	 pk-pattern="{dt}_pk"
+	 custom-color="#7d8821"
+	 src-table="kohteet.rakenne"
+	 dst-table="abstraktit.abstractvaruste"/>
+
+<relationship name="valaistus_inherits_abstractvaruste" type="relgen" layers="0"
+	 pk-pattern="{dt}_pk"
+	 custom-color="#490f86"
+	 src-table="kohteet.valaistus"
+	 dst-table="abstraktit.abstractvaruste"/>
+
+<table name="viherosanlajityyppi" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
+	<schema name="koodistot"/>
+	<role name="infrao_admin"/>
+	<position x="906.279" y="8151.25"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="selite">
+		<type name="text" length="0"/>
+	</column>
+	<constraint name="viherosanlajityyppi_pk" type="pk-constr" table="koodistot.viherosanlajityyppi">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+	<initial-data>
+<![CDATA[id•selite⸣
+1•alikulkukäytävä⸣
+2•beach volley -kenttä⸣
+3•hautausmaa⸣
+4•istutusallas⸣
+5•joki/puro⸣
+6•joutomaa⸣
+7•juoksurata⸣
+8•jättömaa⸣
+9•kallio⸣
+10•kanoottilaituri⸣
+11•katsomo⸣
+12•kenttä⸣
+13•kesäkukkamaa⸣
+14•kesäteatteri⸣
+15•kitumaa⸣
+16•koira-aitaus⸣
+17•koripallokenttä⸣
+18•kosteikko⸣
+19•kuntoilualue⸣
+20•käytävä⸣
+21•laidun⸣
+22•laituri⸣
+23•lampi⸣
+24•lastenallas⸣
+25•leikkialue⸣
+26•leikkikenttä⸣
+27•luonnonsuojelualue⸣
+28•matonpesupaikka⸣
+29•metsitysalue⸣
+30•metsä⸣
+31•monitoimikenttä⸣
+32•muu urheilukenttä⸣
+33•niitty⸣
+34•nurmikko⸣
+35•oja⸣
+36•oleskelualue⸣
+37•paikoitusalue⸣
+38•pallokenttä⸣
+39•pelikenttä⸣
+40•pelto⸣
+41•perennamaa⸣
+42•petankkikenttä⸣
+43•portaat⸣
+44•pukusuoja⸣
+45•pulkkamäki⸣
+46•ranta⸣
+47•ratsastuskenttä⸣
+48•rullaluistelurata⸣
+49•silta⸣
+50•skeittikenttä⸣
+51•suo⸣
+52•tenniskenttä⸣
+53•uimala⸣
+54•ulkoilureitti⸣
+55•ulkoliikunta-alue⸣
+56•uimaranta⸣
+57•venesatama⸣
+58•vesialue⸣
+59•viheralue⸣
+60•viljelyspalsta⸣
+61•muu⸣
+62•ei tiedossa]]>
+	</initial-data>
+</table>
+
+<table name="keskilinja" layers="0" collapse-mode="2" max-obj-count="3" z-value="0">
+	<schema name="abstraktit"/>
+	<role name="infrao_admin"/>
+	<position x="1370.56" y="10265.8"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="digiroadid">
+		<type name="varchar" length="255"/>
+	</column>
+	<column name="geom">
+		<type name="geometry" length="0" spatial-type="LINESTRING" variation="0" srid="3067"/>
+		<comment><![CDATA[sijainti]]></comment>
+	</column>
+	<constraint name="keskilinja_pk" type="pk-constr" table="abstraktit.keskilinja">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="sijainti" layers="0" collapse-mode="2" max-obj-count="8" z-value="0">
+	<schema name="abstraktit"/>
+	<role name="infrao_admin"/>
+	<position x="50" y="8875.4"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="alue">
+		<type name="geometry" length="0" spatial-type="POLYGON" variation="0" srid="3067"/>
+	</column>
+	<column name="piste">
+		<type name="geometry" length="0" spatial-type="POINT" variation="0" srid="3067"/>
+	</column>
+	<column name="viiva">
+		<type name="geometry" length="0" spatial-type="LINESTRING" variation="0" srid="3067"/>
+	</column>
+	<column name="luontitapa">
+		<type name="varchar" length="255"/>
+	</column>
+	<column name="osoitetieto_id">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="sijaintiepavarmuus_id">
+		<type name="integer" length="255"/>
+	</column>
+	<constraint name="sijainti_pk" type="pk-constr" table="abstraktit.sijainti">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="sijaintiepavarmuustyyppi" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
+	<schema name="koodistot"/>
+	<role name="infrao_admin"/>
+	<position x="578.489" y="8950.4"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="selite">
+		<type name="varchar" length="255"/>
+	</column>
+	<constraint name="sijaintiepavarmuustyyppi_pk" type="pk-constr" table="koodistot.sijaintiepavarmuustyyppi">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+	<initial-data>
+<![CDATA[id•selite⸣
+1•0.15⸣
+2•0.2⸣
+3•0.3⸣
+4•0.5⸣
+5•0.7⸣
+6•1⸣
+7•1.5⸣
+8•2⸣
+9•3⸣
+10•5⸣
+11•7.5⸣
+12•10⸣
+13•20]]>
+	</initial-data>
+</table>
+
+<table name="erikoisrakennekerros" layers="0" collapse-mode="2" max-obj-count="9" z-value="0">
+	<schema name="kohteet"/>
+	<role name="infrao_admin"/>
+	<position x="1158.33" y="9555"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="erikoisrakennekerrosmateriaalityyppi_id">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="omistaja">
+		<type name="varchar" length="255"/>
+	</column>
+	<column name="haltija">
+		<type name="varchar" length="255"/>
+	</column>
+	<column name="kunnossapitaja">
+		<type name="varchar" length="255"/>
+	</column>
+	<column name="selite">
+		<type name="varchar" length="255"/>
+	</column>
+	<column name="materiaali">
+		<type name="varchar" length="255"/>
+	</column>
+	<column name="geom">
+		<type name="geometry" length="0" spatial-type="POLYGON" variation="0" srid="3067"/>
+		<comment><![CDATA[sijainti]]></comment>
+	</column>
+	<constraint name="erikoisrakennekerros_pk" type="pk-constr" table="kohteet.erikoisrakennekerros">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="erikoisrakennekerrosmateriaalityyppi" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
+	<schema name="koodistot"/>
+	<role name="infrao_admin"/>
+	<position x="1863.33" y="9683.33"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="selite">
+		<type name="varchar" length="255"/>
+	</column>
+	<constraint name="erikoisrakennekerrosmateriaalityyppi_pk" type="pk-constr" table="koodistot.erikoisrakennekerrosmateriaalityyppi">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+	<initial-data>
+<![CDATA[id•selite⸣
+1•paalulaatat ja -hatut⸣
+2•vahvistetut maarakenteet⸣
+3•roudan- ja lämmöneristykset⸣
+4•kevennetyt penkereet⸣
+5•maapadot⸣
+6•kantava kasvualusta]]>
+	</initial-data>
+</table>
 
 <constraint name="talvihoidonluokka_fk" type="fk-constr" comparison-type="MATCH SIMPLE"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="koodistot.talvihoidonluokka" table="kohteet.viheralueenosa">
@@ -4331,6 +4958,12 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <constraint name="hoitoluokka_fk" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="CASCADE" del-action="SET NULL" ref-table="koodistot.hoitoluokkatyyppi" table="kohteet.viheralueenosa">
 	<columns names="hoitoluokka_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="materiaali_fk" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="CASCADE" ref-table="koodistot.varustemateriaali" table="abstraktit.abstractvaruste">
+	<columns names="materiaali_id" ref-type="src-columns"/>
 	<columns names="id" ref-type="dst-columns"/>
 </constraint>
 
@@ -4358,15 +4991,141 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<columns names="id" ref-type="dst-columns"/>
 </constraint>
 
+<constraint name="toiminnallinenluokka_fk" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="CASCADE" ref-table="koodistot.toiminnallinenluokka" table="kohteet.katualueenosa">
+	<columns names="luokka_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="viherosanlajityyppi_fk" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="CASCADE" ref-table="koodistot.viherosanlajityyppi" table="kohteet.katualueenosa">
+	<columns names="viherosanlajityypi_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
 <constraint name="melutyyppi_fk" type="fk-constr" comparison-type="MATCH FULL"
-	 upd-action="CASCADE" del-action="SET NULL" ref-table="koodistot.melutyyppi" table="kohteet.melu">
+	 upd-action="CASCADE" del-action="CASCADE" ref-table="koodistot.melutyyppi" table="kohteet.melu">
 	<columns names="melutyyppi_id" ref-type="src-columns"/>
 	<columns names="id" ref-type="dst-columns"/>
 </constraint>
 
+<constraint name="varustemateriaali_fk" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="CASCADE" ref-table="koodistot.melutyyppi" table="kohteet.melu">
+	<columns names="materiaali_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="varustemateriaali_fk" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="CASCADE" ref-table="koodistot.varustemateriaali" table="kohteet.valaistus">
+	<columns names="materiaali_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
 <constraint name="liikuntatyyppi_fk" type="fk-constr" comparison-type="MATCH FULL"
-	 upd-action="CASCADE" del-action="SET NULL" ref-table="koodistot.liikuntatyyppi" table="kohteet.liikunta">
+	 upd-action="CASCADE" del-action="CASCADE" ref-table="koodistot.liikuntatyyppi" table="kohteet.liikunta">
+	<columns names="liikuntatyyppi_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="varustemateriaali_fk" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="CASCADE" ref-table="koodistot.varustemateriaali" table="kohteet.liikunta">
+	<columns names="materiaali_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="jatetyyppi_fk" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="SET NULL" ref-table="koodistot.jatetyyppi" table="kohteet.jate">
+	<columns names="jatetyyppi_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="varustemateriaali_fk" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="CASCADE" ref-table="koodistot.varustemateriaali" table="kohteet.jate">
 	<columns names="id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="opastetyyppi_fk" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="CASCADE" ref-table="koodistot.opastetyyppi" table="kohteet.opaste">
+	<columns names="opastetyyppi_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="varustemateriaali_fk" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="CASCADE" ref-table="koodistot.varustemateriaali" table="kohteet.opaste">
+	<columns names="materiaali_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="rakennetyyppi_fk" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="CASCADE" ref-table="koodistot.rakennetyyppi" table="kohteet.rakenne">
+	<columns names="rakennetyyyppi_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="varustemateriaali_fk" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="CASCADE" ref-table="koodistot.varustemateriaali" table="kohteet.rakenne">
+	<columns names="materiaali_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="liikennemerkkityyppi_fk" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="CASCADE" ref-table="koodistot.liikennemerkkityyppi" table="kohteet.liikennemerkki">
+	<columns names="liikennemerkkityyppi_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="liikennemerkkityyppi2020_fk" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="CASCADE" ref-table="koodistot.liikennemerkkityyppi2020" table="kohteet.liikennemerkki">
+	<columns names="liikennemerkkityyppi2020_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="vaustemateriaali_fk" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="CASCADE" ref-table="koodistot.varustemateriaali" table="kohteet.liikennemerkki">
+	<columns names="materiaali_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="leikkivaline_fk" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="CASCADE" ref-table="koodistot.varustemateriaali" table="kohteet.leikkivaline">
+	<columns names="id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="leikkivalinetyyppi_fk" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="CASCADE" ref-table="koodistot.leikkivalinetyyppi" table="kohteet.leikkivaline">
+	<columns names="leikkivalinetyyppi_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="muuvarustetyyppi_fk" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="CASCADE" ref-table="koodistot.muuvarustetyyppi" table="kohteet.muuvaruste">
+	<columns names="muuvarustetyyppi_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="varustemateriaali_fk" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="CASCADE" ref-table="koodistot.varustemateriaali" table="kohteet.muuvaruste">
+	<columns names="materiaali_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="varustemateriaali_fk" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="CASCADE" ref-table="koodistot.varustemateriaali" table="kohteet.liikennevalo">
+	<columns names="materiaali_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="puulaji_fk" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="CASCADE" ref-table="koodistot.puulaji" table="abstraktit.abstractkasvillisuus">
+	<columns names="puulaji_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="puutyyppi_fk" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="CASCADE" ref-table="koodistot.puutyyppi" table="abstraktit.abstractkasvillisuus">
+	<columns names="puutyyppi_id" ref-type="src-columns"/>
 	<columns names="id" ref-type="dst-columns"/>
 </constraint>
 
@@ -4388,38 +5147,14 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<columns names="id" ref-type="dst-columns"/>
 </constraint>
 
-<constraint name="jatetyyppi_fk" type="fk-constr" comparison-type="MATCH FULL"
-	 upd-action="CASCADE" del-action="SET NULL" ref-table="koodistot.jatetyyppi" table="kohteet.jate">
-	<columns names="jatetyyppi_id" ref-type="src-columns"/>
-	<columns names="id" ref-type="dst-columns"/>
-</constraint>
-
-<constraint name="opastetyyppi_fk" type="fk-constr" comparison-type="MATCH FULL"
-	 upd-action="CASCADE" del-action="SET NULL" ref-table="koodistot.opastetyyppi" table="kohteet.opaste">
-	<columns names="opastetyyppi_id" ref-type="src-columns"/>
-	<columns names="id" ref-type="dst-columns"/>
-</constraint>
-
-<constraint name="puulaji_fk" type="fk-constr" comparison-type="MATCH FULL"
-	 upd-action="CASCADE" del-action="CASCADE" ref-table="koodistot.puulaji" table="abstraktit.abstraktikasvillisuus">
-	<columns names="puulaji_id" ref-type="src-columns"/>
-	<columns names="id" ref-type="dst-columns"/>
-</constraint>
-
-<constraint name="puutyyppi_fk" type="fk-constr" comparison-type="MATCH FULL"
-	 upd-action="CASCADE" del-action="CASCADE" ref-table="koodistot.puutyyppi" table="abstraktit.abstraktikasvillisuus">
-	<columns names="puutyyppi_id" ref-type="src-columns"/>
-	<columns names="id" ref-type="dst-columns"/>
-</constraint>
-
-<constraint name="materiaali_fk" type="fk-constr" comparison-type="MATCH FULL"
-	 upd-action="CASCADE" del-action="CASCADE" ref-table="koodistot.varustemateriaali" table="abstraktit.abstraktivaruste">
+<constraint name="varustemateriaali_fk" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="CASCADE" ref-table="koodistot.varustemateriaali" table="kohteet.hulevesi">
 	<columns names="materiaali_id" ref-type="src-columns"/>
 	<columns names="id" ref-type="dst-columns"/>
 </constraint>
 
 <constraint name="ajoratamerkintatyyppi_fk" type="fk-constr" comparison-type="MATCH FULL"
-	 upd-action="CASCADE" del-action="CASCADE" ref-table="koodistot.ajoratamerkintatyyppi" table="kohteet.ajaratamerkinta">
+	 upd-action="CASCADE" del-action="CASCADE" ref-table="koodistot.ajoratamerkintatyyppi" table="kohteet.ajoratamerkinta">
 	<columns names="ajoratamerkintatyyppi_id" ref-type="src-columns"/>
 	<columns names="id" ref-type="dst-columns"/>
 </constraint>
@@ -4433,6 +5168,36 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <constraint name="varustemateriaali_fk" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="CASCADE" del-action="CASCADE" ref-table="koodistot.varustemateriaali" table="kohteet.ymparistotaide">
 	<columns names="materiaali_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="infraokohteet_fk" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="CASCADE" ref-table="meta.infraokohteet" table="meta.aineistotoimituksentiedot">
+	<columns names="toimitus_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="varustemateriaali_fk" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="CASCADE" ref-table="koodistot.varustemateriaali" table="kohteet.pysakointiruutu">
+	<columns names="materiaali_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="sijaintiepavarmuustyyppi_fk" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="CASCADE" ref-table="koodistot.sijaintiepavarmuustyyppi" table="abstraktit.sijainti">
+	<columns names="sijaintiepavarmuus_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="osoitetieto_fk" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="CASCADE" ref-table="abstraktit.osoite" table="abstraktit.sijainti">
+	<columns names="osoitetieto_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="erikoisrakennekerrosmateriaalityyppi_fk" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="CASCADE" ref-table="koodistot.erikoisrakennekerrosmateriaalityyppi" table="kohteet.erikoisrakennekerros">
+	<columns names="erikoisrakennekerrosmateriaalityyppi_id" ref-type="src-columns"/>
 	<columns names="id" ref-type="dst-columns"/>
 </constraint>
 
@@ -4496,13 +5261,13 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	 dst-table="koodistot.hulevesityyppi" reference-fk="hulevesityyppi_fk"
 	 src-required="false" dst-required="false"/>
 
-<relationship name="rel_abstrakti_kasvillisuus_puulaji" type="relfk" layers="0"
-	 src-table="abstraktit.abstraktikasvillisuus"
+<relationship name="rel_abstractkasvillisuus_puulaji" type="relfk" layers="0"
+	 src-table="abstraktit.abstractkasvillisuus"
 	 dst-table="koodistot.puulaji" reference-fk="puulaji_fk"
 	 src-required="false" dst-required="false"/>
 
-<relationship name="rel_abstrakti_kasvillisuus_puutyyppi" type="relfk" layers="0"
-	 src-table="abstraktit.abstraktikasvillisuus"
+<relationship name="rel_abstractkasvillisuus_puutyyppi" type="relfk" layers="0"
+	 src-table="abstraktit.abstractkasvillisuus"
 	 dst-table="koodistot.puutyyppi" reference-fk="puutyyppi_fk"
 	 src-required="false" dst-required="false"/>
 
@@ -4511,24 +5276,79 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	 dst-table="koodistot.ymparistotaidetyyppi" reference-fk="ymparistotaidetyyppi_fk"
 	 src-required="false" dst-required="false"/>
 
-<relationship name="rel_ajaratamerkinta_ajoratamerkintatyyppi" type="relfk" layers="0"
-	 src-table="kohteet.ajaratamerkinta"
+<relationship name="rel_ajoratamerkinta_ajoratamerkintatyyppi" type="relfk" layers="0"
+	 src-table="kohteet.ajoratamerkinta"
 	 dst-table="koodistot.ajoratamerkintatyyppi" reference-fk="ajoratamerkintatyyppi_fk"
 	 src-required="false" dst-required="true"/>
 
-<relationship name="rel_abstraktivaruste_varustemateriaali" type="relfk" layers="0"
-	 src-table="abstraktit.abstraktivaruste"
+<relationship name="rel_abstractvaruste_varustemateriaali" type="relfk" layers="0"
+	 src-table="abstraktit.abstractvaruste"
 	 dst-table="koodistot.varustemateriaali" reference-fk="materiaali_fk"
 	 src-required="false" dst-required="false"/>
 
-<relationship name="rel_kaluste_varustemateriaali" type="relfk" layers="0"
-	 src-table="kohteet.kaluste"
-	 dst-table="koodistot.varustemateriaali" reference-fk="varustemateriaali_fk"
+<relationship name="rel_aineistotoimituksentiedot_infraokohteet" type="relfk" layers="0"
+	 src-table="meta.aineistotoimituksentiedot"
+	 dst-table="meta.infraokohteet" reference-fk="infraokohteet_fk"
 	 src-required="false" dst-required="false"/>
 
-<relationship name="rel_ymparistotaide_varustemateriaali" type="relfk" layers="0"
-	 src-table="kohteet.ymparistotaide"
+<relationship name="rel_jate_varustemateriaali" type="relfk" layers="0"
+	 src-table="kohteet.jate"
 	 dst-table="koodistot.varustemateriaali" reference-fk="varustemateriaali_fk"
+	 src-required="false" dst-required="true"/>
+
+<relationship name="rel_leikkivaline_varustemateriaali" type="relfk" layers="0"
+	 src-table="kohteet.leikkivaline"
+	 dst-table="koodistot.varustemateriaali" reference-fk="leikkivaline_fk"
+	 src-required="false" dst-required="true"/>
+
+<relationship name="rel_leikkivaline_leikkivalinetyyppi" type="relfk" layers="0"
+	 src-table="kohteet.leikkivaline"
+	 dst-table="koodistot.leikkivalinetyyppi" reference-fk="leikkivalinetyyppi_fk"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_liikennemerkki_liikennemerkkityyppi" type="relfk" layers="0"
+	 src-table="kohteet.liikennemerkki"
+	 dst-table="koodistot.liikennemerkkityyppi" reference-fk="liikennemerkkityyppi_fk"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_liikennemerkki_liikennemerkkityyppi2020" type="relfk" layers="0"
+	 src-table="kohteet.liikennemerkki"
+	 dst-table="koodistot.liikennemerkkityyppi2020" reference-fk="liikennemerkkityyppi2020_fk"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_muuvaruste_muuvarustetyyppi" type="relfk" layers="0"
+	 src-table="kohteet.muuvaruste"
+	 dst-table="koodistot.muuvarustetyyppi" reference-fk="muuvarustetyyppi_fk"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_rakenne_rakennetyyppi" type="relfk" layers="0"
+	 src-table="kohteet.rakenne"
+	 dst-table="koodistot.rakennetyyppi" reference-fk="rakennetyyppi_fk"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_katualueenosa_toiminnallinenluokka" type="relfk" layers="0"
+	 src-table="kohteet.katualueenosa"
+	 dst-table="koodistot.toiminnallinenluokka" reference-fk="toiminnallinenluokka_fk"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_katualueenosa_viherosanlajityyppi" type="relfk" layers="0"
+	 src-table="kohteet.katualueenosa"
+	 dst-table="koodistot.viherosanlajityyppi" reference-fk="viherosanlajityyppi_fk"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_sijainti_sijaintiepavarmuustyyppi" type="relfk" layers="0"
+	 src-table="abstraktit.sijainti"
+	 dst-table="koodistot.sijaintiepavarmuustyyppi" reference-fk="sijaintiepavarmuustyyppi_fk"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_sijainti_osoite" type="relfk" layers="0"
+	 src-table="abstraktit.sijainti"
+	 dst-table="abstraktit.osoite" reference-fk="osoitetieto_fk"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_erikoisrakennekerros_erikoisrakennekerrosmateriaalityyppi" type="relfk" layers="0"
+	 src-table="kohteet.erikoisrakennekerros"
+	 dst-table="koodistot.erikoisrakennekerrosmateriaalityyppi" reference-fk="erikoisrakennekerrosmateriaalityyppi_fk"
 	 src-required="false" dst-required="false"/>
 
 <permission>

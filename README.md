@@ -1,5 +1,11 @@
 # Municipal asset inventory (Finland) 
 
+## Database model
+
+![docs/db/schema.png](docs/db/schema.png)
+[docs/db/schema.png](docs/db/schema.png)
+
+
 ## Set up a dev environment
 
 1. Copy .env.template to .env 

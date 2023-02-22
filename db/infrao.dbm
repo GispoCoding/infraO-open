@@ -3,7 +3,7 @@
 CAUTION: Do not modify this file unless you know what you are doing.
  Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.9.4" use-changelog="false" last-position="0,0" last-zoom="0.4" max-obj-count="74"
+<dbmodel pgmodeler-ver="0.9.4" use-changelog="false" last-position="559,135" last-zoom="0.4" max-obj-count="74"
 	 default-schema="public" default-owner="infrao_admin"
 	 layers="Default layer"
 	 active-layers="0"
@@ -29,19 +29,19 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <schema name="public" layers="0" rect-visible="true" fill-color="#e1e1e1" sql-disabled="true">
 </schema>
 
-<schema name="koodistot" layers="0" fill-color="#1f5d8e">
+<schema name="koodistot" layers="0" rect-visible="true" fill-color="#1f5d8e">
 	<role name="infrao_admin"/>
 </schema>
 
-<schema name="kohteet" layers="0" fill-color="#eb1e15">
+<schema name="kohteet" layers="0" rect-visible="true" fill-color="#eb1e15">
 	<role name="infrao_admin"/>
 </schema>
 
-<schema name="abstraktit" layers="0" fill-color="#e1e1e1">
+<schema name="abstraktit" layers="0" rect-visible="true" fill-color="#e1e1e1">
 	<role name="infrao_admin"/>
 </schema>
 
-<schema name="meta" layers="0" fill-color="#e1e1e1">
+<schema name="meta" layers="0" rect-visible="true" fill-color="#e1e1e1">
 	<role name="infrao_admin"/>
 </schema>
 
@@ -53,7 +53,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="viheralueenkayttotarkoitus" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
-	<position x="666.744" y="9959.75"/>
+	<position x="50" y="50"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
 	</column>
@@ -89,7 +89,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="varustemateriaali" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
-	<position x="615.45" y="125"/>
+	<position x="440.747" y="50"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
 	</column>
@@ -127,7 +127,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="hoitoluokkatyyppi" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
-	<position x="1688.78" y="7236"/>
+	<position x="779.587" y="50"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
 	</column>
@@ -183,7 +183,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="viheralue" layers="0" collapse-mode="2" max-obj-count="1" z-value="0">
 	<schema name="kohteet"/>
 	<role name="infrao_admin"/>
-	<position x="50" y="9959.75"/>
+	<position x="1839.17" y="50"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
 	</column>
@@ -200,7 +200,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="viheralueenosa" layers="0" collapse-mode="2" max-obj-count="3" z-value="0">
 	<schema name="kohteet"/>
 	<role name="infrao_admin"/>
-	<position x="1303.82" y="7236"/>
+	<position x="2123.89" y="50"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
 	</column>
@@ -223,7 +223,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="katuosanlaji" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
-	<position x="706.279" y="7419.05"/>
+	<position x="1079.46" y="50"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
 	</column>
@@ -264,7 +264,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="talvihoidonluokka" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
-	<position x="756.279" y="7602.1"/>
+	<position x="1381.99" y="50"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
 	</column>
@@ -292,7 +292,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="katualue" layers="0" collapse-mode="2" max-obj-count="1" z-value="0">
 	<schema name="kohteet"/>
 	<role name="infrao_admin"/>
-	<position x="359.716" y="9959.75"/>
+	<position x="2455.52" y="50"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
 	</column>
@@ -319,7 +319,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="abstractvaruste" layers="0" collapse-mode="2" max-obj-count="15" z-value="0">
 	<schema name="abstraktit"/>
 	<role name="infrao_admin"/>
-	<position x="50" y="50"/>
+	<position x="4146.91" y="50"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
 	</column>
@@ -372,7 +372,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="katualueenosa" layers="0" collapse-mode="2" max-obj-count="24" z-value="0">
 	<schema name="kohteet"/>
 	<role name="infrao_admin"/>
-	<position x="50" y="7161"/>
+	<position x="2737.55" y="50"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
 	</column>
@@ -452,7 +452,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="liikuntatyyppi" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
-	<position x="2317.75" y="1589.4"/>
+	<position x="50" y="233.05"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
 	</column>
@@ -487,7 +487,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="melu" layers="0" collapse-mode="2" max-obj-count="16" z-value="0">
 	<schema name="kohteet"/>
 	<role name="infrao_admin"/>
-	<position x="1065.45" y="4006.85"/>
+	<position x="3216.74" y="50"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
 	</column>
@@ -507,7 +507,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="valaistus" layers="0" collapse-mode="2" max-obj-count="15" z-value="0">
 	<schema name="kohteet"/>
 	<role name="infrao_admin"/>
-	<position x="1365.45" y="6692.75"/>
+	<position x="1839.17" y="703.45"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
 	</column>
@@ -524,7 +524,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="liikunta" layers="0" collapse-mode="2" max-obj-count="16" z-value="0">
 	<schema name="kohteet"/>
 	<role name="infrao_admin"/>
-	<position x="1015.45" y="3549.4"/>
+	<position x="2282.37" y="703.45"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
 	</column>
@@ -544,7 +544,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="jate" layers="0" collapse-mode="2" max-obj-count="16" z-value="0">
 	<schema name="kohteet"/>
 	<role name="infrao_admin"/>
-	<position x="865.45" y="2137.85"/>
+	<position x="2725.57" y="703.45"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
 	</column>
@@ -564,7 +564,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="opaste" layers="0" collapse-mode="2" max-obj-count="16" z-value="0">
 	<schema name="kohteet"/>
 	<role name="infrao_admin"/>
-	<position x="1165.45" y="4921.75"/>
+	<position x="3168.77" y="703.45"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
 	</column>
@@ -584,7 +584,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="rakenne" layers="0" collapse-mode="2" max-obj-count="16" z-value="0">
 	<schema name="kohteet"/>
 	<role name="infrao_admin"/>
-	<position x="1315.45" y="6235.3"/>
+	<position x="3611.98" y="703.45"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
 	</column>
@@ -609,7 +609,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="liikennemerkki" layers="0" collapse-mode="2" max-obj-count="18" z-value="0">
 	<schema name="kohteet"/>
 	<role name="infrao_admin"/>
-	<position x="965.45" y="3052.75"/>
+	<position x="1839.17" y="1160.9"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
 	</column>
@@ -632,7 +632,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="leikkivaline" layers="0" collapse-mode="2" max-obj-count="16" z-value="0">
 	<schema name="kohteet"/>
 	<role name="infrao_admin"/>
-	<position x="915.45" y="2595.3"/>
+	<position x="2303.15" y="1160.9"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
 	</column>
@@ -652,7 +652,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="muuvaruste" layers="0" collapse-mode="2" max-obj-count="16" z-value="0">
 	<schema name="kohteet"/>
 	<role name="infrao_admin"/>
-	<position x="1115.45" y="4464.3"/>
+	<position x="2746.35" y="1160.9"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
 	</column>
@@ -672,7 +672,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="liikennevalo" layers="0" collapse-mode="2" max-obj-count="15" z-value="0">
 	<schema name="kohteet"/>
 	<role name="infrao_admin"/>
-	<position x="1265.45" y="5817.05"/>
+	<position x="3189.56" y="1160.9"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
 	</column>
@@ -689,7 +689,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="kunnossapitoluokka" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
-	<position x="656.279" y="7236"/>
+	<position x="359.669" y="233.05"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
 	</column>
@@ -744,7 +744,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="melutyyppi" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
-	<position x="2367.75" y="1772.45"/>
+	<position x="707.103" y="233.05"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
 	</column>
@@ -768,7 +768,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="abstractpaikkatietopalvelukohde" layers="0" collapse-mode="2" max-obj-count="8" z-value="0">
 	<schema name="abstraktit"/>
 	<role name="infrao_admin"/>
-	<position x="1082.49" y="9959.75"/>
+	<position x="4598.88" y="50"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
 	</column>
@@ -800,7 +800,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="kalustetyyppi" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
-	<position x="2067.75" y="674.15"/>
+	<position x="1002.32" y="233.05"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
 	</column>
@@ -827,7 +827,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="opastetyyppi" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
-	<position x="2467.75" y="2138.55"/>
+	<position x="1309.88" y="233.05"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
 	</column>
@@ -850,7 +850,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="jatetyyppi" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
-	<position x="2117.75" y="857.2"/>
+	<position x="50" y="416.1"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
 	</column>
@@ -873,7 +873,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="pintamateriaali" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
-	<position x="806.279" y="7785.15"/>
+	<position x="338.012" y="416.1"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
 	</column>
@@ -910,7 +910,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="hulevesityyppi" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
-	<position x="2017.75" y="491.1"/>
+	<position x="659.259" y="416.1"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
 	</column>
@@ -953,7 +953,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="ajoratamerkintatyyppi" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
-	<position x="1967.75" y="308.05"/>
+	<position x="971.85" y="416.1"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
 	</column>
@@ -976,7 +976,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="puutyyppi" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
-	<position x="503.589" y="8642.35"/>
+	<position x="1320.66" y="416.1"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
 	</column>
@@ -998,7 +998,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="abstractkasvillisuus" layers="0" collapse-mode="2" max-obj-count="6" z-value="0">
 	<schema name="abstraktit"/>
 	<role name="infrao_admin"/>
-	<position x="50" y="8384.3"/>
+	<position x="5018.69" y="50"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
 	</column>
@@ -1022,7 +1022,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="puulaji" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
-	<position x="453.589" y="8459.3"/>
+	<position x="50" y="599.15"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
 	</column>
@@ -1662,7 +1662,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="ymparistotaidetyyppi" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
-	<position x="1917.75" y="125"/>
+	<position x="321.637" y="599.15"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
 	</column>
@@ -1688,7 +1688,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="kaluste" layers="0" collapse-mode="2" max-obj-count="16" z-value="0">
 	<schema name="kohteet"/>
 	<role name="infrao_admin"/>
-	<position x="815.45" y="1680.4"/>
+	<position x="3632.76" y="1160.9"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
 	</column>
@@ -1703,7 +1703,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="kantavuusluokkatyyppi" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
-	<position x="1527.3" y="9959.75"/>
+	<position x="675.244" y="599.15"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
 	</column>
@@ -1728,7 +1728,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="kasvilaji" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
-	<position x="1916.89" y="9959.75"/>
+	<position x="1039.83" y="599.15"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
 	</column>
@@ -3233,7 +3233,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="kasviryhmatyyppi" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
-	<position x="2623.12" y="9959.75"/>
+	<position x="1317.74" y="599.15"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
 	</column>
@@ -3262,7 +3262,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="leikkivalinetyyppi" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
-	<position x="2167.75" y="1040.25"/>
+	<position x="50" y="782.2"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
 	</column>
@@ -3297,7 +3297,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="liikennemerkkityyppi" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
-	<position x="2217.75" y="1223.3"/>
+	<position x="379.981" y="782.2"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
 	</column>
@@ -3588,7 +3588,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="liikennemerkkityyppi2020" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
-	<position x="2267.75" y="1406.35"/>
+	<position x="729.884" y="782.2"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
 	</column>
@@ -4228,7 +4228,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="muutoshoitoluokkatyyppi" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
-	<position x="2219.79" y="9959.75"/>
+	<position x="1108.41" y="782.2"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
 	</column>
@@ -4260,7 +4260,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="muuvarustetyyppi" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
-	<position x="2417.75" y="1955.5"/>
+	<position x="1486.74" y="782.2"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
 	</column>
@@ -4295,7 +4295,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="toiminnallinenluokka" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
-	<position x="856.279" y="7968.2"/>
+	<position x="50" y="965.25"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
 	</column>
@@ -4326,7 +4326,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="hulevesi" layers="0" collapse-mode="2" max-obj-count="16" z-value="0">
 	<schema name="kohteet"/>
 	<role name="infrao_admin"/>
-	<position x="765.45" y="1222.95"/>
+	<position x="1839.17" y="1657.55"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
 	</column>
@@ -4341,7 +4341,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="ajoratamerkinta" layers="0" collapse-mode="2" max-obj-count="18" z-value="0">
 	<schema name="kohteet"/>
 	<role name="infrao_admin"/>
-	<position x="715.45" y="765.5"/>
+	<position x="2282.37" y="1657.55"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
 	</column>
@@ -4359,7 +4359,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="ymparistotaide" layers="0" collapse-mode="2" max-obj-count="16" z-value="0">
 	<schema name="kohteet"/>
 	<role name="infrao_admin"/>
-	<position x="665.45" y="308.05"/>
+	<position x="2728.32" y="1657.55"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
 	</column>
@@ -4398,7 +4398,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="aineistotoimituksentiedot" layers="0" collapse-mode="2" max-obj-count="14" z-value="0">
 	<schema name="meta"/>
 	<role name="infrao_admin"/>
-	<position x="50" y="9621.3"/>
+	<position x="110" y="1505.5"/>
 	<column name="id">
 		<type name="serial" length="0"/>
 	</column>
@@ -4456,7 +4456,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="aineistotilatype" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
-	<position x="50" y="10265.8"/>
+	<position x="403.716" y="965.25"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
 	</column>
@@ -4479,7 +4479,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="meta"/>
 	<role name="infrao_admin"/>
 	<comment><![CDATA[Skeeman juurielementti ]]></comment>
-	<position x="476.283" y="9701.3"/>
+	<position x="428.077" y="1505.5"/>
 	<column name="id">
 		<type name="serial" length="0"/>
 	</column>
@@ -4488,7 +4488,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="abstractinfraomaisuuskohde" layers="0" collapse-mode="2" max-obj-count="1" z-value="0">
 	<schema name="abstraktit"/>
 	<role name="infrao_admin"/>
-	<position x="394.731" y="10265.8"/>
+	<position x="5362.75" y="50"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
 	</column>
@@ -4525,7 +4525,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="abstraktit"/>
 	<role name="infrao_admin"/>
 	<comment><![CDATA[Liitteen sisältöä kuvaava teksti]]></comment>
-	<position x="1098.87" y="10265.8"/>
+	<position x="5759.62" y="50"/>
 	<column name="id">
 		<type name="serial" length="0"/>
 	</column>
@@ -4556,7 +4556,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="abstraktit"/>
 	<role name="infrao_admin"/>
 	<comment><![CDATA[Voidaan käyttää esim. nimistö tai osoitekohteessa]]></comment>
-	<position x="816.603" y="10265.8"/>
+	<position x="4146.91" y="468.25"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
 	</column>
@@ -4580,7 +4580,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="osoite" layers="0" collapse-mode="2" max-obj-count="18" z-value="0">
 	<schema name="abstraktit"/>
 	<role name="infrao_admin"/>
-	<position x="628.489" y="9133.45"/>
+	<position x="4404.17" y="468.25"/>
 	<column name="id" not-null="true">
 		<type name="integer" length="0"/>
 	</column>
@@ -4640,7 +4640,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="pysakointiruutu" layers="0" collapse-mode="2" max-obj-count="16" z-value="0">
 	<schema name="kohteet"/>
 	<role name="infrao_admin"/>
-	<position x="1215.45" y="5379.2"/>
+	<position x="3171.52" y="1657.55"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
 	</column>
@@ -4661,7 +4661,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="rakennetyyppi" layers="0" collapse-mode="2" max-obj-count="1" z-value="0">
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
-	<position x="2517.75" y="2321.6"/>
+	<position x="723.447" y="965.25"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
 	</column>
@@ -4734,7 +4734,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="viherosanlajityyppi" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
-	<position x="906.279" y="8151.25"/>
+	<position x="1036.38" y="965.25"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
 	</column>
@@ -4814,7 +4814,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="keskilinja" layers="0" collapse-mode="2" max-obj-count="3" z-value="0">
 	<schema name="abstraktit"/>
 	<role name="infrao_admin"/>
-	<position x="1370.56" y="10265.8"/>
+	<position x="4834.51" y="468.25"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
 	</column>
@@ -4833,7 +4833,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="sijainti" layers="0" collapse-mode="2" max-obj-count="8" z-value="0">
 	<schema name="abstraktit"/>
 	<role name="infrao_admin"/>
-	<position x="50" y="8875.4"/>
+	<position x="5197.87" y="468.25"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
 	</column>
@@ -4863,7 +4863,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="sijaintiepavarmuustyyppi" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
-	<position x="578.489" y="8950.4"/>
+	<position x="1376.41" y="965.25"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
 	</column>
@@ -4894,7 +4894,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="erikoisrakennekerros" layers="0" collapse-mode="2" max-obj-count="9" z-value="0">
 	<schema name="kohteet"/>
 	<role name="infrao_admin"/>
-	<position x="1158.33" y="9555"/>
+	<position x="3614.73" y="1657.55"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
 	</column>
@@ -4928,7 +4928,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="erikoisrakennekerrosmateriaalityyppi" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
-	<position x="1863.33" y="9683.33"/>
+	<position x="50" y="1148.3"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
 	</column>
@@ -5349,6 +5349,66 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <relationship name="rel_erikoisrakennekerros_erikoisrakennekerrosmateriaalityyppi" type="relfk" layers="0"
 	 src-table="kohteet.erikoisrakennekerros"
 	 dst-table="koodistot.erikoisrakennekerrosmateriaalityyppi" reference-fk="erikoisrakennekerrosmateriaalityyppi_fk"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_melu_melutyyppi" type="relfk" layers="0"
+	 src-table="kohteet.melu"
+	 dst-table="koodistot.melutyyppi" reference-fk="varustemateriaali_fk"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_valaistus_varustemateriaali" type="relfk" layers="0"
+	 src-table="kohteet.valaistus"
+	 dst-table="koodistot.varustemateriaali" reference-fk="varustemateriaali_fk"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_liikunta_varustemateriaali" type="relfk" layers="0"
+	 src-table="kohteet.liikunta"
+	 dst-table="koodistot.varustemateriaali" reference-fk="varustemateriaali_fk"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_opaste_varustemateriaali" type="relfk" layers="0"
+	 src-table="kohteet.opaste"
+	 dst-table="koodistot.varustemateriaali" reference-fk="varustemateriaali_fk"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_rakenne_varustemateriaali" type="relfk" layers="0"
+	 src-table="kohteet.rakenne"
+	 dst-table="koodistot.varustemateriaali" reference-fk="varustemateriaali_fk"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_liikennemerkki_varustemateriaali" type="relfk" layers="0"
+	 src-table="kohteet.liikennemerkki"
+	 dst-table="koodistot.varustemateriaali" reference-fk="vaustemateriaali_fk"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_muuvaruste_varustemateriaali" type="relfk" layers="0"
+	 src-table="kohteet.muuvaruste"
+	 dst-table="koodistot.varustemateriaali" reference-fk="varustemateriaali_fk"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_liikennevalo_varustemateriaali" type="relfk" layers="0"
+	 src-table="kohteet.liikennevalo"
+	 dst-table="koodistot.varustemateriaali" reference-fk="varustemateriaali_fk"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_kaluste_varustemateriaali" type="relfk" layers="0"
+	 src-table="kohteet.kaluste"
+	 dst-table="koodistot.varustemateriaali" reference-fk="varustemateriaali_fk"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_hulevesi_varustemateriaali" type="relfk" layers="0"
+	 src-table="kohteet.hulevesi"
+	 dst-table="koodistot.varustemateriaali" reference-fk="varustemateriaali_fk"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_ymparistotaide_varustemateriaali" type="relfk" layers="0"
+	 src-table="kohteet.ymparistotaide"
+	 dst-table="koodistot.varustemateriaali" reference-fk="varustemateriaali_fk"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_pysakointiruutu_varustemateriaali" type="relfk" layers="0"
+	 src-table="kohteet.pysakointiruutu"
+	 dst-table="koodistot.varustemateriaali" reference-fk="varustemateriaali_fk"
 	 src-required="false" dst-required="false"/>
 
 <permission>

@@ -3,7 +3,7 @@
 CAUTION: Do not modify this file unless you know what you are doing.
  Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.9.4" use-changelog="false" last-position="559,135" last-zoom="0.4" max-obj-count="74"
+<dbmodel pgmodeler-ver="0.9.4" use-changelog="false" last-position="0,0" last-zoom="0.4" max-obj-count="74"
 	 default-schema="public" default-owner="infrao_admin"
 	 layers="Default layer"
 	 active-layers="0"
@@ -18,11 +18,12 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <role name="infrao_dba"
  createdb="true"
  createrole="true"
- login="true">
+ login="true"
+ sql-disabled="true">
 </role>
 
 <database name="infrao" is-template="false" allow-conns="true">
-	<role name="infrao_dba"/>
+	<role name="infrao_admin"/>
 	<tablespace name="pg_default"/>
 </database>
 
@@ -193,7 +194,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 </table>
 
 <sequence name="viheralueenosa_id_seq" cycle="false" start="1" increment="1" min-value="1" max-value="2147483647" cache="1">
-	<schema name="public"/>
+	<schema name="kohteet"/>
 	<role name="postgres"/>
 </sequence>
 
@@ -4446,13 +4447,6 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	</column>
 </table>
 
-<genericsql name="infraokohteet">
-	<definition><![CDATA[CREATE TABLE abstraktit.InfraoKohteet (
-  id SERIAL PRIMARY KEY,
-  -- add any additional columns for InfraoKohteet
-);]]></definition>
-</genericsql>
-
 <table name="aineistotilatype" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
@@ -4480,9 +4474,12 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<role name="infrao_admin"/>
 	<comment><![CDATA[Skeeman juurielementti ]]></comment>
 	<position x="428.077" y="1505.5"/>
-	<column name="id">
+	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
 	</column>
+	<constraint name="infraokohteet_pk" type="pk-constr" table="meta.infraokohteet">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
 </table>
 
 <table name="abstractinfraomaisuuskohde" layers="0" collapse-mode="2" max-obj-count="1" z-value="0">

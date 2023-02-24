@@ -12,10 +12,10 @@ CREATE ROLE infrao_admin WITH
 
 -- object: infrao_dba | type: ROLE --
 -- DROP ROLE IF EXISTS infrao_dba;
-CREATE ROLE infrao_dba WITH 
-	CREATEDB
-	CREATEROLE
-	LOGIN;
+--CREATE ROLE infrao_dba WITH 
+--	CREATEDB
+--	CREATEROLE
+--	LOGIN;
 -- ddl-end --
 
 
@@ -24,9 +24,9 @@ CREATE ROLE infrao_dba WITH
 -- 
 -- object: infrao | type: DATABASE --
 -- DROP DATABASE IF EXISTS infrao;
-CREATE DATABASE infrao
-	TABLESPACE = pg_default
-	OWNER = infrao_dba;
+-- CREATE DATABASE infrao
+--	TABLESPACE = pg_default
+--	OWNER = infrao_dba;
 -- ddl-end --
 
 

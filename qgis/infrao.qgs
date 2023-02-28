@@ -1,5 +1,5 @@
 <!DOCTYPE qgis PUBLIC 'http://mrcc.com/qgis.dtd' 'SYSTEM'>
-<qgis saveDateTime="2023-02-28T17:05:47" version="3.22.16-Białowieża" saveUser="juho-" saveUserFull="Juho Ervasti" projectname="Infrao-työtila">
+<qgis saveDateTime="2023-02-28T17:17:05" version="3.22.16-Białowieża" saveUser="juho-" saveUserFull="Juho Ervasti" projectname="Infrao-työtila">
   <homePath path=""/>
   <title>Infrao-työtila</title>
   <autotransaction active="0"/>
@@ -41,7 +41,7 @@
           <Option/>
         </customproperties>
       </layer-tree-layer>
-      <layer-tree-layer expanded="1" patch_size="-1,-1" legend_exp="" source="dbname='infrao' host=localhost port=5434 user='infrao_admin' sslmode=disable key='id' estimatedmetadata=true srid=3067 type=Polygon checkPrimaryKeyUnicity='1' table=&quot;kohteet&quot;.&quot;ajaratamerkinta&quot; (geom_poly)" providerKey="postgres" id="ajaratamerkinta_geom_poly_71366f8a_dcac_4992_b64d_ecb8f47e7c65" name="ajaratamerkinta" checked="Qt::Checked" legend_split_behavior="0">
+      <layer-tree-layer expanded="1" patch_size="-1,-1" legend_exp="" source="dbname='infrao' host=localhost port=5434 sslmode=allow key='id' srid=3067 type=Polygon checkPrimaryKeyUnicity='1' table=&quot;kohteet&quot;.&quot;ajoratamerkinta&quot; (geom_poly)" providerKey="postgres" id="ajaratamerkinta_geom_poly_71366f8a_dcac_4992_b64d_ecb8f47e7c65" name="ajaratamerkinta" checked="Qt::Checked" legend_split_behavior="0">
         <customproperties>
           <Option/>
         </customproperties>
@@ -1305,26 +1305,14 @@
       <blendMode>0</blendMode>
     </maplayer>
     <maplayer minScale="100000000" autoRefreshEnabled="0" simplifyDrawingTol="1" labelsEnabled="0" refreshOnNotifyMessage="" maxScale="0" simplifyAlgorithm="0" hasScaleBasedVisibilityFlag="0" geometry="Polygon" type="vector" refreshOnNotifyEnabled="0" readOnly="0" legendPlaceholderImage="" styleCategories="AllStyleCategories" simplifyDrawingHints="1" autoRefreshTime="0" simplifyMaxScale="1" simplifyLocal="1" wkbType="Polygon" symbologyReferenceScale="-1">
-      <extent>
-        <xmin>420555.76557804748881608</xmin>
-        <ymin>7113337.05573884304612875</ymin>
-        <xmax>420590.50115677819121629</xmax>
-        <ymax>7113687.75974485836923122</ymax>
-      </extent>
-      <wgs84extent>
-        <xmin>25.36743992464066721</xmin>
-        <ymin>64.13734116752173975</ymin>
-        <xmax>25.36833802590030729</xmax>
-        <ymax>64.14049504440599492</ymax>
-      </wgs84extent>
       <id>ajaratamerkinta_geom_poly_71366f8a_dcac_4992_b64d_ecb8f47e7c65</id>
-      <datasource>dbname='infrao' host=localhost port=5434 user='infrao_admin' password='mysecretpassu' sslmode=disable key='id' estimatedmetadata=true srid=3067 type=Polygon checkPrimaryKeyUnicity='1' table="kohteet"."ajaratamerkinta" (geom_poly)</datasource>
+      <datasource>dbname='infrao' host=localhost port=5434 sslmode=allow key='id' srid=3067 type=Polygon checkPrimaryKeyUnicity='1' table="kohteet"."ajoratamerkinta" (geom_poly)</datasource>
       <keywordList>
-        <value/>
+        <value></value>
       </keywordList>
       <layername>ajaratamerkinta</layername>
       <srs>
-        <spatialrefsys nativeFormat="Wkt">
+        <spatialrefsys>
           <wkt>PROJCRS["ETRS89 / TM35FIN(E,N)",BASEGEOGCRS["ETRS89",ENSEMBLE["European Terrestrial Reference System 1989 ensemble",MEMBER["European Terrestrial Reference Frame 1989"],MEMBER["European Terrestrial Reference Frame 1990"],MEMBER["European Terrestrial Reference Frame 1991"],MEMBER["European Terrestrial Reference Frame 1992"],MEMBER["European Terrestrial Reference Frame 1993"],MEMBER["European Terrestrial Reference Frame 1994"],MEMBER["European Terrestrial Reference Frame 1996"],MEMBER["European Terrestrial Reference Frame 1997"],MEMBER["European Terrestrial Reference Frame 2000"],MEMBER["European Terrestrial Reference Frame 2005"],MEMBER["European Terrestrial Reference Frame 2014"],ELLIPSOID["GRS 1980",6378137,298.257222101,LENGTHUNIT["metre",1]],ENSEMBLEACCURACY[0.1]],PRIMEM["Greenwich",0,ANGLEUNIT["degree",0.0174532925199433]],ID["EPSG",4258]],CONVERSION["TM35FIN",METHOD["Transverse Mercator",ID["EPSG",9807]],PARAMETER["Latitude of natural origin",0,ANGLEUNIT["degree",0.0174532925199433],ID["EPSG",8801]],PARAMETER["Longitude of natural origin",27,ANGLEUNIT["degree",0.0174532925199433],ID["EPSG",8802]],PARAMETER["Scale factor at natural origin",0.9996,SCALEUNIT["unity",1],ID["EPSG",8805]],PARAMETER["False easting",500000,LENGTHUNIT["metre",1],ID["EPSG",8806]],PARAMETER["False northing",0,LENGTHUNIT["metre",1],ID["EPSG",8807]]],CS[Cartesian,2],AXIS["(E)",east,ORDER[1],LENGTHUNIT["metre",1]],AXIS["(N)",north,ORDER[2],LENGTHUNIT["metre",1]],USAGE[SCOPE["Engineering survey, topographic mapping."],AREA["Finland - onshore and offshore."],BBOX[58.84,19.08,70.09,31.59]],ID["EPSG",3067]]</wkt>
           <proj4>+proj=utm +zone=35 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs</proj4>
           <srsid>1030</srsid>
@@ -1337,26 +1325,26 @@
         </spatialrefsys>
       </srs>
       <resourceMetadata>
-        <identifier/>
-        <parentidentifier/>
-        <language/>
+        <identifier></identifier>
+        <parentidentifier></parentidentifier>
+        <language></language>
         <type>dataset</type>
-        <title/>
-        <abstract/>
+        <title></title>
+        <abstract></abstract>
         <contact>
-          <name/>
-          <organization/>
-          <position/>
-          <voice/>
-          <fax/>
-          <email/>
-          <role/>
+          <name></name>
+          <organization></organization>
+          <position></position>
+          <voice></voice>
+          <fax></fax>
+          <email></email>
+          <role></role>
         </contact>
         <links/>
-        <fees/>
-        <encoding/>
+        <fees></fees>
+        <encoding></encoding>
         <crs>
-          <spatialrefsys nativeFormat="Wkt">
+          <spatialrefsys>
             <wkt>PROJCRS["ETRS89 / TM35FIN(E,N)",BASEGEOGCRS["ETRS89",ENSEMBLE["European Terrestrial Reference System 1989 ensemble",MEMBER["European Terrestrial Reference Frame 1989"],MEMBER["European Terrestrial Reference Frame 1990"],MEMBER["European Terrestrial Reference Frame 1991"],MEMBER["European Terrestrial Reference Frame 1992"],MEMBER["European Terrestrial Reference Frame 1993"],MEMBER["European Terrestrial Reference Frame 1994"],MEMBER["European Terrestrial Reference Frame 1996"],MEMBER["European Terrestrial Reference Frame 1997"],MEMBER["European Terrestrial Reference Frame 2000"],MEMBER["European Terrestrial Reference Frame 2005"],MEMBER["European Terrestrial Reference Frame 2014"],ELLIPSOID["GRS 1980",6378137,298.257222101,LENGTHUNIT["metre",1]],ENSEMBLEACCURACY[0.1]],PRIMEM["Greenwich",0,ANGLEUNIT["degree",0.0174532925199433]],ID["EPSG",4258]],CONVERSION["TM35FIN",METHOD["Transverse Mercator",ID["EPSG",9807]],PARAMETER["Latitude of natural origin",0,ANGLEUNIT["degree",0.0174532925199433],ID["EPSG",8801]],PARAMETER["Longitude of natural origin",27,ANGLEUNIT["degree",0.0174532925199433],ID["EPSG",8802]],PARAMETER["Scale factor at natural origin",0.9996,SCALEUNIT["unity",1],ID["EPSG",8805]],PARAMETER["False easting",500000,LENGTHUNIT["metre",1],ID["EPSG",8806]],PARAMETER["False northing",0,LENGTHUNIT["metre",1],ID["EPSG",8807]]],CS[Cartesian,2],AXIS["(E)",east,ORDER[1],LENGTHUNIT["metre",1]],AXIS["(N)",north,ORDER[2],LENGTHUNIT["metre",1]],USAGE[SCOPE["Engineering survey, topographic mapping."],AREA["Finland - onshore and offshore."],BBOX[58.84,19.08,70.09,31.59]],ID["EPSG",3067]]</wkt>
             <proj4>+proj=utm +zone=35 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs</proj4>
             <srsid>1030</srsid>
@@ -1372,8 +1360,8 @@
           <spatial maxy="0" minz="0" dimensions="2" maxz="0" crs="EPSG:3067" maxx="0" miny="0" minx="0"/>
           <temporal>
             <period>
-              <start/>
-              <end/>
+              <start></start>
+              <end></end>
             </period>
           </temporal>
         </extent>
@@ -1394,147 +1382,15 @@
         <Searchable>1</Searchable>
         <Private>0</Private>
       </flags>
-      <temporal durationUnit="min" mode="0" fixedDuration="0" enabled="0" accumulate="0" startExpression="" endExpression="" endField="" limitMode="0" startField="" durationField="">
+      <temporal mode="0" durationUnit="min" fixedDuration="0" enabled="0" startExpression="" accumulate="0" endExpression="" limitMode="0" endField="" startField="" durationField="">
         <fixedRange>
-          <start/>
-          <end/>
+          <start></start>
+          <end></end>
         </fixedRange>
       </temporal>
-      <elevation zscale="1" clamping="Terrain" symbology="Line" respectLayerSymbol="1" extrusion="0" binding="Centroid" showMarkerSymbolInSurfacePlots="0" type="IndividualFeatures" zoffset="0" extrusionEnabled="0">
-        <data-defined-properties>
-          <Option type="Map">
-            <Option value="" name="name" type="QString"/>
-            <Option name="properties"/>
-            <Option value="collection" name="type" type="QString"/>
-          </Option>
-        </data-defined-properties>
-        <profileLineSymbol>
-          <symbol force_rhr="0" name="" frame_rate="10" clip_to_extent="1" type="line" is_animated="0" alpha="1">
-            <data_defined_properties>
-              <Option type="Map">
-                <Option value="" name="name" type="QString"/>
-                <Option name="properties"/>
-                <Option value="collection" name="type" type="QString"/>
-              </Option>
-            </data_defined_properties>
-            <layer enabled="1" class="SimpleLine" locked="0" pass="0">
-              <Option type="Map">
-                <Option value="0" name="align_dash_pattern" type="QString"/>
-                <Option value="square" name="capstyle" type="QString"/>
-                <Option value="5;2" name="customdash" type="QString"/>
-                <Option value="3x:0,0,0,0,0,0" name="customdash_map_unit_scale" type="QString"/>
-                <Option value="MM" name="customdash_unit" type="QString"/>
-                <Option value="0" name="dash_pattern_offset" type="QString"/>
-                <Option value="3x:0,0,0,0,0,0" name="dash_pattern_offset_map_unit_scale" type="QString"/>
-                <Option value="MM" name="dash_pattern_offset_unit" type="QString"/>
-                <Option value="0" name="draw_inside_polygon" type="QString"/>
-                <Option value="bevel" name="joinstyle" type="QString"/>
-                <Option value="196,60,57,255" name="line_color" type="QString"/>
-                <Option value="solid" name="line_style" type="QString"/>
-                <Option value="0.6" name="line_width" type="QString"/>
-                <Option value="MM" name="line_width_unit" type="QString"/>
-                <Option value="0" name="offset" type="QString"/>
-                <Option value="3x:0,0,0,0,0,0" name="offset_map_unit_scale" type="QString"/>
-                <Option value="MM" name="offset_unit" type="QString"/>
-                <Option value="0" name="ring_filter" type="QString"/>
-                <Option value="0" name="trim_distance_end" type="QString"/>
-                <Option value="3x:0,0,0,0,0,0" name="trim_distance_end_map_unit_scale" type="QString"/>
-                <Option value="MM" name="trim_distance_end_unit" type="QString"/>
-                <Option value="0" name="trim_distance_start" type="QString"/>
-                <Option value="3x:0,0,0,0,0,0" name="trim_distance_start_map_unit_scale" type="QString"/>
-                <Option value="MM" name="trim_distance_start_unit" type="QString"/>
-                <Option value="0" name="tweak_dash_pattern_on_corners" type="QString"/>
-                <Option value="0" name="use_custom_dash" type="QString"/>
-                <Option value="3x:0,0,0,0,0,0" name="width_map_unit_scale" type="QString"/>
-              </Option>
-              <data_defined_properties>
-                <Option type="Map">
-                  <Option value="" name="name" type="QString"/>
-                  <Option name="properties"/>
-                  <Option value="collection" name="type" type="QString"/>
-                </Option>
-              </data_defined_properties>
-            </layer>
-          </symbol>
-        </profileLineSymbol>
-        <profileFillSymbol>
-          <symbol force_rhr="0" name="" frame_rate="10" clip_to_extent="1" type="fill" is_animated="0" alpha="1">
-            <data_defined_properties>
-              <Option type="Map">
-                <Option value="" name="name" type="QString"/>
-                <Option name="properties"/>
-                <Option value="collection" name="type" type="QString"/>
-              </Option>
-            </data_defined_properties>
-            <layer enabled="1" class="SimpleFill" locked="0" pass="0">
-              <Option type="Map">
-                <Option value="3x:0,0,0,0,0,0" name="border_width_map_unit_scale" type="QString"/>
-                <Option value="196,60,57,255" name="color" type="QString"/>
-                <Option value="bevel" name="joinstyle" type="QString"/>
-                <Option value="0,0" name="offset" type="QString"/>
-                <Option value="3x:0,0,0,0,0,0" name="offset_map_unit_scale" type="QString"/>
-                <Option value="MM" name="offset_unit" type="QString"/>
-                <Option value="140,43,41,255" name="outline_color" type="QString"/>
-                <Option value="solid" name="outline_style" type="QString"/>
-                <Option value="0.2" name="outline_width" type="QString"/>
-                <Option value="MM" name="outline_width_unit" type="QString"/>
-                <Option value="solid" name="style" type="QString"/>
-              </Option>
-              <data_defined_properties>
-                <Option type="Map">
-                  <Option value="" name="name" type="QString"/>
-                  <Option name="properties"/>
-                  <Option value="collection" name="type" type="QString"/>
-                </Option>
-              </data_defined_properties>
-            </layer>
-          </symbol>
-        </profileFillSymbol>
-        <profileMarkerSymbol>
-          <symbol force_rhr="0" name="" frame_rate="10" clip_to_extent="1" type="marker" is_animated="0" alpha="1">
-            <data_defined_properties>
-              <Option type="Map">
-                <Option value="" name="name" type="QString"/>
-                <Option name="properties"/>
-                <Option value="collection" name="type" type="QString"/>
-              </Option>
-            </data_defined_properties>
-            <layer enabled="1" class="SimpleMarker" locked="0" pass="0">
-              <Option type="Map">
-                <Option value="0" name="angle" type="QString"/>
-                <Option value="square" name="cap_style" type="QString"/>
-                <Option value="196,60,57,255" name="color" type="QString"/>
-                <Option value="1" name="horizontal_anchor_point" type="QString"/>
-                <Option value="bevel" name="joinstyle" type="QString"/>
-                <Option value="diamond" name="name" type="QString"/>
-                <Option value="0,0" name="offset" type="QString"/>
-                <Option value="3x:0,0,0,0,0,0" name="offset_map_unit_scale" type="QString"/>
-                <Option value="MM" name="offset_unit" type="QString"/>
-                <Option value="140,43,41,255" name="outline_color" type="QString"/>
-                <Option value="solid" name="outline_style" type="QString"/>
-                <Option value="0.2" name="outline_width" type="QString"/>
-                <Option value="3x:0,0,0,0,0,0" name="outline_width_map_unit_scale" type="QString"/>
-                <Option value="MM" name="outline_width_unit" type="QString"/>
-                <Option value="diameter" name="scale_method" type="QString"/>
-                <Option value="3" name="size" type="QString"/>
-                <Option value="3x:0,0,0,0,0,0" name="size_map_unit_scale" type="QString"/>
-                <Option value="MM" name="size_unit" type="QString"/>
-                <Option value="1" name="vertical_anchor_point" type="QString"/>
-              </Option>
-              <data_defined_properties>
-                <Option type="Map">
-                  <Option value="" name="name" type="QString"/>
-                  <Option name="properties"/>
-                  <Option value="collection" name="type" type="QString"/>
-                </Option>
-              </data_defined_properties>
-            </layer>
-          </symbol>
-        </profileMarkerSymbol>
-      </elevation>
       <renderer-v2 enableorderby="0" forceraster="0" symbollevels="0" referencescale="-1" type="singleSymbol">
         <symbols>
-          <symbol force_rhr="0" name="0" frame_rate="10" clip_to_extent="1" type="fill" is_animated="0" alpha="1">
+          <symbol force_rhr="0" name="0" type="fill" clip_to_extent="1" alpha="1">
             <data_defined_properties>
               <Option type="Map">
                 <Option value="" name="name" type="QString"/>
@@ -1556,6 +1412,17 @@
                 <Option value="MM" name="outline_width_unit" type="QString"/>
                 <Option value="solid" name="style" type="QString"/>
               </Option>
+              <prop k="border_width_map_unit_scale" v="3x:0,0,0,0,0,0"/>
+              <prop k="color" v="229,182,54,255"/>
+              <prop k="joinstyle" v="bevel"/>
+              <prop k="offset" v="0,0"/>
+              <prop k="offset_map_unit_scale" v="3x:0,0,0,0,0,0"/>
+              <prop k="offset_unit" v="MM"/>
+              <prop k="outline_color" v="35,35,35,255"/>
+              <prop k="outline_style" v="solid"/>
+              <prop k="outline_width" v="0.26"/>
+              <prop k="outline_width_unit" v="MM"/>
+              <prop k="style" v="solid"/>
               <data_defined_properties>
                 <Option type="Map">
                   <Option value="" name="name" type="QString"/>
@@ -1583,11 +1450,11 @@
       <featureBlendMode>0</featureBlendMode>
       <layerOpacity>1</layerOpacity>
       <SingleCategoryDiagramRenderer diagramType="Histogram" attributeLegend="1">
-        <DiagramCategory width="15" spacing="5" penColor="#000000" diagramOrientation="Up" spacingUnit="MM" scaleDependency="Area" lineSizeScale="3x:0,0,0,0,0,0" showAxis="1" height="15" enabled="0" direction="0" barWidth="5" backgroundAlpha="255" lineSizeType="MM" backgroundColor="#ffffff" labelPlacementMethod="XHeight" opacity="1" maxScaleDenominator="1e+08" minimumSize="0" rotationOffset="270" sizeType="MM" sizeScale="3x:0,0,0,0,0,0" minScaleDenominator="0" penAlpha="255" spacingUnitScale="3x:0,0,0,0,0,0" scaleBasedVisibility="0" penWidth="0">
-          <fontProperties style="" underline="0" bold="0" italic="0" description="Fira Sans Semi-Light,10,-1,5,50,0,0,0,0,0" strikethrough="0"/>
-          <attribute color="#000000" field="" label="" colorOpacity="1"/>
+        <DiagramCategory width="15" spacing="5" penColor="#000000" diagramOrientation="Up" spacingUnit="MM" lineSizeScale="3x:0,0,0,0,0,0" scaleDependency="Area" showAxis="1" height="15" enabled="0" direction="0" barWidth="5" backgroundAlpha="255" backgroundColor="#ffffff" lineSizeType="MM" labelPlacementMethod="XHeight" opacity="1" maxScaleDenominator="1e+08" minimumSize="0" rotationOffset="270" sizeType="MM" sizeScale="3x:0,0,0,0,0,0" minScaleDenominator="0" spacingUnitScale="3x:0,0,0,0,0,0" penAlpha="255" scaleBasedVisibility="0" penWidth="0">
+          <fontProperties style="" description="Fira Sans Semi-Light,10,-1,5,50,0,0,0,0,0"/>
+          <attribute field="" color="#000000" label="" colorOpacity="1"/>
           <axisSymbol>
-            <symbol force_rhr="0" name="" frame_rate="10" clip_to_extent="1" type="line" is_animated="0" alpha="1">
+            <symbol force_rhr="0" name="" type="line" clip_to_extent="1" alpha="1">
               <data_defined_properties>
                 <Option type="Map">
                   <Option value="" name="name" type="QString"/>
@@ -1625,6 +1492,33 @@
                   <Option value="0" name="use_custom_dash" type="QString"/>
                   <Option value="3x:0,0,0,0,0,0" name="width_map_unit_scale" type="QString"/>
                 </Option>
+                <prop k="align_dash_pattern" v="0"/>
+                <prop k="capstyle" v="square"/>
+                <prop k="customdash" v="5;2"/>
+                <prop k="customdash_map_unit_scale" v="3x:0,0,0,0,0,0"/>
+                <prop k="customdash_unit" v="MM"/>
+                <prop k="dash_pattern_offset" v="0"/>
+                <prop k="dash_pattern_offset_map_unit_scale" v="3x:0,0,0,0,0,0"/>
+                <prop k="dash_pattern_offset_unit" v="MM"/>
+                <prop k="draw_inside_polygon" v="0"/>
+                <prop k="joinstyle" v="bevel"/>
+                <prop k="line_color" v="35,35,35,255"/>
+                <prop k="line_style" v="solid"/>
+                <prop k="line_width" v="0.26"/>
+                <prop k="line_width_unit" v="MM"/>
+                <prop k="offset" v="0"/>
+                <prop k="offset_map_unit_scale" v="3x:0,0,0,0,0,0"/>
+                <prop k="offset_unit" v="MM"/>
+                <prop k="ring_filter" v="0"/>
+                <prop k="trim_distance_end" v="0"/>
+                <prop k="trim_distance_end_map_unit_scale" v="3x:0,0,0,0,0,0"/>
+                <prop k="trim_distance_end_unit" v="MM"/>
+                <prop k="trim_distance_start" v="0"/>
+                <prop k="trim_distance_start_map_unit_scale" v="3x:0,0,0,0,0,0"/>
+                <prop k="trim_distance_start_unit" v="MM"/>
+                <prop k="tweak_dash_pattern_on_corners" v="0"/>
+                <prop k="use_custom_dash" v="0"/>
+                <prop k="width_map_unit_scale" v="3x:0,0,0,0,0,0"/>
                 <data_defined_properties>
                   <Option type="Map">
                     <Option value="" name="name" type="QString"/>
@@ -1658,7 +1552,7 @@
       </geometryOptions>
       <legend showLabelLegend="0" type="default-vector"/>
       <referencedLayers>
-        <relation providerKey="postgres" layerId="ajoratamerkintatyyppi_5b2eb25f_d873_4cdb_b719_bd0032af8692" layerName="ajoratamerkintatyyppi" id="ajaratamerkinta_geom_poly_71366f8a_dcac_4992_b64d_ecb8f47e7c65_ajoratamerkintatyyppi_id_ajoratamerkintatyyppi_5b2eb25f_d873_4cdb_b719_bd0032af8692_id" name="ajoratamerkintatyyppi_fk" strength="Association" referencingLayer="ajaratamerkinta_geom_poly_71366f8a_dcac_4992_b64d_ecb8f47e7c65" referencedLayer="ajoratamerkintatyyppi_5b2eb25f_d873_4cdb_b719_bd0032af8692" dataSource="dbname='infrao' host=localhost port=5434 user='infrao_admin' sslmode=disable key='id' estimatedmetadata=true checkPrimaryKeyUnicity='1' table=&quot;koodistot&quot;.&quot;ajoratamerkintatyyppi&quot;">
+        <relation providerKey="postgres" id="ajaratamerkinta_geom_poly_71366f8a_dcac_4992_b64d_ecb8f47e7c65_ajoratamerkintatyyppi_id_ajoratamerkintatyyppi_5b2eb25f_d873_4cdb_b719_bd0032af8692_id" layerId="ajoratamerkintatyyppi_5b2eb25f_d873_4cdb_b719_bd0032af8692" layerName="ajoratamerkintatyyppi" name="ajoratamerkintatyyppi_fk" strength="Association" referencingLayer="ajaratamerkinta_geom_poly_71366f8a_dcac_4992_b64d_ecb8f47e7c65" referencedLayer="ajoratamerkintatyyppi_5b2eb25f_d873_4cdb_b719_bd0032af8692" dataSource="dbname='infrao' host=localhost port=5434 user='infrao_admin' sslmode=disable key='id' estimatedmetadata=true checkPrimaryKeyUnicity='1' table=&quot;koodistot&quot;.&quot;ajoratamerkintatyyppi&quot;">
           <fieldRef referencedField="id" referencingField="ajoratamerkintatyyppi_id"/>
         </relation>
       </referencedLayers>
@@ -1883,20 +1777,20 @@
       </attributeactions>
       <attributetableconfig sortOrder="0" sortExpression="" actionWidgetStyle="dropDown">
         <columns>
-          <column width="-1" hidden="0" name="id" type="field"/>
-          <column width="-1" hidden="0" name="malli" type="field"/>
-          <column width="-1" hidden="0" name="perusparannusvuosi" type="field"/>
-          <column width="-1" hidden="0" name="suunta" type="field"/>
-          <column width="-1" hidden="0" name="valmistaja" type="field"/>
-          <column width="-1" hidden="0" name="valmistumisvuosi" type="field"/>
-          <column width="-1" hidden="0" name="kuuluuviheralueenosaan" type="field"/>
-          <column width="-1" hidden="0" name="kuuluukatualueenosaan" type="field"/>
-          <column width="-1" hidden="0" name="materiaali_id" type="field"/>
-          <column width="-1" hidden="0" name="suunnitelmalinkkitieto" type="field"/>
-          <column width="-1" hidden="0" name="geom_piste" type="field"/>
-          <column width="-1" hidden="0" name="geom_line" type="field"/>
-          <column width="-1" hidden="0" name="ajoratamerkintatyyppi_id" type="field"/>
-          <column width="-1" hidden="0" name="jyrsittypintakytkin" type="field"/>
+          <column width="-1" name="id" hidden="0" type="field"/>
+          <column width="-1" name="malli" hidden="0" type="field"/>
+          <column width="-1" name="perusparannusvuosi" hidden="0" type="field"/>
+          <column width="-1" name="suunta" hidden="0" type="field"/>
+          <column width="-1" name="valmistaja" hidden="0" type="field"/>
+          <column width="-1" name="valmistumisvuosi" hidden="0" type="field"/>
+          <column width="-1" name="kuuluuviheralueenosaan" hidden="0" type="field"/>
+          <column width="-1" name="kuuluukatualueenosaan" hidden="0" type="field"/>
+          <column width="-1" name="materiaali_id" hidden="0" type="field"/>
+          <column width="-1" name="suunnitelmalinkkitieto" hidden="0" type="field"/>
+          <column width="-1" name="geom_piste" hidden="0" type="field"/>
+          <column width="-1" name="geom_line" hidden="0" type="field"/>
+          <column width="-1" name="ajoratamerkintatyyppi_id" hidden="0" type="field"/>
+          <column width="-1" name="jyrsittypintakytkin" hidden="0" type="field"/>
           <column width="-1" hidden="1" type="actions"/>
         </columns>
       </attributetableconfig>
@@ -1905,10 +1799,10 @@
         <fieldstyles/>
       </conditionalstyles>
       <storedexpressions/>
-      <editform tolerant="1"/>
+      <editform tolerant="1"></editform>
       <editforminit/>
       <editforminitcodesource>0</editforminitcodesource>
-      <editforminitfilepath/>
+      <editforminitfilepath></editforminitfilepath>
       <editforminitcode><![CDATA[# -*- coding: utf-8 -*-
 """
 QGIS forms can have a Python function that is called when the form is
@@ -1929,69 +1823,18 @@ def my_form_open(dialog, layer, feature):
       <featformsuppress>0</featformsuppress>
       <editorlayout>tablayout</editorlayout>
       <attributeEditorForm>
-        <labelStyle labelColor="0,0,0,255" overrideLabelColor="0" overrideLabelFont="0">
-          <labelFont style="" underline="0" bold="0" italic="0" description="Fira Sans Semi-Light,10,-1,5,50,0,0,0,0,0" strikethrough="0"/>
-        </labelStyle>
-        <attributeEditorField showLabel="1" index="0" name="id">
-          <labelStyle labelColor="0,0,0,255" overrideLabelColor="0" overrideLabelFont="0">
-            <labelFont style="" underline="0" bold="0" italic="0" description="Fira Sans Semi-Light,10,-1,5,50,0,0,0,0,0" strikethrough="0"/>
-          </labelStyle>
-        </attributeEditorField>
-        <attributeEditorField showLabel="1" index="1" name="malli">
-          <labelStyle labelColor="0,0,0,255" overrideLabelColor="0" overrideLabelFont="0">
-            <labelFont style="" underline="0" bold="0" italic="0" description="Fira Sans Semi-Light,10,-1,5,50,0,0,0,0,0" strikethrough="0"/>
-          </labelStyle>
-        </attributeEditorField>
-        <attributeEditorField showLabel="1" index="2" name="perusparannusvuosi">
-          <labelStyle labelColor="0,0,0,255" overrideLabelColor="0" overrideLabelFont="0">
-            <labelFont style="" underline="0" bold="0" italic="0" description="Fira Sans Semi-Light,10,-1,5,50,0,0,0,0,0" strikethrough="0"/>
-          </labelStyle>
-        </attributeEditorField>
-        <attributeEditorField showLabel="1" index="3" name="suunta">
-          <labelStyle labelColor="0,0,0,255" overrideLabelColor="0" overrideLabelFont="0">
-            <labelFont style="" underline="0" bold="0" italic="0" description="Fira Sans Semi-Light,10,-1,5,50,0,0,0,0,0" strikethrough="0"/>
-          </labelStyle>
-        </attributeEditorField>
-        <attributeEditorField showLabel="1" index="4" name="valmistaja">
-          <labelStyle labelColor="0,0,0,255" overrideLabelColor="0" overrideLabelFont="0">
-            <labelFont style="" underline="0" bold="0" italic="0" description="Fira Sans Semi-Light,10,-1,5,50,0,0,0,0,0" strikethrough="0"/>
-          </labelStyle>
-        </attributeEditorField>
-        <attributeEditorField showLabel="1" index="5" name="valmistumisvuosi">
-          <labelStyle labelColor="0,0,0,255" overrideLabelColor="0" overrideLabelFont="0">
-            <labelFont style="" underline="0" bold="0" italic="0" description="Fira Sans Semi-Light,10,-1,5,50,0,0,0,0,0" strikethrough="0"/>
-          </labelStyle>
-        </attributeEditorField>
-        <attributeEditorField showLabel="1" index="6" name="kuuluuviheralueenosaan">
-          <labelStyle labelColor="0,0,0,255" overrideLabelColor="0" overrideLabelFont="0">
-            <labelFont style="" underline="0" bold="0" italic="0" description="Fira Sans Semi-Light,10,-1,5,50,0,0,0,0,0" strikethrough="0"/>
-          </labelStyle>
-        </attributeEditorField>
-        <attributeEditorField showLabel="1" index="7" name="kuuluukatualueenosaan">
-          <labelStyle labelColor="0,0,0,255" overrideLabelColor="0" overrideLabelFont="0">
-            <labelFont style="" underline="0" bold="0" italic="0" description="Fira Sans Semi-Light,10,-1,5,50,0,0,0,0,0" strikethrough="0"/>
-          </labelStyle>
-        </attributeEditorField>
-        <attributeEditorField showLabel="1" index="8" name="materiaali_id">
-          <labelStyle labelColor="0,0,0,255" overrideLabelColor="0" overrideLabelFont="0">
-            <labelFont style="" underline="0" bold="0" italic="0" description="Fira Sans Semi-Light,10,-1,5,50,0,0,0,0,0" strikethrough="0"/>
-          </labelStyle>
-        </attributeEditorField>
-        <attributeEditorField showLabel="1" index="9" name="suunnitelmalinkkitieto">
-          <labelStyle labelColor="0,0,0,255" overrideLabelColor="0" overrideLabelFont="0">
-            <labelFont style="" underline="0" bold="0" italic="0" description="Fira Sans Semi-Light,10,-1,5,50,0,0,0,0,0" strikethrough="0"/>
-          </labelStyle>
-        </attributeEditorField>
-        <attributeEditorField showLabel="1" index="12" name="ajoratamerkintatyyppi_id">
-          <labelStyle labelColor="0,0,0,255" overrideLabelColor="0" overrideLabelFont="0">
-            <labelFont style="" underline="0" bold="0" italic="0" description="Fira Sans Semi-Light,10,-1,5,50,0,0,0,0,0" strikethrough="0"/>
-          </labelStyle>
-        </attributeEditorField>
-        <attributeEditorField showLabel="1" index="13" name="jyrsittypintakytkin">
-          <labelStyle labelColor="0,0,0,255" overrideLabelColor="0" overrideLabelFont="0">
-            <labelFont style="" underline="0" bold="0" italic="0" description="Fira Sans Semi-Light,10,-1,5,50,0,0,0,0,0" strikethrough="0"/>
-          </labelStyle>
-        </attributeEditorField>
+        <attributeEditorField showLabel="1" index="0" name="id"/>
+        <attributeEditorField showLabel="1" index="1" name="malli"/>
+        <attributeEditorField showLabel="1" index="2" name="perusparannusvuosi"/>
+        <attributeEditorField showLabel="1" index="3" name="suunta"/>
+        <attributeEditorField showLabel="1" index="4" name="valmistaja"/>
+        <attributeEditorField showLabel="1" index="5" name="valmistumisvuosi"/>
+        <attributeEditorField showLabel="1" index="6" name="kuuluuviheralueenosaan"/>
+        <attributeEditorField showLabel="1" index="7" name="kuuluukatualueenosaan"/>
+        <attributeEditorField showLabel="1" index="8" name="materiaali_id"/>
+        <attributeEditorField showLabel="1" index="9" name="suunnitelmalinkkitieto"/>
+        <attributeEditorField showLabel="1" index="12" name="ajoratamerkintatyyppi_id"/>
+        <attributeEditorField showLabel="1" index="13" name="jyrsittypintakytkin"/>
       </attributeEditorForm>
       <editable>
         <field name="ajoratamerkintatyyppi_id" editable="1"/>
@@ -2044,7 +1887,7 @@ def my_form_open(dialog, layer, feature):
       <dataDefinedFieldProperties/>
       <widgets/>
       <previewExpression>"malli"</previewExpression>
-      <mapTip/>
+      <mapTip></mapTip>
     </maplayer>
     <maplayer refreshOnNotifyMessage="" maxScale="0" minScale="1e+08" autoRefreshEnabled="0" refreshOnNotifyEnabled="0" legendPlaceholderImage="" geometry="No geometry" styleCategories="AllStyleCategories" hasScaleBasedVisibilityFlag="0" autoRefreshTime="0" wkbType="NoGeometry" type="vector" readOnly="0">
       <id>ajoratamerkintatyyppi_5b2eb25f_d873_4cdb_b719_bd0032af8692</id>
@@ -7608,8 +7451,8 @@ def my_form_open(dialog, layer, feature):
             <Option value="&quot;malli&quot;" type="QString"/>
           </Option>
           <Option value="0" name="embeddedWidgets/count" type="int"/>
-          <Option name="variableNames" type="invalid"/>
-          <Option name="variableValues" type="invalid"/>
+          <Option name="variableNames"/>
+          <Option name="variableValues"/>
         </Option>
       </customproperties>
       <blendMode>0</blendMode>
@@ -7740,28 +7583,48 @@ def my_form_open(dialog, layer, feature):
         <field configurationFlags="None" name="perusparannusvuosi">
           <editWidget type="Range">
             <config>
-              <Option/>
+              <Option type="Map">
+                <Option value="true" name="AllowNull" type="bool"/>
+                <Option value="2147483647" name="Max" type="int"/>
+                <Option value="-2147483648" name="Min" type="int"/>
+                <Option value="0" name="Precision" type="int"/>
+                <Option value="1" name="Step" type="int"/>
+                <Option value="SpinBox" name="Style" type="QString"/>
+              </Option>
             </config>
           </editWidget>
         </field>
         <field configurationFlags="None" name="suunta">
           <editWidget type="TextEdit">
             <config>
-              <Option/>
+              <Option type="Map">
+                <Option value="false" name="IsMultiline" type="bool"/>
+                <Option value="false" name="UseHtml" type="bool"/>
+              </Option>
             </config>
           </editWidget>
         </field>
         <field configurationFlags="None" name="valmistaja">
           <editWidget type="TextEdit">
             <config>
-              <Option/>
+              <Option type="Map">
+                <Option value="false" name="IsMultiline" type="bool"/>
+                <Option value="false" name="UseHtml" type="bool"/>
+              </Option>
             </config>
           </editWidget>
         </field>
         <field configurationFlags="None" name="valmistumisvuosi">
           <editWidget type="Range">
             <config>
-              <Option/>
+              <Option type="Map">
+                <Option value="true" name="AllowNull" type="bool"/>
+                <Option value="2147483647" name="Max" type="int"/>
+                <Option value="-2147483648" name="Min" type="int"/>
+                <Option value="0" name="Precision" type="int"/>
+                <Option value="1" name="Step" type="int"/>
+                <Option value="SpinBox" name="Style" type="QString"/>
+              </Option>
             </config>
           </editWidget>
         </field>
@@ -7816,7 +7679,14 @@ def my_form_open(dialog, layer, feature):
         <field configurationFlags="None" name="suunnitelmalinkkitieto">
           <editWidget type="Range">
             <config>
-              <Option/>
+              <Option type="Map">
+                <Option value="true" name="AllowNull" type="bool"/>
+                <Option value="2147483647" name="Max" type="int"/>
+                <Option value="-2147483648" name="Min" type="int"/>
+                <Option value="0" name="Precision" type="int"/>
+                <Option value="1" name="Step" type="int"/>
+                <Option value="SpinBox" name="Style" type="QString"/>
+              </Option>
             </config>
           </editWidget>
         </field>
@@ -7843,15 +7713,15 @@ def my_form_open(dialog, layer, feature):
       </fieldConfiguration>
       <aliases>
         <alias field="id" index="0" name=""/>
-        <alias field="malli" index="1" name=""/>
-        <alias field="perusparannusvuosi" index="2" name=""/>
-        <alias field="suunta" index="3" name=""/>
-        <alias field="valmistaja" index="4" name=""/>
-        <alias field="valmistumisvuosi" index="5" name=""/>
-        <alias field="kuuluuviheralueenosaan" index="6" name=""/>
-        <alias field="kuuluukatualueenosaan" index="7" name=""/>
-        <alias field="materiaali_id" index="8" name=""/>
-        <alias field="suunnitelmalinkkitieto" index="9" name=""/>
+        <alias field="malli" index="1" name="Malli"/>
+        <alias field="perusparannusvuosi" index="2" name="Perusparannusvuosi"/>
+        <alias field="suunta" index="3" name="Suunta"/>
+        <alias field="valmistaja" index="4" name="Valmistaja"/>
+        <alias field="valmistumisvuosi" index="5" name="Valmistusvuosi"/>
+        <alias field="kuuluuviheralueenosaan" index="6" name="Kuuluu viheralueen osaan"/>
+        <alias field="kuuluukatualueenosaan" index="7" name="Kuuluu katualueen osaan"/>
+        <alias field="materiaali_id" index="8" name="Materiaali id"/>
+        <alias field="suunnitelmalinkkitieto" index="9" name="Suunnitelmalinkkitieto"/>
         <alias field="geom_poly" index="10" name=""/>
         <alias field="geom_line" index="11" name=""/>
       </aliases>

@@ -5,9 +5,9 @@
 -- Model Author: ---
 -- object: infrao_admin | type: ROLE --
 -- DROP ROLE IF EXISTS infrao_admin;
-CREATE ROLE infrao_admin WITH 
-	CREATEROLE
-	LOGIN;
+--CREATE ROLE infrao_admin WITH 
+--	CREATEROLE
+--	LOGIN;
 -- ddl-end --
 
 -- object: infrao_dba | type: ROLE --
@@ -39,7 +39,7 @@ ALTER SCHEMA koodistot OWNER TO infrao_admin;
 
 -- object: kohteet | type: SCHEMA --
 -- DROP SCHEMA IF EXISTS kohteet CASCADE;
-CREATE SCHEMA kohteet;
+CREATE SCHEMA IF NOT EXISTS kohteet;
 -- ddl-end --
 ALTER SCHEMA kohteet OWNER TO infrao_admin;
 -- ddl-end --
@@ -73,7 +73,7 @@ CREATE SEQUENCE koodistot.viheralueen_kayttotarkoitus_id_seq
 	OWNED BY NONE;
 
 -- ddl-end --
-ALTER SEQUENCE koodistot.viheralueen_kayttotarkoitus_id_seq OWNER TO postgres;
+ALTER SEQUENCE koodistot.viheralueen_kayttotarkoitus_id_seq OWNER TO infrao_admin;
 -- ddl-end --
 
 -- object: koodistot.viheralueenkayttotarkoitus | type: TABLE --
@@ -126,7 +126,7 @@ CREATE SEQUENCE koodistot.varuste_materiaali_id_seq
 	OWNED BY NONE;
 
 -- ddl-end --
-ALTER SEQUENCE koodistot.varuste_materiaali_id_seq OWNER TO postgres;
+ALTER SEQUENCE koodistot.varuste_materiaali_id_seq OWNER TO infrao_admin;
 -- ddl-end --
 
 -- object: koodistot.varustemateriaali | type: TABLE --
@@ -183,7 +183,7 @@ CREATE SEQUENCE koodistot.hoitoluokka_id_seq
 	OWNED BY NONE;
 
 -- ddl-end --
-ALTER SEQUENCE koodistot.hoitoluokka_id_seq OWNER TO postgres;
+ALTER SEQUENCE koodistot.hoitoluokka_id_seq OWNER TO infrao_admin;
 -- ddl-end --
 
 -- object: koodistot.hoitoluokkatyyppi | type: TABLE --
@@ -276,7 +276,7 @@ CREATE SEQUENCE public.viheralue_id_seq
 	OWNED BY NONE;
 
 -- ddl-end --
-ALTER SEQUENCE public.viheralue_id_seq OWNER TO postgres;
+ALTER SEQUENCE public.viheralue_id_seq OWNER TO infrao_admin;
 -- ddl-end --
 
 -- object: kohteet.viheralue | type: TABLE --
@@ -301,7 +301,7 @@ CREATE SEQUENCE public.viheralueenosa_id_seq
 	OWNED BY NONE;
 
 -- ddl-end --
-ALTER SEQUENCE public.viheralueenosa_id_seq OWNER TO postgres;
+ALTER SEQUENCE public.viheralueenosa_id_seq OWNER TO infrao_admin;
 -- ddl-end --
 
 -- object: kohteet.viheralueenosa | type: TABLE --
@@ -328,7 +328,7 @@ CREATE SEQUENCE koodistot.katuosanlaji_id_seq
 	OWNED BY NONE;
 
 -- ddl-end --
-ALTER SEQUENCE koodistot.katuosanlaji_id_seq OWNER TO postgres;
+ALTER SEQUENCE koodistot.katuosanlaji_id_seq OWNER TO infrao_admin;
 -- ddl-end --
 
 -- object: koodistot.katuosanlaji | type: TABLE --
@@ -391,7 +391,7 @@ CREATE SEQUENCE koodistot.talvihoidonluokka_id_seq
 	OWNED BY NONE;
 
 -- ddl-end --
-ALTER SEQUENCE koodistot.talvihoidonluokka_id_seq OWNER TO postgres;
+ALTER SEQUENCE koodistot.talvihoidonluokka_id_seq OWNER TO infrao_admin;
 -- ddl-end --
 
 -- object: koodistot.talvihoidonluokka | type: TABLE --
@@ -428,7 +428,7 @@ CREATE SEQUENCE public.katualue_id_seq
 	OWNED BY NONE;
 
 -- ddl-end --
-ALTER SEQUENCE public.katualue_id_seq OWNER TO postgres;
+ALTER SEQUENCE public.katualue_id_seq OWNER TO infrao_admin;
 -- ddl-end --
 
 -- object: kohteet.katualue | type: TABLE --
@@ -453,18 +453,18 @@ CREATE SEQUENCE public.katualueenosa_id_seq
 	OWNED BY NONE;
 
 -- ddl-end --
-ALTER SEQUENCE public.katualueenosa_id_seq OWNER TO postgres;
+ALTER SEQUENCE public.katualueenosa_id_seq OWNER TO infrao_admin;
 -- ddl-end --
 
 -- object: postgis | type: EXTENSION --
 -- DROP EXTENSION IF EXISTS postgis CASCADE;
 
 -- Prepended SQL commands --
-create extension postgis;
+-- create extension postgis;
 -- ddl-end --
 
-CREATE EXTENSION postgis
-WITH SCHEMA kohteet;
+-- CREATE EXTENSION postgis
+-- WITH SCHEMA kohteet;
 -- ddl-end --
 
 -- object: public.melu_id_seq | type: SEQUENCE --
@@ -479,7 +479,7 @@ CREATE SEQUENCE public.melu_id_seq
 	OWNED BY NONE;
 
 -- ddl-end --
-ALTER SEQUENCE public.melu_id_seq OWNER TO postgres;
+ALTER SEQUENCE public.melu_id_seq OWNER TO infrao_admin;
 -- ddl-end --
 
 -- object: abstraktit.abstractvaruste | type: TABLE --
@@ -516,7 +516,7 @@ CREATE SEQUENCE public.liikunta_id_seq
 	OWNED BY NONE;
 
 -- ddl-end --
-ALTER SEQUENCE public.liikunta_id_seq OWNER TO postgres;
+ALTER SEQUENCE public.liikunta_id_seq OWNER TO infrao_admin;
 -- ddl-end --
 
 -- object: kohteet.katualueenosa | type: TABLE --
@@ -562,7 +562,7 @@ CREATE SEQUENCE public.ymparistotaide_id_seq
 	OWNED BY NONE;
 
 -- ddl-end --
-ALTER SEQUENCE public.ymparistotaide_id_seq OWNER TO postgres;
+ALTER SEQUENCE public.ymparistotaide_id_seq OWNER TO infrao_admin;
 -- ddl-end --
 
 -- object: koodistot.liikuntatyyppi_id_seq | type: SEQUENCE --
@@ -577,7 +577,7 @@ CREATE SEQUENCE koodistot.liikuntatyyppi_id_seq
 	OWNED BY NONE;
 
 -- ddl-end --
-ALTER SEQUENCE koodistot.liikuntatyyppi_id_seq OWNER TO postgres;
+ALTER SEQUENCE koodistot.liikuntatyyppi_id_seq OWNER TO infrao_admin;
 -- ddl-end --
 
 -- object: koodistot.liikuntatyyppi | type: TABLE --
@@ -628,7 +628,7 @@ CREATE SEQUENCE public.kaluste_id_seq
 	OWNED BY NONE;
 
 -- ddl-end --
-ALTER SEQUENCE public.kaluste_id_seq OWNER TO postgres;
+ALTER SEQUENCE public.kaluste_id_seq OWNER TO infrao_admin;
 -- ddl-end --
 
 -- object: kohteet.melu | type: TABLE --
@@ -667,7 +667,7 @@ CREATE SEQUENCE public.valaistus_id_seq
 	OWNED BY NONE;
 
 -- ddl-end --
-ALTER SEQUENCE public.valaistus_id_seq OWNER TO postgres;
+ALTER SEQUENCE public.valaistus_id_seq OWNER TO infrao_admin;
 -- ddl-end --
 
 -- object: kohteet.valaistus | type: TABLE --
@@ -705,7 +705,7 @@ CREATE SEQUENCE public.hulevesi_id_seq
 	OWNED BY NONE;
 
 -- ddl-end --
-ALTER SEQUENCE public.hulevesi_id_seq OWNER TO postgres;
+ALTER SEQUENCE public.hulevesi_id_seq OWNER TO infrao_admin;
 -- ddl-end --
 
 -- object: kohteet.liikunta | type: TABLE --
@@ -744,7 +744,7 @@ CREATE SEQUENCE public.jate_id_seq
 	OWNED BY NONE;
 
 -- ddl-end --
-ALTER SEQUENCE public.jate_id_seq OWNER TO postgres;
+ALTER SEQUENCE public.jate_id_seq OWNER TO infrao_admin;
 -- ddl-end --
 
 -- object: kohteet.jate | type: TABLE --
@@ -783,7 +783,7 @@ CREATE SEQUENCE public.opaste_id_seq
 	OWNED BY NONE;
 
 -- ddl-end --
-ALTER SEQUENCE public.opaste_id_seq OWNER TO postgres;
+ALTER SEQUENCE public.opaste_id_seq OWNER TO infrao_admin;
 -- ddl-end --
 
 -- object: kohteet.opaste | type: TABLE --
@@ -822,7 +822,7 @@ CREATE SEQUENCE public.rakenne_id_seq
 	OWNED BY NONE;
 
 -- ddl-end --
-ALTER SEQUENCE public.rakenne_id_seq OWNER TO postgres;
+ALTER SEQUENCE public.rakenne_id_seq OWNER TO infrao_admin;
 -- ddl-end --
 
 -- object: kohteet.rakenne | type: TABLE --
@@ -861,7 +861,7 @@ CREATE SEQUENCE public.ajoratamerkinta_id_seq
 	OWNED BY NONE;
 
 -- ddl-end --
-ALTER SEQUENCE public.ajoratamerkinta_id_seq OWNER TO postgres;
+ALTER SEQUENCE public.ajoratamerkinta_id_seq OWNER TO infrao_admin;
 -- ddl-end --
 
 -- object: public.liikennemerkki_id_seq | type: SEQUENCE --
@@ -876,7 +876,7 @@ CREATE SEQUENCE public.liikennemerkki_id_seq
 	OWNED BY NONE;
 
 -- ddl-end --
-ALTER SEQUENCE public.liikennemerkki_id_seq OWNER TO postgres;
+ALTER SEQUENCE public.liikennemerkki_id_seq OWNER TO infrao_admin;
 -- ddl-end --
 
 -- object: kohteet.liikennemerkki | type: TABLE --
@@ -916,7 +916,7 @@ CREATE SEQUENCE public.leikkivaline_id_seq
 	OWNED BY NONE;
 
 -- ddl-end --
-ALTER SEQUENCE public.leikkivaline_id_seq OWNER TO postgres;
+ALTER SEQUENCE public.leikkivaline_id_seq OWNER TO infrao_admin;
 -- ddl-end --
 
 -- object: kohteet.leikkivaline | type: TABLE --
@@ -955,7 +955,7 @@ CREATE SEQUENCE public.muuvaruste_id_seq
 	OWNED BY NONE;
 
 -- ddl-end --
-ALTER SEQUENCE public.muuvaruste_id_seq OWNER TO postgres;
+ALTER SEQUENCE public.muuvaruste_id_seq OWNER TO infrao_admin;
 -- ddl-end --
 
 -- object: kohteet.muuvaruste | type: TABLE --
@@ -994,7 +994,7 @@ CREATE SEQUENCE public.liikennevalo_id_seq
 	OWNED BY NONE;
 
 -- ddl-end --
-ALTER SEQUENCE public.liikennevalo_id_seq OWNER TO postgres;
+ALTER SEQUENCE public.liikennevalo_id_seq OWNER TO infrao_admin;
 -- ddl-end --
 
 -- object: kohteet.liikennevalo | type: TABLE --
@@ -1032,7 +1032,7 @@ CREATE SEQUENCE koodistot.kunnossapitoluokka_id_seq
 	OWNED BY NONE;
 
 -- ddl-end --
-ALTER SEQUENCE koodistot.kunnossapitoluokka_id_seq OWNER TO postgres;
+ALTER SEQUENCE koodistot.kunnossapitoluokka_id_seq OWNER TO infrao_admin;
 -- ddl-end --
 
 -- object: koodistot.kunnossapitoluokka | type: TABLE --
@@ -1123,7 +1123,7 @@ CREATE SEQUENCE public.abstrakti_varuste_id_seq
 	OWNED BY NONE;
 
 -- ddl-end --
-ALTER SEQUENCE public.abstrakti_varuste_id_seq OWNER TO postgres;
+ALTER SEQUENCE public.abstrakti_varuste_id_seq OWNER TO infrao_admin;
 -- ddl-end --
 
 -- object: koodistot.melutyyppi | type: TABLE --
@@ -7864,7 +7864,7 @@ ALTER TABLE meta.aineistotoimituksentiedot OWNER TO infrao_admin;
 
 -- object: infraokohteet | type: Generic SQL Object --
 CREATE TABLE abstraktit.InfraoKohteet (
-  id SERIAL PRIMARY KEY,
+  id SERIAL PRIMARY KEY
   -- add any additional columns for InfraoKohteet
 );
 -- ddl-end --
@@ -7892,7 +7892,7 @@ INSERT INTO koodistot.aineistotilatype (id, selite) VALUES (E'4', E'ei tiedossa'
 -- object: meta.infraokohteet | type: TABLE --
 -- DROP TABLE IF EXISTS meta.infraokohteet CASCADE;
 CREATE TABLE meta.infraokohteet (
-	id serial
+	id serial unique
 
 );
 -- ddl-end --
@@ -7931,7 +7931,7 @@ ALTER TABLE abstraktit.liitetype OWNER TO infrao_admin;
 CREATE TABLE abstraktit.nimi (
 	id serial NOT NULL,
 	teksti text,
-	lang varchar(10) DEFAULT fi,
+	lang varchar(10) DEFAULT 'fi',
 	CONSTRAINT nimi_pk PRIMARY KEY (id)
 );
 -- ddl-end --
@@ -8635,7 +8635,7 @@ ON DELETE CASCADE ON UPDATE CASCADE;
 -- object: "grant_CU_eb94f049ac" | type: PERMISSION --
 GRANT CREATE,USAGE
    ON SCHEMA public
-   TO postgres;
+   TO infrao_admin;
 -- ddl-end --
 
 -- object: "grant_CU_cd8e46e7b6" | type: PERMISSION --
@@ -8648,12 +8648,6 @@ GRANT CREATE,USAGE
 GRANT CREATE,CONNECT,TEMPORARY
    ON DATABASE infrao
    TO infrao_admin;
--- ddl-end --
-
--- object: "grant_C*c*T*_a02b97db4c" | type: PERMISSION --
-GRANT CREATE,CONNECT,TEMPORARY
-   ON DATABASE infrao
-   TO infrao_dba WITH GRANT OPTION;
 -- ddl-end --
 
 

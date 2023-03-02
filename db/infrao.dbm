@@ -3,7 +3,7 @@
 CAUTION: Do not modify this file unless you know what you are doing.
  Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.9.4" use-changelog="false" last-position="90,19" last-zoom="0.5" max-obj-count="73"
+<dbmodel pgmodeler-ver="0.9.4" use-changelog="false" last-position="1738,10" last-zoom="0.6" max-obj-count="74"
 	 default-schema="public" default-owner="infrao_admin"
 	 layers="Default layer"
 	 active-layers="0"
@@ -746,7 +746,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	</initial-data>
 </table>
 
-<table name="abstractpaikkatietopalvelukohde" layers="0" collapse-mode="2" max-obj-count="8" z-value="0">
+<table name="abstractpaikkatietopalvelukohde" layers="0" collapse-mode="2" max-obj-count="7" z-value="0">
 	<schema name="abstraktit"/>
 	<role name="infrao_admin"/>
 	<position x="4600" y="60"/>
@@ -755,9 +755,6 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	</column>
 	<column name="name">
 		<type name="text" length="0"/>
-	</column>
-	<column name="abstract">
-		<type name="boolean" length="0"/>
 	</column>
 	<column name="metatieto">
 		<type name="text" length="0"/>
@@ -976,24 +973,36 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	</initial-data>
 </table>
 
-<table name="abstractkasvillisuus" layers="0" collapse-mode="2" max-obj-count="6" z-value="0">
+<table name="abstractkasvillisuus" layers="0" collapse-mode="2" max-obj-count="10" z-value="0">
 	<schema name="abstraktit"/>
 	<role name="infrao_admin"/>
-	<position x="5020" y="60"/>
+	<position x="4960" y="60"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
 	</column>
-	<column name="korkeusmitta">
-		<type name="smallint" length="0"/>
+	<column name="omistaja">
+		<type name="varchar" length="0"/>
 	</column>
-	<column name="ymparysmitta">
-		<type name="smallint" length="0"/>
+	<column name="haltija">
+		<type name="varchar" length="0"/>
 	</column>
-	<column name="puutyyppi_id">
+	<column name="kunnossapitaja">
+		<type name="varchar" length="0"/>
+	</column>
+	<column name="kuuluuviheralueenosaan">
 		<type name="integer" length="0"/>
 	</column>
-	<column name="puulaji_id">
+	<column name="kuuluukatualueenosaan">
 		<type name="integer" length="0"/>
+	</column>
+	<column name="geom_poly">
+		<type name="geometry" length="0" spatial-type="POLYGON" variation="0" srid="3067"/>
+	</column>
+	<column name="geom_piste">
+		<type name="geometry" length="0" spatial-type="POINT" variation="0" srid="3067"/>
+	</column>
+	<column name="geom_line">
+		<type name="geometry" length="0" spatial-type="LINESTRING" variation="0" srid="3067"/>
 	</column>
 	<constraint name="abstractkasvillisuus_pk" type="pk-constr" table="abstraktit.abstractkasvillisuus">
 		<columns names="id" ref-type="src-columns"/>
@@ -4540,7 +4549,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<column name="teksti">
 		<type name="text" length="0"/>
 	</column>
-	<column name="lang" default-value="fi">
+	<column name="lang" default-value="'fi'">
 		<type name="varchar" length="10"/>
 	</column>
 	<constraint name="nimi_pk" type="pk-constr" table="abstraktit.nimi">
@@ -4920,6 +4929,36 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	</initial-data>
 </table>
 
+<table name="muukasvi" layers="0" collapse-mode="2" max-obj-count="19" z-value="0">
+	<schema name="kohteet"/>
+	<role name="infrao_admin"/>
+	<position x="1860" y="700"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="kasviryhma">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="kasvilaji">
+		<type name="integer" length="0"/>
+	</column>
+	<constraint name="muukasvi_pk" type="pk-constr" table="kohteet.muukasvi">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<relationship name="muukasvi_inherits_abstractpaikkatietopalvelukohde" type="relgen" layers="0"
+	 pk-pattern="{dt}_pk"
+	 custom-color="#8e3258"
+	 src-table="kohteet.muukasvi"
+	 dst-table="abstraktit.abstractpaikkatietopalvelukohde"/>
+
+<relationship name="muukasvi_inherits_abstractkasvillisuus" type="relgen" layers="0"
+	 pk-pattern="{dt}_pk"
+	 custom-color="#80f1cd"
+	 src-table="kohteet.muukasvi"
+	 dst-table="abstraktit.abstractkasvillisuus"/>
+
 <constraint name="talvihoidonluokka_fk" type="fk-constr" comparison-type="MATCH SIMPLE"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="koodistot.talvihoidonluokka" table="kohteet.viheralueenosa">
 	<columns names="talvihoidonluokka_id" ref-type="src-columns"/>
@@ -5076,18 +5115,6 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<columns names="id" ref-type="dst-columns"/>
 </constraint>
 
-<constraint name="puulaji_fk" type="fk-constr" comparison-type="MATCH FULL"
-	 upd-action="CASCADE" del-action="CASCADE" ref-table="koodistot.puulaji" table="abstraktit.abstractkasvillisuus">
-	<columns names="puulaji_id" ref-type="src-columns"/>
-	<columns names="id" ref-type="dst-columns"/>
-</constraint>
-
-<constraint name="puutyyppi_fk" type="fk-constr" comparison-type="MATCH FULL"
-	 upd-action="CASCADE" del-action="CASCADE" ref-table="koodistot.puutyyppi" table="abstraktit.abstractkasvillisuus">
-	<columns names="puutyyppi_id" ref-type="src-columns"/>
-	<columns names="id" ref-type="dst-columns"/>
-</constraint>
-
 <constraint name="kalustetyyppi_fk" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="CASCADE" del-action="CASCADE" ref-table="koodistot.kalustetyyppi" table="kohteet.kaluste">
 	<columns names="kalustetyyppi_id" ref-type="src-columns"/>
@@ -5160,6 +5187,18 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<columns names="id" ref-type="dst-columns"/>
 </constraint>
 
+<constraint name="kasviryhma_fk" type="fk-constr" comparison-type="MATCH SIMPLE"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="koodistot.kasviryhmatyyppi" table="kohteet.muukasvi">
+	<columns names="kasviryhma" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="kasvilaji_fk" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="CASCADE" ref-table="koodistot.kasvilaji" table="kohteet.muukasvi">
+	<columns names="kasvilaji" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
 <relationship name="rel_melu_melutyyyppi" type="relfk" layers="0"
 	 src-table="kohteet.melu"
 	 dst-table="koodistot.melutyyppi" reference-fk="melutyyppi_fk"
@@ -5218,16 +5257,6 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <relationship name="rel_hulevesi_hulevesityyppi" type="relfk" layers="0"
 	 src-table="kohteet.hulevesi"
 	 dst-table="koodistot.hulevesityyppi" reference-fk="hulevesityyppi_fk"
-	 src-required="false" dst-required="false"/>
-
-<relationship name="rel_abstractkasvillisuus_puulaji" type="relfk" layers="0"
-	 src-table="abstraktit.abstractkasvillisuus"
-	 dst-table="koodistot.puulaji" reference-fk="puulaji_fk"
-	 src-required="false" dst-required="false"/>
-
-<relationship name="rel_abstractkasvillisuus_puutyyppi" type="relfk" layers="0"
-	 src-table="abstraktit.abstractkasvillisuus"
-	 dst-table="koodistot.puutyyppi" reference-fk="puutyyppi_fk"
 	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_ymparistotaide_ymparistotaidetyyppi" type="relfk" layers="0"
@@ -5303,6 +5332,16 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <relationship name="rel_erikoisrakennekerros_erikoisrakennekerrosmateriaalityyppi" type="relfk" layers="0"
 	 src-table="kohteet.erikoisrakennekerros"
 	 dst-table="koodistot.erikoisrakennekerrosmateriaalityyppi" reference-fk="erikoisrakennekerrosmateriaalityyppi_fk"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_muukasvi_kasviryhmatyyppi" type="relfk" layers="0"
+	 src-table="kohteet.muukasvi"
+	 dst-table="koodistot.kasviryhmatyyppi" reference-fk="kasviryhma_fk"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_muukasvi_kasvilaji" type="relfk" layers="0"
+	 src-table="kohteet.muukasvi"
+	 dst-table="koodistot.kasvilaji" reference-fk="kasvilaji_fk"
 	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_melu_melutyyppi" type="relfk" layers="0"

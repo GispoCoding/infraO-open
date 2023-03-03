@@ -5,15 +5,7 @@
 -- Model Author: ---
 -- object: infrao_admin | type: ROLE --
 -- DROP ROLE IF EXISTS infrao_admin;
---CREATE ROLE infrao_admin WITH 
---	CREATEROLE
---	LOGIN;
--- ddl-end --
-
--- object: infrao_dba | type: ROLE --
--- DROP ROLE IF EXISTS infrao_dba;
---CREATE ROLE infrao_dba WITH 
---	CREATEDB
+--REATE ROLE infrao_admin WITH 
 --	CREATEROLE
 --	LOGIN;
 -- ddl-end --
@@ -24,9 +16,9 @@
 -- 
 -- object: infrao | type: DATABASE --
 -- DROP DATABASE IF EXISTS infrao;
--- CREATE DATABASE infrao
+--CREATE DATABASE infrao
 --	TABLESPACE = pg_default
---	OWNER = infrao_dba;
+--	OWNER = infrao_admin;
 -- ddl-end --
 
 
@@ -39,7 +31,7 @@ ALTER SCHEMA koodistot OWNER TO infrao_admin;
 
 -- object: kohteet | type: SCHEMA --
 -- DROP SCHEMA IF EXISTS kohteet CASCADE;
-CREATE SCHEMA IF NOT EXISTS kohteet;
+--CREATE SCHEMA kohteet;
 -- ddl-end --
 ALTER SCHEMA kohteet OWNER TO infrao_admin;
 -- ddl-end --
@@ -283,15 +275,16 @@ ALTER SEQUENCE public.viheralue_id_seq OWNER TO infrao_admin;
 -- DROP TABLE IF EXISTS kohteet.viheralue CASCADE;
 CREATE TABLE kohteet.viheralue (
 	id serial NOT NULL,
+	sisaltaaviheralueenosan integer,
 	CONSTRAINT viheralue_pk PRIMARY KEY (id)
 );
 -- ddl-end --
 ALTER TABLE kohteet.viheralue OWNER TO infrao_admin;
 -- ddl-end --
 
--- object: public.viheralueenosa_id_seq | type: SEQUENCE --
--- DROP SEQUENCE IF EXISTS public.viheralueenosa_id_seq CASCADE;
-CREATE SEQUENCE public.viheralueenosa_id_seq
+-- object: kohteet.viheralueenosa_id_seq | type: SEQUENCE --
+-- DROP SEQUENCE IF EXISTS kohteet.viheralueenosa_id_seq CASCADE;
+CREATE SEQUENCE kohteet.viheralueenosa_id_seq
 	INCREMENT BY 1
 	MINVALUE 1
 	MAXVALUE 2147483647
@@ -301,19 +294,13 @@ CREATE SEQUENCE public.viheralueenosa_id_seq
 	OWNED BY NONE;
 
 -- ddl-end --
-ALTER SEQUENCE public.viheralueenosa_id_seq OWNER TO infrao_admin;
+ALTER SEQUENCE kohteet.viheralueenosa_id_seq OWNER TO infrao_admin;
 -- ddl-end --
 
--- object: kohteet.viheralueenosa | type: TABLE --
--- DROP TABLE IF EXISTS kohteet.viheralueenosa CASCADE;
-CREATE TABLE kohteet.viheralueenosa (
-	id serial NOT NULL,
-	talvihoidonluokka_id integer,
-	hoitoluokka_id integer,
-	CONSTRAINT viheralueenosa_pk PRIMARY KEY (id)
-);
--- ddl-end --
-ALTER TABLE kohteet.viheralueenosa OWNER TO infrao_admin;
+-- object: postgis | type: EXTENSION --
+-- DROP EXTENSION IF EXISTS postgis CASCADE;
+--CREATE EXTENSION postgis
+--WITH SCHEMA kohteet;
 -- ddl-end --
 
 -- object: koodistot.katuosanlaji_id_seq | type: SEQUENCE --
@@ -435,6 +422,7 @@ ALTER SEQUENCE public.katualue_id_seq OWNER TO infrao_admin;
 -- DROP TABLE IF EXISTS kohteet.katualue CASCADE;
 CREATE TABLE kohteet.katualue (
 	id serial NOT NULL,
+	sisaltaakatualueenosan integer,
 	CONSTRAINT katualue_pk PRIMARY KEY (id)
 );
 -- ddl-end --
@@ -456,15 +444,32 @@ CREATE SEQUENCE public.katualueenosa_id_seq
 ALTER SEQUENCE public.katualueenosa_id_seq OWNER TO infrao_admin;
 -- ddl-end --
 
--- object: postgis | type: EXTENSION --
--- DROP EXTENSION IF EXISTS postgis CASCADE;
-
--- Prepended SQL commands --
--- create extension postgis;
+-- object: kohteet.viheralueenosa | type: TABLE --
+-- DROP TABLE IF EXISTS kohteet.viheralueenosa CASCADE;
+CREATE TABLE kohteet.viheralueenosa (
+	id serial NOT NULL,
+	omistaja varchar(255),
+	haltija varchar(255),
+	kunnossapitaja varchar(255),
+	perusparannusvuosi smallint,
+	valmistumisvuosi smallint,
+	suojelualuekytkin boolean,
+	kuuluuviheralueeseen integer,
+	kayttotarkoitus_id integer,
+	laji_id integer,
+	hoitoluokka_id integer,
+	katualueenlaji_id integer,
+	suunnitelmalinkkitieto_id integer,
+	talvihoidonluokka_id integer,
+	puhtaanapitoluokka_id integer,
+	muutoshoitoluokka_id integer,
+	sisaltaakasvillisuus integer,
+	sisaltaavaruste integer,
+	geom geometry(MULTIPOLYGON, 3067),
+	CONSTRAINT viheralueenosa_pk PRIMARY KEY (id)
+);
 -- ddl-end --
-
--- CREATE EXTENSION postgis
--- WITH SCHEMA kohteet;
+ALTER TABLE kohteet.viheralueenosa OWNER TO infrao_admin;
 -- ddl-end --
 
 -- object: public.melu_id_seq | type: SEQUENCE --
@@ -531,10 +536,10 @@ CREATE TABLE kohteet.katualueenosa (
 	pituus double precision,
 	puhtaanapito varchar(255),
 	talvikunnossapito varchar(255),
-	kuuluu_id integer,
-	sisaltaa_id integer,
+	kuuluukatualueeseen_id integer,
+	sisaltaakeskilinja_id integer,
 	luokka_id integer,
-	kunnossapitoluokka_id integer NOT NULL,
+	kunnossapitoluokka_id integer,
 	katuosanlaji_id integer,
 	pintamateriaali_id integer,
 	viherosanlajityypi_id integer,
@@ -668,29 +673,6 @@ CREATE SEQUENCE public.valaistus_id_seq
 
 -- ddl-end --
 ALTER SEQUENCE public.valaistus_id_seq OWNER TO infrao_admin;
--- ddl-end --
-
--- object: kohteet.valaistus | type: TABLE --
--- DROP TABLE IF EXISTS kohteet.valaistus CASCADE;
-CREATE TABLE kohteet.valaistus (
-	id serial NOT NULL,
--- 	malli text,
--- 	perusparannusvuosi smallint,
--- 	suunta text,
--- 	valmistaja text,
--- 	valmistumisvuosi smallint,
--- 	kuuluuviheralueenosaan integer,
--- 	kuuluukatualueenosaan integer,
--- 	materiaali_id integer,
--- 	suunnitelmalinkkitieto integer,
--- 	geom_poly geometry(POLYGON, 3067),
--- 	geom_piste geometry(POINT, 3067),
--- 	geom_line geometry(LINESTRING, 3067),
-	CONSTRAINT valaistus_pk PRIMARY KEY (id)
-)
- INHERITS(abstraktit.abstractvaruste);
--- ddl-end --
-ALTER TABLE kohteet.valaistus OWNER TO infrao_admin;
 -- ddl-end --
 
 -- object: public.hulevesi_id_seq | type: SEQUENCE --
@@ -1402,10 +1384,16 @@ INSERT INTO koodistot.puutyyppi (id, selite) VALUES (E'4', E'ei tiedossa');
 -- DROP TABLE IF EXISTS abstraktit.abstractkasvillisuus CASCADE;
 CREATE TABLE abstraktit.abstractkasvillisuus (
 	id serial NOT NULL,
+	omistaja varchar(255),
+	haltija varchar(255),
+	kunnossapitaja varchar(255),
 	korkeusmitta smallint,
 	ymparysmitta smallint,
 	puutyyppi_id integer,
 	puulaji_id integer,
+	sijaintitieto geometry(POLYGON, 3067),
+	kuuluuviheralueenosaan integer,
+	kuuluukatualueenosaan integer,
 	CONSTRAINT abstractkasvillisuus_pk PRIMARY KEY (id)
 );
 -- ddl-end --
@@ -7862,13 +7850,6 @@ COMMENT ON COLUMN meta.aineistotoimituksentiedot.tietotuoteurl IS E'URL, josta s
 ALTER TABLE meta.aineistotoimituksentiedot OWNER TO infrao_admin;
 -- ddl-end --
 
--- object: infraokohteet | type: Generic SQL Object --
-CREATE TABLE abstraktit.InfraoKohteet (
-  id SERIAL PRIMARY KEY
-  -- add any additional columns for InfraoKohteet
-);
--- ddl-end --
-
 -- object: koodistot.aineistotilatype | type: TABLE --
 -- DROP TABLE IF EXISTS koodistot.aineistotilatype CASCADE;
 CREATE TABLE koodistot.aineistotilatype (
@@ -7892,8 +7873,8 @@ INSERT INTO koodistot.aineistotilatype (id, selite) VALUES (E'4', E'ei tiedossa'
 -- object: meta.infraokohteet | type: TABLE --
 -- DROP TABLE IF EXISTS meta.infraokohteet CASCADE;
 CREATE TABLE meta.infraokohteet (
-	id serial unique
-
+	id serial NOT NULL,
+	CONSTRAINT infraokohteet_pk PRIMARY KEY (id)
 );
 -- ddl-end --
 COMMENT ON TABLE meta.infraokohteet IS E'Skeeman juurielementti';
@@ -7911,19 +7892,20 @@ CREATE TABLE abstraktit.abstractinfraomaisuuskohde (
 ALTER TABLE abstraktit.abstractinfraomaisuuskohde OWNER TO infrao_admin;
 -- ddl-end --
 
--- object: abstraktit.liitetype | type: TABLE --
--- DROP TABLE IF EXISTS abstraktit.liitetype CASCADE;
-CREATE TABLE abstraktit.liitetype (
-	id serial,
-	linkkiliitteeseen text,
-	muokkaushetki date,
-	versionumero text
-
+-- object: abstraktit.liite | type: TABLE --
+-- DROP TABLE IF EXISTS abstraktit.liite CASCADE;
+CREATE TABLE abstraktit.liite (
+	id serial NOT NULL,
+	linkkiliitteeseen varchar(255),
+	muokkaushetki timestamptz,
+	versionumero text,
+	kuvaus varchar(2000),
+	CONSTRAINT liite_pk PRIMARY KEY (id)
 );
 -- ddl-end --
-COMMENT ON TABLE abstraktit.liitetype IS E'Liitteen sisältöä kuvaava teksti';
+COMMENT ON COLUMN abstraktit.liite.kuvaus IS E'Liitteen sisältöä kuvaava teksti';
 -- ddl-end --
-ALTER TABLE abstraktit.liitetype OWNER TO infrao_admin;
+ALTER TABLE abstraktit.liite OWNER TO infrao_admin;
 -- ddl-end --
 
 -- object: abstraktit.nimi | type: TABLE --
@@ -8338,6 +8320,85 @@ INSERT INTO koodistot.erikoisrakennekerrosmateriaalityyppi (id, selite) VALUES (
 INSERT INTO koodistot.erikoisrakennekerrosmateriaalityyppi (id, selite) VALUES (E'6', E'kantava kasvualusta');
 -- ddl-end --
 
+-- object: abstraktit.suunnitelma | type: TABLE --
+-- DROP TABLE IF EXISTS abstraktit.suunnitelma CASCADE;
+CREATE TABLE abstraktit.suunnitelma (
+	id serial NOT NULL,
+	kuvaus varchar(2000),
+	paivamaarapvm date,
+	CONSTRAINT suunnitelma_pk PRIMARY KEY (id)
+);
+-- ddl-end --
+COMMENT ON TABLE abstraktit.suunnitelma IS E'Päätöksen tiedot';
+-- ddl-end --
+ALTER TABLE abstraktit.suunnitelma OWNER TO infrao_admin;
+-- ddl-end --
+
+-- object: abstraktit.suunnitelmalinkki | type: TABLE --
+-- DROP TABLE IF EXISTS abstraktit.suunnitelmalinkki CASCADE;
+CREATE TABLE abstraktit.suunnitelmalinkki (
+	id serial NOT NULL,
+	suunnitelmakohdeid integer,
+	liitetieto_id integer,
+	CONSTRAINT suunnitelmalinkki_pk PRIMARY KEY (id)
+);
+-- ddl-end --
+ALTER TABLE abstraktit.suunnitelmalinkki OWNER TO infrao_admin;
+-- ddl-end --
+
+-- object: abstraktit.liitetieto | type: TABLE --
+-- DROP TABLE IF EXISTS abstraktit.liitetieto CASCADE;
+CREATE TABLE abstraktit.liitetieto (
+	id serial NOT NULL,
+	tiedot varchar(1000),
+	suunnitelma_id integer,
+	CONSTRAINT liitetieto_pk PRIMARY KEY (id)
+);
+-- ddl-end --
+ALTER TABLE abstraktit.liitetieto OWNER TO infrao_admin;
+-- ddl-end --
+
+-- object: koodistot.puhtaanapitoluokkatyyppi | type: TABLE --
+-- DROP TABLE IF EXISTS koodistot.puhtaanapitoluokkatyyppi CASCADE;
+CREATE TABLE koodistot.puhtaanapitoluokkatyyppi (
+	id serial NOT NULL,
+	selite varchar(255),
+	CONSTRAINT puhtaanapitoluokkatyyppi_pk PRIMARY KEY (id)
+);
+-- ddl-end --
+ALTER TABLE koodistot.puhtaanapitoluokkatyyppi OWNER TO infrao_admin;
+-- ddl-end --
+
+INSERT INTO koodistot.puhtaanapitoluokkatyyppi (id, selite) VALUES (E'1', E'P1 Päivittäin (ma-la)');
+-- ddl-end --
+INSERT INTO koodistot.puhtaanapitoluokkatyyppi (id, selite) VALUES (E'2', E'P2 Työpäivinä (ma-pe)');
+-- ddl-end --
+INSERT INTO koodistot.puhtaanapitoluokkatyyppi (id, selite) VALUES (E'3', E'P3 Viikoittain (3 krt/vk)');
+-- ddl-end --
+INSERT INTO koodistot.puhtaanapitoluokkatyyppi (id, selite) VALUES (E'4', E'P4 Viikoittain (2 krt/vk)');
+-- ddl-end --
+INSERT INTO koodistot.puhtaanapitoluokkatyyppi (id, selite) VALUES (E'5', E'P5 Viikoittain (1 krt/vk)');
+-- ddl-end --
+INSERT INTO koodistot.puhtaanapitoluokkatyyppi (id, selite) VALUES (E'6', E'P6 Kuukausittain');
+-- ddl-end --
+INSERT INTO koodistot.puhtaanapitoluokkatyyppi (id, selite) VALUES (E'7', E'P7 Vuosittain');
+-- ddl-end --
+
+-- object: abstraktit.paatos | type: TABLE --
+-- DROP TABLE IF EXISTS abstraktit.paatos CASCADE;
+CREATE TABLE abstraktit.paatos (
+	id serial NOT NULL,
+	liitetieto_id integer,
+	kuvaus varchar(2000),
+	paivamaarapvm date,
+	CONSTRAINT paatos_pk PRIMARY KEY (id)
+);
+-- ddl-end --
+COMMENT ON TABLE abstraktit.paatos IS E'Päätöksen tiedot';
+-- ddl-end --
+ALTER TABLE abstraktit.paatos OWNER TO infrao_admin;
+-- ddl-end --
+
 -- object: talvihoidonluokka_fk | type: CONSTRAINT --
 -- ALTER TABLE kohteet.viheralueenosa DROP CONSTRAINT IF EXISTS talvihoidonluokka_fk CASCADE;
 ALTER TABLE kohteet.viheralueenosa ADD CONSTRAINT talvihoidonluokka_fk FOREIGN KEY (talvihoidonluokka_id)
@@ -8350,6 +8411,48 @@ ON DELETE NO ACTION ON UPDATE NO ACTION;
 ALTER TABLE kohteet.viheralueenosa ADD CONSTRAINT hoitoluokka_fk FOREIGN KEY (hoitoluokka_id)
 REFERENCES koodistot.hoitoluokkatyyppi (id) MATCH FULL
 ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: kayttotarkoitus_fk | type: CONSTRAINT --
+-- ALTER TABLE kohteet.viheralueenosa DROP CONSTRAINT IF EXISTS kayttotarkoitus_fk CASCADE;
+ALTER TABLE kohteet.viheralueenosa ADD CONSTRAINT kayttotarkoitus_fk FOREIGN KEY (kayttotarkoitus_id)
+REFERENCES koodistot.viheralueenkayttotarkoitus (id) MATCH FULL
+ON DELETE CASCADE ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: laji_fk | type: CONSTRAINT --
+-- ALTER TABLE kohteet.viheralueenosa DROP CONSTRAINT IF EXISTS laji_fk CASCADE;
+ALTER TABLE kohteet.viheralueenosa ADD CONSTRAINT laji_fk FOREIGN KEY (laji_id)
+REFERENCES koodistot.viherosanlajityyppi (id) MATCH FULL
+ON DELETE CASCADE ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: katualueenlaji_fk | type: CONSTRAINT --
+-- ALTER TABLE kohteet.viheralueenosa DROP CONSTRAINT IF EXISTS katualueenlaji_fk CASCADE;
+ALTER TABLE kohteet.viheralueenosa ADD CONSTRAINT katualueenlaji_fk FOREIGN KEY (katualueenlaji_id)
+REFERENCES koodistot.katuosanlaji (id) MATCH FULL
+ON DELETE CASCADE ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: suunnitelmalinkkitieto_fk | type: CONSTRAINT --
+-- ALTER TABLE kohteet.viheralueenosa DROP CONSTRAINT IF EXISTS suunnitelmalinkkitieto_fk CASCADE;
+ALTER TABLE kohteet.viheralueenosa ADD CONSTRAINT suunnitelmalinkkitieto_fk FOREIGN KEY (suunnitelmalinkkitieto_id)
+REFERENCES abstraktit.suunnitelmalinkki (id) MATCH FULL
+ON DELETE CASCADE ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: puhtaanapitoluokkatyyppi_fk | type: CONSTRAINT --
+-- ALTER TABLE kohteet.viheralueenosa DROP CONSTRAINT IF EXISTS puhtaanapitoluokkatyyppi_fk CASCADE;
+ALTER TABLE kohteet.viheralueenosa ADD CONSTRAINT puhtaanapitoluokkatyyppi_fk FOREIGN KEY (puhtaanapitoluokka_id)
+REFERENCES koodistot.puhtaanapitoluokkatyyppi (id) MATCH FULL
+ON DELETE CASCADE ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: muutoshoitoluokka_fk | type: CONSTRAINT --
+-- ALTER TABLE kohteet.viheralueenosa DROP CONSTRAINT IF EXISTS muutoshoitoluokka_fk CASCADE;
+ALTER TABLE kohteet.viheralueenosa ADD CONSTRAINT muutoshoitoluokka_fk FOREIGN KEY (muutoshoitoluokka_id)
+REFERENCES koodistot.muutoshoitoluokkatyyppi (id) MATCH FULL
+ON DELETE CASCADE ON UPDATE CASCADE;
 -- ddl-end --
 
 -- object: materiaali_fk | type: CONSTRAINT --
@@ -8401,6 +8504,20 @@ REFERENCES koodistot.viherosanlajityyppi (id) MATCH FULL
 ON DELETE CASCADE ON UPDATE CASCADE;
 -- ddl-end --
 
+-- object: paatostieto_id | type: CONSTRAINT --
+-- ALTER TABLE kohteet.katualueenosa DROP CONSTRAINT IF EXISTS paatostieto_id CASCADE;
+ALTER TABLE kohteet.katualueenosa ADD CONSTRAINT paatostieto_id FOREIGN KEY (paatostieto_id)
+REFERENCES abstraktit.paatos (id) MATCH FULL
+ON DELETE CASCADE ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: suunnitelmalinkkitieto_fk | type: CONSTRAINT --
+-- ALTER TABLE kohteet.katualueenosa DROP CONSTRAINT IF EXISTS suunnitelmalinkkitieto_fk CASCADE;
+ALTER TABLE kohteet.katualueenosa ADD CONSTRAINT suunnitelmalinkkitieto_fk FOREIGN KEY (suunnitelmalinkkitieto_id)
+REFERENCES abstraktit.suunnitelmalinkki (id) MATCH FULL
+ON DELETE CASCADE ON UPDATE CASCADE;
+-- ddl-end --
+
 -- object: melutyyppi_fk | type: CONSTRAINT --
 -- ALTER TABLE kohteet.melu DROP CONSTRAINT IF EXISTS melutyyppi_fk CASCADE;
 ALTER TABLE kohteet.melu ADD CONSTRAINT melutyyppi_fk FOREIGN KEY (melutyyppi_id)
@@ -8412,13 +8529,6 @@ ON DELETE CASCADE ON UPDATE CASCADE;
 -- ALTER TABLE kohteet.melu DROP CONSTRAINT IF EXISTS varustemateriaali_fk CASCADE;
 ALTER TABLE kohteet.melu ADD CONSTRAINT varustemateriaali_fk FOREIGN KEY (materiaali_id)
 REFERENCES koodistot.melutyyppi (id) MATCH FULL
-ON DELETE CASCADE ON UPDATE CASCADE;
--- ddl-end --
-
--- object: varustemateriaali_fk | type: CONSTRAINT --
--- ALTER TABLE kohteet.valaistus DROP CONSTRAINT IF EXISTS varustemateriaali_fk CASCADE;
-ALTER TABLE kohteet.valaistus ADD CONSTRAINT varustemateriaali_fk FOREIGN KEY (materiaali_id)
-REFERENCES koodistot.varustemateriaali (id) MATCH FULL
 ON DELETE CASCADE ON UPDATE CASCADE;
 -- ddl-end --
 
@@ -8632,16 +8742,25 @@ REFERENCES koodistot.erikoisrakennekerrosmateriaalityyppi (id) MATCH FULL
 ON DELETE CASCADE ON UPDATE CASCADE;
 -- ddl-end --
 
--- object: "grant_CU_eb94f049ac" | type: PERMISSION --
-GRANT CREATE,USAGE
-   ON SCHEMA public
-   TO infrao_admin;
+-- object: liitetieto_fk | type: CONSTRAINT --
+-- ALTER TABLE abstraktit.suunnitelmalinkki DROP CONSTRAINT IF EXISTS liitetieto_fk CASCADE;
+ALTER TABLE abstraktit.suunnitelmalinkki ADD CONSTRAINT liitetieto_fk FOREIGN KEY (liitetieto_id)
+REFERENCES abstraktit.liite (id) MATCH FULL
+ON DELETE CASCADE ON UPDATE CASCADE;
 -- ddl-end --
 
--- object: "grant_CU_cd8e46e7b6" | type: PERMISSION --
-GRANT CREATE,USAGE
-   ON SCHEMA public
-   TO PUBLIC;
+-- object: suunnitelma_fk | type: CONSTRAINT --
+-- ALTER TABLE abstraktit.liitetieto DROP CONSTRAINT IF EXISTS suunnitelma_fk CASCADE;
+ALTER TABLE abstraktit.liitetieto ADD CONSTRAINT suunnitelma_fk FOREIGN KEY (suunnitelma_id)
+REFERENCES abstraktit.suunnitelma (id) MATCH FULL
+ON DELETE CASCADE ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: liitetieto_fk | type: CONSTRAINT --
+-- ALTER TABLE abstraktit.paatos DROP CONSTRAINT IF EXISTS liitetieto_fk CASCADE;
+ALTER TABLE abstraktit.paatos ADD CONSTRAINT liitetieto_fk FOREIGN KEY (liitetieto_id)
+REFERENCES abstraktit.liitetieto (id) MATCH FULL
+ON DELETE CASCADE ON UPDATE CASCADE;
 -- ddl-end --
 
 -- object: "grant_CcT_46eefe8046" | type: PERMISSION --

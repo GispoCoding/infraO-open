@@ -3,7 +3,7 @@
 CAUTION: Do not modify this file unless you know what you are doing.
  Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.9.4" use-changelog="false" last-position="0,0" last-zoom="0.2" max-obj-count="81"
+<dbmodel pgmodeler-ver="0.9.4" use-changelog="false" last-position="678,0" last-zoom="0.55" max-obj-count="81"
 	 default-schema="public" default-owner="infrao_admin"
 	 layers="Default layer"
 	 active-layers="0"
@@ -315,7 +315,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 </sequence>
 
 <extension name="postgis">
-	<schema name="kohteet"/>
+	<schema name="public"/>
 </extension>
 
 <sequence name="melu_id_seq" cycle="false" start="1" increment="1" min-value="1" max-value="2147483647" cache="1">
@@ -323,7 +323,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<role name="infrao_admin"/>
 </sequence>
 
-<table name="viheralueenosa" layers="0" collapse-mode="2" max-obj-count="27" z-value="0">
+<table name="viheralueenosa" layers="0" collapse-mode="2" max-obj-count="28" z-value="0">
 	<schema name="kohteet"/>
 	<role name="infrao_admin"/>
 	<position x="2123.89" y="50"/>
@@ -380,6 +380,9 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	</column>
 	<column name="sisaltaavaruste">
 		<type name="integer" length="0"/>
+	</column>
+	<column name="geom">
+		<type name="geometry" length="0" spatial-type="MULTIPOLYGON" variation="0" srid="3067"/>
 	</column>
 	<constraint name="viheralueenosa_pk" type="pk-constr" table="kohteet.viheralueenosa">
 		<columns names="id" ref-type="src-columns"/>
@@ -5217,12 +5220,6 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<columns names="id" ref-type="dst-columns"/>
 </constraint>
 
-<constraint name="materiaali_fk" type="fk-constr" comparison-type="MATCH FULL"
-	 upd-action="CASCADE" del-action="CASCADE" ref-table="koodistot.varustemateriaali" table="abstraktit.abstractvaruste">
-	<columns names="materiaali_id" ref-type="src-columns"/>
-	<columns names="id" ref-type="dst-columns"/>
-</constraint>
-
 <constraint name="kunnossapitoluokka_fk" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="CASCADE" del-action="CASCADE" ref-table="koodistot.kunnossapitoluokka" table="kohteet.katualueenosa">
 	<columns names="kunnossapitoluokka_id" ref-type="src-columns"/>
@@ -5277,6 +5274,12 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<columns names="id" ref-type="dst-columns"/>
 </constraint>
 
+<constraint name="materiaali_fk" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="CASCADE" ref-table="koodistot.varustemateriaali" table="abstraktit.abstractvaruste">
+	<columns names="materiaali_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
 <constraint name="melutyyppi_fk" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="CASCADE" del-action="CASCADE" ref-table="koodistot.melutyyppi" table="kohteet.melu">
 	<columns names="melutyyppi_id" ref-type="src-columns"/>
@@ -5298,18 +5301,6 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <constraint name="varustemateriaali_fk" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="CASCADE" del-action="CASCADE" ref-table="koodistot.varustemateriaali" table="kohteet.liikunta">
 	<columns names="materiaali_id" ref-type="src-columns"/>
-	<columns names="id" ref-type="dst-columns"/>
-</constraint>
-
-<constraint name="jatetyyppi_fk" type="fk-constr" comparison-type="MATCH FULL"
-	 upd-action="CASCADE" del-action="SET NULL" ref-table="koodistot.jatetyyppi" table="kohteet.jate">
-	<columns names="jatetyyppi_id" ref-type="src-columns"/>
-	<columns names="id" ref-type="dst-columns"/>
-</constraint>
-
-<constraint name="varustemateriaali_fk" type="fk-constr" comparison-type="MATCH FULL"
-	 upd-action="CASCADE" del-action="CASCADE" ref-table="koodistot.varustemateriaali" table="kohteet.jate">
-	<columns names="id" ref-type="src-columns"/>
 	<columns names="id" ref-type="dst-columns"/>
 </constraint>
 
@@ -5376,6 +5367,18 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <constraint name="varustemateriaali_fk" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="CASCADE" ref-table="koodistot.varustemateriaali" table="kohteet.liikennevalo">
 	<columns names="materiaali_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="jatetyyppi_fk" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="SET NULL" ref-table="koodistot.jatetyyppi" table="kohteet.jate">
+	<columns names="jatetyyppi_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="varustemateriaali_fk" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="CASCADE" ref-table="koodistot.varustemateriaali" table="kohteet.jate">
+	<columns names="id" ref-type="src-columns"/>
 	<columns names="id" ref-type="dst-columns"/>
 </constraint>
 
@@ -5722,6 +5725,61 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <relationship name="rel_osoite_nimi" type="relfk" layers="0"
 	 src-table="abstraktit.osoite"
 	 dst-table="abstraktit.nimi" reference-fk="nimi_fk"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_melu_melutyyppi" type="relfk" layers="0"
+	 src-table="kohteet.melu"
+	 dst-table="koodistot.melutyyppi" reference-fk="varustemateriaali_fk"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_liikunta_varustemateriaali" type="relfk" layers="0"
+	 src-table="kohteet.liikunta"
+	 dst-table="koodistot.varustemateriaali" reference-fk="varustemateriaali_fk"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_opaste_varustemateriaali" type="relfk" layers="0"
+	 src-table="kohteet.opaste"
+	 dst-table="koodistot.varustemateriaali" reference-fk="varustemateriaali_fk"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_rakenne_varustemateriaali" type="relfk" layers="0"
+	 src-table="kohteet.rakenne"
+	 dst-table="koodistot.varustemateriaali" reference-fk="varustemateriaali_fk"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_liikennemerkki_varustemateriaali" type="relfk" layers="0"
+	 src-table="kohteet.liikennemerkki"
+	 dst-table="koodistot.varustemateriaali" reference-fk="vaustemateriaali_fk"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_muuvaruste_varustemateriaali" type="relfk" layers="0"
+	 src-table="kohteet.muuvaruste"
+	 dst-table="koodistot.varustemateriaali" reference-fk="varustemateriaali_fk"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_liikennevalo_varustemateriaali" type="relfk" layers="0"
+	 src-table="kohteet.liikennevalo"
+	 dst-table="koodistot.varustemateriaali" reference-fk="varustemateriaali_fk"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_kaluste_varustemateriaali" type="relfk" layers="0"
+	 src-table="kohteet.kaluste"
+	 dst-table="koodistot.varustemateriaali" reference-fk="varustemateriaali_fk"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_hulevesi_varustemateriaali" type="relfk" layers="0"
+	 src-table="kohteet.hulevesi"
+	 dst-table="koodistot.varustemateriaali" reference-fk="varustemateriaali_fk"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_ymparistotaide_varustemateriaali" type="relfk" layers="0"
+	 src-table="kohteet.ymparistotaide"
+	 dst-table="koodistot.varustemateriaali" reference-fk="varustemateriaali_fk"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_pysakointiruutu_varustemateriaali" type="relfk" layers="0"
+	 src-table="kohteet.pysakointiruutu"
+	 dst-table="koodistot.varustemateriaali" reference-fk="varustemateriaali_fk"
 	 src-required="false" dst-required="false"/>
 
 <permission>

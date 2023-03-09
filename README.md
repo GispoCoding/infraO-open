@@ -14,6 +14,27 @@
 docker-compose up -d
 docker-compose up flyway
 ```
+## Exporting sql file from the database model
+In order for the sql to work with setting up a database either with the plugin or docker compose/flyway some modifications to the sql file is required. The following lines should be commented (with --):
+
+```code
+CREATE ROLE infrao_admin WITH 
+	CREATEROLE
+	LOGIN;
+```
+```code
+CREATE DATABASE infrao
+	TABLESPACE = pg_default
+	OWNER = infrao_admin;
+```
+```code
+CREATE SCHEMA kohteet;
+```
+```code
+CREATE EXTENSION postgis
+WITH SCHEMA public;
+```
+
 
 ## Handling database model changes
 The diff operation in pgModeler is quite fragile and not recommended used directly.

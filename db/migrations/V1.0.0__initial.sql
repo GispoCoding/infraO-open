@@ -31,7 +31,7 @@ ALTER SCHEMA koodistot OWNER TO infrao_admin;
 
 -- object: kohteet | type: SCHEMA --
 -- DROP SCHEMA IF EXISTS kohteet CASCADE;
---CREATE SCHEMA kohteet;
+CREATE SCHEMA IF NOT EXISTS kohteet;
 -- ddl-end --
 ALTER SCHEMA kohteet OWNER TO infrao_admin;
 -- ddl-end --

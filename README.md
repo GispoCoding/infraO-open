@@ -28,11 +28,16 @@ CREATE DATABASE infrao
 	OWNER = infrao_admin;
 ```
 ```code
-CREATE SCHEMA kohteet;
-```
-```code
 CREATE EXTENSION postgis
 WITH SCHEMA public;
+```
+Change
+```code
+CREATE SCHEMA kohteet;
+```
+to
+```code
+CREATE SCHEMA IF NOT EXISTS kohteet;
 ```
 
 

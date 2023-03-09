@@ -8,8 +8,8 @@
 --CREATE ROLE infrao_admin WITH 
 --	CREATEROLE
 --	LOGIN;
----- ddl-end --
---
+-- ddl-end --
+
 
 -- Database creation must be performed outside a multi lined SQL file. 
 -- These commands were put in this file only as a convenience.
@@ -20,9 +20,6 @@
 --	TABLESPACE = pg_default
 --	OWNER = infrao_admin;
 -- ddl-end --
-GRANT ALL ON ALL TABLES IN SCHEMA public TO infrao_admin;
-GRANT ALL ON ALL SEQUENCES IN SCHEMA public TO infrao_admin;
-GRANT EXECUTE ON ALL FUNCTIONS IN SCHEMA public TO infrao_admin;
 
 
 -- object: koodistot | type: SCHEMA --
@@ -34,7 +31,7 @@ ALTER SCHEMA koodistot OWNER TO infrao_admin;
 
 -- object: kohteet | type: SCHEMA --
 -- DROP SCHEMA IF EXISTS kohteet CASCADE;
-CREATE SCHEMA kohteet;
+--CREATE SCHEMA kohteet;
 -- ddl-end --
 ALTER SCHEMA kohteet OWNER TO infrao_admin;
 -- ddl-end --
@@ -466,8 +463,8 @@ ALTER SEQUENCE public.katualueenosa_id_seq OWNER TO infrao_admin;
 
 -- object: postgis | type: EXTENSION --
 -- DROP EXTENSION IF EXISTS postgis CASCADE;
-CREATE EXTENSION postgis
-WITH SCHEMA public;
+--CREATE EXTENSION postgis
+--WITH SCHEMA public;
 -- ddl-end --
 
 -- object: public.melu_id_seq | type: SEQUENCE --

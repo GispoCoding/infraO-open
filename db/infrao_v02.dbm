@@ -1,0 +1,5639 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+CAUTION: Do not modify this file unless you know what you are doing.
+ Unexpected results may occur if the code is changed deliberately.
+-->
+<dbmodel pgmodeler-ver="1.0.2" use-changelog="false" last-position="341,1789" last-zoom="0.75" max-obj-count="79"
+	 default-schema="public" default-owner="infrao_admin"
+	 layers="Default layer"
+	 active-layers="0"
+	 layer-name-colors="#000000"
+	 layer-rect-colors="#b4b4b4"
+	 show-layer-names="false" show-layer-rects="false">
+<role name="infrao_admin"
+ createrole="true"
+ login="true">
+</role>
+
+<database name="infrao" is-template="false" allow-conns="true">
+	<role name="infrao_admin"/>
+	<tablespace name="pg_default"/>
+</database>
+
+<schema name="public" layers="0" rect-visible="true" fill-color="#e1e1e1" sql-disabled="true">
+</schema>
+
+<schema name="koodistot" layers="0" rect-visible="true" fill-color="#1f5d8e">
+	<role name="infrao_admin"/>
+</schema>
+
+<schema name="kohteet" layers="0" rect-visible="true" fill-color="#eb1e15">
+	<role name="infrao_admin"/>
+</schema>
+
+<schema name="abstraktit" layers="0" rect-visible="true" fill-color="#55ff7f">
+	<role name="infrao_admin"/>
+</schema>
+
+<schema name="meta" layers="0" rect-visible="true" fill-color="#55ff7f">
+	<role name="infrao_admin"/>
+</schema>
+
+<schema name="varusteet" layers="0" rect-visible="true" fill-color="#ffaa7f">
+	<role name="infrao_admin"/>
+</schema>
+
+<sequence name="viheralueen_kayttotarkoitus_id_seq" cycle="false" start="1" increment="1" min-value="1" max-value="2147483647" cache="1">
+	<schema name="koodistot"/>
+	<role name="infrao_admin"/>
+</sequence>
+
+<table name="viheralueenkayttotarkoitus" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
+	<schema name="koodistot"/>
+	<role name="infrao_admin"/>
+	<position x="100" y="500"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="selite" not-null="true">
+		<type name="text" length="0"/>
+	</column>
+	<constraint name="viheralueen_kayttotarkoitus_pk" type="pk-constr" table="koodistot.viheralueenkayttotarkoitus">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+	<initial-data>
+<![CDATA[id•selite⸣
+1•erityisalue⸣
+2•koirapuisto⸣
+3•leikkipaikka⸣
+4•liikenneviheralue⸣
+5•liikuntapaikka⸣
+6•lumenvastaanottopaikka⸣
+7•puisto⸣
+8•siirtolapuutarha⸣
+9•suojelualue⸣
+10•talousmetsa⸣
+11•ulkoilu- ja retkeilyalue⸣
+12•muu⸣
+13•ei tiedossa]]>
+	</initial-data>
+</table>
+
+<sequence name="varuste_materiaali_id_seq" cycle="false" start="1" increment="1" min-value="1" max-value="2147483647" cache="1">
+	<schema name="koodistot"/>
+	<role name="infrao_admin"/>
+</sequence>
+
+<table name="varustemateriaali" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
+	<schema name="koodistot"/>
+	<role name="infrao_admin"/>
+	<position x="480" y="500"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="selite" not-null="true">
+		<type name="text" length="0"/>
+	</column>
+	<constraint name="varuste_materiaali_pk" type="pk-constr" table="koodistot.varustemateriaali">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+	<initial-data>
+<![CDATA[id•selite⸣
+1•betoni⸣
+2•elementtiverkko⸣
+3•kaksipuolinen teräspalkki⸣
+4•kivi⸣
+5•metalli⸣
+6•muovi⸣
+7•panssariverkko⸣
+8•putkipalkki⸣
+9•puu⸣
+10•teräs⸣
+11•teräspalkki⸣
+12•teräsverkko⸣
+13•vaijeri⸣
+14•muu⸣
+15•ei tiedossa]]>
+	</initial-data>
+</table>
+
+<sequence name="hoitoluokka_id_seq" cycle="false" start="1" increment="1" min-value="1" max-value="2147483647" cache="1">
+	<schema name="koodistot"/>
+	<role name="infrao_admin"/>
+</sequence>
+
+<table name="hoitoluokkatyyppi" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
+	<schema name="koodistot"/>
+	<role name="infrao_admin"/>
+	<position x="820" y="500"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="selite" not-null="true">
+		<type name="text" length="0"/>
+	</column>
+	<constraint name="hoitoluokka_pk" type="pk-constr" table="koodistot.hoitoluokkatyyppi">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+	<initial-data>
+<![CDATA[id•selite⸣
+1•R1 Rakennettu arvoviheralue⸣
+2•R2 Toimintaviheralue⸣
+3•R3 Käyttöviheralue⸣
+4•R4 Suoja- ja vaihettumisviheralue⸣
+5•A1 Arvoniitty⸣
+6•A2 Käyttöniitty⸣
+7•A3 Maisemaniitty⸣
+8•A4 Avoin alue⸣
+9•A5 Maisemapelto⸣
+10•M1 Arvometsä⸣
+11•M2 Lähimetsä⸣
+12•M3 Ulkoilu- ja virkistysmetsä⸣
+13•M4 Suojametsä⸣
+14•M5 Talousmetsä⸣
+15•S Suojelualueet⸣
+16•ei hoidossa⸣
+17•U urheilualue⸣
+18•ajoradat, luokka I⸣
+19•ajoradat, luokka Il⸣
+20•ajoradat, luokka Ill⸣
+21•kevyen liikenteen raitti, luokka l⸣
+22•kevyen liikenteen raitti, luokka ll⸣
+23•kevyen liikenteen väylä, luokka l⸣
+24•kevyen liikenteen väylä, luokka ll⸣
+25•jalkakäytävä, luokka l⸣
+26•jalkakäytävä, luokka ll⸣
+27•torit ja aukiot, luokka l⸣
+28•torit ja aukiot, luokka ll⸣
+29•kiinteistön kunnossapitovastuu⸣
+30•ei kunnossapitoa⸣
+31•ei talvikunnossapitoa⸣
+32•muu⸣
+33•ei tiedossa]]>
+	</initial-data>
+</table>
+
+<sequence name="viheralue_id_seq" cycle="false" start="1" increment="1" min-value="1" max-value="2147483647" cache="1">
+	<schema name="public"/>
+	<role name="infrao_admin"/>
+</sequence>
+
+<table name="viheralue" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
+	<schema name="kohteet"/>
+	<role name="infrao_admin"/>
+	<position x="2020" y="520"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="sisaltaaviheralueenosan">
+		<type name="integer" length="0"/>
+	</column>
+	<constraint name="viheralue_pk" type="pk-constr" table="kohteet.viheralue">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<sequence name="viheralueenosa_id_seq" cycle="false" start="1" increment="1" min-value="1" max-value="2147483647" cache="1">
+	<schema name="kohteet"/>
+	<role name="infrao_admin"/>
+</sequence>
+
+<extension name="postgis">
+	<schema name="public"/>
+</extension>
+
+<sequence name="katuosanlaji_id_seq" cycle="false" start="1" increment="1" min-value="1" max-value="2147483647" cache="1">
+	<schema name="koodistot"/>
+	<role name="infrao_admin"/>
+</sequence>
+
+<table name="katuosanlaji" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
+	<schema name="koodistot"/>
+	<role name="infrao_admin"/>
+	<position x="1120" y="500"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="selite" not-null="true">
+		<type name="text" length="0"/>
+	</column>
+	<constraint name="katuosanlaji_pk" type="pk-constr" table="koodistot.katuosanlaji">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+	<initial-data>
+<![CDATA[id•selite⸣
+1•ajorata⸣
+2•alikulkukäytävä⸣
+3•jalkakäytävä⸣
+4•kävelytie⸣
+5•luiska⸣
+6•portaat⸣
+7•pyöräilykaista⸣
+8•pyörätie⸣
+9•raitiotie⸣
+10•silta⸣
+11•tasoristeys⸣
+12•tonttiliittymä⸣
+13•tunneli⸣
+14•viheralue⸣
+15•välikaista⸣
+16•yhdistetty kevyen liikenteen väylä⸣
+17•muu⸣
+18•ei tiedossa]]>
+	</initial-data>
+</table>
+
+<sequence name="talvihoidonluokka_id_seq" cycle="false" start="1" increment="1" min-value="1" max-value="2147483647" cache="1">
+	<schema name="koodistot"/>
+	<role name="infrao_admin"/>
+</sequence>
+
+<table name="talvihoidonluokka" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
+	<schema name="koodistot"/>
+	<role name="infrao_admin"/>
+	<position x="1420" y="500"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="selite" not-null="true">
+		<type name="text" length="0"/>
+	</column>
+	<constraint name="talvihoidonluokka_pk" type="pk-constr" table="koodistot.talvihoidonluokka">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+	<initial-data>
+<![CDATA[id•selite⸣
+1•A - kiireellisyysluokka⸣
+2•B - kiireellisyysluokka⸣
+3•C - kiireellisyysluokka⸣
+4•Ei kiireellisyysluokkaa⸣
+5•Ei talvikunnossapitoa]]>
+	</initial-data>
+</table>
+
+<sequence name="katualue_id_seq" cycle="false" start="1" increment="1" min-value="1" max-value="2147483647" cache="1">
+	<schema name="public"/>
+	<role name="infrao_admin"/>
+</sequence>
+
+<table name="katualue" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
+	<schema name="kohteet"/>
+	<role name="infrao_admin"/>
+	<position x="2780" y="260"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="sisaltaakatualueenosan">
+		<type name="integer" length="0"/>
+	</column>
+	<constraint name="katualue_pk" type="pk-constr" table="kohteet.katualue">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<sequence name="katualueenosa_id_seq" cycle="false" start="1" increment="1" min-value="1" max-value="2147483647" cache="1">
+	<schema name="public"/>
+	<role name="infrao_admin"/>
+</sequence>
+
+<table name="viheralueenosa" layers="0" collapse-mode="2" max-obj-count="22" z-value="0">
+	<schema name="kohteet"/>
+	<role name="infrao_admin"/>
+	<position x="1900" y="800"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="omistaja">
+		<type name="varchar" length="255"/>
+	</column>
+	<column name="haltija">
+		<type name="varchar" length="255"/>
+	</column>
+	<column name="kunnossapitaja">
+		<type name="varchar" length="255"/>
+	</column>
+	<column name="perusparannusvuosi">
+		<type name="smallint" length="0"/>
+	</column>
+	<column name="valmistumisvuosi">
+		<type name="smallint" length="0"/>
+	</column>
+	<column name="suojelualuekytkin">
+		<type name="boolean" length="0"/>
+	</column>
+	<column name="kuuluuviheralueeseen">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="kayttotarkoitus_id">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="laji_id">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="hoitoluokka_id">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="katualueenlaji_id">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="suunnitelmalinkkitieto_id">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="talvihoidonluokka_id">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="puhtaanapitoluokka_id">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="muutoshoitoluokka_id">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="sisaltaakasvillisuus">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="sisaltaavaruste">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="geom">
+		<type name="geometry" length="0" spatial-type="MULTIPOLYGON" variation="0" srid="3067"/>
+	</column>
+	<constraint name="viheralueenosa_pk" type="pk-constr" table="kohteet.viheralueenosa">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<sequence name="melu_id_seq" cycle="false" start="1" increment="1" min-value="1" max-value="2147483647" cache="1">
+	<schema name="public"/>
+	<role name="infrao_admin"/>
+</sequence>
+
+<table name="abstractvaruste" layers="0" collapse-mode="2" max-obj-count="15" z-value="0">
+	<schema name="abstraktit"/>
+	<role name="infrao_admin"/>
+	<position x="4680" y="520"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="malli">
+		<type name="text" length="0"/>
+	</column>
+	<column name="perusparannusvuosi">
+		<type name="smallint" length="0"/>
+	</column>
+	<column name="suunta">
+		<type name="text" length="0"/>
+	</column>
+	<column name="valmistaja">
+		<type name="text" length="0"/>
+	</column>
+	<column name="valmistumisvuosi">
+		<type name="smallint" length="0"/>
+	</column>
+	<column name="kuuluuviheralueenosaan">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="kuuluukatualueenosaan">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="materiaali_id">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="suunnitelmalinkkitieto">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="geom_poly">
+		<type name="geometry" length="0" spatial-type="POLYGON" variation="0" srid="3067"/>
+	</column>
+	<column name="geom_piste">
+		<type name="geometry" length="0" spatial-type="POINT" variation="0" srid="3067"/>
+	</column>
+	<column name="geom_line">
+		<type name="geometry" length="0" spatial-type="LINESTRING" variation="0" srid="3067"/>
+	</column>
+	<constraint name="abstractvaruste_pk" type="pk-constr" table="abstraktit.abstractvaruste">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<sequence name="liikunta_id_seq" cycle="false" start="1" increment="1" min-value="1" max-value="2147483647" cache="1">
+	<schema name="public"/>
+	<role name="infrao_admin"/>
+</sequence>
+
+<table name="katualueenosa" layers="0" collapse-mode="2" max-obj-count="24" z-value="0">
+	<schema name="kohteet"/>
+	<role name="infrao_admin"/>
+	<position x="3560" y="260"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="paatostieto_id">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="kunnossapito">
+		<type name="varchar" length="255"/>
+	</column>
+	<column name="leveys">
+		<type name="double precision" length="0"/>
+	</column>
+	<column name="perusparannusvuosi">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="pinta_ala">
+		<type name="double precision" length="0"/>
+	</column>
+	<column name="pituus">
+		<type name="double precision" length="0"/>
+	</column>
+	<column name="puhtaanapito">
+		<type name="varchar" length="255"/>
+	</column>
+	<column name="talvikunnossapito">
+		<type name="varchar" length="255"/>
+	</column>
+	<column name="kuuluukatualueeseen_id">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="sisaltaakeskilinja_id">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="luokka_id">
+		<type name="integer" length="255"/>
+	</column>
+	<column name="kunnossapitoluokka_id">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="katuosanlaji_id">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="pintamateriaali_id">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="viherosanlajityypi_id">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="suunnitelmalinkkitieto_id">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="talvihoidonluokka_id">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="sisaltaakasvillisuus_id">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="geom">
+		<type name="geometry" length="0" spatial-type="MULTIPOLYGON" variation="0" srid="3067"/>
+		<comment> <![CDATA[sijaintitieto]]> </comment>
+	</column>
+	<constraint name="katualueenosa_pk" type="pk-constr" table="kohteet.katualueenosa">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<sequence name="ymparistotaide_id_seq" cycle="false" start="1" increment="1" min-value="1" max-value="2147483647" cache="1">
+	<schema name="public"/>
+	<role name="infrao_admin"/>
+</sequence>
+
+<sequence name="liikuntatyyppi_id_seq" cycle="false" start="1" increment="1" min-value="1" max-value="2147483647" cache="1">
+	<schema name="koodistot"/>
+	<role name="infrao_admin"/>
+</sequence>
+
+<table name="liikuntatyyppi" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
+	<schema name="koodistot"/>
+	<role name="infrao_admin"/>
+	<position x="100" y="680"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="selite" not-null="true">
+		<type name="text" length="0"/>
+	</column>
+	<constraint name="liikuntatyyppi_pk" type="pk-constr" table="koodistot.liikuntatyyppi">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+	<initial-data>
+<![CDATA[id•selite⸣
+1•jalkapallomaali⸣
+2•jääkiekkomaali⸣
+3•koripalloteline⸣
+4•kuntoilutelineet⸣
+5•lentopallotolppa⸣
+6•luistinkoppi⸣
+7•palloseinä⸣
+8•skeittiramppi⸣
+9•sählymaali⸣
+10•talviliukumäki(siirrettävä)⸣
+11•muu⸣
+12•ei tiedossa]]>
+	</initial-data>
+</table>
+
+<sequence name="kaluste_id_seq" cycle="false" start="1" increment="1" min-value="1" max-value="2147483647" cache="1">
+	<schema name="public"/>
+	<role name="infrao_admin"/>
+</sequence>
+
+<table name="melu" layers="0" collapse-mode="2" max-obj-count="16" z-value="0">
+	<schema name="kohteet"/>
+	<role name="infrao_admin"/>
+	<position x="2680" y="700"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="melutyyppi_id" not-null="true">
+		<type name="integer" length="0"/>
+	</column>
+	<constraint name="melu_pk" type="pk-constr" table="kohteet.melu">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<sequence name="valaistus_id_seq" cycle="false" start="1" increment="1" min-value="1" max-value="2147483647" cache="1">
+	<schema name="public"/>
+	<role name="infrao_admin"/>
+</sequence>
+
+<sequence name="hulevesi_id_seq" cycle="false" start="1" increment="1" min-value="1" max-value="2147483647" cache="1">
+	<schema name="public"/>
+	<role name="infrao_admin"/>
+</sequence>
+
+<table name="liikunta" layers="0" collapse-mode="2" max-obj-count="16" z-value="0">
+	<schema name="kohteet"/>
+	<role name="infrao_admin"/>
+	<position x="2460" y="1160"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="liikuntatyyppi_id" not-null="true">
+		<type name="integer" length="0"/>
+	</column>
+	<constraint name="liikunta_pk" type="pk-constr" table="kohteet.liikunta">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<sequence name="jate_id_seq" cycle="false" start="1" increment="1" min-value="1" max-value="2147483647" cache="1">
+	<schema name="public"/>
+	<role name="infrao_admin"/>
+</sequence>
+
+<table name="jate" layers="0" collapse-mode="2" max-obj-count="16" z-value="0">
+	<schema name="kohteet"/>
+	<role name="infrao_admin"/>
+	<position x="2900" y="1160"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="jatetyyppi_id">
+		<type name="integer" length="0"/>
+	</column>
+	<constraint name="jate_pk" type="pk-constr" table="kohteet.jate">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<sequence name="opaste_id_seq" cycle="false" start="1" increment="1" min-value="1" max-value="2147483647" cache="1">
+	<schema name="public"/>
+	<role name="infrao_admin"/>
+</sequence>
+
+<table name="opaste" layers="0" collapse-mode="2" max-obj-count="16" z-value="0">
+	<schema name="kohteet"/>
+	<role name="infrao_admin"/>
+	<position x="3340" y="1160"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="opastetyyppi_id">
+		<type name="integer" length="0"/>
+	</column>
+	<constraint name="opaste_pk" type="pk-constr" table="kohteet.opaste">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<sequence name="rakenne_id_seq" cycle="false" start="1" increment="1" min-value="1" max-value="2147483647" cache="1">
+	<schema name="public"/>
+	<role name="infrao_admin"/>
+</sequence>
+
+<table name="rakenne" layers="0" collapse-mode="2" max-obj-count="16" z-value="0">
+	<schema name="kohteet"/>
+	<role name="infrao_admin"/>
+	<position x="3800" y="1160"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="rakennetyyyppi_id">
+		<type name="integer" length="0"/>
+	</column>
+	<constraint name="rakenne_pk" type="pk-constr" table="kohteet.rakenne">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<sequence name="ajoratamerkinta_id_seq" cycle="false" start="1" increment="1" min-value="1" max-value="2147483647" cache="1">
+	<schema name="public"/>
+	<role name="infrao_admin"/>
+</sequence>
+
+<sequence name="liikennemerkki_id_seq" cycle="false" start="1" increment="1" min-value="1" max-value="2147483647" cache="1">
+	<schema name="public"/>
+	<role name="infrao_admin"/>
+</sequence>
+
+<table name="liikennemerkki" layers="0" collapse-mode="2" max-obj-count="4" z-value="0">
+	<schema name="varusteet"/>
+	<role name="infrao_admin"/>
+	<position x="1120" y="3280"/>
+	<column name="id" not-null="true"
+	 identity-type="ALWAYS">
+		<type name="bigint" length="0"/>
+	</column>
+	<column name="liikennemerkkityyppi_id">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="liikennemerkkityyppi2020_id">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="wkb_geometry">
+		<type name="geometry" length="0" spatial-type="POINT" variation="0" srid="3067"/>
+	</column>
+	<constraint name="liikennemerkki_pk" type="pk-constr" table="varusteet.liikennemerkki">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<sequence name="leikkivaline_id_seq" cycle="false" start="1" increment="1" min-value="1" max-value="2147483647" cache="1">
+	<schema name="public"/>
+	<role name="infrao_admin"/>
+</sequence>
+
+<table name="leikkivaline" layers="0" collapse-mode="2" max-obj-count="3" z-value="0">
+	<schema name="varusteet"/>
+	<role name="infrao_admin"/>
+	<position x="1620" y="3300"/>
+	<column name="id" not-null="true"
+	 identity-type="ALWAYS">
+		<type name="bigint" length="0"/>
+	</column>
+	<column name="leikkivalinetyyppi_id">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="wkb_geometry">
+		<type name="geometry" length="0" spatial-type="POINT" variation="0" srid="3067"/>
+	</column>
+	<constraint name="leikkivaline_pk" type="pk-constr" table="varusteet.leikkivaline">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<sequence name="muuvaruste_id_seq" cycle="false" start="1" increment="1" min-value="1" max-value="2147483647" cache="1">
+	<schema name="public"/>
+	<role name="infrao_admin"/>
+</sequence>
+
+<table name="muuvaruste" layers="0" collapse-mode="2" max-obj-count="16" z-value="0">
+	<schema name="varusteet"/>
+	<role name="infrao_admin"/>
+	<position x="2060" y="3320"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="muuvarustetyyppi_id">
+		<type name="integer" length="0"/>
+	</column>
+	<constraint name="muuvaruste_pk" type="pk-constr" table="varusteet.muuvaruste">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<sequence name="liikennevalo_id_seq" cycle="false" start="1" increment="1" min-value="1" max-value="2147483647" cache="1">
+	<schema name="public"/>
+	<role name="infrao_admin"/>
+</sequence>
+
+<table name="liikennevalo" layers="0" collapse-mode="2" max-obj-count="15" z-value="0">
+	<schema name="kohteet"/>
+	<role name="infrao_admin"/>
+	<position x="3360" y="1620"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<constraint name="liikennevalo_pk" type="pk-constr" table="kohteet.liikennevalo">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<sequence name="kunnossapitoluokka_id_seq" cycle="false" start="1" increment="1" min-value="1" max-value="2147483647" cache="1">
+	<schema name="koodistot"/>
+	<role name="infrao_admin"/>
+</sequence>
+
+<table name="kunnossapitoluokka" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
+	<schema name="koodistot"/>
+	<role name="infrao_admin"/>
+	<position x="400" y="680"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="selite" not-null="true">
+		<type name="text" length="0"/>
+	</column>
+	<constraint name="kunnossapitoluokka_pk" type="pk-constr" table="koodistot.kunnossapitoluokka">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+	<initial-data>
+<![CDATA[id•selite⸣
+1•ajoradat, luokka I⸣
+2•ajoradat, luokka II⸣
+3•ajoradat, luokka III⸣
+4•kevyen liikenteen raitti, luokka I⸣
+5•kevyen liikenteen raitti, luokka II⸣
+6•kevyen liikenteen väylä, luokka I⸣
+7•kevyen liikenteen väylä, luokka II⸣
+8•jalkakäytävä, luokka I⸣
+9•jalkakäytävä, luokka II⸣
+10•torit ja aukiot, luokka I⸣
+11•torit ja aukiot, luokka II⸣
+12•kiinteistön kunnossapitovastuu⸣
+13•ei kunnossapitoa⸣
+14•ei talvikunnosspitoa⸣
+15•A1 edustusviheralue⸣
+16•A2 käyttöviheralue⸣
+17•A3 käyttö- ja suojaviheralue⸣
+18•B1 maisemapelto⸣
+19•B2 käyttöniitty⸣
+20•B3 maisemaniitty ja laidunalue⸣
+21•B4 avoin alue ja näkymät⸣
+22•B5 arvoniitty⸣
+23•C1 lähimetsä⸣
+24•C2 ulkoilu- ja virkistysmetsä⸣
+25•C3 suojametsä⸣
+26•C4 talousmetsä⸣
+27•C5 arvometsä⸣
+28•E erityisalue⸣
+29•ei hoidossa⸣
+30•U urheilualue⸣
+31•muu⸣
+32•ei tiedossa]]>
+	</initial-data>
+</table>
+
+<sequence name="abstrakti_varuste_id_seq" cycle="false" start="1" increment="1" min-value="1" max-value="2147483647" cache="1">
+	<schema name="public"/>
+	<role name="infrao_admin"/>
+</sequence>
+
+<table name="melutyyppi" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
+	<schema name="koodistot"/>
+	<role name="infrao_admin"/>
+	<position x="740" y="680"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="selite" not-null="true">
+		<type name="text" length="0"/>
+	</column>
+	<constraint name="melutyyppi_pk" type="pk-constr" table="koodistot.melutyyppi">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+	<initial-data>
+<![CDATA[id•selite⸣
+1•meluaita⸣
+2•melueste⸣
+3•melumuuri⸣
+4•meluvalli⸣
+5•muu⸣
+6•ei tiedossa]]>
+	</initial-data>
+</table>
+
+<table name="abstractpaikkatietopalvelukohde" layers="0" collapse-mode="2" max-obj-count="8" z-value="0">
+	<schema name="abstraktit"/>
+	<role name="infrao_admin"/>
+	<position x="5460" y="600"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="name">
+		<type name="text" length="0"/>
+	</column>
+	<column name="abstract">
+		<type name="boolean" length="0"/>
+	</column>
+	<column name="metatieto">
+		<type name="text" length="0"/>
+	</column>
+	<column name="yksilointitieto">
+		<type name="text" length="0"/>
+	</column>
+	<column name="alkuhetki">
+		<type name="date" length="0"/>
+		<comment> <![CDATA[Kohteen luontipäivämäärä]]> </comment>
+	</column>
+	<column name="loppuhetki">
+		<type name="date" length="0"/>
+		<comment> <![CDATA[Milloin kohde on poistettu. Tämän avulla voidaan tunnistaa poistetut kohteet, jos järjestelmät tukevat historiatietojen tallentamista]]> </comment>
+	</column>
+	<constraint name="abstractpaikkatietopalvelukohde_pk" type="pk-constr" table="abstraktit.abstractpaikkatietopalvelukohde">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="kalustetyyppi" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
+	<schema name="koodistot"/>
+	<role name="infrao_admin"/>
+	<position x="1040" y="680"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="selite">
+		<type name="text" length="0"/>
+	</column>
+	<constraint name="kalustetyyppi_pk" type="pk-constr" table="koodistot.kalustetyyppi">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+	<initial-data>
+<![CDATA[id•selite⸣
+1•irtopenkki⸣
+2•istuin muu⸣
+3•kalusteryhmä⸣
+4•kiintopenkki⸣
+5•pöytä⸣
+6•pöytä-penkkiyhdistelmä⸣
+7•yhdenistuttava penkki⸣
+8•muu⸣
+9•ei tiedossa]]>
+	</initial-data>
+</table>
+
+<table name="opastetyyppi" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
+	<schema name="koodistot"/>
+	<role name="infrao_admin"/>
+	<position x="1340" y="680"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="selite">
+		<type name="text" length="0"/>
+	</column>
+	<constraint name="opastetyyyppi_pk" type="pk-constr" table="koodistot.opastetyyppi">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+	<initial-data>
+<![CDATA[id•selite⸣
+1•invapaikka⸣
+2•koiraparkki⸣
+3•opastaulut ja -kyltit⸣
+4•muu⸣
+5•ei tiedossa]]>
+	</initial-data>
+</table>
+
+<table name="jatetyyppi" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
+	<schema name="koodistot"/>
+	<role name="infrao_admin"/>
+	<position x="100" y="860"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="selite">
+		<type name="text" length="0"/>
+	</column>
+	<constraint name="jatetyyppi_pk" type="pk-constr" table="koodistot.jatetyyppi">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+	<initial-data>
+<![CDATA[id•selite⸣
+1•jäteastia⸣
+2•koiranroska-astia⸣
+3•roskakori⸣
+4•muu⸣
+5•ei tiedossa]]>
+	</initial-data>
+</table>
+
+<table name="pintamateriaali" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
+	<schema name="koodistot"/>
+	<role name="infrao_admin"/>
+	<position x="380" y="860"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="selite">
+		<type name="text" length="0"/>
+	</column>
+	<constraint name="pintamateriaali_pk" type="pk-constr" table="koodistot.pintamateriaali">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+	<initial-data>
+<![CDATA[id•selite⸣
+1•asfalttipäällyste⸣
+2•asfalttibetoni⸣
+3•betonilaatta⸣
+4•betonikivi- ja -laattapäällyste⸣
+5•betonipäällyste (valettavat)⸣
+6•emulsiopintaus (LP)⸣
+7•kenttäkivetys⸣
+8•liuskekivetys⸣
+9•luonnonkivilaatoitus⸣
+10•metallirakenne⸣
+11•murskepäällyste⸣
+12•noppakivetys⸣
+13•nupukivetys⸣
+14•puupäällyste⸣
+15•sirotepintaus (SIP)⸣
+16•sorapäällyste⸣
+17•soratien pintaus (SOP)⸣
+18•muu⸣
+19•ei tiedossa]]>
+	</initial-data>
+</table>
+
+<table name="hulevesityyppi" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
+	<schema name="koodistot"/>
+	<role name="infrao_admin"/>
+	<position x="700" y="860"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="selite">
+		<type name="text" length="0"/>
+	</column>
+	<constraint name="hulevesityyppi_pk" type="pk-constr" table="koodistot.hulevesityyppi">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+	<initial-data>
+<![CDATA[id•selite⸣
+1•avo-oja⸣
+2•avopainanne⸣
+3•avouoma⸣
+4•hulevesiallas⸣
+5•hulevesikaivo⸣
+6•hulevesikosteikko⸣
+7•imeytyskaivanto⸣
+8•imeytyskenttä⸣
+9•imeytyspainanne⸣
+10•noro⸣
+11•patorakenne⸣
+12•pidätysallas⸣
+13•puro⸣
+14•purkukaivo⸣
+15•rumpu⸣
+16•sulkukaivo⸣
+17•säätökaivo⸣
+18•säätöpato⸣
+19•tarkastuskaivo⸣
+20•tarkastusputki⸣
+21•tulvauoma⸣
+22•vesikouru⸣
+23•viivytysallas⸣
+24•muu⸣
+25•ei tiedossa]]>
+	</initial-data>
+</table>
+
+<table name="ajoratamerkintatyyppi" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
+	<schema name="koodistot"/>
+	<role name="infrao_admin"/>
+	<position x="1020" y="860"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="selite" not-null="true">
+		<type name="text" length="0"/>
+	</column>
+	<constraint name="ajoramerkintatyyppi_pk" type="pk-constr" table="koodistot.ajoratamerkintatyyppi">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+	<initial-data>
+<![CDATA[id•selite⸣
+1•katkoviiva⸣
+2•sulkuviiva⸣
+3•suojatie⸣
+4•muu⸣
+5•ei tiedossa]]>
+	</initial-data>
+</table>
+
+<table name="puutyyppi" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
+	<schema name="koodistot"/>
+	<role name="infrao_admin"/>
+	<position x="1360" y="860"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="selite" not-null="true">
+		<type name="text" length="0"/>
+	</column>
+	<constraint name="puutyppi_pk" type="pk-constr" table="koodistot.puutyyppi">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+	<initial-data>
+<![CDATA[id•selite⸣
+1•havupuu⸣
+2•lehtipuu⸣
+3•muu⸣
+4•ei tiedossa]]>
+	</initial-data>
+</table>
+
+<table name="abstractkasvillisuus" layers="0" collapse-mode="2" max-obj-count="13" z-value="0">
+	<schema name="abstraktit"/>
+	<role name="infrao_admin"/>
+	<position x="5420" y="880"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="omistaja">
+		<type name="varchar" length="255"/>
+	</column>
+	<column name="haltija">
+		<type name="varchar" length="255"/>
+	</column>
+	<column name="kunnossapitaja">
+		<type name="varchar" length="255"/>
+	</column>
+	<column name="korkeusmitta">
+		<type name="smallint" length="0"/>
+	</column>
+	<column name="ymparysmitta">
+		<type name="smallint" length="0"/>
+	</column>
+	<column name="puutyyppi_id">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="puulaji_id">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="sijaintitieto">
+		<type name="geometry" length="0" spatial-type="POLYGON" variation="0" srid="3067"/>
+	</column>
+	<column name="kuuluuviheralueenosaan">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="kuuluukatualueenosaan">
+		<type name="integer" length="0"/>
+	</column>
+	<constraint name="abstractkasvillisuus_pk" type="pk-constr" table="abstraktit.abstractkasvillisuus">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="puulaji" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
+	<schema name="koodistot"/>
+	<role name="infrao_admin"/>
+	<position x="100" y="1040"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="selite">
+		<type name="text" length="0"/>
+	</column>
+	<constraint name="puulaji_pk" type="pk-constr" table="koodistot.puulaji">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+	<initial-data>
+<![CDATA[id•selite⸣
+1•Abies amabilis⸣
+2•Abies balsamea⸣
+3•Abies concolor⸣
+4•Abies fraseri⸣
+5•Abies grandis⸣
+6•Abies holophylla⸣
+7•Abies homolepis⸣
+8•Abies koreana⸣
+9•Abies lasiocarpa⸣
+10•Abies lasiocarpa var. arizonica⸣
+11•Abies mariesii⸣
+12•Abies nephrolepis⸣
+13•Abies nordmanniana⸣
+14•Abies procera⸣
+15•Abies sachalinensis⸣
+16•Abies sibirica⸣
+17•Abies sp⸣
+18•Abies veitchii⸣
+19•Acanthopanax senticosus⸣
+20•Acer barbinerve⸣
+21•Acer campestre⸣
+22•Acer circinatum⸣
+23•Acer japonicum⸣
+24•Acer mono⸣
+25•Acer negundo⸣
+26•Acer palmatum⸣
+27•Acer pensylvanicum⸣
+28•Acer platanoides⸣
+29•Acer platanoides 'Reitenbachii'⸣
+30•Acer platanoides 'Schwedleri'⸣
+31•Acer pseudoplatanus⸣
+32•Acer pseudosieboldianum⸣
+33•Acer rubrum⸣
+34•Acer saccharinum⸣
+35•Acer saccharum⸣
+36•Acer sieboldianum⸣
+37•Acer sp⸣
+38•Acer spicatum⸣
+39•Acer tataricum⸣
+40•Acer tataricum subsp. ginnala⸣
+41•Acer tataricum subsp. semenowii⸣
+42•Acer tataricum subsp. tataricum⸣
+43•Acer tegmentosum⸣
+44•Acer triflorum⸣
+45•Acer ukurunduense⸣
+46•Actinidia arguta⸣
+47•Actinidia kolomikta⸣
+48•Aesculus hippocastanum⸣
+49•Aesculus octandra⸣
+50•Alnus glutinosa⸣
+51•Alnus glutinosa f. quercifolia⸣
+52•Alnus incana⸣
+53•Alnus incana f. gibberosa⸣
+54•Alnus incana f. laciniata⸣
+55•Alnus incana subsp. kolaënsis⸣
+56•Alnus mandshurica⸣
+57•Alnus sp⸣
+58•Alnus viridis⸣
+59•Amelanchier alnifolia⸣
+60•Amelanchier laevis⸣
+61•Amelanchier lamarckii⸣
+62•Amelanchier sp⸣
+63•Amelanchier spicata⸣
+64•Andromeda polifolia⸣
+65•Aralia elata⸣
+66•Arctostaphylos alpinus⸣
+67•Arctostaphylos uva-ursi⸣
+68•Aristolochia macrophylla⸣
+69•Aronia ×prunifolia⸣
+70•Aronia arbutifolia⸣
+71•Aronia melanocarpa⸣
+72•Aronia sp⸣
+73•Artemisia abronatum⸣
+74•Berberis koreana⸣
+75•Berberis sp⸣
+76•Berberis thunbergii⸣
+77•Berberis vulgaris⸣
+78•Betula alleghaniensis⸣
+79•Betula ermanii⸣
+80•Betula fruticosa⸣
+81•Betula lenta⸣
+82•Betula nana⸣
+83•Betula papyrifera⸣
+84•Betula pendula⸣
+85•Betula pendula 'Dalecarlica'⸣
+86•Betula pendula f. bircalensis⸣
+87•Betula pendula f. crispa⸣
+88•Betula pendula f. palmeri⸣
+89•Betula pendula f. tristis⸣
+90•Betula pendula var. carelica⸣
+91•Betula pendula 'Youngii'⸣
+92•Betula pubescens⸣
+93•Betula pubescens f. aurea⸣
+94•Betula pubescens f. rubra⸣
+95•Betula pubescens subsp. czerepanovii⸣
+96•Betula sp⸣
+97•Buddleja davidii⸣
+98•Buxus sempervirens⸣
+99•Calluna vulgaris⸣
+100•Caragana arborescens⸣
+101•Caragana aurantiaca⸣
+102•Caragana frutex⸣
+103•Carpinus betulus⸣
+104•Cassiope hypnoides⸣
+105•Cassiope tetragona⸣
+106•Celastrus orbiculatus⸣
+107•Celastrus scandens⸣
+108•Cercidiphyllum japonicum⸣
+109•Cercidiphyllum magnificum⸣
+110•Chaenomeles japonica⸣
+111•Chamaecyparis lawsoniana⸣
+112•Chamaecyparis nootkatensis⸣
+113•Chamaecyparis pisifera⸣
+114•Chamaecyparis sp⸣
+115•Chamaedaphne calyculata⸣
+116•Chimaphila umbellata⸣
+117•Cladrastis kentukea⸣
+118•Clematis alpina⸣
+119•Clematis ochotensis⸣
+120•Clematis sibirica⸣
+121•Clematis sp⸣
+122•Clematis tangutica⸣
+123•Clematis vitalba⸣
+124•Clematis viticella⸣
+125•Colutea arborescens⸣
+126•Cornus alba⸣
+127•Cornus alba 'Sibirica'⸣
+128•Cornus alba subsp. alba⸣
+129•Cornus alba subsp. stolonifera⸣
+130•Cornus mas⸣
+131•Cornus sanguinea⸣
+132•Cornus sp⸣
+133•Corylus avellana⸣
+134•Corylus colurna⸣
+135•Corylus cornuta⸣
+136•Corylus maxima 'Purpurea'⸣
+137•Corylus sp⸣
+138•Cotoneaster dammeri⸣
+139•Cotoneaster dammeri var. radicans⸣
+140•Cotoneaster divaricatus⸣
+141•Cotoneaster horizontalis⸣
+142•Cotoneaster integerrimus⸣
+143•Cotoneaster lucidus⸣
+144•Cotoneaster nanshan⸣
+145•Cotoneaster niger⸣
+146•Cotoneaster 'Skogholm'⸣
+147•Cotoneaster sp⸣
+148•Crataegus ×mordenensis⸣
+149•Crataegus chlorosarca⸣
+150•Crataegus douglasii⸣
+151•Crataegus flabellata⸣
+152•Crataegus grayana⸣
+153•Crataegus intricata⸣
+154•Crataegus korolkovii⸣
+155•Crataegus laevigata⸣
+156•Crataegus macracantha⸣
+157•Crataegus monogyna⸣
+158•Crataegus nigra⸣
+159•Crataegus rhipidophylla⸣
+160•Crataegus sanguinea⸣
+161•Crataegus sp⸣
+162•Crataegus submollis⸣
+163•Cytisus ×versicolor⸣
+164•Cytisus decumbens⸣
+165•Cytisus glaber⸣
+166•Cytisus purpureus⸣
+167•Cytisus scoparius⸣
+168•Cytisus sp⸣
+169•Daphne blagayana⸣
+170•Daphne cneorum⸣
+171•Daphne mezereum⸣
+172•Daphne sp⸣
+173•Deutzia amurensis⸣
+174•Deutzia scabra⸣
+175•Diapensia lapponica⸣
+176•Diervilla lonicera⸣
+177•Diervilla sessilifolia⸣
+178•Dryas octopetala⸣
+179•Elaeagnus commutata⸣
+180•Empetrum nigrum⸣
+181•Erica herbacea⸣
+182•Erica tetralix⸣
+183•Euonymus alatus⸣
+184•Euonymus europaeus⸣
+185•Euonymus fortunei⸣
+186•Euonymus hamiltonianus⸣
+187•Euonymus nanus⸣
+188•Euonymus planipes⸣
+189•Euonymus sp⸣
+190•Exochorda racemosa⸣
+191•Fagus grandifolia⸣
+192•Fagus sp⸣
+193•Fagus sylvatica⸣
+194•Fagus sylvatica f. purpurea⸣
+195•Forsythia ovata⸣
+196•Fothergilla major⸣
+197•Fraxinus americana⸣
+198•Fraxinus excelsior⸣
+199•Fraxinus mandshurica⸣
+200•Fraxinus nigra⸣
+201•Fraxinus pennsylvanica⸣
+202•Fraxinus sp⸣
+203•Genista tinctoria⸣
+204•Ginkgo biloba⸣
+205•Gleditsia triacanthos⸣
+206•Halesia carolina⸣
+207•Hamamelis virginiana⸣
+208•Hedera helix⸣
+209•Hippophaë rhamnoides⸣
+210•Holodiscus discolor⸣
+211•Hydrangea anomala⸣
+212•Hydrangea anomala subsp. petiolaris⸣
+213•Hydrangea arborescens⸣
+214•Hydrangea heteromalla 'Bretschneideri'⸣
+215•Hydrangea paniculata 'Grandiflora'⸣
+216•Hydrangea sp⸣
+217•Ilex verticillata⸣
+218•Jamesia americana⸣
+219•Juglans ailanthifolia⸣
+220•Juglans cinerea⸣
+221•Juglans mandshurica⸣
+222•Juglans nigra⸣
+223•Juglans sp⸣
+224•Juniperus chinensis⸣
+225•Juniperus communis⸣
+226•Juniperus communis subsp. alpina⸣
+227•Juniperus horizontalis⸣
+228•Juniperus sabina⸣
+229•Juniperus sp⸣
+230•Juniperus squamata⸣
+231•Juniperus virginiana⸣
+232•Kalmia angustifolia⸣
+233•Kalmia latifolia⸣
+234•Kalmia polifolia⸣
+235•Kalmia sp⸣
+236•Kerria japonica⸣
+237•Kolkwitzia amabilis⸣
+238•Laburnum ×watereri⸣
+239•Laburnum alpinum⸣
+240•Larix ×marschlinsii⸣
+241•Larix decidua⸣
+242•Larix decidua subsp. polonica⸣
+243•Larix gmelinii⸣
+244•Larix gmelinii var. gmelinii⸣
+245•Larix gmelinii var. japonica⸣
+246•Larix gmelinii var. olgensis⸣
+247•Larix gmelinii var. principis-rupprechtii⸣
+248•Larix kaempferi⸣
+249•Larix laricina⸣
+250•Larix lyallii⸣
+251•Larix occidentalis⸣
+252•Larix sibirica⸣
+253•Larix sp⸣
+254•Ledum palustre⸣
+255•Ligustrum vulgare⸣
+256•Linnaea borealis⸣
+257•Liquidambar styraciflua⸣
+258•Liriodendron tulipifera⸣
+259•Loiseleuria procumbens⸣
+260•Lonicera ×bella⸣
+261•Lonicera ×brownii⸣
+262•Lonicera ×notha⸣
+263•Lonicera ×xylosteoides⸣
+264•Lonicera albertii⸣
+265•Lonicera alpigena⸣
+266•Lonicera caerulea⸣
+267•Lonicera caprifolium⸣
+268•Lonicera caucasica⸣
+269•Lonicera chrysantha⸣
+270•Lonicera involucrata⸣
+271•Lonicera maackii⸣
+272•Lonicera nigra⸣
+273•Lonicera periclymenum⸣
+274•Lonicera sp⸣
+275•Lonicera tatarica⸣
+276•Lonicera xylosteum⸣
+277•Maackia amurensis⸣
+278•Magnolia acuminata⸣
+279•Magnolia kobus⸣
+280•Magnolia sieboldii⸣
+281•Magnolia sp⸣
+282•Mahonia aquifolium⸣
+283•Malus baccata⸣
+284•Malus domestica⸣
+285•Malus prunifolia⸣
+286•Malus sp⸣
+287•Malus sylvestris⸣
+288•Malus toringo⸣
+289•Malus toringo var. sargentii⸣
+290•Menispermum canadense⸣
+291•Menispermum dauricum⸣
+292•Metasequoia glyptostroboides⸣
+293•Microbiota decussata⸣
+294•Myrica gale⸣
+295•Myricaria germanica⸣
+296•Oplopanax horridus⸣
+297•Ostrya carpinifolia⸣
+298•Pachysandra terminalis⸣
+299•Parthenocissus inserta⸣
+300•Parthenocissus quinquefolia⸣
+301•Paxistima myrtifolia⸣
+302•Phellodendron amurense⸣
+303•Philadelphus ×lemoinei⸣
+304•Philadelphus ×virginalis⸣
+305•Philadelphus coronarius⸣
+306•Philadelphus lewisii⸣
+307•Philadelphus lewisii var. gordonianus⸣
+308•Philadelphus pubescens⸣
+309•Philadelphus sp⸣
+310•Phyllodoce caerulea⸣
+311•Physocarpus opulifolius⸣
+312•Picea ×lutzii⸣
+313•Picea abies⸣
+314•Picea abies f. aurea⸣
+315•Picea abies f. condensata⸣
+316•Picea abies f. cruenta⸣
+317•Picea abies f. globosa⸣
+318•Picea abies f. nana⸣
+319•Picea abies f. nidiformis⸣
+320•Picea abies f. pendula⸣
+321•Picea abies f. tabulaeformis⸣
+322•Picea abies f. variegata⸣
+323•Picea abies f. viminalis⸣
+324•Picea abies f. virgata⸣
+325•Picea abies subsp. abies⸣
+326•Picea abies subsp. obovata⸣
+327•Picea asperata⸣
+328•Picea engelmannii⸣
+329•Picea glauca⸣
+330•Picea glauca var. albertiana⸣
+331•Picea glehnii⸣
+332•Picea jezoënsis⸣
+333•Picea koraiensis⸣
+334•Picea likiangensis⸣
+335•Picea mariana⸣
+336•Picea omorika⸣
+337•Picea pungens⸣
+338•Picea retroflexa⸣
+339•Picea rubens⸣
+340•Picea schrenkiana⸣
+341•Picea sitchensis⸣
+342•Picea sp⸣
+343•Pieris floribunda⸣
+344•Pinus banksiana⸣
+345•Pinus cembra⸣
+346•Pinus cembra subsp. cembra⸣
+347•Pinus cembra subsp. sibirica⸣
+348•Pinus contorta⸣
+349•Pinus contorta var. contorta⸣
+350•Pinus contorta var. latifolia⸣
+351•Pinus koraiensis⸣
+352•Pinus monticola⸣
+353•Pinus mugo⸣
+354•Pinus mugo subsp. uncinata⸣
+355•Pinus nigra⸣
+356•Pinus peuce⸣
+357•Pinus ponderosa⸣
+358•Pinus pumila⸣
+359•Pinus resinosa⸣
+360•Pinus sp⸣
+361•Pinus strobus⸣
+362•Pinus sylvestris⸣
+363•Pinus sylvestris f. aurea⸣
+364•Pinus sylvestris f. condensata⸣
+365•Pinus sylvestris f. globosa⸣
+366•Pinus sylvestris f. virgata⸣
+367•Pinus sylvestris 'Globosa'⸣
+368•Populus ×canadensis⸣
+369•Populus ×jackii 'Gileadensis'⸣
+370•Populus ×wettsteinii⸣
+371•Populus alba⸣
+372•Populus balsamifera⸣
+373•Populus balsamifera 'Tristis'⸣
+374•Populus canescens⸣
+375•Populus deltoides⸣
+376•Populus koreana⸣
+377•Populus laurifolia⸣
+378•Populus nigra⸣
+379•Populus 'Rasumowskiana'⸣
+380•Populus simonii⸣
+381•Populus sp⸣
+382•Populus suaveolens⸣
+383•Populus tremula⸣
+384•Populus tremuloides⸣
+385•Populus trichocarpa⸣
+386•Populus wilsonii⸣
+387•Potentilla fruticosa⸣
+388•Prunus avium⸣
+389•Prunus cerasifera⸣
+390•Prunus cerasus⸣
+391•Prunus domestica⸣
+392•Prunus domestica subsp. domestica⸣
+393•Prunus domestica subsp. insititia⸣
+394•Prunus laurocerasus⸣
+395•Prunus maackii⸣
+396•Prunus maximowiczii⸣
+397•Prunus padus⸣
+398•Prunus pensylvanica⸣
+399•Prunus prostrata⸣
+400•Prunus pumila⸣
+401•Prunus sargentii⸣
+402•Prunus serotina⸣
+403•Prunus sp⸣
+404•Prunus spinosa⸣
+405•Prunus tenella⸣
+406•Prunus tomentosa⸣
+407•Prunus triloba⸣
+408•Prunus virginiana⸣
+409•Pseudolarix amabilis⸣
+410•Pseudotsuga menziesii⸣
+411•Pseudotsuga menziesii var. glauca⸣
+412•Pterocarya pterocarpa⸣
+413•Pterocarya rhoifolia⸣
+414•Pyrus communis⸣
+415•Pyrus ussuriensis⸣
+416•Quercus coccinea⸣
+417•Quercus petraea⸣
+418•Quercus robur⸣
+419•Quercus rubra⸣
+420•Rhamnus cathartica⸣
+421•Rhamnus frangula⸣
+422•Rhododendron ×fraseri⸣
+423•Rhododendron aureum⸣
+424•Rhododendron brachycarpum⸣
+425•Rhododendron brachycarpum subsp. tigerstedtii⸣
+426•Rhododendron canadense⸣
+427•Rhododendron Catawbiense -ryhmä/gruppen/group⸣
+428•Rhododendron 'Cunningham's White'⸣
+429•Rhododendron dauricum⸣
+430•Rhododendron ferrugineum⸣
+431•Rhododendron Kosterianum -ryhmä/gruppen/group⸣
+432•Rhododendron lapponicum⸣
+433•Rhododendron luteum⸣
+434•Rhododendron molle⸣
+435•Rhododendron molle subsp. japonicum⸣
+436•Rhododendron schlippenbachii⸣
+437•Rhododendron smirnowii⸣
+438•Rhododendron sp⸣
+439•Rhododendron Tigerstedtii -ryhmä/gruppen/group⸣
+440•Rhus hirta⸣
+441•Ribes alpinum⸣
+442•Ribes nigrum⸣
+443•Ribes rubrum⸣
+444•Ribes spicatum⸣
+445•Ribes uva-crispa⸣
+446•Robinia pseudoacacia⸣
+447•Rosa acicularis⸣
+448•Rosa canina⸣
+449•Rosa dumalis⸣
+450•Rosa majalis⸣
+451•Rosa mollis⸣
+452•Rosa pimpinellifolia⸣
+453•Rosa rugosa⸣
+454•Rosa sherardii⸣
+455•Rosa sp⸣
+456•Rubus caesius⸣
+457•Rubus idaeus⸣
+458•Rubus odoratus⸣
+459•Rubus parviflorus⸣
+460•Rubus pruinosus⸣
+461•Rubus sp⸣
+462•Salix alba⸣
+463•Salix arbutifolia⸣
+464•Salix aurita⸣
+465•Salix borealis⸣
+466•Salix caprea⸣
+467•Salix cinerea⸣
+468•Salix daphnoides⸣
+469•Salix daphnoides subsp. acutifolia⸣
+470•Salix daphnoides subsp. daphnoides⸣
+471•Salix fragilis⸣
+472•Salix fragilis 'Bullata'⸣
+473•Salix glauca⸣
+474•Salix hastata⸣
+475•Salix herbacea⸣
+476•Salix lanata⸣
+477•Salix lapponum⸣
+478•Salix lucida⸣
+479•Salix myrsinifolia⸣
+480•Salix myrsinites⸣
+481•Salix myrtilloides⸣
+482•Salix pentandra⸣
+483•Salix phylicifolia⸣
+484•Salix polaris⸣
+485•Salix purpurea⸣
+486•Salix pyrolifolia⸣
+487•Salix repens⸣
+488•Salix reticulata⸣
+489•Salix rosmarinifolia⸣
+490•Salix 'Sibirica'⸣
+491•Salix sp⸣
+492•Salix starkeana⸣
+493•Salix triandra⸣
+494•Salix viminalis⸣
+495•Sambucus canadensis⸣
+496•Sambucus nigra⸣
+497•Sambucus racemosa⸣
+498•Sambucus sp⸣
+499•Schisandra chinensis⸣
+500•Sequoia sempervirens⸣
+501•Sequoiadendron giganteum⸣
+502•Solanum dulcamara⸣
+503•Sorbaria grandiflora⸣
+504•Sorbaria sorbifolia⸣
+505•Sorbaria sp⸣
+506•Sorbus ×thuringiaca 'Fastigiata'⸣
+507•Sorbus alnifolia⸣
+508•Sorbus americana⸣
+509•Sorbus aria⸣
+510•Sorbus aucuparia⸣
+511•Sorbus commixta⸣
+512•Sorbus hybrida⸣
+513•Sorbus intermedia⸣
+514•Sorbus koehneana⸣
+515•Sorbus prattii⸣
+516•Sorbus scopulina⸣
+517•Sorbus sp⸣
+518•Sorbus teodori⸣
+519•Sorbus torminalis⸣
+520•Spiraea ×cinerea⸣
+521•Spiraea ×multiflora⸣
+522•Spiraea ×rosalba⸣
+523•Spiraea ×sanssouciana⸣
+524•Spiraea ×vanhouttei⸣
+525•Spiraea alba⸣
+526•Spiraea 'Arguta'⸣
+527•Spiraea betulifolia⸣
+528•Spiraea Billiardii -ryhmä/gruppen/group⸣
+529•Spiraea cana⸣
+530•Spiraea chamaedryfolia⸣
+531•Spiraea douglasii⸣
+532•Spiraea fritschiana⸣
+533•Spiraea 'Grefsheim'⸣
+534•Spiraea hypericifolia⸣
+535•Spiraea japonica⸣
+536•Spiraea 'Margaritae'⸣
+537•Spiraea media⸣
+538•Spiraea nipponica⸣
+539•Spiraea rosthornii⸣
+540•Spiraea salicifolia⸣
+541•Spiraea sp⸣
+542•Spiraea tomentosa⸣
+543•Spiraea trichocarpa⸣
+544•Spiraea trilobata⸣
+545•Stephanandra incisa⸣
+546•Symphoricarpos albus⸣
+547•Symphoricarpos albus var. laevigatus⸣
+548•Syringa ×chinensis⸣
+549•Syringa ×henryi⸣
+550•Syringa ×josiflexa⸣
+551•Syringa ×nanceana⸣
+552•Syringa ×swegiflexa⸣
+553•Syringa josikaea⸣
+554•Syringa Preston -ryhmä/gruppen/group⸣
+555•Syringa reflexa⸣
+556•Syringa reticulata⸣
+557•Syringa sp⸣
+558•Syringa sweginowii⸣
+559•Syringa tigerstedtii⸣
+560•Syringa tomentella⸣
+561•Syringa villosa⸣
+562•Syringa wolfii⸣
+563•Syringa vulgaris⸣
+564•Tamarix pentandra⸣
+565•Taxus ×media⸣
+566•Taxus baccata⸣
+567•Taxus brevifolia⸣
+568•Taxus cuspidata⸣
+569•Taxus sp⸣
+570•Thuja koraiensis⸣
+571•Thuja occidentalis⸣
+572•Thuja plicata⸣
+573•Thuja sp⸣
+574•Thuja standishii⸣
+575•Thujopsis dolabrata⸣
+576•Tilia ×moltkei⸣
+577•Tilia ×vulgaris⸣
+578•Tilia americana⸣
+579•Tilia cordata⸣
+580•Tilia euchlora⸣
+581•Tilia japonica⸣
+582•Tilia mongolica⸣
+583•Tilia platyphyllos⸣
+584•Tilia sp⸣
+585•Tilia tomentosa⸣
+586•Tripterygium regelii⸣
+587•Tsuga canadensis⸣
+588•Tsuga caroliniana⸣
+589•Tsuga diversifolia⸣
+590•Tsuga heterophylla⸣
+591•Tsuga mertensiana⸣
+592•Tsuga sp⸣
+593•Ulmus americana⸣
+594•Ulmus glabra⸣
+595•Ulmus laevis⸣
+596•Ulmus minor⸣
+597•Ulmus pumila⸣
+598•Ulmus sp⸣
+599•Vaccinium corymbosum⸣
+600•Vaccinium microcarpum⸣
+601•Vaccinium myrtillus⸣
+602•Vaccinium oxycoccos⸣
+603•Vaccinium sp⸣
+604•Vaccinium uliginosum⸣
+605•Vaccinium vitis-idaea⸣
+606•Weigela Florida -ryhmä/gruppen/group⸣
+607•Weigela middendorffiana⸣
+608•Weigela praecox⸣
+609•Weigela sp⸣
+610•Viburnum carlesii⸣
+611•Viburnum cassinoides⸣
+612•Viburnum dentatum⸣
+613•Viburnum dentatum var. lucidum⸣
+614•Viburnum lantana⸣
+615•Viburnum lentago⸣
+616•Viburnum opulus⸣
+617•Viburnum rafinesquianum⸣
+618•Viburnum sargentii⸣
+619•Viburnum sp⸣
+620•Vinca minor⸣
+621•Vitis amurensis⸣
+622•Vitis riparia]]>
+	</initial-data>
+</table>
+
+<table name="ymparistotaidetyyppi" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
+	<schema name="koodistot"/>
+	<role name="infrao_admin"/>
+	<position x="360" y="1040"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="selite">
+		<type name="text" length="0"/>
+	</column>
+	<constraint name="ymparistotaidetyyppi_pk" type="pk-constr" table="koodistot.ymparistotaidetyyppi">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+	<initial-data>
+<![CDATA[id•selite⸣
+1•kivi⸣
+2•maakivet⸣
+3•paasikivi⸣
+4•patsas/muistomerkki⸣
+5•puistoveistokset⸣
+6•rantakiveys⸣
+7•muu⸣
+8•ei tiedossa]]>
+	</initial-data>
+</table>
+
+<table name="kaluste" layers="0" collapse-mode="2" max-obj-count="16" z-value="0">
+	<schema name="kohteet"/>
+	<role name="infrao_admin"/>
+	<position x="3820" y="1620"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="kalustetyyppi_id" not-null="true">
+		<type name="integer" length="0"/>
+	</column>
+	<constraint name="kaluste_pk" type="pk-constr" table="kohteet.kaluste">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="kantavuusluokkatyyppi" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
+	<schema name="koodistot"/>
+	<role name="infrao_admin"/>
+	<position x="720" y="1040"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="selite">
+		<type name="text" length="0"/>
+	</column>
+	<constraint name="kantavuusluokkatyyppi_pk" type="pk-constr" table="koodistot.kantavuusluokkatyyppi">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+	<initial-data>
+<![CDATA[id•selite⸣
+1•A⸣
+2•B⸣
+3•C⸣
+4•D⸣
+5•E⸣
+6•F⸣
+7•G]]>
+	</initial-data>
+</table>
+
+<table name="kasvilaji" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
+	<schema name="koodistot"/>
+	<role name="infrao_admin"/>
+	<position x="1080" y="1040"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="selite">
+		<type name="text" length="0"/>
+	</column>
+	<constraint name="kasvilaji_pk" type="pk-constr" table="koodistot.kasvilaji">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+	<initial-data>
+<![CDATA[id•selite⸣
+1•Acanthopanax senticosus⸣
+2•Acer campestre⸣
+3•Acer ginnala⸣
+4•Acer spicatum⸣
+5•Acer tataricum⸣
+6•Acer⸣
+7•Achillea filipendulina⸣
+8•Achillea millefolium⸣
+9•Achillea ptarmica 'Flore pleno⸣
+10•Achillea ptarmica⸣
+11•Aconitum henryi⸣
+12•Aconitum lycoctonum ssp septentrionale⸣
+13•Aconitum lycoctonum ssp.lycoctonum⸣
+14•Aconitum lycoctonum ssp.neapolitanum⸣
+15•Aconitum napellus album⸣
+16•Aconitum napellus ssp. lusitanicum 'Newry Blue'⸣
+17•Aconitum napellus ssp. lusitanicum⸣
+18•Aconitum x stoerkianum 'Bicolor'⸣
+19•Aconitum⸣
+20•Aconitun x stoerkianum⸣
+21•Aconogonon alpinum⸣
+22•Aconogonon divaricatum⸣
+23•Aconogonon polystachyum⸣
+24•Aconogonon weyrichii⸣
+25•Acorus calamus⸣
+26•Actaea erythrocarpa⸣
+27•Actinidia kolomikta⸣
+28•Adonis vernalis⸣
+29•Aegopodium podagraria⸣
+30•Agapanthus campanulatus 'Blue Giant'⸣
+31•Agastache foeniculum⸣
+32•Aguilegia x hybr. 'McKana'⸣
+33•Ajuga pyramidalis⸣
+34•Ajuga reptans 'Atropurpurea'⸣
+35•Ajuga reptans⸣
+36•Alcea rosea⸣
+37•Alchemilla alpina⸣
+38•Alchemilla mollis⸣
+39•Alisma plantago-aquatica⸣
+40•Allium aflatunense⸣
+41•Allium atropurpureum⸣
+42•Allium caeruleum⸣
+43•Allium carinatum subsp. pulchellum⸣
+44•Allium cernuum⸣
+45•Allium christophii⸣
+46•Allium cyaneum⸣
+47•Allium fistulosum⸣
+48•Allium giganteum⸣
+49•Allium karataviense⸣
+50•Allium moly⸣
+51•Allium narcissiflorum⸣
+52•Allium nigrum⸣
+53•Allium porrum⸣
+54•Allium rosenbachianum⸣
+55•Allium sativum⸣
+56•Allium schoeneprasum⸣
+57•Allium sphaerocephalum⸣
+58•Allium tuberosum⸣
+59•Allium ursinum⸣
+60•Alnus viridis⸣
+61•Alopecurus pratensis⸣
+62•Amelanchier alnifolia⸣
+63•Amelanchier laevis⸣
+64•Amelanchier lamarckii⸣
+65•Amelanchier spicata⸣
+66•Amelanchier⸣
+67•Anaphalis margaritacea⸣
+68•Anaphalis triplinervis⸣
+69•Anchusa angustissima⸣
+70•Anchusa azurea⸣
+71•Andromeda polifolia⸣
+72•Anemone canadensis⸣
+73•Anemone hupehensis var. japonica⸣
+74•Anemone multifida⸣
+75•Anemone narcissiflora⸣
+76•Anemone nemorosa⸣
+77•Anemone rivularis⸣
+78•Anemone sylvestris⸣
+79•Anemone tomentosa⸣
+80•Anemone x fulgens⸣
+81•Anemone x lesseri⸣
+82•Anethum graveolens⸣
+83•Angelica archangelica⸣
+84•Antchriscus cerefolium⸣
+85•Antemis marchalliana⸣
+86•Antennaria dioica 'Rubra'⸣
+87•Antennaria dioica⸣
+88•Antennaria parvifolia⸣
+89•Antennaria plantaginifolia⸣
+90•Anthemis carpatica⸣
+91•Anthemis tinctoria⸣
+92•Anthericum liliago⸣
+93•Anthericum ramosum⸣
+94•Anthyllis vulneraria⸣
+95•Apium var. dulce⸣
+96•Aquilegia alpina⸣
+97•Aquilegia chrysantha⸣
+98•Aquilegia flabellata⸣
+99•Aquilegia formosa⸣
+100•Aquilegia glandulosa var. jucunda⸣
+101•Aquilegia skinneri⸣
+102•Aquilegia vulgaris 'Alba'⸣
+103•Aquilegia vulgaris 'Altrosa'⸣
+104•Aquilegia vulgaris 'Rosea'⸣
+105•Aquilegia vulgaris⸣
+106•Aquilegia x hybr. 'Blue Star'⸣
+107•Aquilegia x hybr. 'Crimson Star'⸣
+108•Aquilegia x hybr. 'Snow Queen'⸣
+109•Aquilegia x hybr.⸣
+110•Arabis blepharophylla⸣
+111•Arabis caucasica⸣
+112•Arabis ferdinandi-coburgi⸣
+113•Arabis x arendsii⸣
+114•Arctostaphylos uva-ursi⸣
+115•Arenaria balearica⸣
+116•Arenaria montana⸣
+117•Arenaria tetraquerta⸣
+118•Aristolochia macrophylla⸣
+119•Aristolochia⸣
+120•Armeria juniperifolia⸣
+121•Armeria maritima⸣
+122•Arnica montana⸣
+123•Arnica sachalinensis⸣
+124•Aronia arbutifolia⸣
+125•Aronia melanocarpa 'Glorie'⸣
+126•Aronia melanocarpa⸣
+127•Aronia mitschurinii 'Viking'⸣
+128•Aronia mitschurinii⸣
+129•Aronia x prunifolia⸣
+130•Aronia⸣
+131•Artemisia absinthium⸣
+132•Artemisia arbotanum⸣
+133•Artemisia dracunculus⸣
+134•Artemisia lactiflora⸣
+135•Artemisia ludoviciana⸣
+136•Artemisia maritima⸣
+137•Artemisia schmidtiana 'Nana'⸣
+138•Artemisia schmidtiana⸣
+139•Artemisia⸣
+140•Arum italicum⸣
+141•Arum maculatum⸣
+142•Aruncus aethusifolius⸣
+143•Aruncus dioicus⸣
+144•Aruncus⸣
+145•Asarum canadense⸣
+146•Asarum europaeum⸣
+147•Asparagus officinalis⸣
+148•Asperula orientalis⸣
+149•Aster alpinus 'Abendschein'⸣
+150•Aster alpinus 'Albus'⸣
+151•Aster alpinus 'Blue Star'⸣
+152•Aster alpinus⸣
+153•Aster amellus 'Blue King'⸣
+154•Aster amellus 'Danzig'⸣
+155•Aster amellus 'King George'⸣
+156•Aster amellus 'Rudolf Goethe'⸣
+157•Aster amellus 'Sonia'⸣
+158•Aster amellus⸣
+159•Aster dumosus 'Starlight'⸣
+160•Aster dumosus 'Waldenberg'⸣
+161•Aster novi-belgii 'Dauerblau'⸣
+162•Aster novi-belgii 'Eventide'⸣
+163•Aster novi-belgii 'Red Sunset'⸣
+164•Aster novi-belgii 'White Ladies'⸣
+165•Aster novi-belgii 'Winston Churchill'⸣
+166•Aster x alpellus⸣
+167•Astilbe Arendsii -hybr. 'Federsee'⸣
+168•Astilbe Arendsii-hybr. 'Amethyst'⸣
+169•Astilbe Arendsii-hybr. 'Bonn'⸣
+170•Astilbe Arendsii-hybr. 'Brautschleier'⸣
+171•Astilbe Arendsii-hybr. 'Bremen'⸣
+172•Astilbe Arendsii-hybr. 'Cattleya'⸣
+173•Astilbe Arendsii-hybr. 'Deutschland'⸣
+174•Astilbe Arendsii-hybr. 'Erika'⸣
+175•Astilbe Arendsii-hybr. 'Etna'⸣
+176•Astilbe Arendsii-hybr. 'Europa'⸣
+177•Astilbe Arendsii-hybr. 'Fanal'⸣
+178•Astilbe Arendsii-hybr. 'Feuer'⸣
+179•Astilbe Arendsii-hybr. 'Gladstone'⸣
+180•Astilbe Arendsii-hybr. 'Gloria Purpurea'⸣
+181•Astilbe Arendsii-hybr. 'Gloria'⸣
+182•Astilbe Arendsii-hybr. 'Glut'⸣
+183•Astilbe Arendsii-hybr. 'Hyasinth'⸣
+184•Astilbe Arendsii-hybr. 'Irrlicht'⸣
+185•Astilbe Arendsii-hybr. 'Montgomery'⸣
+186•Astilbe Arendsii-hybr. 'Peach Blossom'⸣
+187•Astilbe Arendsii-hybr. 'Red Sentinel'⸣
+188•Astilbe Arendsii-hybr. 'Rheinland'⸣
+189•Astilbe Arendsii-hybr. 'Spinelli'⸣
+190•Astilbe Arendsii-hybr. 'Straussenf.'⸣
+191•Astilbe Arendsii-hybr. 'Weisse Gloria'⸣
+192•Astilbe Arendsii-hybr.⸣
+193•Astilbe chinensis 'Finale'⸣
+194•Astilbe chinensis 'Pumila'⸣
+195•Astilbe chinensis⸣
+196•Astilbe Japonica-ryhmä⸣
+197•Astilbe⸣
+198•Astilboides tabularis⸣
+199•Astrantia major⸣
+200•Athyrium filix-femina⸣
+201•Athyrium niponicum⸣
+202•Aubrieta deltoidea⸣
+203•Aubrieta x cultorum⸣
+204•Azalea mollis⸣
+205•Bellis perennis 'Purpurmandel'⸣
+206•Bellis perennis 'Rosa'⸣
+207•Bellis perennis⸣
+208•Berberis thunbergii 'Admiration'⸣
+209•Berberis thunbergii 'Atropurpurea nana'⸣
+210•Berberis thunbergii 'Atropurpurea'⸣
+211•Berberis thunbergii⸣
+212•Berberis vulgaris 'Atropurpurea'⸣
+213•Berberis vulgaris⸣
+214•Berberis x ottawensis 'Superba'⸣
+215•Berberis⸣
+216•Bergenia cordifolia 'Rotblom'⸣
+217•Bergenia cordifolia⸣
+218•Bergenia crassifolia⸣
+219•Bergenia⸣
+220•Bistorta affinis⸣
+221•Bistorta major 'Superba'⸣
+222•Bistorta major⸣
+223•Borago officinalis⸣
+224•Brunnera macrophylla⸣
+225•Butomus umbellatus⸣
+226•Calamagrostis epigejos⸣
+227•Calendula officinalis⸣
+228•Calla palustris⸣
+229•Calluna vulgaris⸣
+230•Caltha palustris⸣
+231•Campanula carpatica 'Blaue Clips'⸣
+232•Campanula carpatica 'Weisse Clips'⸣
+233•Campanula carpatica⸣
+234•Campanula glomerata⸣
+235•Campanula latifolia⸣
+236•Campanula patula⸣
+237•Campanula persicifolia⸣
+238•Campanula portenschlagiana⸣
+239•Campanula rapunculoides⸣
+240•Campanula rotundifolia⸣
+241•Caragana arborescens 'Lorbergii Pendula'⸣
+242•Caragana arborescens 'Lorbergii'⸣
+243•Caragana arborescens 'Walker'⸣
+244•Caragana arborescens⸣
+245•Caragana frutex⸣
+246•Caragana⸣
+247•Carex acuta⸣
+248•Carex brunnea⸣
+249•Carex nigra⸣
+250•Carex ovalis⸣
+251•Carex pseudocyperus⸣
+252•Carex rhynchophysa⸣
+253•Carex rostrata⸣
+254•Carex vesicaria⸣
+255•Carum carvi⸣
+256•Celastrus orbiculatus⸣
+257•Celastrus scandens 'Autumn Revolution'⸣
+258•Centaurea cyanus⸣
+259•Centaurea montana⸣
+260•Centaurea⸣
+261•Centranthus ruber⸣
+262•Cerastium tomentosum 'Columnae'⸣
+263•Cerastium tomentosum⸣
+264•Cercidiphyllum japonicum⸣
+265•Chaenomeles japonica⸣
+266•Chamaecyparis lawsoniana 'Alumii'⸣
+267•Chamaecyparis pisifera⸣
+268•Chelone obliqua⸣
+269•Chiastophyllum oppositifolium⸣
+270•Chimaphila umbellata⸣
+271•Chrysanthemum leucanthemum 'Maikönigin'⸣
+272•Chrysanthemum⸣
+273•Cimicifuga racemosa var. cordifolia⸣
+274•Claytonia sibirica⸣
+275•Clematis alpina⸣
+276•Clematis integrif. 'Blue Panno'⸣
+277•Clematis 'Nadezda'⸣
+278•Clematis 'Niobe'⸣
+279•Clematis 'Paul Farges'⸣
+280•Clematis recta⸣
+281•Clematis sibirica⸣
+282•Clematis tangutica⸣
+283•Clematis viticella⸣
+284•Clematis x jackmanii⸣
+285•Colchicum autumnale⸣
+286•Colchicum bommuelleri⸣
+287•Colchicum cilicicum⸣
+288•Colchicum hybridum⸣
+289•Colchicum speciosum⸣
+290•Comarum palustre⸣
+291•Convallaria majalis⸣
+292•Coreopsis grandiflora⸣
+293•Coreopsis verticillata⸣
+294•Coriandrum sativum⸣
+295•Cornus alba 'Argenteomarginata'⸣
+296•Cornus alba 'Gouchaultii'⸣
+297•Cornus alba 'Kesselringii'⸣
+298•Cornus alba 'Sibirica Variegata'⸣
+299•Cornus alba 'Sibirica'⸣
+300•Cornus alba ssp.alba⸣
+301•Cornus alba ssp.stolonifera 'Flaviramea'⸣
+302•Cornus alba stolonifera 'Kelsey's Dwarf⸣
+303•Cornus sanguinea⸣
+304•Cornus sericea 'Bailadeline'⸣
+305•Cornus⸣
+306•Coronilla varia⸣
+307•Corydalis lutea⸣
+308•Corydalis nobilis⸣
+309•Corydalis solida⸣
+310•Corylus avellana 'Contorta'⸣
+311•Corylus avellana⸣
+312•Cotoneaster dammerii⸣
+313•Cotoneaster integerrimus⸣
+314•Cotoneaster lucidus⸣
+315•Cotoneaster 'Skogsholm'⸣
+316•Cotoneaster⸣
+317•Crataegus douglasii⸣
+318•Crataegus grayana⸣
+319•Crataegus intricata⸣
+320•Crataegus laevigata⸣
+321•Crataegus monogyna⸣
+322•Crataegus sp.⸣
+323•Crataegus submollis⸣
+324•Crataegus x media 'Paul's Scarlet'⸣
+325•Crataegus x mordenensis 'Toba'⸣
+326•Crocus ancyrensis⸣
+327•Crocus angustifolius⸣
+328•Crocus chrysanthus⸣
+329•Crocus corsicus⸣
+330•Crocus etruscus⸣
+331•Crocus laevigatus⸣
+332•Crocus speciosus⸣
+333•Crocus tommasinianus⸣
+334•Crocus vernus⸣
+335•Cymbalaria muralis⸣
+336•Cytisus decumbens⸣
+337•Cytisus glaber⸣
+338•Cytisus purpureus⸣
+339•Daphne mezereum⸣
+340•Darmera peltata⸣
+341•Dasiphora fruticosa 'Abbotswood'⸣
+342•Dasiphora fruticosa 'Elizabeth'⸣
+343•Dasiphora fruticosa 'Floppy Disk'⸣
+344•Dasiphora fruticosa 'Fridhem'⸣
+345•Dasiphora fruticosa 'Goldfinger'⸣
+346•Dasiphora fruticosa 'Goldteppic'⸣
+347•Dasiphora fruticosa 'Hacemann'⸣
+348•Dasiphora fruticosa 'Jackman'⸣
+349•Dasiphora fruticosa 'Kobold'⸣
+350•Dasiphora fruticosa 'Longacre'⸣
+351•Dasiphora fruticosa 'Lovely Pink'⸣
+352•Dasiphora fruticosa 'Mount Everest'⸣
+353•Dasiphora fruticosa 'Månelys'⸣
+354•Dasiphora fruticosa 'Primrose Beauty'⸣
+355•Dasiphora fruticosa 'Princess'⸣
+356•Dasiphora fruticosa 'Red Ace'⸣
+357•Dasiphora fruticosa 'Sandved'⸣
+358•Dasiphora fruticosa 'Snow Flake'⸣
+359•Dasiphora fruticosa 'Tervola'⸣
+360•Dasiphora fruticosa 'Tilford Cream'⸣
+361•Dasiphora fruticosa⸣
+362•Delphinium 'Astolat'⸣
+363•Delphinium 'Black Knight'⸣
+364•Delphinium 'Blue Beauty'⸣
+365•Delphinium 'Blue Bird'⸣
+366•Delphinium 'Galahad'⸣
+367•Delphinium 'King Arthur'⸣
+368•Deschampsia flexuosa⸣
+369•Dianthus barbatus⸣
+370•Dianthus deltoides⸣
+371•Dianthus gratianopolitanus⸣
+372•Dianthus plumarius⸣
+373•Dicentra formosa 'Alba'⸣
+374•Dicentra formosa 'Luxuriant'⸣
+375•Dicentra formosa⸣
+376•Dicentra spectabilis⸣
+377•Dictamnus albus⸣
+378•Diervilla lonicera 'Helo'⸣
+379•Diervilla lonicera⸣
+380•Diervilla sessilifolia 'Cool Splash'⸣
+381•Diervilla sessilifolia 'Kajo'⸣
+382•Diervilla sessilifolia 'Rusko'⸣
+383•Diervilla sessilifolia⸣
+384•Diervilla x splendens⸣
+385•Digitalis grandiflora⸣
+386•Digitalis purpurea⸣
+387•Doronicum orientale 'Finesse'⸣
+388•Doronicum orientale⸣
+389•Doronicum plantagineum⸣
+390•Doronicum⸣
+391•Dracokephalum sibiricum⸣
+392•Dryas octopetala⸣
+393•Dryopteris carthusiana⸣
+394•Dryopteris filix-mas⸣
+395•Dryoptreris filix-mas⸣
+396•Echinacea purpurea 'Magnus'⸣
+397•Echinacea purpurea⸣
+398•Echinops bannaticus⸣
+399•Empetrum nigrum⸣
+400•Epimedium x rubrum⸣
+401•Epimedium x youngianum 'Niveum'⸣
+402•Eremurus robustus⸣
+403•Erigeron 'Adria'⸣
+404•Erigeron aurantiacus⸣
+405•Erigeron 'Azurfee'⸣
+406•Erigeron 'Grandiflorus'⸣
+407•Erigeron 'Schöne Blau'⸣
+408•Erigeron speciosus⸣
+409•Erigeron⸣
+410•Eryngium alpinum 'Amethyst'⸣
+411•Eryngium alpinum 'James Ivory'⸣
+412•Eryngium alpinum⸣
+413•Eryngium planum⸣
+414•Euonymus europaeus⸣
+415•Euonymus nanus var. turkestanicus⸣
+416•Eupatorium cannabinum⸣
+417•Eupatorium purpureum⸣
+418•Eupatorium⸣
+419•Euphorbia cyparissias⸣
+420•Euphorbia palustris⸣
+421•Euphorbia polychroma⸣
+422•Fallopia jabonica var. compacta⸣
+423•Fallopia japonica var. compacta⸣
+424•Fallopia japonica⸣
+425•Fallopia sachalinensis⸣
+426•Festuca cinerea⸣
+427•Festuca gautieri⸣
+428•Filipendula rubra⸣
+429•Filipendula ulmaria⸣
+430•Filipendula vulgaris 'Plena'⸣
+431•Filipendula vulgaris 'Rosea'⸣
+432•Filipendula vulgaris⸣
+433•Foeniculum vulgare var. dulce⸣
+434•Forsythia 'Northern Gold'⸣
+435•Forsythia ovata⸣
+436•Forsythia⸣
+437•Fothergilla major 'Velho'⸣
+438•Fothergilla major⸣
+439•Fritillaria imperialis⸣
+440•Fritillaria meleagris⸣
+441•Galanthus elwesii⸣
+442•Galanthus nivalis⸣
+443•Galium odoratum⸣
+444•Galium verum⸣
+445•Genista tinctoria⸣
+446•Gentiana cruciata⸣
+447•Gentiana septemfida⸣
+448•Gentiana sino-ornata⸣
+449•Geranium himalayense 'Derrick Cook'⸣
+450•Geranium himalayense 'Gravetye'⸣
+451•Geranium himalayense⸣
+452•Geranium ibericum⸣
+453•Geranium 'Johnson's Blue'⸣
+454•Geranium macrorrhizum 'Purple Red'⸣
+455•Geranium macrorrhizum 'Purpurrot'⸣
+456•Geranium macrorrhizum⸣
+457•Geranium nepalense⸣
+458•Geranium palustre⸣
+459•Geranium pratense⸣
+460•Geranium sanguineum 'Elke'⸣
+461•Geranium sanguineum 'Max Frei'⸣
+462•Geranium sanguineum⸣
+463•Geranium sylvaticum⸣
+464•Geranium x cantabrigiense 'Biokovo'⸣
+465•Geranium x cantabrigiense 'Cambridge'⸣
+466•Geranium x cantabrigiense 'Karmina'⸣
+467•Geranium x cantabrigiense⸣
+468•Geranium x magnificum⸣
+469•Geum coccineum 'Borisii'⸣
+470•Geum coccineum⸣
+471•Gillenia trifoliata⸣
+472•Gladioulus imbricatus⸣
+473•Glechoma hederacea⸣
+474•Glyceria maxima⸣
+475•Gymnocarpium dryopteris⸣
+476•Gypsophila paniculata⸣
+477•Gypsophilla repens⸣
+478•Hedera helix⸣
+479•Helenium 'Grimson Beauty'⸣
+480•Helenium hoopesii⸣
+481•Helenium hybrida⸣
+482•Helenium 'The Bishop'⸣
+483•Helenium 'Wesergold'⸣
+484•Heliopsis helianthoides v.sca. 'Goldball⸣
+485•Heliopsis helianthoides v.sca.'Goldfiede⸣
+486•Heliopsis helianthoides v.scabra 'Patula⸣
+487•Hemerocallis 'Aino'⸣
+488•Hemerocallis 'Apricot'⸣
+489•Hemerocallis 'Atlas'⸣
+490•Hemerocallis 'Carminea'⸣
+491•Hemerocallis citrina⸣
+492•Hemerocallis 'Corky'⸣
+493•Hemerocallis 'Elegant Candy'⸣
+494•Hemerocallis 'Entrapment'⸣
+495•Hemerocallis 'Flaming Sword'⸣
+496•Hemerocallis 'Frans Hals⸣
+497•Hemerocallis 'Free Wheelin'⸣
+498•Hemerocallis fulva 'Europa'⸣
+499•Hemerocallis fulva⸣
+500•Hemerocallis 'Golden Seapter'⸣
+501•Hemerocallis 'Indian Sky'⸣
+502•Hemerocallis 'Joan Senior'⸣
+503•Hemerocallis 'Kantarelli'⸣
+504•Hemerocallis 'Kurt'⸣
+505•Hemerocallis lilio-asphodelus⸣
+506•Hemerocallis 'Little Girl'⸣
+507•Hemerocallis 'Margaret Perry'⸣
+508•Hemerocallis middendorffii⸣
+509•Hemerocallis minor⸣
+510•Hemerocallis 'Pink Damask'⸣
+511•Hemerocallis 'Radiant'⸣
+512•Hemerocallis 'Rocket City'⸣
+513•Hemerocallis 'Sammy Russel'⸣
+514•Hemerocallis 'Sirkku'⸣
+515•Hemerocallis 'Stella D'oro'⸣
+516•Hemerocallis 'Tejas'⸣
+517•Hemerocallis 'Valliant'⸣
+518•Hemerocallis 'Watchyl Wild Indian'⸣
+519•Hemerocallis 'Violet Hour'⸣
+520•Hemerocallis⸣
+521•Hepatica nobilis⸣
+522•Heracleum mantegazzianum⸣
+523•Hesperis matronalis⸣
+524•Heuchera micrantha 'Palace Purple'⸣
+525•Heuchera sanguinea⸣
+526•Heucherella tiarelloides⸣
+527•Hippophae rhamnoides 'Raisa'⸣
+528•Hippophae rhamnoides 'Rudolf'⸣
+529•Hippophaë rhamnoides⸣
+530•Holodiscus discolor⸣
+531•Hosta 'Color Festival'⸣
+532•Hosta crispula⸣
+533•Hosta Fortunei 'Albopicta'⸣
+534•Hosta Fortunei 'Aurea'⸣
+535•Hosta Fortunei 'Francee'⸣
+536•Hosta Fortunei 'Patriot'⸣
+537•Hosta Fortunei⸣
+538•Hosta lancifolia⸣
+539•Hosta 'Orange Marmalade'⸣
+540•Hosta plantaginea 'Grandiflora'⸣
+541•Hosta plantaginea⸣
+542•Hosta rectifolia 'Tallboy'⸣
+543•Hosta rectifolia⸣
+544•Hosta sieboldiana 'Elegans'⸣
+545•Hosta sieboldiana 'Reykjavik'⸣
+546•Hosta sieboldiana⸣
+547•Hosta sieboldii 'Alba'⸣
+548•Hosta sieboldii⸣
+549•Hosta undulata 'Albomarginata'⸣
+550•Hosta undulata 'Crispum'⸣
+551•Hosta undulata 'Erromena'⸣
+552•Hosta undulata 'Mediovariegata'⸣
+553•Hosta undulata⸣
+554•Hosta ventricosa 'Aureomaculata'⸣
+555•Hosta ventricosa 'Variegata'⸣
+556•Hosta ventricosa⸣
+557•Hosta⸣
+558•Humulus lupulus⸣
+559•Hyacinthus orientalis⸣
+560•Hydrangea anomala ssp. petiolaris⸣
+561•Hydrangea arborescens 'Annabelle'⸣
+562•Hydrangea arborescens 'Grandiflora'⸣
+563•Hydrangea heteromalla⸣
+564•Hydrangea paniculata 'Early Sensation'⸣
+565•Hydrangea paniculata 'Grandiflora'⸣
+566•Hydrangea paniculata 'Mustila'⸣
+567•Hydrangea paniculata 'Praecox'⸣
+568•Hydrangea paniculata⸣
+569•Hyssopus officinalis⸣
+570•Iberis semperfirens⸣
+571•Incarvillea mairei⸣
+572•Inula ensifolia⸣
+573•Inula helenium⸣
+574•Iris 'Azurea'⸣
+575•Iris barbata elatior 'Joanna'⸣
+576•Iris Barbata-hybrida ´Pastel Charme´⸣
+577•Iris Barbata-hybrida⸣
+578•Iris 'Cyanea'⸣
+579•Iris 'Eleanor Roosevelt'⸣
+580•Iris 'Empress of India'⸣
+581•Iris ensata 'Higo Stain'⸣
+582•Iris ensata 'Nippon'⸣
+583•Iris 'Espada'⸣
+584•Iris germanica 'Helge'⸣
+585•Iris germanica 'Snow Queen'⸣
+586•Iris germanica⸣
+587•Iris orentalis⸣
+588•Iris orientalis 'Aloa'⸣
+589•Iris pseudacorus⸣
+590•Iris pumila⸣
+591•Iris reticulata⸣
+592•Iris 'Romance'⸣
+593•Iris setosa⸣
+594•Iris sibirica alba⸣
+595•Iris sibirica 'Blue King'⸣
+596•Iris sibirica 'Blue Moon'⸣
+597•Iris sibirica 'Ceasar's Brother'⸣
+598•Iris sibirica 'Heavenly Blue'⸣
+599•Iris sibirica 'Julius'⸣
+600•Iris sibirica 'Marja-Leena'⸣
+601•Iris sibirica 'Perry Blue'⸣
+602•Iris sibirica 'Ruffled Velvet'⸣
+603•Iris sibirica 'Snow Queen'⸣
+604•Iris sibirica 'Thunkhannock'⸣
+605•Iris sibirica⸣
+606•Iris 'Terry'⸣
+607•Iris 'White Knight'⸣
+608•Juncus conglomeratus⸣
+609•Juncus effusus⸣
+610•Juniperus chinensis 'Mint Julep'⸣
+611•Juniperus chinensis 'Pfitzeriana Compact⸣
+612•Juniperus communis 'Hongisto 13'⸣
+613•Juniperus communis 'Jääkäri'⸣
+614•Juniperus communis 'Norrback'⸣
+615•Juniperus communis 'Repanda'⸣
+616•Juniperus communis 'Sisu'⸣
+617•Juniperus communis 'Suecica'⸣
+618•Juniperus communis⸣
+619•Juniperus horizontalis 'Glauca'⸣
+620•Juniperus sabina 'Tamarischifolia'⸣
+621•Juniperus sabina⸣
+622•Juniperus squamata 'Meyeri'⸣
+623•Juniperus virginiana 'Sky Rocket'⸣
+624•Kalmia angustifolia⸣
+625•Kalmia latifolia 'Peppermint'⸣
+626•Kalmia polifolia⸣
+627•Kolkwitzia amabilis⸣
+628•Laburnum alpinum⸣
+629•Lamiastrum galeobdolon⸣
+630•Lathyrus latifolius⸣
+631•Lavandula angustifolia⸣
+632•Lavatera thuringiaca⸣
+633•Ledum palustre⸣
+634•Leontopodium alpinum⸣
+635•Leucanthemum x superbum⸣
+636•Leucathemum vulgare⸣
+637•Levisticum officinale⸣
+638•Leymus arenarius⸣
+639•Liatris spicata 'Floristan Weiss'⸣
+640•Liatris spicata 'Kobold'⸣
+641•Liatris spicata⸣
+642•Liatris⸣
+643•Ligularia dentata 'Desdemona'⸣
+644•Ligularia dentata 'Orange Queen'⸣
+645•Ligularia dentata 'Othello'⸣
+646•Ligularia dentata⸣
+647•Ligularia fischeri⸣
+648•Ligularia 'Hietala'⸣
+649•Ligularia japonica⸣
+650•Ligularia macrophylla 'New Star'⸣
+651•Ligularia przewalskii 'Romeo'⸣
+652•Ligularia przewalskii⸣
+653•Ligularia sibirica⸣
+654•Ligularia tangutica⸣
+655•Ligularia veitchiana⸣
+656•Ligularia wilsoniana 'Hiisi'⸣
+657•Ligularia wilsoniana⸣
+658•Ligularia x hessei 'Greynok Gold'⸣
+659•Ligularia x hessei⸣
+660•Ligularia x palmatiloba⸣
+661•Ligularia⸣
+662•Ligustrum vulgare⸣
+663•Lilium bulbiferum⸣
+664•Lilium candidum⸣
+665•Lilium lancifolium⸣
+666•Lilium martagon 'Album'⸣
+667•Lilium martagon⸣
+668•Lilium regale⸣
+669•Lilium⸣
+670•Linaria vulgaris⸣
+671•Linnea borealis⸣
+672•Linum usitatissimum⸣
+673•Lonicera alpigena⸣
+674•Lonicera caerulea ' Jörgen'⸣
+675•Lonicera caerulea⸣
+676•Lonicera caprifolium⸣
+677•Lonicera caucasica⸣
+678•Lonicera chrysantha⸣
+679•Lonicera involucrata⸣
+680•Lonicera morrowii⸣
+681•Lonicera nigra⸣
+682•Lonicera periclymenum⸣
+683•Lonicera tatarica 'Rosea'⸣
+684•Lonicera tatarica 'Sanna'⸣
+685•Lonicera tatarica⸣
+686•Lonicera x amoena⸣
+687•Lonicera x bella 'Dropmore'⸣
+688•Lonicera x bella 'Sakura'⸣
+689•Lonicera x bella 'Zabelii'⸣
+690•Lonicera x bella⸣
+691•Lonicera x xylosteoides 'Clavey's Dwarf'⸣
+692•Lonicera xylosteum⸣
+693•Lonicera⸣
+694•Lotus corniculatus⸣
+695•Lupinus polyphyllus⸣
+696•Luzula nivea⸣
+697•Luzula pilosa⸣
+698•Lychnis alpina⸣
+699•Lychnis chalcedonica⸣
+700•Lychnis coronaria⸣
+701•Lychnis viscaria⸣
+702•Lysimachia clethroides⸣
+703•Lysimachia nummularia⸣
+704•Lysimachia punctata⸣
+705•Lysimachia thyrsiflora⸣
+706•Lysimachia vulgaris⸣
+707•Lythrum salicaria 'Robert'⸣
+708•Lythrum salicaria⸣
+709•Macleya cordata⸣
+710•Magnolia sieboldii⸣
+711•Magnolia stellata⸣
+712•Magnolia x soulangiana⸣
+713•Mahonia aquifolium⸣
+714•Malus toringo var. sargentii⸣
+715•Malva alcea⸣
+716•Malva moscata⸣
+717•Matricaria retutita⸣
+718•Matteuccia struthiopteris⸣
+719•Matteuchia struthiopteris⸣
+720•Mecanopsis betonicifolia⸣
+721•Melica nutans⸣
+722•Melissa officinalis⸣
+723•Menispermum canadense⸣
+724•Menispermum dauricum⸣
+725•Mentha spicata var. crispa⸣
+726•Mentha spicata⸣
+727•Mentha x piperita⸣
+728•Menyanthes trifoliata⸣
+729•Meum athamanticum⸣
+730•Microbiota decussata⸣
+731•Milium effusum⸣
+732•Miscanthus sacchariflorus⸣
+733•Miscanthus sinensis⸣
+734•Molinia caerulea var. arundinacea⸣
+735•Molinia caerulea⸣
+736•Monarda didyma 'Purpurea'⸣
+737•Monarda didyma 'Sarlakka'⸣
+738•Monarda didyma 'Syklaami'⸣
+739•Monarda didyma⸣
+740•Muscari armeniacum⸣
+741•Muscari azureum⸣
+742•Muscari botryoides⸣
+743•Muscari comosum⸣
+744•Muscari neglectum⸣
+745•Myosotis scorpioides⸣
+746•Myosotis sylvatica⸣
+747•Myrica gale⸣
+748•Myrica germanica⸣
+749•Myricaria germanica⸣
+750•Narcissus asturiensis⸣
+751•Narcissus bulbocodium⸣
+752•Narcissus cyclamineus⸣
+753•Narcissus jonquilla⸣
+754•Narcissus poëticus⸣
+755•Narcissus pseudonarcissus⸣
+756•Narcissus tazetta⸣
+757•Narcissus triandrus⸣
+758•Narcissus x incomparabilis⸣
+759•Narcissus x medioluteus⸣
+760•Nepeta x faassenii⸣
+761•Nymphaea alba⸣
+762•Nymphaea candida⸣
+763•Nymphaea tetragona⸣
+764•Ocimum basilicum⸣
+765•Oenothera missouriensis⸣
+766•Oenothera tetragona⸣
+767•Omphalodes verna⸣
+768•Oplopanax horridus⸣
+769•Origanum majorana⸣
+770•Origanum vulgare⸣
+771•Oxalis fontana 'Rufa'⸣
+772•Pachysandra terminalis⸣
+773•Paeonia Lactiflora-hybr.⸣
+774•Paeonia officinalis⸣
+775•Paeonia⸣
+776•Papaver croceum⸣
+777•Papaver pseudo-orientale 'Allergo'⸣
+778•Papaver pseudo-orientale 'Border Beauty'⸣
+779•Papaver pseudo-orientale 'Peter Pan'⸣
+780•Papaver pseudo-orientale⸣
+781•Parthenocissus inserta⸣
+782•Parthenocissus quinquefolia 'Engelmannii⸣
+783•Penstemon barbatus⸣
+784•Penstemon hirsutus⸣
+785•Petasites hybridus⸣
+786•Petasites japonicus⸣
+787•Petasites⸣
+788•Petroselinum crispum⸣
+789•Phalaris arundinacea 'Picta'⸣
+790•Phalaris arundinacea⸣
+791•Philadelphus coronarius⸣
+792•Philadelphus inodorus var. grandiflorus⸣
+793•Philadelphus lewisii var. gordonianus⸣
+794•Philadelphus lewisii var. lew.'Waterton'⸣
+795•Philadelphus Lewisii-hybr. 'Tähtisilmä'⸣
+796•Philadelphus pubescens⸣
+797•Philadelphus x lemoinei⸣
+798•Philadelphus x virginalis⸣
+799•Philadelphus⸣
+800•Phlox carolina⸣
+801•Phlox paniculata 'Aida'⸣
+802•Phlox paniculata 'Amethyst'⸣
+803•Phlox paniculata 'Bor der Gem'⸣
+804•Phlox paniculata 'Jules Sandeau'⸣
+805•Phlox paniculata 'Kirchenfürst'⸣
+806•Phlox paniculata 'Lassberg'⸣
+807•Phlox paniculata 'Mia Ruys'⸣
+808•Phlox paniculata 'Orange Perfection'⸣
+809•Phlox paniculata 'Pax'⸣
+810•Phlox paniculata 'Rheinländer'⸣
+811•Phlox paniculata 'Spitfire'⸣
+812•Phlox paniculata 'Starfire'⸣
+813•Phlox paniculata 'Wilhelm Kesselring'⸣
+814•Phlox paniculata⸣
+815•Phlox stolonifera⸣
+816•Phlox subulata 'Atropurpurea'⸣
+817•Phlox subulata 'Betty'⸣
+818•Phlox subulata 'Mai'⸣
+819•Phlox subulata 'Moerheimii'⸣
+820•Phlox subulata 'Rosea'⸣
+821•Phlox subulata 'Temiscaming'⸣
+822•Phlox subulata⸣
+823•Phragmites australis⸣
+824•Physalis alkekengi⸣
+825•Physocarpus opulifolius 'Diablo'⸣
+826•Physocarpus opulifolius⸣
+827•Physocarpus⸣
+828•Picea abies 'Echiniformis'⸣
+829•Picea abies 'Globosa'⸣
+830•Picea abies 'Kartio'⸣
+831•Picea abies 'Nana'⸣
+832•Picea abies 'Nidiformis'⸣
+833•Picea abies 'Tabuliformis'⸣
+834•Picea glauca 'Conica'⸣
+835•Pieris floribunda⸣
+836•Pimpinella anisum⸣
+837•Pinus mugo 'Gnom'⸣
+838•Pinus mugo 'Pumilio'⸣
+839•Pinus mugo ssp. mugo⸣
+840•Pinus pumila⸣
+841•Pinus pumila'Glauca'⸣
+842•Pinus sylvestris 'Nana'⸣
+843•Platycodon grandiflorus⸣
+844•Polemonium caeruleum⸣
+845•Polygonatum multiflorum⸣
+846•Polygonatum odoratum⸣
+847•Polygonatum x hybridum⸣
+848•Polypodium vulgare⸣
+849•Portulaca oleracea ssp. sativa⸣
+850•Potentilla anserina⸣
+851•Potentilla atrosanguinea⸣
+852•Potentilla aurea⸣
+853•Potentilla nepalensis⸣
+854•Potentilla tridentata 'Nuuk'⸣
+855•Potentilla⸣
+856•Primula Auricula -hybr.⸣
+857•Primula denticulata⸣
+858•Primula florindae⸣
+859•Primula rosea 'Gigas'⸣
+860•Primula vulgaris⸣
+861•Prunella grandiflora⸣
+862•Prunus cerasus⸣
+863•Prunus padus⸣
+864•Prunus pumila var. depressa⸣
+865•Prunus sp.⸣
+866•Prunus tenella⸣
+867•Prunus virginiana 'Shubert'⸣
+868•Pteridium aquilinum⸣
+869•Pulmonaria saccharata⸣
+870•Pulmonaria⸣
+871•Pulsatilla vulgaris⸣
+872•Puschkinia scilloides var. libanotica⸣
+873•Ranunculus ficaria⸣
+874•Rhamnus cathartica⸣
+875•Rheum palmatum subsp. tanguticum⸣
+876•Rhodiola kirilowii⸣
+877•Rhodiola rosea⸣
+878•Rhododendron canadense⸣
+879•Rhododendron catawbiense 'Grandiflorum'⸣
+880•Rhododendron 'Cunninghams's White'⸣
+881•Rhododendron ferrugineum⸣
+882•Rhododendron Forrestii-hybr. 'Elviira'⸣
+883•Rhododendron Ghent-Ryhmä 'Aamurusko'⸣
+884•Rhododendron japonicum⸣
+885•Rhododendron 'Kullervo'⸣
+886•Rhododendron Lights-Ryhmä 'Orchid Lights'⸣
+887•Rhododendron luteum⸣
+888•Rhododendron 'Nova Zembla'⸣
+889•Rhododendron 'P.M.A. Tigerstedt'⸣
+890•Rhododendron 'Pohjanatsalea'⸣
+891•Rhododendron 'Pohjolan Tytär'⸣
+892•Rhododendron smirnowii 'Hellikki'⸣
+893•Rhododendron 'St.Micchel'⸣
+894•Rhododendron Tigerst.-hybr. 'Helsinki Un⸣
+895•Rhododendron Tigerstedii-hybr. 'Haaga'⸣
+896•Rhododendron x fraseri⸣
+897•Rhododendron⸣
+898•Rhus aromatica 'Gro-Low'⸣
+899•Ribes alpinum 'Pumilum'⸣
+900•Ribes alpinum⸣
+901•Ribes aureum⸣
+902•Ribes glandulosum⸣
+903•Ribes 'Hinnonmäen Keltainen'⸣
+904•Ribes 'Jonkheer van Tets'⸣
+905•Ribes 'Lepaan Punainen'⸣
+906•Ribes nigrum 'Melalahti'⸣
+907•Ribes nigrum 'Mortti'⸣
+908•Ribes nigrum 'Vertti'⸣
+909•Ribes nigrum 'Öjebyn'⸣
+910•Ribes nigrum⸣
+911•Ribes 'Punainen Hollantilainen'⸣
+912•Ribes 'Rondom'⸣
+913•Ribes 'Rotes Wunder Katri'⸣
+914•Ribes rubrum 'Aili'⸣
+915•Ribes rubrum 'Katri'⸣
+916•Ribes rubrum⸣
+917•Ribes Rubrum-ryhmä⸣
+918•Ribes sanguineum⸣
+919•Ribes uva-crispa 'Hinnonmäen keltainen'⸣
+920•Ribes uva-crispa⸣
+921•Ribes 'Valkea Jüterborger'⸣
+922•Ribes 'Valkoinen Hollantilainen'⸣
+923•Ribes 'Valkoinen suomalainen'⸣
+924•Ribes⸣
+925•Rodgersia aesculifolia⸣
+926•Rodgersia pinnata⸣
+927•Rosa ' Hein Mück'⸣
+928•Rosa 'Abigaile'⸣
+929•Rosa acicularis 'Dornröschen'⸣
+930•Rosa acicularis⸣
+931•Rosa 'Alain'⸣
+932•Rosa alba 'Celestial'⸣
+933•Rosa alba⸣
+934•Rosa 'Alchymist'⸣
+935•Rosa 'Allgold'⸣
+936•Rosa 'Allotria'⸣
+937•Rosa 'Amber Queen'⸣
+938•Rosa amblyotis⸣
+939•Rosa 'Anabell'⸣
+940•Rosa 'Andalusien'⸣
+941•Rosa 'Angela'⸣
+942•Rosa 'Armsterdam'⸣
+943•Rosa 'Australian Gold'⸣
+944•Rosa 'Bad Füssing'⸣
+945•Rosa 'Ballet'⸣
+946•Rosa 'Barkarole'⸣
+947•Rosa 'Bassino' -runkoruusu⸣
+948•Rosa 'Bassino'⸣
+949•Rosa 'Bella Rosa'⸣
+950•Rosa 'Bella Weiss'⸣
+951•Rosa 'Bengali'⸣
+952•Rosa 'Bernina'⸣
+953•Rosa 'Bernstein-Rose'⸣
+954•Rosa 'Black Lady'⸣
+955•Rosa blanda⸣
+956•Rosa 'Blue Parfym'⸣
+957•Rosa 'Bonica'⸣
+958•Rosa 'Buismans Triumph'⸣
+959•Rosa canina⸣
+960•Rosa canina'General Jaquemonot'⸣
+961•Rosa carolina⸣
+962•Rosa centifolia muscosa 'Nuits de Young'⸣
+963•Rosa 'Champagner'⸣
+964•Rosa 'Champs Elysees'⸣
+965•Rosa 'Chinatown'⸣
+966•Rosa 'Chorus'⸣
+967•Rosa 'Dalli Dalli'⸣
+968•Rosa 'Deutsche Welle'⸣
+969•Rosa 'Dolly Parton'⸣
+970•Rosa 'Dorola'⸣
+971•Rosa 'Duftrauch'⸣
+972•Rosa 'Duftwolke'⸣
+973•Rosa 'Duftzauber'⸣
+974•Rosa dumalis⸣
+975•Rosa 'Dwarf Pavement'⸣
+976•Rosa 'Edelweiss'⸣
+977•Rosa 'Elisabeth of Glamis'⸣
+978•Rosa 'Elmshorn'⸣
+979•Rosa 'Erna Grootendorst'⸣
+980•Rosa 'Erna Harkness'⸣
+981•Rosa 'Erotica'⸣
+982•Rosa 'Europeana'⸣
+983•Rosa 'F. J. Grootendorst'⸣
+984•Rosa 'Fair Play'⸣
+985•Rosa 'Fairy Dance'⸣
+986•Rosa 'Fiona'⸣
+987•Rosa 'Flammentanz'⸣
+988•Rosa foetida 'Bicolor'⸣
+989•Rosa foetida 'Persian Yellow'⸣
+990•Rosa 'Foxi Pavement'⸣
+991•Rosa 'Francofort'⸣
+992•Rosa 'Frau Astrid Späth'⸣
+993•Rosa 'Fresco'⸣
+994•Rosa 'Friesia' -runkoruusu⸣
+995•Rosa 'Friesia'⸣
+996•Rosa 'Friz Nobis'⸣
+997•Rosa 'Frühlingsduft'⸣
+998•Rosa 'Fuggerstad Augsburg'⸣
+999•Rosa gallica 'Merveille'⸣
+1000•Rosa gallica 'Splendens'⸣
+1001•Rosa 'Gartenzauber 84'⸣
+1002•Rosa 'Gisselfeldt'⸣
+1003•Rosa glabrifolia⸣
+1004•Rosa glauca⸣
+1005•Rosa 'Golden Holstein'⸣
+1006•Rosa 'Goldmarie 82'⸣
+1007•Rosa 'Goldmarie'⸣
+1008•Rosa 'Goldquelle'⸣
+1009•Rosa 'Graham Thomas'⸣
+1010•Rosa 'Gruss an Bayern'⸣
+1011•Rosa 'Hanne'⸣
+1012•Rosa 'Hansa'⸣
+1013•Rosa 'Hanseat'⸣
+1014•Rosa 'Heckenfeuer'⸣
+1015•Rosa 'Heidekind'⸣
+1016•Rosa 'Heidekönigin'⸣
+1017•Rosa 'Heidesommer' -runkoruusu⸣
+1018•Rosa 'Heinz Erhard'⸣
+1019•Rosa 'Heinzelmännchen'⸣
+1020•Rosa 'Helga'⸣
+1021•Rosa 'Helsingör'⸣
+1022•Rosa 'Herzog von Windsor'⸣
+1023•Rosa 'Holstein 87'⸣
+1024•Rosa 'Iced Ginger'⸣
+1025•Rosa 'Ingrid Bergman'⸣
+1026•Rosa 'Ingrid Weibull'⸣
+1027•Rosa 'Insel Mainau'⸣
+1028•Rosa 'Interrama'⸣
+1029•Rosa 'Irene af Danmark'⸣
+1030•Rosa 'Jan Spek'⸣
+1031•Rosa 'Joseph Guy'⸣
+1032•Rosa 'Juhannusmorsian'⸣
+1033•Rosa 'Kaarina'⸣
+1034•Rosa 'Karen Blixen'⸣
+1035•Rosa 'Kimono'⸣
+1036•Rosa 'King's Ransom'⸣
+1037•Rosa 'Kordes Brilliant'⸣
+1038•Rosa 'Korona'⸣
+1039•Rosa 'Kotiliesi'⸣
+1040•Rosa 'Königin Beatrix'⸣
+1041•Rosa 'Königin der Rosen'⸣
+1042•Rosa 'La Paloma 85'⸣
+1043•Rosa 'Lady Rose'⸣
+1044•Rosa 'Landora'⸣
+1045•Rosa 'Lapponia'⸣
+1046•Rosa 'Lavaglut'⸣
+1047•Rosa 'Lavender Dream'⸣
+1048•Rosa 'Lili Marleen'⸣
+1049•Rosa 'Little Lemmy'⸣
+1050•Rosa 'Lolita'⸣
+1051•Rosa 'Ludvigshafen am Rhein'⸣
+1052•Rosa 'Lübecker Rotspon'⸣
+1053•Rosa 'Maiden's Blush'⸣
+1054•Rosa 'Maigold'⸣
+1055•Rosa 'Mainzer Fastnacht'⸣
+1056•Rosa majalis 'Foecundissima'⸣
+1057•Rosa majalis 'Tornedal'⸣
+1058•Rosa majalis⸣
+1059•Rosa 'Maria Mathilda'⸣
+1060•Rosa 'Mariandel'⸣
+1061•Rosa 'Marietta'⸣
+1062•Rosa 'Marlena'⸣
+1063•Rosa 'Marselisborg'⸣
+1064•Rosa 'Meteor'⸣
+1065•Rosa 'Michelle'⸣
+1066•Rosa 'Mildred Scheel'⸣
+1067•Rosa 'Minette'⸣
+1068•Rosa 'Moje⸣
+1069•Rosa 'Monica'⸣
+1070•Rosa 'Montana'⸣
+1071•Rosa 'Moyesii'⸣
+1072•Rosa 'Nevada'⸣
+1073•Rosa 'Nicole'⸣
+1074•Rosa 'Nina Weibull'⸣
+1075•Rosa nitida⸣
+1076•Rosa omaiensis f. pteracantha⸣
+1077•Rosa 'Onni'⸣
+1078•Rosa 'Orange Meillandina'⸣
+1079•Rosa 'Orange Sensation'⸣
+1080•Rosa 'Orange Triumph'⸣
+1081•Rosa 'Osiana'⸣
+1082•Rosa 'Papula'⸣
+1083•Rosa 'Pascali'⸣
+1084•Rosa 'Peace'⸣
+1085•Rosa pendulina⸣
+1086•Rosa 'Pernille Poulsen'⸣
+1087•Rosa 'Pfälzer Gold'⸣
+1088•Rosa 'Piccadilly⸣
+1089•Rosa 'Piccolo'⸣
+1090•Rosa pimpinellifolia 'Aicha'⸣
+1091•Rosa pimpinellifolia 'Frulingsduft'⸣
+1092•Rosa pimpinellifolia 'Frühlingsgold'⸣
+1093•Rosa pimpinellifolia 'Grandiflora'⸣
+1094•Rosa pimpinellifolia 'Maigold'⸣
+1095•Rosa pimpinellifolia 'Plena'⸣
+1096•Rosa pimpinellifolia 'Stanwell Perpetual'⸣
+1097•Rosa pimpinellifolia 'Tove Jansson'⸣
+1098•Rosa pimpinellifolia⸣
+1099•Rosa pimpinellifolia'Fruhlingsduft'⸣
+1100•Rosa pimpinellifolia'Prarie Dawn'⸣
+1101•Rosa 'Pink Grootendorst'⸣
+1102•Rosa 'Pink Minimo'⸣
+1103•Rosa 'Pink Pavement'⸣
+1104•Rosa 'Pink Robusta'⸣
+1105•Rosa 'Pohjantähti'⸣
+1106•Rosa 'Poppet'⸣
+1107•Rosa 'Poppius'⸣
+1108•Rosa 'President Kekkonen'⸣
+1109•Rosa 'Prins Claus'⸣
+1110•Rosa 'Prominent'⸣
+1111•Rosa 'Pussta'⸣
+1112•Rosa 'Queen Elisabeth'⸣
+1113•Rosa 'Red Minimo'⸣
+1114•Rosa 'Red Peace'⸣
+1115•Rosa 'Regensberg'⸣
+1116•Rosa 'Rheinaupark'⸣
+1117•Rosa 'Robusta'⸣
+1118•Rosa 'Rosali'⸣
+1119•Rosa 'Rosamunde'⸣
+1120•Rosa 'Rosenfee'⸣
+1121•Rosa 'Rosenstadt Zweibrücken'⸣
+1122•Rosa 'Roseromantic'⸣
+1123•Rosa 'Rosy Carpet'⸣
+1124•Rosa rubiginosa 'Magnifiga'⸣
+1125•Rosa rubiginosa⸣
+1126•Rosa 'Rubina'⸣
+1127•Rosa rugosa f. alba⸣
+1128•Rosa rugosa 'Fru Dagmar Hastrup'⸣
+1129•Rosa rugosa 'Max Graf'⸣
+1130•Rosa rugosa 'Pink Robusta'⸣
+1131•Rosa rugosa 'Pohjolan Kuningatar'⸣
+1132•Rosa rugosa 'Rote Max Graf'⸣
+1133•Rosa rugosa 'Scabrosa'⸣
+1134•Rosa rugosa 'Schneezwerg'⸣
+1135•Rosa rugosa 'Signe Relander'⸣
+1136•Rosa rugosa⸣
+1137•Rosa 'Rumba'⸣
+1138•Rosa 'Ruskeala'⸣
+1139•Rosa 'Samba'⸣
+1140•Rosa 'Scarlet Pavement'⸣
+1141•Rosa 'Schloss Mannheim'⸣
+1142•Rosa 'Schneekönigin'⸣
+1143•Rosa 'Schneewitchen'⸣
+1144•Rosa 'Schwarze Madonna'⸣
+1145•Rosa 'Schweizergrüss'⸣
+1146•Rosa 'Shalom'⸣
+1147•Rosa 'Sipi'⸣
+1148•Rosa 'Smarty'⸣
+1149•Rosa 'Snow Ballet'⸣
+1150•Rosa 'Sommerwind' -runkoruusu⸣
+1151•Rosa 'Sommerwind'⸣
+1152•Rosa 'Sonnenröschen'⸣
+1153•Rosa 'Southampton'⸣
+1154•Rosa 'Souvenir de Christophe Cochet'⸣
+1155•Rosa 'Souvenir de la Malmaison'⸣
+1156•Rosa 'Splendens'⸣
+1157•Rosa 'Staffa'⸣
+1158•Rosa 'Summer Holiday'⸣
+1159•Rosa 'Sunflare'⸣
+1160•Rosa 'Super Star'⸣
+1161•Rosa 'Swany'⸣
+1162•Rosa 'The Fairy' -runkoruusu⸣
+1163•Rosa 'The Fairy'⸣
+1164•Rosa 'Thérèse Bugnet'⸣
+1165•Rosa 'Tip Top'⸣
+1166•Rosa 'Tom Tom'⸣
+1167•Rosa 'Topsi'⸣
+1168•Rosa 'Tornado'⸣
+1169•Rosa 'Traumerei' -runkoruusu⸣
+1170•Rosa 'Traumerei'⸣
+1171•Rosa 'Traumland'⸣
+1172•Rosa 'Trier'⸣
+1173•Rosa 'Troika'⸣
+1174•Rosa 'Uncle Walter'⸣
+1175•Rosa 'Uwe Seeler'⸣
+1176•Rosa 'Weibull'⸣
+1177•Rosa 'Western Sun'⸣
+1178•Rosa 'Whisky'⸣
+1179•Rosa villosa⸣
+1180•Rosa virginiana⸣
+1181•Rosa x harisonii 'Harison's Yellow'⸣
+1182•Rosa x harisonii⸣
+1183•Rosa x malyi 'Kempeleen Kaunotar'⸣
+1184•Rosa x mariae-graebneriae⸣
+1185•Rosa x rugotida 'Dart's Defender'⸣
+1186•Rosa x rugotida⸣
+1187•Rosa x spaethiana⸣
+1188•Rosa 'Yellow Meillandina'⸣
+1189•Rosa 'Yesterday'⸣
+1190•Rosa 'Zonta-Rose'⸣
+1191•Rosa⸣
+1192•Rosmarinus officinalis⸣
+1193•Rubus alleghaniensis⸣
+1194•Rubus articus x idaeus 'Heisa'⸣
+1195•Rubus caesius⸣
+1196•Rubus deliciosus⸣
+1197•Rubus idaeus 'Muskoka'⸣
+1198•Rubus idaeus⸣
+1199•Rubus odoratus⸣
+1200•Rubus saxatilis⸣
+1201•Rudbeckia fulgida var. speciosa⸣
+1202•Rudbeckia fulgida var. sullivantii⸣
+1203•Rudbeckia laciniata 'Goldball'⸣
+1204•Salix alba⸣
+1205•Salix aurita⸣
+1206•Salix caprea⸣
+1207•Salix cinerea⸣
+1208•Salix daphnoides acutifolia⸣
+1209•Salix daphnoides⸣
+1210•Salix dasyclados⸣
+1211•Salix fragilis 'Bullata'⸣
+1212•Salix gl.callicarpaea 'Haltia⸣
+1213•Salix glauca⸣
+1214•Salix lanata⸣
+1215•Salix lapponum⸣
+1216•Salix myrsinifolia⸣
+1217•Salix myrtilloides⸣
+1218•Salix pentandra⸣
+1219•Salix phylicifolia⸣
+1220•Salix purpurea 'Nana'⸣
+1221•Salix purpurea x rosmarinifolia⸣
+1222•Salix purpurea⸣
+1223•Salix pyrolifolia⸣
+1224•Salix repens arenaria⸣
+1225•Salix repens 'Saret'⸣
+1226•Salix repens⸣
+1227•Salix rosmarinifolia⸣
+1228•Salix 'Sibirica'⸣
+1229•Salix starkeana⸣
+1230•Salix triandra⸣
+1231•Salix viminalis⸣
+1232•Salix 'Vitellina Tristis'⸣
+1233•Salix 'Vitellina'⸣
+1234•Salix x aurora 'Tuhkimo'⸣
+1235•Salix x dasyclados⸣
+1236•Salix x mollissima⸣
+1237•Salix x rubens⸣
+1238•Salix⸣
+1239•Salvia nemorosa⸣
+1240•Salvia officinalis⸣
+1241•Salvia x sylvestris 'Blaukönigin'⸣
+1242•Salvia x sylvestris 'Rosakönigin'⸣
+1243•Salvia x sylvestris⸣
+1244•Sambucus canadensis ´Maxima´⸣
+1245•Sambucus racemosa⸣
+1246•Sanguisorba officinalis⸣
+1247•Saponaria officinalis 'Alba Plena'⸣
+1248•Saponaria officinalis 'Rubra Plena'⸣
+1249•Saponaria officinalis⸣
+1250•Satureja hortensis⸣
+1251•Saxifraga Arendsii-hybr.⸣
+1252•Saxifraga hostii⸣
+1253•Saxifraga paniculata⸣
+1254•Saxifraga 'Purpurteppich'⸣
+1255•Saxifraga rotundifolia⸣
+1256•Saxifraga 'Schneeteppich'⸣
+1257•Schisandra chinensis⸣
+1258•Scirpus sylvaticus⸣
+1259•Sedum acre⸣
+1260•Sedum aizoon⸣
+1261•Sedum album⸣
+1262•Sedum 'Common Red'⸣
+1263•Sedum ewersii⸣
+1264•Sedum floriferum 'Weihenstephaner Gold'⸣
+1265•Sedum 'Herbstfreude'⸣
+1266•Sedum pachyclados⸣
+1267•Sedum spathulifolium 'Purpureum'⸣
+1268•Sedum spathulifolium⸣
+1269•Sedum spectabile⸣
+1270•Sedum spurium 'Rosea'⸣
+1271•Sedum spurium⸣
+1272•Sedum 'Stewed Rhubarb Mountain'⸣
+1273•Sedum telephium 'Munstead Dark Red'⸣
+1274•Sedum telephium subsp. maximum⸣
+1275•Sedum⸣
+1276•Sempervivum tectorum⸣
+1277•Sinapsis alba⸣
+1278•Solidago canadensis 'Goldking'⸣
+1279•Solidago canadensis⸣
+1280•Solidago virgaurea⸣
+1281•Solidago x hybr. 'Golden Mosa'⸣
+1282•Solidago x hybr. 'Goldstar'⸣
+1283•Solidago x hybr. 'Leraft'⸣
+1284•Solidago x hybr.⸣
+1285•Solidago⸣
+1286•Sorbaria sorbifolia⸣
+1287•Sorbus aucuparia⸣
+1288•Spiraea alba 'Allikko'⸣
+1289•Spiraea alba var. latifolia⸣
+1290•Spiraea alba⸣
+1291•Spiraea 'Arguta'⸣
+1292•Spiraea beauverdiana 'Lumikki'⸣
+1293•Spiraea beauverdiana⸣
+1294•Spiraea betulifolia `Thor´⸣
+1295•Spiraea betulifolia 'Island'⸣
+1296•Spiraea betulifolia 'Renko'⸣
+1297•Spiraea betulifolia var. 'Aemiliana'⸣
+1298•Spiraea betulifolia var. lucida⸣
+1299•Spiraea betulifolia⸣
+1300•Spiraea Billiardii-hybr.⸣
+1301•Spiraea cana⸣
+1302•Spiraea chamaedryfolia 'Martti'⸣
+1303•Spiraea chamaedryfolia var. ulmifolia⸣
+1304•Spiraea chamaedryfolia⸣
+1305•Spiraea decumbens⸣
+1306•Spiraea densiflora⸣
+1307•Spiraea douglasii⸣
+1308•Spiraea fritschiana⸣
+1309•Spiraea 'Grefsheim'⸣
+1310•Spiraea hypericifolia⸣
+1311•Spiraea japonica 'Albiflora'⸣
+1312•Spiraea japonica 'Anthony Waterer'⸣
+1313•Spiraea japonica 'Arnold'⸣
+1314•Spiraea japonica 'Firelight'⸣
+1315•Spiraea japonica 'Froebelii'⸣
+1316•Spiraea japonica 'Golden Princess'⸣
+1317•Spiraea japonica 'Goldflame'⸣
+1318•Spiraea japonica 'Goldmound'⸣
+1319•Spiraea japonica 'Lilly'⸣
+1320•Spiraea japonica 'Little Princess'⸣
+1321•Spiraea japonica 'Manon'⸣
+1322•Spiraea japonica 'Nana'⸣
+1323•Spiraea japonica 'Neon Flash'⸣
+1324•Spiraea japonica 'Odensala'⸣
+1325•Spiraea japonica 'Shirobana'⸣
+1326•Spiraea japonica 'walbuma Magic Carpet'⸣
+1327•Spiraea japonica⸣
+1328•Spiraea 'Margaritae'⸣
+1329•Spiraea media⸣
+1330•Spiraea nipponica 'Halwards Silwer'⸣
+1331•Spiraea nipponica 'June Bride'⸣
+1332•Spiraea nipponica⸣
+1333•Spiraea rubella⸣
+1334•Spiraea salicifolia⸣
+1335•Spiraea stevenii⸣
+1336•Spiraea 'Summersnow'⸣
+1337•Spiraea trichocarpa⸣
+1338•Spiraea trilobata⸣
+1339•Spiraea x bumalda 'Denistar'⸣
+1340•Spiraea x bumalda 'Superstar'⸣
+1341•Spiraea x cinerea⸣
+1342•Spiraea x rosalba⸣
+1343•Spiraea x sanssouciana⸣
+1344•Spiraea x vanhouttei⸣
+1345•Spiraea x watsoniana 'Kruunu'⸣
+1346•Spiraea x watsoniana⸣
+1347•Spiraea⸣
+1348•Stachys byzantina⸣
+1349•Stachys macrantha 'Superba'⸣
+1350•Stachys macrantha⸣
+1351•Stephanandra incisa 'Crispa'⸣
+1352•Stephnandra incisa 'Crispa'⸣
+1353•Symphoricarpos albus var. laevigatus⸣
+1354•Syringa josikaea⸣
+1355•Syringa patula⸣
+1356•Syringa Preston-hybr. 'Coral'⸣
+1357•Syringa Preston-hybr. 'Elinor'⸣
+1358•Syringa Preston-hybr. 'Holger'⸣
+1359•Syringa Preston-hybr. 'James MacFarlane'⸣
+1360•Syringa Preston-hybr. 'Royalty'⸣
+1361•Syringa reflexa⸣
+1362•Syringa reticulata⸣
+1363•Syringa vulgaris 'Alba'⸣
+1364•Syringa vulgaris 'Amoena'⸣
+1365•Syringa vulgaris 'Andenken an Ludvig Späth'⸣
+1366•Syringa vulgaris 'Charles Joly'⸣
+1367•Syringa vulgaris hybr.⸣
+1368•Syringa vulgaris 'Katherine Havemayer'⸣
+1369•Syringa vulgaris 'Michel Buchner'⸣
+1370•Syringa vulgaris 'Mme Lemoine'⸣
+1371•Syringa vulgaris 'Moskovan kaunotar'⸣
+1372•Syringa vulgaris 'Sensation'⸣
+1373•Syringa vulgaris⸣
+1374•Syringa x chinensis 'Bicolor'⸣
+1375•Syringa x chinensis 'Saugeana'⸣
+1376•Syringa x chinensis⸣
+1377•Syringa x henryi 'Tammelan Kaunotar'⸣
+1378•Syringa x henryi 'Tapaninsyreeni'⸣
+1379•Syringa x henryi⸣
+1380•Syringa x josiflexa ' Veera'⸣
+1381•Syringa x josiflexa⸣
+1382•Syringa⸣
+1383•Tanacetum coccineum⸣
+1384•Tanacetum vulgare⸣
+1385•Taxus baccata⸣
+1386•Taxus cuspidata 'Nana'⸣
+1387•Taxus cuspidata⸣
+1388•Taxus x media 'Hicksii'⸣
+1389•Taxus⸣
+1390•Telekia speciosa⸣
+1391•Tellima grandiflora⸣
+1392•Thalictrum aquilegiifolium⸣
+1393•Thalictrum delavayi⸣
+1394•Thalictrum flavum⸣
+1395•Thelypteris phegopteris⸣
+1396•Thuja koraiensis⸣
+1397•Thuja occidentalis 'Brabant'⸣
+1398•Thuja occidentalis 'Columna'⸣
+1399•Thuja occidentalis 'Fastigiata'⸣
+1400•Thuja occidentalis 'Globosa'⸣
+1401•Thuja occidentalis 'Holmstrup'⸣
+1402•Thuja occidentalis 'Hoveyi'⸣
+1403•Thuja occidentalis 'Smaragd'⸣
+1404•Thuja occidentalis 'Sunkist'⸣
+1405•Thuja occidentalis 'Woodwardii'⸣
+1406•Thuja occidentalis⸣
+1407•Thujopsis dolabrata⸣
+1408•Thymus citriodorus⸣
+1409•Thymus serphyllum⸣
+1410•Thymus vulgaris⸣
+1411•Tiarella cordifolia⸣
+1412•Tiarella wherryi⸣
+1413•Tiarella⸣
+1414•Trientalis europaea⸣
+1415•Trifolium repens⸣
+1416•Trollius chinensis 'Goldkönigin'⸣
+1417•Trollius chinensis⸣
+1418•Trollius europaeus⸣
+1419•Trollius-hybr. 'Orange Globe'⸣
+1420•Trollius-hybr. 'Orange Princess'⸣
+1421•Trollius-hybr.⸣
+1422•Tsuga canadensis⸣
+1423•Tsuga diversifolia⸣
+1424•Tsuga heterophylla⸣
+1425•Tsuga mertensiana⸣
+1426•Tulipa armena⸣
+1427•Tulipa biflora⸣
+1428•Tulipa celsiana⸣
+1429•Tulipa clusiana⸣
+1430•Tulipa fosteriana⸣
+1431•Tulipa greigii⸣
+1432•Tulipa humilis⸣
+1433•Tulipa kaufmanniana⸣
+1434•Tulipa lanata⸣
+1435•Tulipa linifolia⸣
+1436•Tulipa marjoletti⸣
+1437•Tulipa ostrowskiana⸣
+1438•Tulipa sylvestris⸣
+1439•Tulipa tarda⸣
+1440•Typha angustifolia⸣
+1441•Typha latifolia⸣
+1442•Vaccinium 'Aron'⸣
+1443•Vaccinium corymbosum 'Aino'⸣
+1444•Vaccinium corymbosum 'North Blue'⸣
+1445•Vaccinium corymbosum⸣
+1446•Vaccinium microcarpum⸣
+1447•Vaccinium myrtilus⸣
+1448•Vaccinium oxycoccos⸣
+1449•Vaccinium uliginosum⸣
+1450•Vaccinium vitis-idaea⸣
+1451•Waldsteinia ternata⸣
+1452•Weigela florida 'Minuet'⸣
+1453•Weigela hybrida⸣
+1454•Weigela middendorffiana⸣
+1455•Weigela praecox⸣
+1456•Verbascum nigrum⸣
+1457•Verbascum olympicum⸣
+1458•Verbascum thapsus⸣
+1459•Veronica austriaca 'Royal Blue'⸣
+1460•Veronica austriaca⸣
+1461•Veronica longifolia⸣
+1462•Veronica officinalis⸣
+1463•Veronica prostrata⸣
+1464•Veronica spicata nana 'Blauteppich'⸣
+1465•Veronica spicata⸣
+1466•Veronica⸣
+1467•Viburnum dentatum var. lucidum⸣
+1468•Viburnum lantana⸣
+1469•Viburnum lentago 'Jenkki'⸣
+1470•Viburnum opulus f. roseum⸣
+1471•Viburnum opulus 'Kallion Pallo'⸣
+1472•Viburnum opulus 'Nanum'⸣
+1473•Viburnum opulus 'Nordplant'⸣
+1474•Viburnum opulus 'Pohjan Neito'⸣
+1475•Viburnum opulus ssp. opulus⸣
+1476•Viburnum opulus ssp. trilobum⸣
+1477•Viburnum opulus⸣
+1478•Viburnum sargentii 'Blue Muffin'⸣
+1479•Viburnum sargentii 'Onondaga'⸣
+1480•Viburnum⸣
+1481•Vinca minor 'Argenteovariegata'⸣
+1482•Vinca minor⸣
+1483•Viola 'Ella'⸣
+1484•Viola odorata⸣
+1485•Vitis labrusca⸣
+1486•muu⸣
+1487•ei tiedossa]]>
+	</initial-data>
+</table>
+
+<table name="kasviryhmatyyppi" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
+	<schema name="koodistot"/>
+	<role name="infrao_admin"/>
+	<position x="1360" y="1040"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="selite">
+		<type name="text" length="0"/>
+	</column>
+	<constraint name="kasviryhmatyyppi_pk" type="pk-constr" table="koodistot.kasviryhmatyyppi">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+	<initial-data>
+<![CDATA[id•selite⸣
+1•havupensas⸣
+2•köynnös⸣
+3•köynnösruusu⸣
+4•lehtipensas⸣
+5•maustekasvi⸣
+6•perenna⸣
+7•varpu⸣
+8•ryhmäruusu⸣
+9•yksivuotinen kasvi⸣
+10•muu⸣
+11•ei tiedossa]]>
+	</initial-data>
+</table>
+
+<table name="leikkivalinetyyppi" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
+	<schema name="koodistot"/>
+	<role name="infrao_admin"/>
+	<position x="100" y="1220"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="selite">
+		<type name="text" length="0"/>
+	</column>
+	<constraint name="leikkivalinetyyppi_pk" type="pk-constr" table="koodistot.leikkivalinetyyppi">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+	<initial-data>
+<![CDATA[id•selite⸣
+1•aita⸣
+2•hiekkalaatikko⸣
+3•jousilelu⸣
+4•karuselli⸣
+5•katos⸣
+6•keinulauta⸣
+7•keinumisvälineet⸣
+8•keinut⸣
+9•kiipeilyteline⸣
+10•köysirata⸣
+11•leikkimökki⸣
+12•liukumäki⸣
+13•monitoimiväline⸣
+14•patsas⸣
+15•tasapainoiluväline⸣
+16•muu⸣
+17•ei tiedossa]]>
+	</initial-data>
+</table>
+
+<table name="liikennemerkkityyppi" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
+	<schema name="koodistot"/>
+	<role name="infrao_admin"/>
+	<position x="420" y="1220"/>
+	<column name="cid" not-null="true">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="selite">
+		<type name="text" length="0"/>
+	</column>
+	<constraint name="liikennemerkkityyppi_pk" type="pk-constr" table="koodistot.liikennemerkkityyppi">
+		<columns names="cid" ref-type="src-columns"/>
+	</constraint>
+	<initial-data>
+<![CDATA[id•selite⸣
+1•111. Mutka oikealle⸣
+2•112. Mutka vasemmalle⸣
+3•113. Mutkia, joista ensimmäinen oikealle⸣
+4•114. Mutkia, joista ensimmäinen vasemmalle⸣
+5•115. Jyrkkä alamäki⸣
+6•116. Jyrkkä ylämäki⸣
+7•121. Kapeneva tie⸣
+8•122. Kaksisuuntainen liikenne⸣
+9•131. Avattava silta⸣
+10•132. Lautta, laituri tai ranta⸣
+11•133. Liikenneruuhka⸣
+12•141. Epätasainen tie⸣
+13•141 a. Töyssyjä⸣
+14•142. Tietyö⸣
+15•143. Irtokiviä⸣
+16•144. Liukas ajorata⸣
+17•147. Vaarallinen tien reuna⸣
+18•151. Suojatien ennakkovaroitus⸣
+19•152. Lapsia⸣
+20•153. Pyöräilijöitä⸣
+21•154. Hiihtolatu⸣
+22•155. Hirvieläimiä⸣
+23•156. Poroja⸣
+24•161. Tienristeys⸣
+25•162. Sivutien risteys⸣
+26•163. Sivutien risteys⸣
+27•164. Sivutien risteys⸣
+28•165. Liikennevalot⸣
+29•166. Liikenneympyrä⸣
+30•167. Raitiotie⸣
+31•171. Rautatien tasoristeys ilman puomeja⸣
+32•172. Rautatien tasoristeys, jossa on puomit⸣
+33•173. 174. 175. Rautatien tasoristeyksen lähestymismerkit⸣
+34•176. Yksiraiteisen rautatien tasoristeys⸣
+35•177. Kaksi- tai useampiraiteisen rautatien tasoristeys⸣
+36•181. Putoavia kiviä⸣
+37•182. Matalalla lentäviä lentokoneita⸣
+38•183. Sivutuuli⸣
+39•189. Muu vaara⸣
+40•211. Etuajo-oikeutettu tie⸣
+41•212. Etuajo-oikeuden päättyminen⸣
+42•221. Etuajo-oikeus kohdattaessa⸣
+43•222. Väistämisvelvollisuus kohdattaessa⸣
+44•231. Väistämisvelvollisuus risteyksessä⸣
+45•232. Pakollinen pysäyttäminen⸣
+46•311. Ajoneuvolla ajo kielletty⸣
+47•312. Moottorikäyttöisellä ajoneuvolla ajo kielletty⸣
+48•313. Kuorma- ja pakettiautolla ajo kielletty⸣
+49•314. Ajoneuvoyhdistelmällä ajo kielletty⸣
+50•315. Traktorilla ajo kielletty⸣
+51•316. Moottoripyörällä ajo kielletty⸣
+52•317. Moottorikelkalla ajo kielletty⸣
+53•318. Vaarallisten aineiden kuljetus kielletty⸣
+54•319. Linja-autolla ajo kielletty⸣
+55•321. Mopolla ajo kielletty⸣
+56•322. Polkupyörällä ja mopolla ajo kielletty⸣
+57•323. Jalankulku kielletty⸣
+58•324. Jalankulku sekä polkupyörällä ja mopolla ajo kielletty⸣
+59•325. Ratsastus kielletty⸣
+60•331. Kielletty ajosuunta⸣
+61•332. Vasemmalle kääntyminen kielletty⸣
+62•333. Oikealle kääntyminen kielletty⸣
+63•334. U-käännös kielletty⸣
+64•341. Ajoneuvon suurin sallittu leveys⸣
+65•342. Ajoneuvon suurin sallittu korkeus⸣
+66•343. Ajoneuvon tai ajoneuvoyhdistelmän suurin sallittu pituus⸣
+67•344. Ajoneuvon suurin sallittu massa⸣
+68•345. Ajoneuvoyhdistelmän suurin sallittu massa⸣
+69•346. Ajoneuvon suurin sallittu akselille kohdistuva massa⸣
+70•347. Ajoneuvon suurin sallittu telille kohdistuva massa⸣
+71•351. Ohituskielto⸣
+72•352. Ohituskielto päättyy⸣
+73•353. Ohituskielto kuorma-autolla⸣
+74•354. Ohituskielto kuorma-autolla päättyy⸣
+75•361. Nopeusrajoitus⸣
+76•362. Nopeusrajoitus päättyy⸣
+77•363. Nopeusrajoitusalue⸣
+78•364. Nopeusrajoitusalue päättyy⸣
+79•365. Ajokaistakohtainen kielto tai rajoitus⸣
+80•371. Pysäyttäminen kielletty⸣
+81•372. Pysäköinti kielletty⸣
+82•373. Pysäköintikieltoalue⸣
+83•374. Pysäköintikieltoalue päättyy⸣
+84•375. Taksiasema-alue⸣
+85•376. Taksin pysäyttämispaikka⸣
+86•381. Vuoropysäköinti⸣
+87•382. Vuoropysäköinti⸣
+88•391. Pakollinen pysäyttäminen tullitarkastusta varten⸣
+89•392. Pakollinen pysäyttäminen tarkastusta varten⸣
+90•393. Moottorikäyttöisten ajoneuvojen vähimmäisetäisyys⸣
+91•411. Pakollinen ajosuunta⸣
+92•412. Pakollinen ajosuunta⸣
+93•413. Pakollinen ajosuunta⸣
+94•414. Pakollinen ajosuunta⸣
+95•415. Pakollinen ajosuunta⸣
+96•416. Pakollinen kiertosuunta⸣
+97•417. Liikenteen jakaja⸣
+98•418. Liikenteen jakaja⸣
+99•421. Jalkakäytävä⸣
+100•422. Pyörätie⸣
+101•423. Yhdistetty pyörätie ja jalkakäytävä⸣
+102•424. Pyörätie ja jalkakäytävä rinnakkain⸣
+103•425. Pyörätie ja jalkakäytävä rinnakkain⸣
+104•426. Moottorikelkkailureitti⸣
+105•427. Ratsastustie⸣
+106•511. Suojatie⸣
+107•520. Liityntäpysäköintipaikka⸣
+108•521. Pysäköintipaikka⸣
+109•521 a. Ajoneuvojen sijoitus pysäköintipaikalla⸣
+110•521 b. Ajoneuvojen sijoitus pysäköintipaikalla⸣
+111•521 c. Ajoneuvojen sijoitus pysäköintipaikalla⸣
+112•522. Kohtaamispaikka⸣
+113•531. Paikallisliikenteen linja-auton pysäkki⸣
+114•532. Kaukoliikenteen linja-auton pysäkki⸣
+115•533. Raitiovaunun pysäkki⸣
+116•534. Taksiasema⸣
+117•541 a. Linja-autokaista⸣
+118•541 b. Linja-autokaista⸣
+119•542 a. Linja-autokaista päättyy⸣
+120•542 b. Linja-autokaista päättyy⸣
+121•543 a. Raitiovaunukaista⸣
+122•543 b. Raitiovaunukaista⸣
+123•544 a. Raitiovaunukaista päättyy⸣
+124•544 b. Raitiovaunukaista päättyy⸣
+125•551. Yksisuuntainen tie⸣
+126•561. Moottoritie⸣
+127•562. Moottoritie päättyy⸣
+128•563. Moottoriliikennetie⸣
+129•564. Moottoriliikennetie päättyy⸣
+130•565. Tunneli⸣
+131•566. Tunneli päättyy⸣
+132•567. Hätäpysäyttämispaikka⸣
+133•571. Taajama⸣
+134•572. Taajama päättyy⸣
+135•573. Pihakatu⸣
+136•574. Pihakatu päättyy⸣
+137•575. Kävelykatu⸣
+138•576. Kävelykatu päättyy⸣
+139•611. Suunnistustaulu⸣
+140•612. Suunnistustaulu⸣
+141•613. Kiertotien suunnistustaulu⸣
+142•614. Kiertotien suunnistustaulu⸣
+143•615. Kiertotieopastus⸣
+144•616. Ajoreittiopastus⸣
+145•621. Ajokaistaopastus⸣
+146•622. Ajokaistaopastus⸣
+147•623. Ajokaistan päättyminen⸣
+148•631. Ajokaistan yläpuolinen viitta⸣
+149•632. Ajokaistan yläpuolinen viitta⸣
+150•633. Ajokaistan yläpuolinen erkanemisviitta⸣
+151•641. Tienviitta⸣
+152•642. Erkanemisviitta⸣
+153•643. Yksityisen tien viitta⸣
+154•644. Osoiteviitta⸣
+155•644 a. Osoiteviittan ennakkomerkki⸣
+156•645. Kevyen liikenteen viitta⸣
+157•646. Kiertotien viitta⸣
+158•647. Kiertotien viitta⸣
+159•648. Paikalliskohteen viitta⸣
+160•649. Moottori- ja moottoriliikennetien viitta⸣
+161•650. Liityntäpysäköintiviitta⸣
+162•651. Umpitie⸣
+163•652. Umpitie⸣
+164•653. Enimmäisnopeussuositus⸣
+165•661. Etäisyystaulu⸣
+166•662. Paikannimi⸣
+167•663. Kansainvälisen pääliikenneväylän numero⸣
+168•664. Valtatien numero⸣
+169•665. Kantatien numero⸣
+170•665 a. Seututien numero⸣
+171•666. Muun yleisen tien numero⸣
+172•667. Opastus numeron tarkoittamalle tielle⸣
+173•671. Moottoritien tunnus⸣
+174•672. Moottoriliikennetien tunnus⸣
+175•673. Lentoasema⸣
+176•674. Autolautta⸣
+177•675. Tavarasatama⸣
+178•676. Teollisuusalue⸣
+179•677. Pysäköinti⸣
+180•677 a. Katettu pysäköinti⸣
+181•678. Rautatieasema⸣
+182•679. Linja-autoasema⸣
+183•681. Tietyille ajoneuvoille tai ajoneuvoyhdistelmille tarkoitettu reitti⸣
+184•682. Jalankulkijoille tarkoitettu reitti⸣
+185•683. Vammaisille tarkoitettu reitti⸣
+186•684. Vaarallisten aineiden kuljetuksille tarkoitettu reitti⸣
+187•685. Reitti, jolla on portaat⸣
+188•686. Reitti ilman portaita⸣
+189•690. Hätäuloskäynti⸣
+190•691. Poistumisreitti⸣
+191•701. Palvelukohteen opastustaulu⸣
+192•702. Palvelukohteen opastustaulu⸣
+193•703. Palvelukohteen erkanemisviitta⸣
+194•704. Palvelukohteen osoiteviitta⸣
+195•704 a. Palvelukohteen osoiteviittan ennakkomerkki⸣
+196•710. Radioaseman taajuus⸣
+197•711. Opastuspiste⸣
+198•712. Opastustoimisto⸣
+199•715. Ensiapu⸣
+200•721. Autokorjaamo⸣
+201•722. Huoltoasema⸣
+202•723. Hotelli tai motelli⸣
+203•724. Ruokailupaikka⸣
+204•725. Kahvila tai pikaruokapaikka⸣
+205•726. Käymälä⸣
+206•731. Retkeilymaja⸣
+207•733. Leirintäalue⸣
+208•734. Matkailuajoneuvoalue⸣
+209•741. Levähdysalue⸣
+210•742. Ulkoilualue⸣
+211•791. Hätäpuhelin⸣
+212•792. Sammutin⸣
+213•771 a. Matkailutie⸣
+214•771 b. Matkailutie⸣
+215•772 a. Museo tai historiallinen rakennus⸣
+216•772 b. Maailmanperintökohde⸣
+217•772 c. Luontokohde⸣
+218•772 d. Näköalapaikka⸣
+219•772 e. Eläintarha tai -puisto⸣
+220•772 f. Muu nähtävyys⸣
+221•773 a. Uintipaikka⸣
+222•773 b. Kalastuspaikka⸣
+223•773 c. Hiihtohissi⸣
+224•773 d. Golfkenttä⸣
+225•773 e. Huvi- tai teemapuisto⸣
+226•774 a. Mökkimajoitus⸣
+227•774 b. Aamiaismajoitus⸣
+228•774 c. Suoramyyntipaikka⸣
+229•774 d. Käsityöpaja⸣
+230•774 e. Kotieläinpiha⸣
+231•774 f. Ratsastuspaikka⸣
+232•811. Kohde risteävällä tiellä⸣
+233•812. Kohde nuolen suunnassa⸣
+234•813. Kohde nuolen suunnassa⸣
+235•814. Vaikutusalueen pituus⸣
+236•815. Etäisyys kohteeseen⸣
+237•816. Etäisyys pakolliseen pysäyttämiseen⸣
+238•821. Vapaa leveys⸣
+239•822. Vapaa korkeus⸣
+240•823. Sähköjohdon korkeus⸣
+241•824. Vaikutusalue molempiin suuntiin⸣
+242•825. Vaikutusalue molempiin suuntiin⸣
+243•826. Vaikutusalue nuolen suuntaan⸣
+244•827. Vaikutusalue alkaa⸣
+245•828. Vaikutusalue päättyy⸣
+246•831. Henkilöauto⸣
+247•832. Linja-auto⸣
+248•833. Kuorma-auto⸣
+249•834. Pakettiauto⸣
+250•835. Matkailuajoneuvo⸣
+251•836. Invalidin ajoneuvo⸣
+252•841. Moottoripyörä⸣
+253•842. Mopo⸣
+254•843. Polkupyörä⸣
+255•844. Pysäköintitapa⸣
+256•845. Pysäköintitapa⸣
+257•848. Kielto ryhmän A vaarallisten aineiden kuljetukselle⸣
+258•849. Läpiajokielto ryhmän B vaarallisten aineiden kuljetukselle⸣
+259•851. Voimassaoloaika⸣
+260•852. Voimassaoloaika⸣
+261•853. Voimassaoloaika⸣
+262•854. Aikarajoitus⸣
+263•855 a. Maksullinen pysäköinti⸣
+264•855 b. Maksullinen pysäköinti⸣
+265•856 a. Pysäköintikiekon käyttövelvollisuus⸣
+266•856 b. Pysäköintikiekon käyttövelvollisuus⸣
+267•861 a. Etuajo-oikeutetun liikenteen suunta⸣
+268•861 b. Etuajo-oikeutetun liikenteen suunta⸣
+269•862. Tukkitie⸣
+270•863. Kaksisuuntainen pyörätie⸣
+271•871. Tekstillinen lisäkilpi⸣
+272•872. Tekstillinen lisäkilpi Huoltoajo sallittu⸣
+273•880. Hätäpuhelin ja sammutin]]>
+	</initial-data>
+</table>
+
+<table name="liikennemerkkityyppi2020" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
+	<schema name="koodistot"/>
+	<role name="infrao_admin"/>
+	<position x="760" y="1220"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="selite">
+		<type name="text" length="0"/>
+	</column>
+	<constraint name="liikennemerkkityyppi2020_pk" type="pk-constr" table="koodistot.liikennemerkkityyppi2020">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+	<initial-data>
+<![CDATA[id•selite⸣
+1•113. Mutkia⸣
+2•114. Mutkia⸣
+3•132. Lautta⸣
+4•172. Rautatien tasoristeys⸣
+5•685. Reitti⸣
+6•A1.1. Mutka⸣
+7•A27. Rautatien tasoristeys⸣
+8•A7. Lautta⸣
+9•C36. Ajokaistakohtainen kielto⸣
+10•F54. Reitti⸣
+11•joista ensimmäinen oikealle⸣
+12•joista ensimmäinen vasemmalle⸣
+13•jolla on portaat⸣
+14•jolla on portaat⸣
+15•jossa on puomit⸣
+16•laituri tai ranta⸣
+17•rajoitus tai määräys⸣
+18•A1.2. Mutka⸣
+19•A2.1. Mutkia⸣
+20•A2.2. Mutkia⸣
+21•A3.1. Jyrkkä mäki⸣
+22•A3.2. Jyrkkä mäki⸣
+23•A4. Kapeneva tie⸣
+24•A5. Kaksisuuntainen liikenne⸣
+25•A6. Avattava silta⸣
+26•A8. Liikenneruuhka⸣
+27•A9. Epätasainen tie⸣
+28•A10. Töyssyjä⸣
+29•A11. Tietyö⸣
+30•A12. Irtokiviä⸣
+31•A13. Liukas ajorata⸣
+32•A14. Vaarallinen tienreuna⸣
+33•A15. Suojatien ennakkovaroitus⸣
+34•A16. Jalankulkijoita⸣
+35•A17. Lapsia⸣
+36•A18. Pyöräilijöitä⸣
+37•A19. Hiihtolatu⸣
+38•A20.1. Hirvi⸣
+39•A20.2. Poro⸣
+40•A20.3. Kauriseläin⸣
+41•A21. Tienristeys⸣
+42•A22.1. Sivutien risteys⸣
+43•A22.2. Sivutien risteys⸣
+44•A22.3. Sivutien risteys⸣
+45•A22.4. Sivutien risteys⸣
+46•A23. Liikennevalot⸣
+47•A24. Liikenneympyrä⸣
+48•A25. Raitiovaunu⸣
+49•A26. Rautatien tasoristeys ilman puomeja⸣
+50•A28.1–A28.3. Rautatien tasoristeyksen lähestymismerkit⸣
+51•A29.1. Tasoristeys⸣
+52•A29.2. Tasoristeys⸣
+53•A30. Putoavia kiviä⸣
+54•A31. Matalalla lentäviä lentokoneita⸣
+55•A32. Sivutuuli⸣
+56•A33. Muu vaara⸣
+57•B1. Etuajo-oikeutettu tie⸣
+58•B2. Etuajo-oikeuden päättyminen⸣
+59•B3. Etuajo-oikeus kohdattaessa⸣
+60•B4. Väistämisvelvollisuus kohdattaessa⸣
+61•B5. Väistämisvelvollisuus risteyksessä⸣
+62•B6. Pakollinen pysäyttäminen⸣
+63•B6. Pakollinen pysäyttäminen⸣
+64•B7. Väistämisvelvollisuus pyöräilijän tienylityspaikassa⸣
+65•C1. Ajoneuvolla ajo kielletty⸣
+66•C2. Moottorikäyttöisellä ajoneuvolla ajo kielletty⸣
+67•C3. Kuorma- ja pakettiautolla ajo kielletty⸣
+68•C4. Ajoneuvoyhdistelmällä ajo kielletty⸣
+69•C5. Traktorilla ajo kielletty⸣
+70•C6. Moottoripyörällä ajo kielletty⸣
+71•C7. Moottorikelkalla ajo kielletty⸣
+72•C8. Vaarallisten aineiden kuljetus kielletty⸣
+73•C9. Linja-autolla ajo kielletty⸣
+74•C10. Mopolla ajo kielletty⸣
+75•C11. Polkupyörällä ajo kielletty⸣
+76•C12. Polkupyörällä ja mopolla ajo kielletty⸣
+77•C13. Jalankulku kielletty⸣
+78•C14. Jalankulku ja polkupyörällä ajo kielletty⸣
+79•C15. Jalankulku ja polkupyörällä ja mopolla ajo kielletty⸣
+80•C16. Ratsastus kielletty⸣
+81•C17. Kielletty ajosuunta⸣
+82•C18. Vasemmalle kääntyminen kielletty⸣
+83•C19. Oikealle kääntyminen kielletty⸣
+84•C20. U-käännös kielletty⸣
+85•C21. Ajoneuvon suurin sallittu leveys⸣
+86•C22. Ajoneuvon suurin sallittu korkeus⸣
+87•C23. Ajoneuvon tai ajoneuvoyhdistelmän suurin sallittu pituus⸣
+88•C24. Ajoneuvon suurin sallittu massa⸣
+89•C25. Ajoneuvoyhdistelmän suurin sallittu massa⸣
+90•C26. Ajoneuvon suurin sallittu akselille kohdistuva massa⸣
+91•C27. Ajoneuvon suurin sallittu telille kohdistuva massa⸣
+92•C28. Ohituskielto⸣
+93•C29. Ohituskielto päättyy⸣
+94•C30. Ohituskielto kuorma-autolla⸣
+95•C31. Ohituskielto kuorma-autolla päättyy⸣
+96•C32. Nopeusrajoitus⸣
+97•C33. Nopeusrajoitus päättyy⸣
+98•C34. Nopeusrajoitusalue⸣
+99•C35. Nopeusrajoitusalue päättyy⸣
+100•C37. Pysäyttäminen kielletty⸣
+101•C38. Pysäköinti kielletty⸣
+102•C39. Pysäköintikieltoalue⸣
+103•C40. Pysäköintikieltoalue päättyy⸣
+104•C41. Taksiasema-alue⸣
+105•C42. Taksin pysäyttämispaikka⸣
+106•C43. Kuormauspaikka⸣
+107•C44.1. Vuoropysäköinti⸣
+108•C44.2. Vuoropysäköinti⸣
+109•C45. Pakollinen pysäyttäminen tullitarkastusta varten⸣
+110•C46. Pakollinen pysäyttäminen tarkastusta varten⸣
+111•C47. Moottorikäyttöisten ajoneuvojen vähimmäisetäisyys⸣
+112•C48. Nastarenkailla varustetulla moottorikäyttöisellä ajoneuvolla ajo kielletty⸣
+113•D1.1. Pakollinen ajosuunta⸣
+114•D1.2. Pakollinen ajosuunta⸣
+115•D1.3. Pakollinen ajosuunta⸣
+116•D1.4. Pakollinen ajosuunta⸣
+117•D1.5. Pakollinen ajosuunta⸣
+118•D1.6. Pakollinen ajosuunta⸣
+119•D1.7. Pakollinen ajosuunta⸣
+120•D1.8. Pakollinen ajosuunta⸣
+121•D1.9. Pakollinen ajosuunta⸣
+122•D2. Pakollinen kiertosuunta⸣
+123•D3.1. Liikenteenjakaja⸣
+124•D3.2. Liikenteenjakaja⸣
+125•D3.3. Liikenteenjakaja⸣
+126•D4. Jalkakäytävä⸣
+127•D5. Pyörätie⸣
+128•D6. Yhdistetty pyörätie ja jalkakäytävä⸣
+129•D7.1. Pyörätie ja jalkakäytävä rinnakkain⸣
+130•D7.2. Pyörätie ja jalkakäytävä rinnakkain⸣
+131•D8. Moottorikelkkailureitti⸣
+132•D9. Ratsastustie⸣
+133•D10. Vähimmäisnopeus⸣
+134•D11. Vähimmäisnopeus päättyy⸣
+135•E1. Suojatie⸣
+136•E2. Pysäköintipaikka⸣
+137•E3.1. Liityntäpysäköintipaikka⸣
+138•E3.2. Liityntäpysäköintipaikka⸣
+139•E3.3. Liityntäpysäköintipaikka⸣
+140•E3.4. Liityntäpysäköintipaikka⸣
+141•E3.5. Liityntäpysäköintipaikka⸣
+142•E4.1. Ajoneuvojen sijoitus pysäköintipaikalla⸣
+143•E4.2. Ajoneuvojen sijoitus pysäköintipaikalla⸣
+144•E4.3. Ajoneuvojen sijoitus pysäköintipaikalla⸣
+145•E5. Kohtaamispaikka⸣
+146•E6. Linja-autopysäkki⸣
+147•E7. Raitiovaunupysäkki⸣
+148•E8. Taksiasema⸣
+149•E9.1. Linja-autokaista⸣
+150•E9.2. Linja-autokaista⸣
+151•E10.1. Linja-autokaista päättyy⸣
+152•E10.2. Linja-autokaista päättyy⸣
+153•E11.1. Raitiovaunukaista⸣
+154•E11.2. Raitiovaunukaista⸣
+155•E12.1. Raitiovaunukaista päättyy⸣
+156•E12.2. Raitiovaunukaista päättyy⸣
+157•E13.1. Pyöräkaista⸣
+158•E13.2. Pyöräkaista⸣
+159•E14.1. Yksisuuntainen tie⸣
+160•E14.2. Yksisuuntainen tie⸣
+161•E15. Moottoritie⸣
+162•E16. Moottoritie päättyy⸣
+163•E17. Moottoriliikennetie⸣
+164•E18. Moottoriliikennetie päättyy⸣
+165•E19. Tunneli⸣
+166•E20. Tunneli päättyy⸣
+167•E21. Hätäpysäyttämispaikka⸣
+168•E22. Taajama⸣
+169•E23. Taajama päättyy⸣
+170•E24. Pihakatu⸣
+171•E25. Pihakatu päättyy⸣
+172•E26. Kävelykatu⸣
+173•E27. Kävelykatu päättyy⸣
+174•E28. Pyöräkatu⸣
+175•E29. Pyöräkatu päättyy⸣
+176•E30. Ajokaistojen yhdistyminen⸣
+177•F1.1. Suunnistustaulu⸣
+178•F1.2. Suunnistustaulu⸣
+179•F1.3. Suunnistustaulu⸣
+180•F2.1. Suunnistustaulu⸣
+181•F2.2. Suunnistustaulu⸣
+182•F2.3. Suunnistustaulu⸣
+183•F3. Ajokaistakohtainen suunnistustaulu⸣
+184•F4.1. Kiertotien suunnistustaulu⸣
+185•F4.2. Kiertotien suunnistustaulu⸣
+186•F5. Kiertotieopastus⸣
+187•F6. Ajoreittiopastus⸣
+188•F7.1. Ajokaistaopastus⸣
+189•F7.2. Ajokaistaopastus⸣
+190•F7.3. Ajokaistaopastus⸣
+191•F7.4. Ajokaistaopastus⸣
+192•F7.5. Ajokaistaopastus⸣
+193•F7.6. Ajokaistaopastus⸣
+194•F8.1. Ajokaistan päättyminen⸣
+195•F8.2. Ajokaistan päättyminen⸣
+196•F9. Viitoituksen koontimerkki⸣
+197•F10. Ajokaistan yläpuolinen viitta⸣
+198•F11. Ajokaistan yläpuolinen viitta⸣
+199•F12. Ajokaistan yläpuolinen erkanemisviitta⸣
+200•F13. Tienviitta⸣
+201•F14. Erkanemisviitta⸣
+202•F15. Kiertotien viitta⸣
+203•F16. Osoiteviitta⸣
+204•F17. Osoiteviitan ennakkomerkki⸣
+205•F18. Liityntäpysäköintiviitta⸣
+206•F19. Jalankulun viitta⸣
+207•F20.1. Pyöräilyn viitta⸣
+208•F20.2. Pyöräilyn viitta⸣
+209•F21.1. Pyöräilyn suunnistustaulu⸣
+210•F21.2. Pyöräilyn suunnistustaulu⸣
+211•F22. Pyöräilyn etäisyystaulu⸣
+212•F23. Pyöräilyn paikannimi⸣
+213•F24.1. Umpitie⸣
+214•F24.2. Umpitie⸣
+215•F25. Enimmäisnopeussuositus⸣
+216•F26. Etäisyystaulu⸣
+217•F27.1. Paikannimi⸣
+218•F27.2. Paikannimi⸣
+219•F28. Kansainvälisen pääliikenneväylän numero⸣
+220•F29. Valtatien numero⸣
+221•F30. Kantatien numero⸣
+222•F31. Seututien numero⸣
+223•F32. Muun maantien numero⸣
+224•F33. Kehätien numero⸣
+225•F34. Eritasoliittymän numero⸣
+226•F35. Opastus merkin tarkoittamalle tielle⸣
+227•F35. Opastus merkin tarkoittamalle tielle⸣
+228•F37. Moottoritien tunnus⸣
+229•F38. Moottoriliikennetien tunnus⸣
+230•F39. Lentoasema⸣
+231•F40. Autolautta⸣
+232•F41. Matkustajasatama⸣
+233•F42. Tavarasatama⸣
+234•F43. Tavaraterminaali⸣
+235•F44. Teollisuusalue tai yritysalue⸣
+236•F45. Vähittäiskaupan suuryksikkö⸣
+237•F46.1. Pysäköinti⸣
+238•F46.2. Pysäköinti⸣
+239•F47. Rautatieasema⸣
+240•F48. Linja-autoasema⸣
+241•F49. Keskusta⸣
+242•F50. Tietylle ajoneuvolle tarkoitettu reitti⸣
+243•F51. Vaarallisten aineiden kuljetukselle tarkoitettu reitti⸣
+244•F52. Jalankulkijalle tarkoitettu reitti⸣
+245•F53. Esteetön reitti⸣
+246•F55. Reitti ilman portaita⸣
+247•F56. Hätäuloskäynti⸣
+248•F57. Poistumisreitti⸣
+249•G1. Palvelukohteen opastustaulu⸣
+250•G2. Palvelukohteen opastustaulu⸣
+251•G3. Palvelukohteen erkanemisviitta⸣
+252•G4. Palvelukohteen osoiteviitta⸣
+253•G5. Palvelukohteen osoiteviitan ennakkomerkki⸣
+254•G6. Radioaseman taajuus⸣
+255•G7. Opastuspiste⸣
+256•G8. Opastustoimisto⸣
+257•G9. Ensiapu⸣
+258•G10. Autokorjaamo⸣
+259•G11.1. Polttoaineen jakelu⸣
+260•G11.2. Polttoaineen jakelu⸣
+261•G11.3. Polttoaineen jakelu⸣
+262•G11.4. Polttoaineen jakelu⸣
+263•G12. Hotelli tai motelli⸣
+264•G13. Ruokailupaikka⸣
+265•G14. Kahvila tai pikaruokapaikka⸣
+266•G15. Käymälä⸣
+267•G16. Retkeilymaja⸣
+268•G17. Leirintäalue⸣
+269•G18. Matkailuajoneuvoalue⸣
+270•G19. Levähdysalue⸣
+271•G20. Ulkoilualue⸣
+272•G21. Hätäpuhelin⸣
+273•G22. Sammutin⸣
+274•G23. Museo tai historiallinen rakennus⸣
+275•G24. Maailmanperintökohde⸣
+276•G25. Luontokohde⸣
+277•G26. Näköalapaikka⸣
+278•G27. Eläintarha tai -puisto⸣
+279•G28. Muu nähtävyys⸣
+280•G29. Uintipaikka⸣
+281•G30. Kalastuspaikka⸣
+282•G31. Hiihtohissi⸣
+283•G32. Maastohiihtokeskus⸣
+284•G33. Golfkenttä⸣
+285•G34. Huvi- ja teemapuisto⸣
+286•G35. Mökkimajoitus⸣
+287•G36. Aamiaismajoitus⸣
+288•G37. Suoramyyntipaikka⸣
+289•G38. Käsityöpaja⸣
+290•G39. Kotieläinpiha⸣
+291•G40. Ratsastuspaikka⸣
+292•G41.1. Matkailutie⸣
+293•G41.2. Matkailutie⸣
+294•H1. Kohde risteävässä suunnassa⸣
+295•H2.1. Kohde nuolen suunnassa⸣
+296•H2.2. Kohde nuolen suunnassa⸣
+297•H2.3. Kohde nuolen suunnassa⸣
+298•H3. Vaikutusalueen pituus⸣
+299•H4. Etäisyys kohteeseen⸣
+300•H5. Etäisyys pakolliseen pysäyttämiseen⸣
+301•H6. Vapaa leveys⸣
+302•H7. Vapaa korkeus⸣
+303•H8. Sähköjohdon korkeus⸣
+304•H9.1. Vaikutusalue molempiin suuntiin⸣
+305•H9.2. Vaikutusalue molempiin suuntiin⸣
+306•H10. Vaikutusalue nuolen suuntaan⸣
+307•H11. Vaikutusalue päättyy⸣
+308•H12.1. Henkilöauto⸣
+309•H12.2. Linja-auto⸣
+310•H12.3. Kuorma-auto⸣
+311•H12.4. Pakettiauto⸣
+312•H12.5. Matkailuperävaunu⸣
+313•H12.6. Matkailuauto⸣
+314•H12.7. Invalidin ajoneuvo⸣
+315•H12.8. Moottoripyörä⸣
+316•H12.9. Mopo⸣
+317•H12.10. Polkupyörä⸣
+318•H12.11. Moottorikelkka⸣
+319•H12.12. Traktori⸣
+320•H12.13. Vähäpäästöinen ajoneuvo⸣
+321•H13.1. Pysäköintitapa⸣
+322•H13.2. Pysäköintitapa⸣
+323•H14. Kielto ryhmän A vaarallisten aineiden kuljetukselle⸣
+324•H15. Läpiajokielto ryhmän B vaarallisten aineiden kuljetukselle⸣
+325•H16. Tunneliluokka⸣
+326•H17.1. Voimassaoloaika arkisin⸣
+327•H17.2. Voimassaoloaika lauantaisin⸣
+328•H17.3. Voimassaoloaika sunnuntaisin ja pyhinä⸣
+329•H18. Aikarajoitus⸣
+330•H19.1. Pysäköintiajan alkamisen osoittamisvelvollisuus⸣
+331•H19.2. Pysäköintiajan alkamisen osoittamisvelvollisuus⸣
+332•H20. Maksullinen pysäköinti⸣
+333•H21. Latauspaikka⸣
+334•H22.1. Etuajo-oikeutetun liikenteen suunta⸣
+335•H22.2. Etuajo-oikeutetun liikenteen suunta⸣
+336•H23.1. Kaksisuuntainen pyörätie⸣
+337•H23.2. Kaksisuuntainen pyörätie⸣
+338•H24. Tekstillinen lisäkilpi⸣
+339•H25. Huoltoajo sallittu⸣
+340•H26. Hätäpuhelin ja sammutin⸣
+341•Aiemman tieliikennelain mukaiset liikennemerkit[muokkaa | muokkaa wikitekstiä]⸣
+342•111. Mutka oikealle⸣
+343•112. Mutka vasemmalle⸣
+344•115. Jyrkkä alamäki⸣
+345•116. Jyrkkä ylämäki⸣
+346•121. Kapeneva tie⸣
+347•122. Kaksisuuntainen liikenne⸣
+348•131. Avattava silta⸣
+349•133. Liikenneruuhka⸣
+350•141. Epätasainen tie⸣
+351•141a. Töyssyjä⸣
+352•142. Tietyö⸣
+353•143. Irtokiviä⸣
+354•144. Liukas ajorata⸣
+355•147. Vaarallinen tien reuna⸣
+356•151. Suojatien ennakkovaroitus⸣
+357•152. Lapsia⸣
+358•153. Pyöräilijöitä⸣
+359•154. Hiihtolatu⸣
+360•155. Hirvieläimiä⸣
+361•156. Poroja⸣
+362•161. Tienristeys⸣
+363•162. Sivutien risteys⸣
+364•163. Sivutien risteys⸣
+365•164. Sivutien risteys⸣
+366•165. Liikennevalot⸣
+367•166. Liikenneympyrä⸣
+368•167. Raitiotie⸣
+369•171. Rautatien tasoristeys ilman puomeja⸣
+370•173–175. Rautatien tasoristeyksen lähestymismerkit⸣
+371•176. Yksiraiteisen rautatien tasoristeys⸣
+372•177. Kaksi- tai useampiraiteisen rautatien tasoristeys⸣
+373•181. Putoavia kiviä⸣
+374•182. Matalalla lentäviä lentokoneita⸣
+375•183. Sivutuuli⸣
+376•189. Muu vaara⸣
+377•211. Etuajo-oikeutettu tie⸣
+378•212. Etuajo-oikeuden päättyminen⸣
+379•221. Etuajo-oikeus kohdattaessa⸣
+380•222. Väistämisvelvollisuus kohdattaessa⸣
+381•231. Väistämisvelvollisuus risteyksessä⸣
+382•232. Pakollinen pysäyttäminen⸣
+383•311. Ajoneuvolla ajo kielletty⸣
+384•312. Moottorikäyttöisellä ajoneuvolla ajo kielletty⸣
+385•313. Kuorma- ja pakettiautolla ajo kielletty⸣
+386•314. Ajoneuvoyhdistelmällä ajo kielletty⸣
+387•315. Traktorilla ajo kielletty⸣
+388•316. Moottoripyörällä ajo kielletty⸣
+389•317. Moottorikelkalla ajo kielletty⸣
+390•318. Vaarallisten aineiden kuljetus kielletty⸣
+391•319. Linja-autolla ajo kielletty⸣
+392•321. Mopolla ajo kielletty⸣
+393•322. Polkupyörällä ja mopolla ajo kielletty⸣
+394•323. Jalankulku kielletty⸣
+395•324. Jalankulku sekä polkupyörällä ja mopolla ajo kielletty⸣
+396•325. Ratsastus kielletty⸣
+397•331. Kielletty ajosuunta⸣
+398•332. Vasemmalle kääntyminen kielletty⸣
+399•333. Oikealle kääntyminen kielletty⸣
+400•334. U-käännös kielletty⸣
+401•341. Ajoneuvon suurin sallittu leveys⸣
+402•342. Ajoneuvon suurin sallittu korkeus⸣
+403•343. Ajoneuvon tai ajoneuvoyhdistelmän suurin sallittu pituus⸣
+404•344. Ajoneuvon suurin sallittu massa⸣
+405•345. Ajoneuvoyhdistelmän suurin sallittu massa⸣
+406•346. Ajoneuvon suurin sallittu akselille kohdistuva massa⸣
+407•347. Ajoneuvon suurin sallittu telille kohdistuva massa⸣
+408•351. Ohituskielto⸣
+409•352. Ohituskielto päättyy⸣
+410•353. Ohituskielto kuorma-autolla⸣
+411•354. Ohituskielto kuorma-autolla päättyy⸣
+412•361. Nopeusrajoitus⸣
+413•362. Nopeusrajoitus päättyy⸣
+414•363. Nopeusrajoitusalue⸣
+415•364. Nopeusrajoitusalue päättyy⸣
+416•365. Ajokaistakohtainen kielto tai rajoitus⸣
+417•371. Pysäyttäminen kielletty⸣
+418•372. Pysäköinti kielletty⸣
+419•373. Pysäköintikieltoalue⸣
+420•374. Pysäköintikieltoalue päättyy⸣
+421•375. Taksiasema-alue⸣
+422•376. Taksin pysäyttämispaikka⸣
+423•381. Vuoropysäköinti⸣
+424•382. Vuoropysäköinti⸣
+425•391. Pakollinen pysäyttäminen tullitarkastusta varten⸣
+426•392. Pakollinen pysäyttäminen tarkastusta varten⸣
+427•393. Moottorikäyttöisten ajoneuvojen vähimmäisetäisyys⸣
+428•411. Pakollinen ajosuunta⸣
+429•412. Pakollinen ajosuunta⸣
+430•413. Pakollinen ajosuunta⸣
+431•414. Pakollinen ajosuunta⸣
+432•415. Pakollinen ajosuunta⸣
+433•416. Pakollinen kiertosuunta⸣
+434•417. Liikenteen jakaja⸣
+435•418. Liikenteen jakaja⸣
+436•421. Jalkakäytävä⸣
+437•422. Pyörätie⸣
+438•423. Yhdistetty pyörätie ja jalkakäytävä⸣
+439•424. Pyörätie ja jalkakäytävä rinnakkain⸣
+440•425. Pyörätie ja jalkakäytävä rinnakkain⸣
+441•426. Moottorikelkkailureitti⸣
+442•427. Ratsastustie⸣
+443•511. Suojatie⸣
+444•520a. Liityntäpysäköintipaikka⸣
+445•520b. Liityntäpysäköintipaikka⸣
+446•521. Pysäköintipaikka⸣
+447•521a. Ajoneuvojen sijoitus pysäköintipaikalla⸣
+448•521b. Ajoneuvojen sijoitus pysäköintipaikalla⸣
+449•521c. Ajoneuvojen sijoitus pysäköintipaikalla⸣
+450•522. Kohtaamispaikka⸣
+451•531. Paikallisliikenteen linja-auton pysäkki⸣
+452•532. Kaukoliikenteen linja-auton pysäkki⸣
+453•533. Raitiovaunun pysäkki⸣
+454•534. Taksiasema⸣
+455•541a. Linja-autokaista⸣
+456•541b. Linja-auto- ja taksikaista⸣
+457•542a. Linja-autokaista päättyy⸣
+458•542b. Linja-auto- ja taksikaista päättyy⸣
+459•543a. Raitiovaunukaista⸣
+460•543b. Raitiovaunu- ja taksikaista⸣
+461•544a. Raitiovaunukaista päättyy⸣
+462•544b. Raitiovaunu- ja taksikaista päättyy⸣
+463•551. Yksisuuntainen tie⸣
+464•561. Moottoritie⸣
+465•562. Moottoritie päättyy⸣
+466•563. Moottoriliikennetie⸣
+467•564. Moottoriliikennetie päättyy⸣
+468•565. Tunneli⸣
+469•566. Tunneli päättyy⸣
+470•567. Hätäpysäyttämispaikka⸣
+471•571. Taajama⸣
+472•572. Taajama päättyy⸣
+473•573. Pihakatu⸣
+474•574. Pihakatu päättyy⸣
+475•575. Kävelykatu⸣
+476•576. Kävelykatu päättyy⸣
+477•611. Suunnistustaulu⸣
+478•612. Suunnistustaulu⸣
+479•613. Kiertotien suunnistustaulu⸣
+480•614. Kiertotien suunnistustaulu⸣
+481•615. Kiertotieopastus⸣
+482•616. Ajoreittiopastus⸣
+483•621. Ajokaistaopastus⸣
+484•622. Ajokaistaopastus⸣
+485•623. Ajokaistan päättyminen⸣
+486•631. Ajokaistan yläpuolinen viitta⸣
+487•632. Ajokaistan yläpuolinen viitta⸣
+488•633. Ajokaistan yläpuolinen erkanemisviitta⸣
+489•641. Tienviitta⸣
+490•642. Erkanemisviitta⸣
+491•643. Yksityisen tien viitta⸣
+492•643. Yksityisen tien viitta⸣
+493•644. Osoiteviitta⸣
+494•644 a. Osoiteviitan ennakkomerkki⸣
+495•645. Kevyen liikenteen viitta⸣
+496•645. Kevyen liikenteen viitta⸣
+497•646. Kiertotien viitta⸣
+498•647. Kiertotien viitta⸣
+499•648. Paikalliskohteen viitta⸣
+500•649. Moottori- ja moottoriliikennetien viitta⸣
+501•650. Liityntäpysäköintiviitta⸣
+502•651. Umpitie⸣
+503•651a. Umpitie⸣
+504•652. Umpitie⸣
+505•653. Enimmäisnopeussuositus⸣
+506•661. Etäisyystaulu⸣
+507•662. Paikannimi⸣
+508•663. Kansainvälisen pääliikenneväylän numero⸣
+509•663. Kansainvälisen pääliikenneväylän numero⸣
+510•664. Valtatien numero⸣
+511•665. Kantatien numero⸣
+512•665a. Seututien numero⸣
+513•666. Muun yleisen tien numero⸣
+514•666. Muun yleisen tien numero⸣
+515•667. Opastus numeron tarkoittamalle tielle⸣
+516•667. Opastus numeron tarkoittamalle tielle⸣
+517•671. Moottoritien tunnus⸣
+518•672. Moottoriliikennetien tunnus⸣
+519•673. Lentoasema⸣
+520•674. Autolautta⸣
+521•675. Tavarasatama⸣
+522•676. Teollisuusalue⸣
+523•677. Pysäköinti⸣
+524•677a. Katettu pysäköinti⸣
+525•678. Rautatieasema⸣
+526•679. Linja-autoasema⸣
+527•681. Tietyille ajoneuvoille tai ajoneuvoyhdistelmille tarkoitettu reitti⸣
+528•681. Tietyille ajoneuvoille tai ajoneuvoyhdistelmille tarkoitettu reitti⸣
+529•682. Jalankulkijoille tarkoitettu reitti⸣
+530•682. Jalankulkijoille tarkoitettu reitti⸣
+531•683. Vammaisille tarkoitettu reitti⸣
+532•683. Vammaisille tarkoitettu reitti⸣
+533•684. Vaarallisten aineiden kuljetuksille tarkoitettu reitti⸣
+534•686. Reitti ilman portaita⸣
+535•690. Hätäuloskäynti⸣
+536•691. Poistumisreitti⸣
+537•701. Palvelukohteen opastustaulu⸣
+538•702. Palvelukohteen opastustaulu⸣
+539•703. Palvelukohteen erkanemisviitta⸣
+540•704. Palvelukohteen osoiteviitta⸣
+541•704 a. Palvelukohteen osoiteviitan ennakkomerkki⸣
+542•710. Radioaseman taajuus⸣
+543•711. Opastuspiste⸣
+544•712. Opastustoimisto⸣
+545•715. Ensiapu⸣
+546•721. Autokorjaamo⸣
+547•722. Huoltoasema⸣
+548•723. Hotelli tai motelli⸣
+549•724. Ruokailupaikka⸣
+550•725. Kahvila tai pikaruokapaikka⸣
+551•726. Käymälä⸣
+552•731. Retkeilymaja⸣
+553•732. Mökkimajoitus⸣
+554•733. Leirintäalue⸣
+555•734. Matkailuajoneuvoalue⸣
+556•741. Levähdysalue⸣
+557•742. Ulkoilualue⸣
+558•771 a. Matkailutie⸣
+559•771 a. Matkailutie⸣
+560•771 b. Matkailutie⸣
+561•772 a. Museo tai historiallinen rakennus⸣
+562•772 b. Maailmanperintökohde⸣
+563•772 c. Luontokohde⸣
+564•772 d. Näköalapaikka⸣
+565•772 e. Eläintarha tai -puisto⸣
+566•772 f. Muu nähtävyys⸣
+567•773 a. Uintipaikka⸣
+568•773 b. Kalastuspaikka⸣
+569•773 c. Hiihtohissi⸣
+570•773 d. Golfkenttä⸣
+571•773 e. Huvi- tai teemapuisto⸣
+572•774 a. Mökkimajoitus⸣
+573•774 b. Aamiaismajoitus⸣
+574•774 c. Suoramyyntipaikka⸣
+575•774 d. Käsityöpaja⸣
+576•774 e. Kotieläinpiha⸣
+577•774 f. Ratsastuspaikka⸣
+578•791. Hätäpuhelin⸣
+579•792. Sammutin⸣
+580•811. Kohde risteävällä tiellä⸣
+581•812. Kohde nuolen suunnassa⸣
+582•813. Kohde nuolen suunnassa⸣
+583•814. Vaikutusalueen pituus⸣
+584•815. Etäisyys kohteeseen⸣
+585•816. Etäisyys pakolliseen pysäyttämiseen⸣
+586•821. Vapaa leveys⸣
+587•822. Vapaa korkeus⸣
+588•823. Sähköjohdon korkeus⸣
+589•824. Vaikutusalue molempiin suuntiin⸣
+590•825. Vaikutusalue molempiin suuntiin⸣
+591•826. Vaikutusalue nuolen suuntaan⸣
+592•827. Vaikutusalue alkaa⸣
+593•828. Vaikutusalue päättyy⸣
+594•831. Henkilöauto⸣
+595•832. Linja-auto⸣
+596•833. Kuorma-auto⸣
+597•833.2. Ajoneuvoyhdistelmä⸣
+598•834. Pakettiauto⸣
+599•835. Matkailuajoneuvo⸣
+600•836. Invalidin ajoneuvo⸣
+601•841. Moottoripyörä⸣
+602•842. Mopo⸣
+603•843. Polkupyörä⸣
+604•844. Pysäköintitapa⸣
+605•845. Pysäköintitapa⸣
+606•848. Kielto ryhmän A vaarallisten aineiden kuljetukselle⸣
+607•849. Läpiajokielto ryhmän B vaarallisten aineiden kuljetukselle⸣
+608•851. Voimassaoloaika arkisin⸣
+609•852. Voimassaoloaika lauantaisin⸣
+610•853. Voimassaoloaika sunnuntaisin ja pyhinä⸣
+611•854. Aikarajoitus⸣
+612•855a. Maksullinen pysäköinti⸣
+613•855b. Maksullinen pysäköinti⸣
+614•856a. Pysäköintikiekon käyttövelvollisuus⸣
+615•856b. Pysäköintikiekon käyttövelvollisuus⸣
+616•861a. Etuajo-oikeutetun liikenteen suunta⸣
+617•861b. Etuajo-oikeutetun liikenteen suunta⸣
+618•862. Tukkitie⸣
+619•863. Kaksisuuntainen pyörätie⸣
+620•871. Tekstillinen lisäkilpi⸣
+621•872. Tekstillinen lisäkilpi Huoltoajo sallittu⸣
+622•880. Hätäpuhelin ja sammutin]]>
+	</initial-data>
+</table>
+
+<table name="muutoshoitoluokkatyyppi" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
+	<schema name="koodistot"/>
+	<role name="infrao_admin"/>
+	<position x="1140" y="1220"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="selite">
+		<type name="text" length="0"/>
+	</column>
+	<constraint name="muutoshoitoluokkatyyppi_pk" type="pk-constr" table="koodistot.muutoshoitoluokkatyyppi">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+	<initial-data>
+<![CDATA[id•selite⸣
+1•R1 Rakennettu arvoviheralue⸣
+2•R2 Toimintaviheralue⸣
+3•R3 Käyttöviheralue⸣
+4•R4 Suoja- ja vaihettumisviheralue⸣
+5•A1 Arvoniitty⸣
+6•A2 Käyttöniitty⸣
+7•A3 Maisemaniitty⸣
+8•A4 Avoin alue⸣
+9•A5 Maisemapelto⸣
+10•M1 Arvometsä⸣
+11•M2 Lähimetsä⸣
+12•M3 Ulkoilu- ja virkistysmetsä⸣
+13•M4 Suojametsä⸣
+14•M5 Talousmetsä]]>
+	</initial-data>
+</table>
+
+<table name="muuvarustetyyppi" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
+	<schema name="koodistot"/>
+	<role name="infrao_admin"/>
+	<position x="1520" y="1220"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="selite">
+		<type name="text" length="0"/>
+	</column>
+	<constraint name="muuvarustetyyppi_pk" type="pk-constr" table="koodistot.muuvarustetyyppi">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+	<initial-data>
+<![CDATA[id•selite⸣
+1•irtovaruste⸣
+2•jakokaappi⸣
+3•kastelulaite⸣
+4•kelkkamäki⸣
+5•kuivikeastia⸣
+6•pelastusväline⸣
+7•rungonsuojus⸣
+8•suihku⸣
+9•sähköauton latauspiste⸣
+10•sähkökaapeli⸣
+11•valaisin⸣
+12•verkkoaita⸣
+13•vesijohto⸣
+14•vesipiste⸣
+15•WC⸣
+16•muu⸣
+17•ei tiedossa]]>
+	</initial-data>
+</table>
+
+<table name="toiminnallinenluokka" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
+	<schema name="koodistot"/>
+	<role name="infrao_admin"/>
+	<position x="100" y="1400"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="selite">
+		<type name="text" length="0"/>
+	</column>
+	<constraint name="toiminnallinenluokka_pk" type="pk-constr" table="koodistot.toiminnallinenluokka">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+	<initial-data>
+<![CDATA[id•selite⸣
+1•aukio⸣
+2•asuntokatu⸣
+3•hidaskatu⸣
+4•kevyen liikenteen väylä⸣
+5•kokoojakatu⸣
+6•kävelykatu⸣
+7•pihakatu⸣
+8•pysäköintialue⸣
+9•pääkatu⸣
+10•tori⸣
+11•yksityistie⸣
+12•muu⸣
+13•ei tiedossa]]>
+	</initial-data>
+</table>
+
+<table name="hulevesi" layers="0" collapse-mode="2" max-obj-count="16" z-value="0">
+	<schema name="kohteet"/>
+	<role name="infrao_admin"/>
+	<position x="1860" y="2440"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="hulevesityyppi_id">
+		<type name="integer" length="0"/>
+	</column>
+	<constraint name="hulevesi_pk" type="pk-constr" table="kohteet.hulevesi">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="ajoratamerkinta" layers="0" collapse-mode="2" max-obj-count="18" z-value="0">
+	<schema name="kohteet"/>
+	<role name="infrao_admin"/>
+	<position x="2520" y="2500"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="ajoratamerkintatyyppi_id">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="jyrsittypintakytkin">
+		<type name="boolean" length="0"/>
+	</column>
+	<constraint name="ajoratamerkinta_pk" type="pk-constr" table="kohteet.ajoratamerkinta">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="ymparistotaide" layers="0" collapse-mode="2" max-obj-count="16" z-value="0">
+	<schema name="kohteet"/>
+	<role name="infrao_admin"/>
+	<position x="3020" y="2520"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="ymparistotaidetyyppi_id">
+		<type name="integer" length="0"/>
+	</column>
+	<constraint name="ymparistotaide_pk" type="pk-constr" table="kohteet.ymparistotaide">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<relationship name="ymparistotaide_inherits_abstractvaruste" type="relgen" layers="0"
+	 pk-pattern="{dt}_pk"
+	 custom-color="#e9cb5a"
+	 src-table="kohteet.ymparistotaide"
+	 dst-table="abstraktit.abstractvaruste"/>
+
+<relationship name="ajoratamerkinta_inherits_abstractvaruste" type="relgen" layers="0"
+	 pk-pattern="{dt}_pk"
+	 custom-color="#c4fc79"
+	 src-table="kohteet.ajoratamerkinta"
+	 dst-table="abstraktit.abstractvaruste"/>
+
+<relationship name="hulevesi_inherits_abstractvaruste" type="relgen" layers="0"
+	 pk-pattern="{dt}_pk"
+	 custom-color="#e30277"
+	 src-table="kohteet.hulevesi"
+	 dst-table="abstraktit.abstractvaruste"/>
+
+<relationship name="kaluste_inherits_abstractvaruste" type="relgen" layers="0"
+	 pk-pattern="{dt}_pk"
+	 custom-color="#964293"
+	 src-table="kohteet.kaluste"
+	 dst-table="abstraktit.abstractvaruste"/>
+
+<table name="aineistotoimituksentiedot" layers="0" collapse-mode="2" max-obj-count="14" z-value="0">
+	<schema name="meta"/>
+	<role name="infrao_admin"/>
+	<position x="220" y="2760"/>
+	<column name="id">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="toimitus_id">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="aineistonnimi">
+		<type name="text" length="0"/>
+		<comment> <![CDATA[Aineistoa kuvaava nimi,]]> </comment>
+	</column>
+	<column name="aineistotoimittaja">
+		<type name="text" length="0"/>
+		<comment> <![CDATA[Kuka on tehnyt kyseisen siirtotiedoston, yhteyshenkilö]]> </comment>
+	</column>
+	<column name="tila">
+		<type name="text" length="0"/>
+		<comment> <![CDATA[Aineiston valmiustila; onko kokonaan valmis, luonnos, demo]]> </comment>
+	</column>
+	<column name="toimituspvm">
+		<type name="date" length="0"/>
+		<comment> <![CDATA[Milloin kyseinen siirtotiedosto on tehty]]> </comment>
+	</column>
+	<column name="kuntakoodi">
+		<type name="text" length="0"/>
+	</column>
+	<column name="kielitieto">
+		<type name="text" length="0"/>
+		<comment> <![CDATA[Kunnan kieli tai kielitieto]]> </comment>
+	</column>
+	<column name="metatietotunniste">
+		<type name="text" length="0"/>
+		<comment> <![CDATA[Paikkatietohakemistossa aineiston yksilöivä metatietotunniste. Muita nimityksiä: UUID, tiedostotunniste, resurssitunniste, aineiston ID. Esim: 924a68ba-665f-4ea0-a830- 26e80112b5dc]]> </comment>
+	</column>
+	<column name="metatietoxmlurl">
+		<type name="text" length="0"/>
+		<comment> <![CDATA[URL, joka palauttaa aineiston metatiedot XML tiedostona ISO 19139 skeeman mukaisesti. Esim: http://geonetwork.nls.fi/geonetwork/srv/fi/iso19139.xml?uuid=924a68ba-665f-4ea0-a830-26e80112b5dc]]> </comment>
+	</column>
+	<column name="metatietourl">
+		<type name="text" length="0"/>
+		<comment> <![CDATA[URL www-sivulle, josta aineiston metatiedot ovat luettavissa ”selkokielisenä”. Esim: http://www.paikkatietoikkuna.fi/web/fi/paikkatietoaineisto?inspireMetadat aUIID=924a68ba-665f-4ea0-a830-26e80112b5dc]]> </comment>
+	</column>
+	<column name="tietotuoteurl">
+		<type name="text" length="0"/>
+		<comment> <![CDATA[URL, josta saadaan aineistoon liittyvän tietotuotteen tiedot]]> </comment>
+	</column>
+</table>
+
+<table name="aineistotilatype" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
+	<schema name="koodistot"/>
+	<role name="infrao_admin"/>
+	<position x="440" y="1400"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="selite">
+		<type name="text" length="0"/>
+	</column>
+	<constraint name="aineistotilatype_pk" type="pk-constr" table="koodistot.aineistotilatype">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+	<initial-data>
+<![CDATA[id•selite⸣
+1•valmis⸣
+2•keskeneräinen⸣
+3•muu⸣
+4•ei tiedossa]]>
+	</initial-data>
+</table>
+
+<table name="infraokohteet" layers="0" collapse-mode="2" max-obj-count="1" z-value="0">
+	<schema name="meta"/>
+	<role name="infrao_admin"/>
+	<comment> <![CDATA[Skeeman juurielementti ]]> </comment>
+	<position x="780" y="2840"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<constraint name="infraokohteet_pk" type="pk-constr" table="meta.infraokohteet">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="abstractinfraomaisuuskohde" layers="0" collapse-mode="2" max-obj-count="1" z-value="0">
+	<schema name="abstraktit"/>
+	<role name="infrao_admin"/>
+	<position x="5980" y="800"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<constraint name="abstractinfraomaisuuskohde_pk" type="pk-constr" table="abstraktit.abstractinfraomaisuuskohde">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<relationship name="jate_inherits_abstractvaruste" type="relgen" layers="0"
+	 pk-pattern="{dt}_pk"
+	 custom-color="#b219b9"
+	 src-table="kohteet.jate"
+	 dst-table="abstraktit.abstractvaruste"/>
+
+<relationship name="liikunta_inherits_abstractvaruste" type="relgen" layers="0"
+	 pk-pattern="{dt}_pk"
+	 custom-color="#afe81b"
+	 src-table="kohteet.liikunta"
+	 dst-table="abstraktit.abstractvaruste"/>
+
+<table name="liite" layers="0" collapse-mode="2" max-obj-count="6" z-value="0">
+	<schema name="abstraktit"/>
+	<role name="infrao_admin"/>
+	<position x="5880" y="1840"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="linkkiliitteeseen">
+		<type name="varchar" length="255"/>
+	</column>
+	<column name="muokkaushetki">
+		<type name="timestamptz" length="0"/>
+	</column>
+	<column name="versionumero">
+		<type name="text" length="0"/>
+	</column>
+	<column name="kuvaus">
+		<type name="varchar" length="2000"/>
+		<comment> <![CDATA[Liitteen sisältöä kuvaava teksti]]> </comment>
+	</column>
+	<constraint name="liite_pk" type="pk-constr" table="abstraktit.liite">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<relationship name="melu_inherits_abstractvaruste" type="relgen" layers="0"
+	 pk-pattern="{dt}_pk"
+	 custom-color="#26245b"
+	 src-table="kohteet.melu"
+	 dst-table="abstraktit.abstractvaruste"/>
+
+<relationship name="muuvaruste_inherits_abstractvaruste" type="relgen" layers="0"
+	 pk-pattern="{dt}_pk"
+	 custom-color="#1c6b45"
+	 src-table="varusteet.muuvaruste"
+	 dst-table="abstraktit.abstractvaruste"/>
+
+<table name="nimi" layers="0" collapse-mode="2" max-obj-count="3" z-value="0">
+	<schema name="abstraktit"/>
+	<role name="infrao_admin"/>
+	<comment> <![CDATA[Voidaan käyttää esim. nimistö tai osoitekohteessa]]> </comment>
+	<position x="4600" y="1460"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="teksti">
+		<type name="text" length="0"/>
+	</column>
+	<column name="lang" default-value="'fi'">
+		<type name="varchar" length="10"/>
+	</column>
+	<constraint name="nimi_pk" type="pk-constr" table="abstraktit.nimi">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<relationship name="opaste_inherits_abstractvaruste" type="relgen" layers="0"
+	 pk-pattern="{dt}_pk"
+	 custom-color="#476de2"
+	 src-table="kohteet.opaste"
+	 dst-table="abstraktit.abstractvaruste"/>
+
+<table name="osoite" layers="0" collapse-mode="2" max-obj-count="18" z-value="0">
+	<schema name="abstraktit"/>
+	<role name="infrao_admin"/>
+	<position x="4500" y="1680"/>
+	<column name="id" not-null="true">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="kunta">
+		<type name="varchar" length="255"/>
+	</column>
+	<column name="osoitenumero">
+		<type name="integer" length="0"/>
+		<comment> <![CDATA[Yksi osoitenumero esim. "24"]]> </comment>
+	</column>
+	<column name="osoitenumero2">
+		<type name="integer" length="0"/>
+		<comment> <![CDATA[Osoitenumeroväli esimerkiksi 35-37 jälikimmäinen numero]]> </comment>
+	</column>
+	<column name="jakokirjain">
+		<type name="varchar" length="255"/>
+		<comment> <![CDATA[numeron perään tuleva pieni kirjain]]> </comment>
+	</column>
+	<column name="jakokirjain2">
+		<type name="varchar" length="255"/>
+		<comment> <![CDATA[Jakokirjainvälin jälkimmäinen osa]]> </comment>
+	</column>
+	<column name="porras">
+		<type name="varchar" length="255"/>
+	</column>
+	<column name="huoneisto">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="huoneistojakokirjain">
+		<type name="varchar" length="255"/>
+		<comment> <![CDATA[Huoneistonumeron perään tuleva pieni kirjain]]> </comment>
+	</column>
+	<column name="postinmero">
+		<type name="varchar" length="5"/>
+	</column>
+	<column name="postitoimipaikannimi">
+		<type name="varchar" length="255"/>
+	</column>
+	<column name="geom_point">
+		<type name="geometry" length="0" spatial-type="POINT" variation="0" srid="3067"/>
+	</column>
+	<column name="geom_poly">
+		<type name="geometry" length="0" spatial-type="POLYGON" variation="0" srid="3067"/>
+	</column>
+	<column name="geom_line">
+		<type name="geometry" length="0" spatial-type="LINESTRING" variation="0" srid="3067"/>
+	</column>
+	<column name="viitesijaintialue">
+		<type name="varchar" length="255"/>
+		<comment> <![CDATA[Esim. Korso, Tikkurila]]> </comment>
+	</column>
+	<constraint name="osoite_pk" type="pk-constr" table="abstraktit.osoite">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="pysakointiruutu" layers="0" collapse-mode="2" max-obj-count="16" z-value="0">
+	<schema name="kohteet"/>
+	<role name="infrao_admin"/>
+	<position x="3660" y="2560"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="latauspistekytkin">
+		<type name="boolean" length="0"/>
+	</column>
+	<constraint name="pysakointiruutu_pk" type="pk-constr" table="kohteet.pysakointiruutu">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<relationship name="pysakointiruutu_inherits_abstractvaruste" type="relgen" layers="0"
+	 pk-pattern="{dt}_pk"
+	 custom-color="#7364f0"
+	 src-table="kohteet.pysakointiruutu"
+	 dst-table="abstraktit.abstractvaruste"/>
+
+<table name="rakennetyyppi" layers="0" collapse-mode="2" max-obj-count="1" z-value="0">
+	<schema name="koodistot"/>
+	<role name="infrao_admin"/>
+	<position x="760" y="1400"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<constraint name="rakennetyyppi_pk" type="pk-constr" table="koodistot.rakennetyyppi">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+	<initial-data>
+<![CDATA[id•selite⸣
+1•aita⸣
+2•esteettömyysramppi⸣
+3•istutuslaatikko⸣
+4•kaide⸣
+5•katos⸣
+6•kahluuallas⸣
+7•katsomo ja lava⸣
+8•kesäkukkalaatikko⸣
+9•kivijalka⸣
+10•koristeallas⸣
+11•koristemuuri⸣
+12•kulkuesteet (pollarit, puomit)⸣
+13•laituri, aallonmurtaja⸣
+14•lintu- ja näköalatorni⸣
+15•lipputanko⸣
+16•luistinkoppi⸣
+17•mankeli⸣
+18•matonpesuallas⸣
+19•muovireunus⸣
+20•muuri⸣
+21•pergola, huvimaja⸣
+22•pitkospuut⸣
+23•pollari⸣
+24•portti⸣
+25•puureunukset⸣
+26•pysäkki ilman katosta⸣
+27•pysäkkikatos⸣
+28•pysäköintilippuautomaatti⸣
+29•pyöräteline⸣
+30•rantamuuri⸣
+31•reunatuki⸣
+32•silta⸣
+33•skeittiramppi⸣
+34•sosiaalitila⸣
+35•suihkulähde⸣
+36•terassi⸣
+37•tukimuuri⸣
+38•uima-allas⸣
+39•muu⸣
+40•ei tiedossa]]>
+	</initial-data>
+</table>
+
+<relationship name="liikennevalo_inherits_abstractvaruste" type="relgen" layers="0"
+	 pk-pattern="{dt}_pk"
+	 custom-color="#ffbfcd"
+	 src-table="kohteet.liikennevalo"
+	 dst-table="abstraktit.abstractvaruste"/>
+
+<relationship name="rakenne_inherits_abstractvaruste" type="relgen" layers="0"
+	 pk-pattern="{dt}_pk"
+	 custom-color="#7d8821"
+	 src-table="kohteet.rakenne"
+	 dst-table="abstraktit.abstractvaruste"/>
+
+<table name="viherosanlajityyppi" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
+	<schema name="koodistot"/>
+	<role name="infrao_admin"/>
+	<position x="1080" y="1400"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="selite">
+		<type name="text" length="0"/>
+	</column>
+	<constraint name="viherosanlajityyppi_pk" type="pk-constr" table="koodistot.viherosanlajityyppi">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+	<initial-data>
+<![CDATA[id•selite⸣
+1•alikulkukäytävä⸣
+2•beach volley -kenttä⸣
+3•hautausmaa⸣
+4•istutusallas⸣
+5•joki/puro⸣
+6•joutomaa⸣
+7•juoksurata⸣
+8•jättömaa⸣
+9•kallio⸣
+10•kanoottilaituri⸣
+11•katsomo⸣
+12•kenttä⸣
+13•kesäkukkamaa⸣
+14•kesäteatteri⸣
+15•kitumaa⸣
+16•koira-aitaus⸣
+17•koripallokenttä⸣
+18•kosteikko⸣
+19•kuntoilualue⸣
+20•käytävä⸣
+21•laidun⸣
+22•laituri⸣
+23•lampi⸣
+24•lastenallas⸣
+25•leikkialue⸣
+26•leikkikenttä⸣
+27•luonnonsuojelualue⸣
+28•matonpesupaikka⸣
+29•metsitysalue⸣
+30•metsä⸣
+31•monitoimikenttä⸣
+32•muu urheilukenttä⸣
+33•niitty⸣
+34•nurmikko⸣
+35•oja⸣
+36•oleskelualue⸣
+37•paikoitusalue⸣
+38•pallokenttä⸣
+39•pelikenttä⸣
+40•pelto⸣
+41•perennamaa⸣
+42•petankkikenttä⸣
+43•portaat⸣
+44•pukusuoja⸣
+45•pulkkamäki⸣
+46•ranta⸣
+47•ratsastuskenttä⸣
+48•rullaluistelurata⸣
+49•silta⸣
+50•skeittikenttä⸣
+51•suo⸣
+52•tenniskenttä⸣
+53•uimala⸣
+54•ulkoilureitti⸣
+55•ulkoliikunta-alue⸣
+56•uimaranta⸣
+57•venesatama⸣
+58•vesialue⸣
+59•viheralue⸣
+60•viljelyspalsta⸣
+61•muu⸣
+62•ei tiedossa]]>
+	</initial-data>
+</table>
+
+<table name="keskilinja" layers="0" collapse-mode="2" max-obj-count="3" z-value="0">
+	<schema name="abstraktit"/>
+	<role name="infrao_admin"/>
+	<position x="5000" y="1560"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="digiroadid">
+		<type name="varchar" length="255"/>
+	</column>
+	<column name="geom">
+		<type name="geometry" length="0" spatial-type="LINESTRING" variation="0" srid="3067"/>
+		<comment> <![CDATA[sijainti]]> </comment>
+	</column>
+	<constraint name="keskilinja_pk" type="pk-constr" table="abstraktit.keskilinja">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="sijainti" layers="0" collapse-mode="2" max-obj-count="8" z-value="0">
+	<schema name="abstraktit"/>
+	<role name="infrao_admin"/>
+	<position x="5260" y="1720"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="alue">
+		<type name="geometry" length="0" spatial-type="POLYGON" variation="0" srid="3067"/>
+	</column>
+	<column name="piste">
+		<type name="geometry" length="0" spatial-type="POINT" variation="0" srid="3067"/>
+	</column>
+	<column name="viiva">
+		<type name="geometry" length="0" spatial-type="LINESTRING" variation="0" srid="3067"/>
+	</column>
+	<column name="luontitapa">
+		<type name="varchar" length="255"/>
+	</column>
+	<column name="osoitetieto_id">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="sijaintiepavarmuus_id">
+		<type name="integer" length="255"/>
+	</column>
+	<constraint name="sijainti_pk" type="pk-constr" table="abstraktit.sijainti">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="sijaintiepavarmuustyyppi" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
+	<schema name="koodistot"/>
+	<role name="infrao_admin"/>
+	<position x="1420" y="1400"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="selite">
+		<type name="varchar" length="255"/>
+	</column>
+	<constraint name="sijaintiepavarmuustyyppi_pk" type="pk-constr" table="koodistot.sijaintiepavarmuustyyppi">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+	<initial-data>
+<![CDATA[id•selite⸣
+1•0.15⸣
+2•0.2⸣
+3•0.3⸣
+4•0.5⸣
+5•0.7⸣
+6•1⸣
+7•1.5⸣
+8•2⸣
+9•3⸣
+10•5⸣
+11•7.5⸣
+12•10⸣
+13•20]]>
+	</initial-data>
+</table>
+
+<table name="erikoisrakennekerros" layers="0" collapse-mode="2" max-obj-count="9" z-value="0">
+	<schema name="kohteet"/>
+	<role name="infrao_admin"/>
+	<position x="3800" y="2120"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="erikoisrakennekerrosmateriaalityyppi_id">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="omistaja">
+		<type name="varchar" length="255"/>
+	</column>
+	<column name="haltija">
+		<type name="varchar" length="255"/>
+	</column>
+	<column name="kunnossapitaja">
+		<type name="varchar" length="255"/>
+	</column>
+	<column name="selite">
+		<type name="varchar" length="255"/>
+	</column>
+	<column name="materiaali">
+		<type name="varchar" length="255"/>
+	</column>
+	<column name="geom">
+		<type name="geometry" length="0" spatial-type="POLYGON" variation="0" srid="3067"/>
+		<comment> <![CDATA[sijainti]]> </comment>
+	</column>
+	<constraint name="erikoisrakennekerros_pk" type="pk-constr" table="kohteet.erikoisrakennekerros">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="erikoisrakennekerrosmateriaalityyppi" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
+	<schema name="koodistot"/>
+	<role name="infrao_admin"/>
+	<position x="100" y="1580"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="selite">
+		<type name="varchar" length="255"/>
+	</column>
+	<constraint name="erikoisrakennekerrosmateriaalityyppi_pk" type="pk-constr" table="koodistot.erikoisrakennekerrosmateriaalityyppi">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+	<initial-data>
+<![CDATA[id•selite⸣
+1•paalulaatat ja -hatut⸣
+2•vahvistetut maarakenteet⸣
+3•roudan- ja lämmöneristykset⸣
+4•kevennetyt penkereet⸣
+5•maapadot⸣
+6•kantava kasvualusta]]>
+	</initial-data>
+</table>
+
+<table name="suunnitelma" layers="0" collapse-mode="2" max-obj-count="3" z-value="0">
+	<schema name="abstraktit"/>
+	<role name="infrao_admin"/>
+	<comment> <![CDATA[Päätöksen tiedot]]> </comment>
+	<position x="6280" y="1060"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="kuvaus">
+		<type name="varchar" length="2000"/>
+	</column>
+	<column name="paivamaarapvm">
+		<type name="date" length="0"/>
+	</column>
+	<constraint name="suunnitelma_pk" type="pk-constr" table="abstraktit.suunnitelma">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="suunnitelmalinkki" layers="0" collapse-mode="2" max-obj-count="3" z-value="0">
+	<schema name="abstraktit"/>
+	<role name="infrao_admin"/>
+	<position x="5980" y="1500"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="suunnitelmakohdeid">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="liitetieto_id">
+		<type name="integer" length="0"/>
+	</column>
+	<constraint name="suunnitelmalinkki_pk" type="pk-constr" table="abstraktit.suunnitelmalinkki">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="liitetieto" layers="0" collapse-mode="2" max-obj-count="3" z-value="0">
+	<schema name="abstraktit"/>
+	<role name="infrao_admin"/>
+	<position x="6080" y="940"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="tiedot">
+		<type name="varchar" length="1000"/>
+	</column>
+	<column name="suunnitelma_id">
+		<type name="integer" length="0"/>
+	</column>
+	<constraint name="liitetieto_pk" type="pk-constr" table="abstraktit.liitetieto">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="puhtaanapitoluokkatyyppi" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
+	<schema name="koodistot"/>
+	<role name="infrao_admin"/>
+	<position x="740" y="1540"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="selite">
+		<type name="varchar" length="255"/>
+	</column>
+	<constraint name="puhtaanapitoluokkatyyppi_pk" type="pk-constr" table="koodistot.puhtaanapitoluokkatyyppi">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+	<initial-data>
+<![CDATA[id•selite⸣
+1•P1 Päivittäin (ma-la)⸣
+2•P2 Työpäivinä (ma-pe)⸣
+3•P3 Viikoittain (3 krt/vk)⸣
+4•P4 Viikoittain (2 krt/vk)⸣
+5•P5 Viikoittain (1 krt/vk)⸣
+6•P6 Kuukausittain⸣
+7•P7 Vuosittain]]>
+	</initial-data>
+</table>
+
+<table name="paatos" layers="0" collapse-mode="2" max-obj-count="4" z-value="0">
+	<schema name="abstraktit"/>
+	<role name="infrao_admin"/>
+	<comment> <![CDATA[Päätöksen tiedot]]> </comment>
+	<position x="5580" y="1300"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="liitetieto_id">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="kuvaus">
+		<type name="varchar" length="2000"/>
+	</column>
+	<column name="paivamaarapvm">
+		<type name="date" length="0"/>
+	</column>
+	<constraint name="paatos_pk" type="pk-constr" table="abstraktit.paatos">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<constraint name="talvihoidonluokka_fk" type="fk-constr" comparison-type="MATCH SIMPLE"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="koodistot.talvihoidonluokka" table="kohteet.viheralueenosa">
+	<columns names="talvihoidonluokka_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="hoitoluokka_fk" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="SET NULL" ref-table="koodistot.hoitoluokkatyyppi" table="kohteet.viheralueenosa">
+	<columns names="hoitoluokka_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="kayttotarkoitus_fk" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="CASCADE" ref-table="koodistot.viheralueenkayttotarkoitus" table="kohteet.viheralueenosa">
+	<columns names="kayttotarkoitus_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="laji_fk" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="CASCADE" ref-table="koodistot.viherosanlajityyppi" table="kohteet.viheralueenosa">
+	<columns names="laji_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="katualueenlaji_fk" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="CASCADE" ref-table="koodistot.katuosanlaji" table="kohteet.viheralueenosa">
+	<columns names="katualueenlaji_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="suunnitelmalinkkitieto_fk" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="CASCADE" ref-table="abstraktit.suunnitelmalinkki" table="kohteet.viheralueenosa">
+	<columns names="suunnitelmalinkkitieto_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="puhtaanapitoluokkatyyppi_fk" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="CASCADE" ref-table="koodistot.puhtaanapitoluokkatyyppi" table="kohteet.viheralueenosa">
+	<columns names="puhtaanapitoluokka_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="muutoshoitoluokka_fk" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="CASCADE" ref-table="koodistot.muutoshoitoluokkatyyppi" table="kohteet.viheralueenosa">
+	<columns names="muutoshoitoluokka_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="materiaali_fk" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="CASCADE" ref-table="koodistot.varustemateriaali" table="abstraktit.abstractvaruste">
+	<columns names="materiaali_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="kunnossapitoluokka_fk" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="SET NULL" ref-table="koodistot.kunnossapitoluokka" table="kohteet.katualueenosa">
+	<columns names="kunnossapitoluokka_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="katuosanlaji_fk" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="SET NULL" ref-table="koodistot.katuosanlaji" table="kohteet.katualueenosa">
+	<columns names="katuosanlaji_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="talvihoidonluokka_fk" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="SET NULL" ref-table="koodistot.talvihoidonluokka" table="kohteet.katualueenosa">
+	<columns names="talvihoidonluokka_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="pintamateriaali_fk" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="SET NULL" ref-table="koodistot.pintamateriaali" table="kohteet.katualueenosa">
+	<columns names="pintamateriaali_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="toiminnallinenluokka_fk" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="CASCADE" ref-table="koodistot.toiminnallinenluokka" table="kohteet.katualueenosa">
+	<columns names="luokka_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="viherosanlajityyppi_fk" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="CASCADE" ref-table="koodistot.viherosanlajityyppi" table="kohteet.katualueenosa">
+	<columns names="viherosanlajityypi_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="paatostieto_id" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="CASCADE" ref-table="abstraktit.paatos" table="kohteet.katualueenosa">
+	<columns names="paatostieto_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="suunnitelmalinkkitieto_fk" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="CASCADE" ref-table="abstraktit.suunnitelmalinkki" table="kohteet.katualueenosa">
+	<columns names="suunnitelmalinkkitieto_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="melutyyppi_fk" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="CASCADE" ref-table="koodistot.melutyyppi" table="kohteet.melu">
+	<columns names="melutyyppi_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="varustemateriaali_fk" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="CASCADE" ref-table="koodistot.melutyyppi" table="kohteet.melu">
+	<columns names="materiaali_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="liikuntatyyppi_fk" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="CASCADE" ref-table="koodistot.liikuntatyyppi" table="kohteet.liikunta">
+	<columns names="liikuntatyyppi_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="varustemateriaali_fk" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="CASCADE" ref-table="koodistot.varustemateriaali" table="kohteet.liikunta">
+	<columns names="materiaali_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="jatetyyppi_fk" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="SET NULL" ref-table="koodistot.jatetyyppi" table="kohteet.jate">
+	<columns names="jatetyyppi_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="varustemateriaali_fk" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="CASCADE" ref-table="koodistot.varustemateriaali" table="kohteet.jate">
+	<columns names="id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="opastetyyppi_fk" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="CASCADE" ref-table="koodistot.opastetyyppi" table="kohteet.opaste">
+	<columns names="opastetyyppi_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="varustemateriaali_fk" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="CASCADE" ref-table="koodistot.varustemateriaali" table="kohteet.opaste">
+	<columns names="materiaali_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="rakennetyyppi_fk" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="CASCADE" ref-table="koodistot.rakennetyyppi" table="kohteet.rakenne">
+	<columns names="rakennetyyyppi_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="varustemateriaali_fk" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="CASCADE" ref-table="koodistot.varustemateriaali" table="kohteet.rakenne">
+	<columns names="materiaali_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="liikennemerkkityyppi_fk" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="CASCADE" ref-table="koodistot.liikennemerkkityyppi" table="varusteet.liikennemerkki">
+	<columns names="liikennemerkkityyppi_id" ref-type="src-columns"/>
+	<columns names="cid" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="liikennemerkkityyppi2020_fk" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="CASCADE" ref-table="koodistot.liikennemerkkityyppi2020" table="varusteet.liikennemerkki">
+	<columns names="liikennemerkkityyppi2020_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="leikkivaline_fk" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="CASCADE" ref-table="koodistot.varustemateriaali" table="varusteet.leikkivaline">
+	<columns names="id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="leikkivalinetyyppi_fk" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="CASCADE" ref-table="koodistot.leikkivalinetyyppi" table="varusteet.leikkivaline">
+	<columns names="leikkivalinetyyppi_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="muuvarustetyyppi_fk" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="CASCADE" ref-table="koodistot.muuvarustetyyppi" table="varusteet.muuvaruste">
+	<columns names="muuvarustetyyppi_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="varustemateriaali_fk" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="CASCADE" ref-table="koodistot.varustemateriaali" table="varusteet.muuvaruste">
+	<columns names="materiaali_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="varustemateriaali_fk" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="CASCADE" ref-table="koodistot.varustemateriaali" table="kohteet.liikennevalo">
+	<columns names="materiaali_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="puulaji_fk" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="CASCADE" ref-table="koodistot.puulaji" table="abstraktit.abstractkasvillisuus">
+	<columns names="puulaji_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="puutyyppi_fk" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="CASCADE" ref-table="koodistot.puutyyppi" table="abstraktit.abstractkasvillisuus">
+	<columns names="puutyyppi_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="kalustetyyppi_fk" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="CASCADE" ref-table="koodistot.kalustetyyppi" table="kohteet.kaluste">
+	<columns names="kalustetyyppi_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="varustemateriaali_fk" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="CASCADE" ref-table="koodistot.varustemateriaali" table="kohteet.kaluste">
+	<columns names="materiaali_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="hulevesityyppi_fk" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="CASCADE" ref-table="koodistot.hulevesityyppi" table="kohteet.hulevesi">
+	<columns names="hulevesityyppi_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="varustemateriaali_fk" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="CASCADE" ref-table="koodistot.varustemateriaali" table="kohteet.hulevesi">
+	<columns names="materiaali_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="ajoratamerkintatyyppi_fk" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="CASCADE" ref-table="koodistot.ajoratamerkintatyyppi" table="kohteet.ajoratamerkinta">
+	<columns names="ajoratamerkintatyyppi_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="ymparistotaidetyyppi_fk" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="CASCADE" ref-table="koodistot.ymparistotaidetyyppi" table="kohteet.ymparistotaide">
+	<columns names="ymparistotaidetyyppi_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="varustemateriaali_fk" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="CASCADE" ref-table="koodistot.varustemateriaali" table="kohteet.ymparistotaide">
+	<columns names="materiaali_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="infraokohteet_fk" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="CASCADE" ref-table="meta.infraokohteet" table="meta.aineistotoimituksentiedot">
+	<columns names="toimitus_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="varustemateriaali_fk" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="CASCADE" ref-table="koodistot.varustemateriaali" table="kohteet.pysakointiruutu">
+	<columns names="materiaali_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="sijaintiepavarmuustyyppi_fk" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="CASCADE" ref-table="koodistot.sijaintiepavarmuustyyppi" table="abstraktit.sijainti">
+	<columns names="sijaintiepavarmuus_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="osoitetieto_fk" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="CASCADE" ref-table="abstraktit.osoite" table="abstraktit.sijainti">
+	<columns names="osoitetieto_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="erikoisrakennekerrosmateriaalityyppi_fk" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="CASCADE" ref-table="koodistot.erikoisrakennekerrosmateriaalityyppi" table="kohteet.erikoisrakennekerros">
+	<columns names="erikoisrakennekerrosmateriaalityyppi_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="liitetieto_fk" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="CASCADE" ref-table="abstraktit.liite" table="abstraktit.suunnitelmalinkki">
+	<columns names="liitetieto_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="suunnitelma_fk" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="CASCADE" ref-table="abstraktit.suunnitelma" table="abstraktit.liitetieto">
+	<columns names="suunnitelma_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="liitetieto_fk" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="CASCADE" ref-table="abstraktit.liitetieto" table="abstraktit.paatos">
+	<columns names="liitetieto_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<relationship name="rel_melu_melutyyyppi" type="relfk" layers="0"
+	 src-table="kohteet.melu"
+	 dst-table="koodistot.melutyyppi" reference-fk="melutyyppi_fk"
+	 src-required="false" dst-required="true"/>
+
+<relationship name="rel_liikunta_liikuntatyyppi" type="relfk" layers="0"
+	 src-table="kohteet.liikunta"
+	 dst-table="koodistot.liikuntatyyppi" reference-fk="liikuntatyyppi_fk"
+	 src-required="false" dst-required="true"/>
+
+<relationship name="rel_katualueenosa_kunnossapitoluokka" type="relfk" layers="0"
+	 src-table="kohteet.katualueenosa"
+	 dst-table="koodistot.kunnossapitoluokka" reference-fk="kunnossapitoluokka_fk"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_kaluste_kalustetyyppi" type="relfk" layers="0"
+	 src-table="kohteet.kaluste"
+	 dst-table="koodistot.kalustetyyppi" reference-fk="kalustetyyppi_fk"
+	 src-required="false" dst-required="true"/>
+
+<relationship name="rel_katualueenosa_katuosanlaji" type="relfk" layers="0"
+	 src-table="kohteet.katualueenosa"
+	 dst-table="koodistot.katuosanlaji" reference-fk="katuosanlaji_fk"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_opaste_opastetyyppi" type="relfk" layers="0"
+	 src-table="kohteet.opaste"
+	 dst-table="koodistot.opastetyyppi" reference-fk="opastetyyppi_fk"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_jate_jatetyyppi" type="relfk" layers="0"
+	 src-table="kohteet.jate"
+	 dst-table="koodistot.jatetyyppi" reference-fk="jatetyyppi_fk"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_viheralueenosa_talvihoidonluokka" type="relfk" layers="0"
+	 src-table="kohteet.viheralueenosa"
+	 dst-table="koodistot.talvihoidonluokka" reference-fk="talvihoidonluokka_fk"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_katualueenosa_talvihoidonluokka" type="relfk" layers="0"
+	 src-table="kohteet.katualueenosa"
+	 dst-table="koodistot.talvihoidonluokka" reference-fk="talvihoidonluokka_fk"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_viheralueenosa_hoitoluokka" type="relfk" layers="0"
+	 src-table="kohteet.viheralueenosa"
+	 dst-table="koodistot.hoitoluokkatyyppi" reference-fk="hoitoluokka_fk"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_katualueenosa_pintamateriaali" type="relfk" layers="0"
+	 src-table="kohteet.katualueenosa"
+	 dst-table="koodistot.pintamateriaali" reference-fk="pintamateriaali_fk"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_hulevesi_hulevesityyppi" type="relfk" layers="0"
+	 src-table="kohteet.hulevesi"
+	 dst-table="koodistot.hulevesityyppi" reference-fk="hulevesityyppi_fk"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_abstractkasvillisuus_puulaji" type="relfk" layers="0"
+	 src-table="abstraktit.abstractkasvillisuus"
+	 dst-table="koodistot.puulaji" reference-fk="puulaji_fk"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_abstractkasvillisuus_puutyyppi" type="relfk" layers="0"
+	 src-table="abstraktit.abstractkasvillisuus"
+	 dst-table="koodistot.puutyyppi" reference-fk="puutyyppi_fk"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_ymparistotaide_ymparistotaidetyyppi" type="relfk" layers="0"
+	 src-table="kohteet.ymparistotaide"
+	 dst-table="koodistot.ymparistotaidetyyppi" reference-fk="ymparistotaidetyyppi_fk"
+	 src-required="false" dst-required="false">
+	<label ref-type="name-label">
+		<position x="0" y="0"/>
+	</label>
+</relationship>
+
+<relationship name="rel_ajoratamerkinta_ajoratamerkintatyyppi" type="relfk" layers="0"
+	 src-table="kohteet.ajoratamerkinta"
+	 dst-table="koodistot.ajoratamerkintatyyppi" reference-fk="ajoratamerkintatyyppi_fk"
+	 src-required="false" dst-required="true"/>
+
+<relationship name="rel_abstractvaruste_varustemateriaali" type="relfk" layers="0"
+	 src-table="abstraktit.abstractvaruste"
+	 dst-table="koodistot.varustemateriaali" reference-fk="materiaali_fk"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_aineistotoimituksentiedot_infraokohteet" type="relfk" layers="0"
+	 src-table="meta.aineistotoimituksentiedot"
+	 dst-table="meta.infraokohteet" reference-fk="infraokohteet_fk"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_jate_varustemateriaali" type="relfk" layers="0"
+	 src-table="kohteet.jate"
+	 dst-table="koodistot.varustemateriaali" reference-fk="varustemateriaali_fk"
+	 src-required="false" dst-required="true"/>
+
+<relationship name="rel_leikkivaline_varustemateriaali" type="relfk" layers="0"
+	 src-table="varusteet.leikkivaline"
+	 dst-table="koodistot.varustemateriaali" reference-fk="leikkivaline_fk"
+	 src-required="false" dst-required="true"/>
+
+<relationship name="rel_leikkivaline_leikkivalinetyyppi" type="relfk" layers="0"
+	 src-table="varusteet.leikkivaline"
+	 dst-table="koodistot.leikkivalinetyyppi" reference-fk="leikkivalinetyyppi_fk"
+	 src-required="false" dst-required="false">
+	<label ref-type="name-label">
+		<position x="0" y="0"/>
+	</label>
+</relationship>
+
+<relationship name="rel_liikennemerkki_liikennemerkkityyppi" type="relfk" layers="0"
+	 src-table="varusteet.liikennemerkki"
+	 dst-table="koodistot.liikennemerkkityyppi" reference-fk="liikennemerkkityyppi_fk"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_liikennemerkki_liikennemerkkityyppi2020" type="relfk" layers="0"
+	 src-table="varusteet.liikennemerkki"
+	 dst-table="koodistot.liikennemerkkityyppi2020" reference-fk="liikennemerkkityyppi2020_fk"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_muuvaruste_muuvarustetyyppi" type="relfk" layers="0"
+	 src-table="varusteet.muuvaruste"
+	 dst-table="koodistot.muuvarustetyyppi" reference-fk="muuvarustetyyppi_fk"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_rakenne_rakennetyyppi" type="relfk" layers="0"
+	 src-table="kohteet.rakenne"
+	 dst-table="koodistot.rakennetyyppi" reference-fk="rakennetyyppi_fk"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_katualueenosa_toiminnallinenluokka" type="relfk" layers="0"
+	 src-table="kohteet.katualueenosa"
+	 dst-table="koodistot.toiminnallinenluokka" reference-fk="toiminnallinenluokka_fk"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_katualueenosa_viherosanlajityyppi" type="relfk" layers="0"
+	 src-table="kohteet.katualueenosa"
+	 dst-table="koodistot.viherosanlajityyppi" reference-fk="viherosanlajityyppi_fk"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_sijainti_sijaintiepavarmuustyyppi" type="relfk" layers="0"
+	 src-table="abstraktit.sijainti"
+	 dst-table="koodistot.sijaintiepavarmuustyyppi" reference-fk="sijaintiepavarmuustyyppi_fk"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_sijainti_osoite" type="relfk" layers="0"
+	 src-table="abstraktit.sijainti"
+	 dst-table="abstraktit.osoite" reference-fk="osoitetieto_fk"
+	 src-required="false" dst-required="false">
+	<label ref-type="name-label">
+		<position x="0" y="0"/>
+	</label>
+</relationship>
+
+<relationship name="rel_erikoisrakennekerros_erikoisrakennekerrosmateriaalityyppi" type="relfk" layers="0"
+	 src-table="kohteet.erikoisrakennekerros"
+	 dst-table="koodistot.erikoisrakennekerrosmateriaalityyppi" reference-fk="erikoisrakennekerrosmateriaalityyppi_fk"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_viheralueenosa_viheralueenkayttotarkoitus" type="relfk" layers="0"
+	 src-table="kohteet.viheralueenosa"
+	 dst-table="koodistot.viheralueenkayttotarkoitus" reference-fk="kayttotarkoitus_fk"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_viheralueenosa_viherosanlajityyppi" type="relfk" layers="0"
+	 src-table="kohteet.viheralueenosa"
+	 dst-table="koodistot.viherosanlajityyppi" reference-fk="laji_fk"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_viheralueenosa_katuosanlaji" type="relfk" layers="0"
+	 src-table="kohteet.viheralueenosa"
+	 dst-table="koodistot.katuosanlaji" reference-fk="katualueenlaji_fk"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_suunnitelmalinkki_liite" type="relfk" layers="0"
+	 src-table="abstraktit.suunnitelmalinkki"
+	 dst-table="abstraktit.liite" reference-fk="liitetieto_fk"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_liitetieto_suunnitelma" type="relfk" layers="0"
+	 src-table="abstraktit.liitetieto"
+	 dst-table="abstraktit.suunnitelma" reference-fk="suunnitelma_fk"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_viheralueenosa_suunnitelmalinkki" type="relfk" layers="0"
+	 src-table="kohteet.viheralueenosa"
+	 dst-table="abstraktit.suunnitelmalinkki" reference-fk="suunnitelmalinkkitieto_fk"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_viheralueenosa_puhtaanapitoluokkatyyppi" type="relfk" layers="0"
+	 src-table="kohteet.viheralueenosa"
+	 dst-table="koodistot.puhtaanapitoluokkatyyppi" reference-fk="puhtaanapitoluokkatyyppi_fk"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_viheralueenosa_muutoshoitoluokkatyyppi" type="relfk" layers="0"
+	 src-table="kohteet.viheralueenosa"
+	 dst-table="koodistot.muutoshoitoluokkatyyppi" reference-fk="muutoshoitoluokka_fk"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_paatos_liitetieto" type="relfk" layers="0"
+	 src-table="abstraktit.paatos"
+	 dst-table="abstraktit.liitetieto" reference-fk="liitetieto_fk"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_katualueenosa_paatos" type="relfk" layers="0"
+	 src-table="kohteet.katualueenosa"
+	 dst-table="abstraktit.paatos" reference-fk="paatostieto_id"
+	 src-required="false" dst-required="false">
+	<label ref-type="name-label">
+		<position x="0" y="0"/>
+	</label>
+</relationship>
+
+<relationship name="rel_katualueenosa_suunnitelmalinkki" type="relfk" layers="0"
+	 src-table="kohteet.katualueenosa"
+	 dst-table="abstraktit.suunnitelmalinkki" reference-fk="suunnitelmalinkkitieto_fk"
+	 src-required="false" dst-required="false">
+	<label ref-type="name-label">
+		<position x="0" y="0"/>
+	</label>
+</relationship>
+
+<permission>
+	<object name="infrao" type="database"/>
+	<roles names="infrao_admin"/>
+	<privileges create="true" connect="true" temporary="true"/>
+</permission>
+</dbmodel>

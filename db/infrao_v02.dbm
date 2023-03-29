@@ -3,7 +3,7 @@
 CAUTION: Do not modify this file unless you know what you are doing.
  Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="1.0.2" use-changelog="false" last-position="1282,112" last-zoom="0.6" max-obj-count="80"
+<dbmodel pgmodeler-ver="1.0.2" use-changelog="false" last-position="1141,1162" last-zoom="0.7" max-obj-count="81"
 	 default-schema="public" default-owner="infrao_admin"
 	 layers="Default layer,Codelist relations"
 	 active-layers="0"
@@ -47,6 +47,15 @@ CAUTION: Do not modify this file unless you know what you are doing.
 </schema>
 
 <schema name="viheralue" layers="0" rect-visible="true" fill-color="#55ff7f">
+</schema>
+
+<schema name="kasvillisuus" layers="0" rect-visible="true" fill-color="#aaff7f">
+</schema>
+
+<schema name="osoite" layers="0" rect-visible="true" fill-color="#e1e1e1">
+	<role name="infrao_admin"/>
+	<comment> <![CDATA[Sisältää kohteiden osoitetietoja.
+Ratkottava: kuinka tämä tieto populoidaan jostain muualta? Digitransit API? OpenStreetMap? Kunnan oma osoitetietokanta?]]> </comment>
 </schema>
 
 <tag name="TODO">
@@ -104,6 +113,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="varustemateriaali" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
+	<tag name="TODO"/>
 	<position x="560" y="520"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
@@ -142,6 +152,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="hoitoluokkatyyppi" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
+	<tag name="TODO"/>
 	<position x="920" y="520"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
@@ -229,6 +240,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="katuosanlaji" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
+	<tag name="TODO"/>
 	<position x="1200" y="520"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
@@ -270,6 +282,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="talvihoidonluokka" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
+	<tag name="TODO"/>
 	<position x="1520" y="520"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
@@ -529,6 +542,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="liikuntatyyppi" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
+	<tag name="TODO"/>
 	<position x="120" y="720"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
@@ -565,7 +579,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="varusteet"/>
 	<role name="infrao_admin"/>
 	<tag name="TODO"/>
-	<position x="3640" y="3280"/>
+	<position x="3500" y="3240"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
 	</column>
@@ -590,7 +604,8 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="liikunta" layers="0" collapse-mode="2" max-obj-count="16" z-value="0">
 	<schema name="varusteet"/>
 	<role name="infrao_admin"/>
-	<position x="4160" y="3080"/>
+	<tag name="TODO"/>
+	<position x="3980" y="3180"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
 	</column>
@@ -609,7 +624,8 @@ CAUTION: Do not modify this file unless you know what you are doing.
 
 <table name="jate" layers="0" collapse-mode="2" max-obj-count="16" z-value="0">
 	<schema name="varusteet"/>
-	<position x="4360" y="3240"/>
+	<tag name="TODO"/>
+	<position x="4480" y="3180"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
 	</column>
@@ -628,7 +644,8 @@ CAUTION: Do not modify this file unless you know what you are doing.
 
 <table name="opaste" layers="0" collapse-mode="2" max-obj-count="16" z-value="0">
 	<schema name="varusteet"/>
-	<position x="3160" y="3240"/>
+	<tag name="TODO"/>
+	<position x="3000" y="3240"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
 	</column>
@@ -648,6 +665,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="rakenne" layers="0" collapse-mode="2" max-obj-count="16" z-value="0">
 	<schema name="kohteet"/>
 	<role name="infrao_admin"/>
+	<tag name="TODO"/>
 	<position x="2640" y="2000"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
@@ -672,9 +690,8 @@ CAUTION: Do not modify this file unless you know what you are doing.
 
 <table name="liikennemerkki" layers="0" collapse-mode="2" max-obj-count="7" z-value="0">
 	<schema name="varusteet"/>
-	<role name="infrao_admin"/>
 	<position x="1120" y="3280"/>
-	<column name="id" not-null="true"
+	<column name="fid" not-null="true"
 	 identity-type="ALWAYS">
 		<type name="bigint" length="0"/>
 	</column>
@@ -694,7 +711,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		<type name="geometry" length="0" spatial-type="POINT" variation="0" srid="3067"/>
 	</column>
 	<constraint name="liikennemerkki_pk" type="pk-constr" table="varusteet.liikennemerkki">
-		<columns names="id" ref-type="src-columns"/>
+		<columns names="fid" ref-type="src-columns"/>
 	</constraint>
 </table>
 
@@ -730,7 +747,8 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="muuvaruste" layers="0" collapse-mode="2" max-obj-count="16" z-value="0">
 	<schema name="varusteet"/>
 	<role name="infrao_admin"/>
-	<position x="2080" y="3320"/>
+	<tag name="TODO"/>
+	<position x="2120" y="3160"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
 	</column>
@@ -748,13 +766,13 @@ CAUTION: Do not modify this file unless you know what you are doing.
 </sequence>
 
 <table name="liikennevalo" layers="0" collapse-mode="2" max-obj-count="15" z-value="0">
-	<schema name="kohteet"/>
-	<role name="infrao_admin"/>
-	<position x="3360" y="1640"/>
+	<schema name="katualue"/>
+	<tag name="TODO"/>
+	<position x="3440" y="1540"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
 	</column>
-	<constraint name="liikennevalo_pk" type="pk-constr" table="kohteet.liikennevalo">
+	<constraint name="liikennevalo_pk" type="pk-constr" table="katualue.liikennevalo">
 		<columns names="id" ref-type="src-columns"/>
 	</constraint>
 </table>
@@ -767,6 +785,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="kunnossapitoluokka" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
+	<tag name="TODO"/>
 	<position x="440" y="720"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
@@ -822,6 +841,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="melutyyppi" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
+	<tag name="TODO"/>
 	<position x="800" y="720"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
@@ -878,6 +898,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="kalustetyyppi" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
+	<tag name="TODO"/>
 	<position x="1120" y="720"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
@@ -905,6 +926,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="opastetyyppi" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
+	<tag name="TODO"/>
 	<position x="1360" y="680"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
@@ -928,6 +950,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="jatetyyppi" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
+	<tag name="TODO"/>
 	<position x="120" y="880"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
@@ -951,6 +974,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="pintamateriaali" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
+	<tag name="TODO"/>
 	<position x="400" y="880"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
@@ -988,6 +1012,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="hulevesityyppi" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
+	<tag name="TODO"/>
 	<position x="720" y="880"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
@@ -1031,6 +1056,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="ajoratamerkintatyyppi" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
+	<tag name="TODO"/>
 	<position x="1040" y="880"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
@@ -1054,7 +1080,8 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="puutyyppi" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
-	<position x="1400" y="880"/>
+	<tag name="TODO"/>
+	<position x="1500" y="1600"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
 	</column>
@@ -1065,18 +1092,18 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		<columns names="id" ref-type="src-columns"/>
 	</constraint>
 	<initial-data>
-<![CDATA[id•selite⸣
-1•havupuu⸣
-2•lehtipuu⸣
-3•muu⸣
-4•ei tiedossa]]>
+<![CDATA["id";"selite"
+"1";"havupuu"
+"2";"lehtipuu"
+"3";"muu"
+"4";"ei tiedossa"]]>
 	</initial-data>
 </table>
 
 <table name="abstractkasvillisuus" layers="0" collapse-mode="2" max-obj-count="13" z-value="0">
 	<schema name="abstraktit"/>
 	<role name="infrao_admin"/>
-	<position x="4920" y="1080"/>
+	<position x="5200" y="940"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
 	</column>
@@ -1118,7 +1145,8 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="puulaji" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
-	<position x="120" y="1040"/>
+	<tag name="TODO"/>
+	<position x="880" y="1600"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
 	</column>
@@ -1129,635 +1157,636 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		<columns names="id" ref-type="src-columns"/>
 	</constraint>
 	<initial-data>
-<![CDATA[id•selite⸣
-1•Abies amabilis⸣
-2•Abies balsamea⸣
-3•Abies concolor⸣
-4•Abies fraseri⸣
-5•Abies grandis⸣
-6•Abies holophylla⸣
-7•Abies homolepis⸣
-8•Abies koreana⸣
-9•Abies lasiocarpa⸣
-10•Abies lasiocarpa var. arizonica⸣
-11•Abies mariesii⸣
-12•Abies nephrolepis⸣
-13•Abies nordmanniana⸣
-14•Abies procera⸣
-15•Abies sachalinensis⸣
-16•Abies sibirica⸣
-17•Abies sp⸣
-18•Abies veitchii⸣
-19•Acanthopanax senticosus⸣
-20•Acer barbinerve⸣
-21•Acer campestre⸣
-22•Acer circinatum⸣
-23•Acer japonicum⸣
-24•Acer mono⸣
-25•Acer negundo⸣
-26•Acer palmatum⸣
-27•Acer pensylvanicum⸣
-28•Acer platanoides⸣
-29•Acer platanoides 'Reitenbachii'⸣
-30•Acer platanoides 'Schwedleri'⸣
-31•Acer pseudoplatanus⸣
-32•Acer pseudosieboldianum⸣
-33•Acer rubrum⸣
-34•Acer saccharinum⸣
-35•Acer saccharum⸣
-36•Acer sieboldianum⸣
-37•Acer sp⸣
-38•Acer spicatum⸣
-39•Acer tataricum⸣
-40•Acer tataricum subsp. ginnala⸣
-41•Acer tataricum subsp. semenowii⸣
-42•Acer tataricum subsp. tataricum⸣
-43•Acer tegmentosum⸣
-44•Acer triflorum⸣
-45•Acer ukurunduense⸣
-46•Actinidia arguta⸣
-47•Actinidia kolomikta⸣
-48•Aesculus hippocastanum⸣
-49•Aesculus octandra⸣
-50•Alnus glutinosa⸣
-51•Alnus glutinosa f. quercifolia⸣
-52•Alnus incana⸣
-53•Alnus incana f. gibberosa⸣
-54•Alnus incana f. laciniata⸣
-55•Alnus incana subsp. kolaënsis⸣
-56•Alnus mandshurica⸣
-57•Alnus sp⸣
-58•Alnus viridis⸣
-59•Amelanchier alnifolia⸣
-60•Amelanchier laevis⸣
-61•Amelanchier lamarckii⸣
-62•Amelanchier sp⸣
-63•Amelanchier spicata⸣
-64•Andromeda polifolia⸣
-65•Aralia elata⸣
-66•Arctostaphylos alpinus⸣
-67•Arctostaphylos uva-ursi⸣
-68•Aristolochia macrophylla⸣
-69•Aronia ×prunifolia⸣
-70•Aronia arbutifolia⸣
-71•Aronia melanocarpa⸣
-72•Aronia sp⸣
-73•Artemisia abronatum⸣
-74•Berberis koreana⸣
-75•Berberis sp⸣
-76•Berberis thunbergii⸣
-77•Berberis vulgaris⸣
-78•Betula alleghaniensis⸣
-79•Betula ermanii⸣
-80•Betula fruticosa⸣
-81•Betula lenta⸣
-82•Betula nana⸣
-83•Betula papyrifera⸣
-84•Betula pendula⸣
-85•Betula pendula 'Dalecarlica'⸣
-86•Betula pendula f. bircalensis⸣
-87•Betula pendula f. crispa⸣
-88•Betula pendula f. palmeri⸣
-89•Betula pendula f. tristis⸣
-90•Betula pendula var. carelica⸣
-91•Betula pendula 'Youngii'⸣
-92•Betula pubescens⸣
-93•Betula pubescens f. aurea⸣
-94•Betula pubescens f. rubra⸣
-95•Betula pubescens subsp. czerepanovii⸣
-96•Betula sp⸣
-97•Buddleja davidii⸣
-98•Buxus sempervirens⸣
-99•Calluna vulgaris⸣
-100•Caragana arborescens⸣
-101•Caragana aurantiaca⸣
-102•Caragana frutex⸣
-103•Carpinus betulus⸣
-104•Cassiope hypnoides⸣
-105•Cassiope tetragona⸣
-106•Celastrus orbiculatus⸣
-107•Celastrus scandens⸣
-108•Cercidiphyllum japonicum⸣
-109•Cercidiphyllum magnificum⸣
-110•Chaenomeles japonica⸣
-111•Chamaecyparis lawsoniana⸣
-112•Chamaecyparis nootkatensis⸣
-113•Chamaecyparis pisifera⸣
-114•Chamaecyparis sp⸣
-115•Chamaedaphne calyculata⸣
-116•Chimaphila umbellata⸣
-117•Cladrastis kentukea⸣
-118•Clematis alpina⸣
-119•Clematis ochotensis⸣
-120•Clematis sibirica⸣
-121•Clematis sp⸣
-122•Clematis tangutica⸣
-123•Clematis vitalba⸣
-124•Clematis viticella⸣
-125•Colutea arborescens⸣
-126•Cornus alba⸣
-127•Cornus alba 'Sibirica'⸣
-128•Cornus alba subsp. alba⸣
-129•Cornus alba subsp. stolonifera⸣
-130•Cornus mas⸣
-131•Cornus sanguinea⸣
-132•Cornus sp⸣
-133•Corylus avellana⸣
-134•Corylus colurna⸣
-135•Corylus cornuta⸣
-136•Corylus maxima 'Purpurea'⸣
-137•Corylus sp⸣
-138•Cotoneaster dammeri⸣
-139•Cotoneaster dammeri var. radicans⸣
-140•Cotoneaster divaricatus⸣
-141•Cotoneaster horizontalis⸣
-142•Cotoneaster integerrimus⸣
-143•Cotoneaster lucidus⸣
-144•Cotoneaster nanshan⸣
-145•Cotoneaster niger⸣
-146•Cotoneaster 'Skogholm'⸣
-147•Cotoneaster sp⸣
-148•Crataegus ×mordenensis⸣
-149•Crataegus chlorosarca⸣
-150•Crataegus douglasii⸣
-151•Crataegus flabellata⸣
-152•Crataegus grayana⸣
-153•Crataegus intricata⸣
-154•Crataegus korolkovii⸣
-155•Crataegus laevigata⸣
-156•Crataegus macracantha⸣
-157•Crataegus monogyna⸣
-158•Crataegus nigra⸣
-159•Crataegus rhipidophylla⸣
-160•Crataegus sanguinea⸣
-161•Crataegus sp⸣
-162•Crataegus submollis⸣
-163•Cytisus ×versicolor⸣
-164•Cytisus decumbens⸣
-165•Cytisus glaber⸣
-166•Cytisus purpureus⸣
-167•Cytisus scoparius⸣
-168•Cytisus sp⸣
-169•Daphne blagayana⸣
-170•Daphne cneorum⸣
-171•Daphne mezereum⸣
-172•Daphne sp⸣
-173•Deutzia amurensis⸣
-174•Deutzia scabra⸣
-175•Diapensia lapponica⸣
-176•Diervilla lonicera⸣
-177•Diervilla sessilifolia⸣
-178•Dryas octopetala⸣
-179•Elaeagnus commutata⸣
-180•Empetrum nigrum⸣
-181•Erica herbacea⸣
-182•Erica tetralix⸣
-183•Euonymus alatus⸣
-184•Euonymus europaeus⸣
-185•Euonymus fortunei⸣
-186•Euonymus hamiltonianus⸣
-187•Euonymus nanus⸣
-188•Euonymus planipes⸣
-189•Euonymus sp⸣
-190•Exochorda racemosa⸣
-191•Fagus grandifolia⸣
-192•Fagus sp⸣
-193•Fagus sylvatica⸣
-194•Fagus sylvatica f. purpurea⸣
-195•Forsythia ovata⸣
-196•Fothergilla major⸣
-197•Fraxinus americana⸣
-198•Fraxinus excelsior⸣
-199•Fraxinus mandshurica⸣
-200•Fraxinus nigra⸣
-201•Fraxinus pennsylvanica⸣
-202•Fraxinus sp⸣
-203•Genista tinctoria⸣
-204•Ginkgo biloba⸣
-205•Gleditsia triacanthos⸣
-206•Halesia carolina⸣
-207•Hamamelis virginiana⸣
-208•Hedera helix⸣
-209•Hippophaë rhamnoides⸣
-210•Holodiscus discolor⸣
-211•Hydrangea anomala⸣
-212•Hydrangea anomala subsp. petiolaris⸣
-213•Hydrangea arborescens⸣
-214•Hydrangea heteromalla 'Bretschneideri'⸣
-215•Hydrangea paniculata 'Grandiflora'⸣
-216•Hydrangea sp⸣
-217•Ilex verticillata⸣
-218•Jamesia americana⸣
-219•Juglans ailanthifolia⸣
-220•Juglans cinerea⸣
-221•Juglans mandshurica⸣
-222•Juglans nigra⸣
-223•Juglans sp⸣
-224•Juniperus chinensis⸣
-225•Juniperus communis⸣
-226•Juniperus communis subsp. alpina⸣
-227•Juniperus horizontalis⸣
-228•Juniperus sabina⸣
-229•Juniperus sp⸣
-230•Juniperus squamata⸣
-231•Juniperus virginiana⸣
-232•Kalmia angustifolia⸣
-233•Kalmia latifolia⸣
-234•Kalmia polifolia⸣
-235•Kalmia sp⸣
-236•Kerria japonica⸣
-237•Kolkwitzia amabilis⸣
-238•Laburnum ×watereri⸣
-239•Laburnum alpinum⸣
-240•Larix ×marschlinsii⸣
-241•Larix decidua⸣
-242•Larix decidua subsp. polonica⸣
-243•Larix gmelinii⸣
-244•Larix gmelinii var. gmelinii⸣
-245•Larix gmelinii var. japonica⸣
-246•Larix gmelinii var. olgensis⸣
-247•Larix gmelinii var. principis-rupprechtii⸣
-248•Larix kaempferi⸣
-249•Larix laricina⸣
-250•Larix lyallii⸣
-251•Larix occidentalis⸣
-252•Larix sibirica⸣
-253•Larix sp⸣
-254•Ledum palustre⸣
-255•Ligustrum vulgare⸣
-256•Linnaea borealis⸣
-257•Liquidambar styraciflua⸣
-258•Liriodendron tulipifera⸣
-259•Loiseleuria procumbens⸣
-260•Lonicera ×bella⸣
-261•Lonicera ×brownii⸣
-262•Lonicera ×notha⸣
-263•Lonicera ×xylosteoides⸣
-264•Lonicera albertii⸣
-265•Lonicera alpigena⸣
-266•Lonicera caerulea⸣
-267•Lonicera caprifolium⸣
-268•Lonicera caucasica⸣
-269•Lonicera chrysantha⸣
-270•Lonicera involucrata⸣
-271•Lonicera maackii⸣
-272•Lonicera nigra⸣
-273•Lonicera periclymenum⸣
-274•Lonicera sp⸣
-275•Lonicera tatarica⸣
-276•Lonicera xylosteum⸣
-277•Maackia amurensis⸣
-278•Magnolia acuminata⸣
-279•Magnolia kobus⸣
-280•Magnolia sieboldii⸣
-281•Magnolia sp⸣
-282•Mahonia aquifolium⸣
-283•Malus baccata⸣
-284•Malus domestica⸣
-285•Malus prunifolia⸣
-286•Malus sp⸣
-287•Malus sylvestris⸣
-288•Malus toringo⸣
-289•Malus toringo var. sargentii⸣
-290•Menispermum canadense⸣
-291•Menispermum dauricum⸣
-292•Metasequoia glyptostroboides⸣
-293•Microbiota decussata⸣
-294•Myrica gale⸣
-295•Myricaria germanica⸣
-296•Oplopanax horridus⸣
-297•Ostrya carpinifolia⸣
-298•Pachysandra terminalis⸣
-299•Parthenocissus inserta⸣
-300•Parthenocissus quinquefolia⸣
-301•Paxistima myrtifolia⸣
-302•Phellodendron amurense⸣
-303•Philadelphus ×lemoinei⸣
-304•Philadelphus ×virginalis⸣
-305•Philadelphus coronarius⸣
-306•Philadelphus lewisii⸣
-307•Philadelphus lewisii var. gordonianus⸣
-308•Philadelphus pubescens⸣
-309•Philadelphus sp⸣
-310•Phyllodoce caerulea⸣
-311•Physocarpus opulifolius⸣
-312•Picea ×lutzii⸣
-313•Picea abies⸣
-314•Picea abies f. aurea⸣
-315•Picea abies f. condensata⸣
-316•Picea abies f. cruenta⸣
-317•Picea abies f. globosa⸣
-318•Picea abies f. nana⸣
-319•Picea abies f. nidiformis⸣
-320•Picea abies f. pendula⸣
-321•Picea abies f. tabulaeformis⸣
-322•Picea abies f. variegata⸣
-323•Picea abies f. viminalis⸣
-324•Picea abies f. virgata⸣
-325•Picea abies subsp. abies⸣
-326•Picea abies subsp. obovata⸣
-327•Picea asperata⸣
-328•Picea engelmannii⸣
-329•Picea glauca⸣
-330•Picea glauca var. albertiana⸣
-331•Picea glehnii⸣
-332•Picea jezoënsis⸣
-333•Picea koraiensis⸣
-334•Picea likiangensis⸣
-335•Picea mariana⸣
-336•Picea omorika⸣
-337•Picea pungens⸣
-338•Picea retroflexa⸣
-339•Picea rubens⸣
-340•Picea schrenkiana⸣
-341•Picea sitchensis⸣
-342•Picea sp⸣
-343•Pieris floribunda⸣
-344•Pinus banksiana⸣
-345•Pinus cembra⸣
-346•Pinus cembra subsp. cembra⸣
-347•Pinus cembra subsp. sibirica⸣
-348•Pinus contorta⸣
-349•Pinus contorta var. contorta⸣
-350•Pinus contorta var. latifolia⸣
-351•Pinus koraiensis⸣
-352•Pinus monticola⸣
-353•Pinus mugo⸣
-354•Pinus mugo subsp. uncinata⸣
-355•Pinus nigra⸣
-356•Pinus peuce⸣
-357•Pinus ponderosa⸣
-358•Pinus pumila⸣
-359•Pinus resinosa⸣
-360•Pinus sp⸣
-361•Pinus strobus⸣
-362•Pinus sylvestris⸣
-363•Pinus sylvestris f. aurea⸣
-364•Pinus sylvestris f. condensata⸣
-365•Pinus sylvestris f. globosa⸣
-366•Pinus sylvestris f. virgata⸣
-367•Pinus sylvestris 'Globosa'⸣
-368•Populus ×canadensis⸣
-369•Populus ×jackii 'Gileadensis'⸣
-370•Populus ×wettsteinii⸣
-371•Populus alba⸣
-372•Populus balsamifera⸣
-373•Populus balsamifera 'Tristis'⸣
-374•Populus canescens⸣
-375•Populus deltoides⸣
-376•Populus koreana⸣
-377•Populus laurifolia⸣
-378•Populus nigra⸣
-379•Populus 'Rasumowskiana'⸣
-380•Populus simonii⸣
-381•Populus sp⸣
-382•Populus suaveolens⸣
-383•Populus tremula⸣
-384•Populus tremuloides⸣
-385•Populus trichocarpa⸣
-386•Populus wilsonii⸣
-387•Potentilla fruticosa⸣
-388•Prunus avium⸣
-389•Prunus cerasifera⸣
-390•Prunus cerasus⸣
-391•Prunus domestica⸣
-392•Prunus domestica subsp. domestica⸣
-393•Prunus domestica subsp. insititia⸣
-394•Prunus laurocerasus⸣
-395•Prunus maackii⸣
-396•Prunus maximowiczii⸣
-397•Prunus padus⸣
-398•Prunus pensylvanica⸣
-399•Prunus prostrata⸣
-400•Prunus pumila⸣
-401•Prunus sargentii⸣
-402•Prunus serotina⸣
-403•Prunus sp⸣
-404•Prunus spinosa⸣
-405•Prunus tenella⸣
-406•Prunus tomentosa⸣
-407•Prunus triloba⸣
-408•Prunus virginiana⸣
-409•Pseudolarix amabilis⸣
-410•Pseudotsuga menziesii⸣
-411•Pseudotsuga menziesii var. glauca⸣
-412•Pterocarya pterocarpa⸣
-413•Pterocarya rhoifolia⸣
-414•Pyrus communis⸣
-415•Pyrus ussuriensis⸣
-416•Quercus coccinea⸣
-417•Quercus petraea⸣
-418•Quercus robur⸣
-419•Quercus rubra⸣
-420•Rhamnus cathartica⸣
-421•Rhamnus frangula⸣
-422•Rhododendron ×fraseri⸣
-423•Rhododendron aureum⸣
-424•Rhododendron brachycarpum⸣
-425•Rhododendron brachycarpum subsp. tigerstedtii⸣
-426•Rhododendron canadense⸣
-427•Rhododendron Catawbiense -ryhmä/gruppen/group⸣
-428•Rhododendron 'Cunningham's White'⸣
-429•Rhododendron dauricum⸣
-430•Rhododendron ferrugineum⸣
-431•Rhododendron Kosterianum -ryhmä/gruppen/group⸣
-432•Rhododendron lapponicum⸣
-433•Rhododendron luteum⸣
-434•Rhododendron molle⸣
-435•Rhododendron molle subsp. japonicum⸣
-436•Rhododendron schlippenbachii⸣
-437•Rhododendron smirnowii⸣
-438•Rhododendron sp⸣
-439•Rhododendron Tigerstedtii -ryhmä/gruppen/group⸣
-440•Rhus hirta⸣
-441•Ribes alpinum⸣
-442•Ribes nigrum⸣
-443•Ribes rubrum⸣
-444•Ribes spicatum⸣
-445•Ribes uva-crispa⸣
-446•Robinia pseudoacacia⸣
-447•Rosa acicularis⸣
-448•Rosa canina⸣
-449•Rosa dumalis⸣
-450•Rosa majalis⸣
-451•Rosa mollis⸣
-452•Rosa pimpinellifolia⸣
-453•Rosa rugosa⸣
-454•Rosa sherardii⸣
-455•Rosa sp⸣
-456•Rubus caesius⸣
-457•Rubus idaeus⸣
-458•Rubus odoratus⸣
-459•Rubus parviflorus⸣
-460•Rubus pruinosus⸣
-461•Rubus sp⸣
-462•Salix alba⸣
-463•Salix arbutifolia⸣
-464•Salix aurita⸣
-465•Salix borealis⸣
-466•Salix caprea⸣
-467•Salix cinerea⸣
-468•Salix daphnoides⸣
-469•Salix daphnoides subsp. acutifolia⸣
-470•Salix daphnoides subsp. daphnoides⸣
-471•Salix fragilis⸣
-472•Salix fragilis 'Bullata'⸣
-473•Salix glauca⸣
-474•Salix hastata⸣
-475•Salix herbacea⸣
-476•Salix lanata⸣
-477•Salix lapponum⸣
-478•Salix lucida⸣
-479•Salix myrsinifolia⸣
-480•Salix myrsinites⸣
-481•Salix myrtilloides⸣
-482•Salix pentandra⸣
-483•Salix phylicifolia⸣
-484•Salix polaris⸣
-485•Salix purpurea⸣
-486•Salix pyrolifolia⸣
-487•Salix repens⸣
-488•Salix reticulata⸣
-489•Salix rosmarinifolia⸣
-490•Salix 'Sibirica'⸣
-491•Salix sp⸣
-492•Salix starkeana⸣
-493•Salix triandra⸣
-494•Salix viminalis⸣
-495•Sambucus canadensis⸣
-496•Sambucus nigra⸣
-497•Sambucus racemosa⸣
-498•Sambucus sp⸣
-499•Schisandra chinensis⸣
-500•Sequoia sempervirens⸣
-501•Sequoiadendron giganteum⸣
-502•Solanum dulcamara⸣
-503•Sorbaria grandiflora⸣
-504•Sorbaria sorbifolia⸣
-505•Sorbaria sp⸣
-506•Sorbus ×thuringiaca 'Fastigiata'⸣
-507•Sorbus alnifolia⸣
-508•Sorbus americana⸣
-509•Sorbus aria⸣
-510•Sorbus aucuparia⸣
-511•Sorbus commixta⸣
-512•Sorbus hybrida⸣
-513•Sorbus intermedia⸣
-514•Sorbus koehneana⸣
-515•Sorbus prattii⸣
-516•Sorbus scopulina⸣
-517•Sorbus sp⸣
-518•Sorbus teodori⸣
-519•Sorbus torminalis⸣
-520•Spiraea ×cinerea⸣
-521•Spiraea ×multiflora⸣
-522•Spiraea ×rosalba⸣
-523•Spiraea ×sanssouciana⸣
-524•Spiraea ×vanhouttei⸣
-525•Spiraea alba⸣
-526•Spiraea 'Arguta'⸣
-527•Spiraea betulifolia⸣
-528•Spiraea Billiardii -ryhmä/gruppen/group⸣
-529•Spiraea cana⸣
-530•Spiraea chamaedryfolia⸣
-531•Spiraea douglasii⸣
-532•Spiraea fritschiana⸣
-533•Spiraea 'Grefsheim'⸣
-534•Spiraea hypericifolia⸣
-535•Spiraea japonica⸣
-536•Spiraea 'Margaritae'⸣
-537•Spiraea media⸣
-538•Spiraea nipponica⸣
-539•Spiraea rosthornii⸣
-540•Spiraea salicifolia⸣
-541•Spiraea sp⸣
-542•Spiraea tomentosa⸣
-543•Spiraea trichocarpa⸣
-544•Spiraea trilobata⸣
-545•Stephanandra incisa⸣
-546•Symphoricarpos albus⸣
-547•Symphoricarpos albus var. laevigatus⸣
-548•Syringa ×chinensis⸣
-549•Syringa ×henryi⸣
-550•Syringa ×josiflexa⸣
-551•Syringa ×nanceana⸣
-552•Syringa ×swegiflexa⸣
-553•Syringa josikaea⸣
-554•Syringa Preston -ryhmä/gruppen/group⸣
-555•Syringa reflexa⸣
-556•Syringa reticulata⸣
-557•Syringa sp⸣
-558•Syringa sweginowii⸣
-559•Syringa tigerstedtii⸣
-560•Syringa tomentella⸣
-561•Syringa villosa⸣
-562•Syringa wolfii⸣
-563•Syringa vulgaris⸣
-564•Tamarix pentandra⸣
-565•Taxus ×media⸣
-566•Taxus baccata⸣
-567•Taxus brevifolia⸣
-568•Taxus cuspidata⸣
-569•Taxus sp⸣
-570•Thuja koraiensis⸣
-571•Thuja occidentalis⸣
-572•Thuja plicata⸣
-573•Thuja sp⸣
-574•Thuja standishii⸣
-575•Thujopsis dolabrata⸣
-576•Tilia ×moltkei⸣
-577•Tilia ×vulgaris⸣
-578•Tilia americana⸣
-579•Tilia cordata⸣
-580•Tilia euchlora⸣
-581•Tilia japonica⸣
-582•Tilia mongolica⸣
-583•Tilia platyphyllos⸣
-584•Tilia sp⸣
-585•Tilia tomentosa⸣
-586•Tripterygium regelii⸣
-587•Tsuga canadensis⸣
-588•Tsuga caroliniana⸣
-589•Tsuga diversifolia⸣
-590•Tsuga heterophylla⸣
-591•Tsuga mertensiana⸣
-592•Tsuga sp⸣
-593•Ulmus americana⸣
-594•Ulmus glabra⸣
-595•Ulmus laevis⸣
-596•Ulmus minor⸣
-597•Ulmus pumila⸣
-598•Ulmus sp⸣
-599•Vaccinium corymbosum⸣
-600•Vaccinium microcarpum⸣
-601•Vaccinium myrtillus⸣
-602•Vaccinium oxycoccos⸣
-603•Vaccinium sp⸣
-604•Vaccinium uliginosum⸣
-605•Vaccinium vitis-idaea⸣
-606•Weigela Florida -ryhmä/gruppen/group⸣
-607•Weigela middendorffiana⸣
-608•Weigela praecox⸣
-609•Weigela sp⸣
-610•Viburnum carlesii⸣
-611•Viburnum cassinoides⸣
-612•Viburnum dentatum⸣
-613•Viburnum dentatum var. lucidum⸣
-614•Viburnum lantana⸣
-615•Viburnum lentago⸣
-616•Viburnum opulus⸣
-617•Viburnum rafinesquianum⸣
-618•Viburnum sargentii⸣
-619•Viburnum sp⸣
-620•Vinca minor⸣
-621•Vitis amurensis⸣
-622•Vitis riparia]]>
+<![CDATA["id";"selite"
+"1";"Abies amabilis"
+"2";"Abies balsamea"
+"3";"Abies concolor"
+"4";"Abies fraseri"
+"5";"Abies grandis"
+"6";"Abies holophylla"
+"7";"Abies homolepis"
+"8";"Abies koreana"
+"9";"Abies lasiocarpa"
+"10";"Abies lasiocarpa var. arizonica"
+"11";"Abies mariesii"
+"12";"Abies nephrolepis"
+"13";"Abies nordmanniana"
+"14";"Abies procera"
+"15";"Abies sachalinensis"
+"16";"Abies sibirica"
+"17";"Abies sp"
+"18";"Abies veitchii"
+"19";"Acanthopanax senticosus"
+"20";"Acer barbinerve"
+"21";"Acer campestre"
+"22";"Acer circinatum"
+"23";"Acer japonicum"
+"24";"Acer mono"
+"25";"Acer negundo"
+"26";"Acer palmatum"
+"27";"Acer pensylvanicum"
+"28";"Acer platanoides"
+"29";"Acer platanoides 'Reitenbachii'"
+"30";"Acer platanoides 'Schwedleri'"
+"31";"Acer pseudoplatanus"
+"32";"Acer pseudosieboldianum"
+"33";"Acer rubrum"
+"34";"Acer saccharinum"
+"35";"Acer saccharum"
+"36";"Acer sieboldianum"
+"37";"Acer sp"
+"38";"Acer spicatum"
+"39";"Acer tataricum"
+"40";"Acer tataricum subsp. ginnala"
+"41";"Acer tataricum subsp. semenowii"
+"42";"Acer tataricum subsp. tataricum"
+"43";"Acer tegmentosum"
+"44";"Acer triflorum"
+"45";"Acer ukurunduense"
+"46";"Actinidia arguta"
+"47";"Actinidia kolomikta"
+"48";"Aesculus hippocastanum"
+"49";"Aesculus octandra"
+"50";"Alnus glutinosa"
+"51";"Alnus glutinosa f. quercifolia"
+"52";"Alnus incana"
+"53";"Alnus incana f. gibberosa"
+"54";"Alnus incana f. laciniata"
+"55";"Alnus incana subsp. kolaënsis"
+"56";"Alnus mandshurica"
+"57";"Alnus sp"
+"58";"Alnus viridis"
+"59";"Amelanchier alnifolia"
+"60";"Amelanchier laevis"
+"61";"Amelanchier lamarckii"
+"62";"Amelanchier sp"
+"63";"Amelanchier spicata"
+"64";"Andromeda polifolia"
+"65";"Aralia elata"
+"66";"Arctostaphylos alpinus"
+"67";"Arctostaphylos uva-ursi"
+"68";"Aristolochia macrophylla"
+"69";"Aronia ×prunifolia"
+"70";"Aronia arbutifolia"
+"71";"Aronia melanocarpa"
+"72";"Aronia sp"
+"73";"Artemisia abronatum"
+"74";"Berberis koreana"
+"75";"Berberis sp"
+"76";"Berberis thunbergii"
+"77";"Berberis vulgaris"
+"78";"Betula alleghaniensis"
+"79";"Betula ermanii"
+"80";"Betula fruticosa"
+"81";"Betula lenta"
+"82";"Betula nana"
+"83";"Betula papyrifera"
+"84";"Betula pendula"
+"85";"Betula pendula 'Dalecarlica'"
+"86";"Betula pendula f. bircalensis"
+"87";"Betula pendula f. crispa"
+"88";"Betula pendula f. palmeri"
+"89";"Betula pendula f. tristis"
+"90";"Betula pendula var. carelica"
+"91";"Betula pendula 'Youngii'"
+"92";"Betula pubescens"
+"93";"Betula pubescens f. aurea"
+"94";"Betula pubescens f. rubra"
+"95";"Betula pubescens subsp. czerepanovii"
+"96";"Betula sp"
+"97";"Buddleja davidii"
+"98";"Buxus sempervirens"
+"99";"Calluna vulgaris"
+"100";"Caragana arborescens"
+"101";"Caragana aurantiaca"
+"102";"Caragana frutex"
+"103";"Carpinus betulus"
+"104";"Cassiope hypnoides"
+"105";"Cassiope tetragona"
+"106";"Celastrus orbiculatus"
+"107";"Celastrus scandens"
+"108";"Cercidiphyllum japonicum"
+"109";"Cercidiphyllum magnificum"
+"110";"Chaenomeles japonica"
+"111";"Chamaecyparis lawsoniana"
+"112";"Chamaecyparis nootkatensis"
+"113";"Chamaecyparis pisifera"
+"114";"Chamaecyparis sp"
+"115";"Chamaedaphne calyculata"
+"116";"Chimaphila umbellata"
+"117";"Cladrastis kentukea"
+"118";"Clematis alpina"
+"119";"Clematis ochotensis"
+"120";"Clematis sibirica"
+"121";"Clematis sp"
+"122";"Clematis tangutica"
+"123";"Clematis vitalba"
+"124";"Clematis viticella"
+"125";"Colutea arborescens"
+"126";"Cornus alba"
+"127";"Cornus alba 'Sibirica'"
+"128";"Cornus alba subsp. alba"
+"129";"Cornus alba subsp. stolonifera"
+"130";"Cornus mas"
+"131";"Cornus sanguinea"
+"132";"Cornus sp"
+"133";"Corylus avellana"
+"134";"Corylus colurna"
+"135";"Corylus cornuta"
+"136";"Corylus maxima 'Purpurea'"
+"137";"Corylus sp"
+"138";"Cotoneaster dammeri "
+"139";"Cotoneaster dammeri var. radicans"
+"140";"Cotoneaster divaricatus"
+"141";"Cotoneaster horizontalis"
+"142";"Cotoneaster integerrimus"
+"143";"Cotoneaster lucidus"
+"144";"Cotoneaster nanshan"
+"145";"Cotoneaster niger"
+"146";"Cotoneaster 'Skogholm'"
+"147";"Cotoneaster sp"
+"148";"Crataegus ×mordenensis"
+"149";"Crataegus chlorosarca"
+"150";"Crataegus douglasii"
+"151";"Crataegus flabellata"
+"152";"Crataegus grayana"
+"153";"Crataegus intricata"
+"154";"Crataegus korolkovii"
+"155";"Crataegus laevigata"
+"156";"Crataegus macracantha"
+"157";"Crataegus monogyna"
+"158";"Crataegus nigra"
+"159";"Crataegus rhipidophylla"
+"160";"Crataegus sanguinea"
+"161";"Crataegus sp"
+"162";"Crataegus submollis"
+"163";"Cytisus ×versicolor"
+"164";"Cytisus decumbens"
+"165";"Cytisus glaber"
+"166";"Cytisus purpureus"
+"167";"Cytisus scoparius"
+"168";"Cytisus sp"
+"169";"Daphne blagayana"
+"170";"Daphne cneorum"
+"171";"Daphne mezereum"
+"172";"Daphne sp"
+"173";"Deutzia amurensis"
+"174";"Deutzia scabra"
+"175";"Diapensia lapponica"
+"176";"Diervilla lonicera"
+"177";"Diervilla sessilifolia"
+"178";"Dryas octopetala"
+"179";"Elaeagnus commutata"
+"180";"Empetrum nigrum"
+"181";"Erica herbacea"
+"182";"Erica tetralix"
+"183";"Euonymus alatus"
+"184";"Euonymus europaeus"
+"185";"Euonymus fortunei"
+"186";"Euonymus hamiltonianus"
+"187";"Euonymus nanus"
+"188";"Euonymus planipes"
+"189";"Euonymus sp"
+"190";"Exochorda racemosa"
+"191";"Fagus grandifolia"
+"192";"Fagus sp"
+"193";"Fagus sylvatica"
+"194";"Fagus sylvatica f. purpurea"
+"195";"Forsythia ovata"
+"196";"Fothergilla major"
+"197";"Fraxinus americana"
+"198";"Fraxinus excelsior"
+"199";"Fraxinus mandshurica"
+"200";"Fraxinus nigra"
+"201";"Fraxinus pennsylvanica"
+"202";"Fraxinus sp"
+"203";"Genista tinctoria"
+"204";"Ginkgo biloba"
+"205";"Gleditsia triacanthos"
+"206";"Halesia carolina"
+"207";"Hamamelis virginiana"
+"208";"Hedera helix"
+"209";"Hippophaë rhamnoides"
+"210";"Holodiscus discolor"
+"211";"Hydrangea anomala"
+"212";"Hydrangea anomala subsp. petiolaris"
+"213";"Hydrangea arborescens"
+"214";"Hydrangea heteromalla 'Bretschneideri'"
+"215";"Hydrangea paniculata 'Grandiflora'"
+"216";"Hydrangea sp"
+"217";"Ilex verticillata"
+"218";"Jamesia americana"
+"219";"Juglans ailanthifolia"
+"220";"Juglans cinerea"
+"221";"Juglans mandshurica"
+"222";"Juglans nigra"
+"223";"Juglans sp"
+"224";"Juniperus chinensis"
+"225";"Juniperus communis"
+"226";"Juniperus communis subsp. alpina"
+"227";"Juniperus horizontalis"
+"228";"Juniperus sabina"
+"229";"Juniperus sp"
+"230";"Juniperus squamata"
+"231";"Juniperus virginiana"
+"232";"Kalmia angustifolia"
+"233";"Kalmia latifolia"
+"234";"Kalmia polifolia"
+"235";"Kalmia sp"
+"236";"Kerria japonica"
+"237";"Kolkwitzia amabilis"
+"238";"Laburnum ×watereri"
+"239";"Laburnum alpinum"
+"240";"Larix ×marschlinsii"
+"241";"Larix decidua"
+"242";"Larix decidua subsp. polonica"
+"243";"Larix gmelinii"
+"244";"Larix gmelinii var. gmelinii"
+"245";"Larix gmelinii var. japonica"
+"246";"Larix gmelinii var. olgensis"
+"247";"Larix gmelinii var. principis-rupprechtii"
+"248";"Larix kaempferi"
+"249";"Larix laricina"
+"250";"Larix lyallii"
+"251";"Larix occidentalis"
+"252";"Larix sibirica"
+"253";"Larix sp"
+"254";"Ledum palustre"
+"255";"Ligustrum vulgare"
+"256";"Linnaea borealis"
+"257";"Liquidambar styraciflua"
+"258";"Liriodendron tulipifera"
+"259";"Loiseleuria procumbens"
+"260";"Lonicera ×bella"
+"261";"Lonicera ×brownii"
+"262";"Lonicera ×notha"
+"263";"Lonicera ×xylosteoides"
+"264";"Lonicera albertii"
+"265";"Lonicera alpigena"
+"266";"Lonicera caerulea"
+"267";"Lonicera caprifolium"
+"268";"Lonicera caucasica"
+"269";"Lonicera chrysantha"
+"270";"Lonicera involucrata"
+"271";"Lonicera maackii"
+"272";"Lonicera nigra"
+"273";"Lonicera periclymenum"
+"274";"Lonicera sp"
+"275";"Lonicera tatarica"
+"276";"Lonicera xylosteum"
+"277";"Maackia amurensis"
+"278";"Magnolia acuminata"
+"279";"Magnolia kobus"
+"280";"Magnolia sieboldii"
+"281";"Magnolia sp"
+"282";"Mahonia aquifolium"
+"283";"Malus baccata"
+"284";"Malus domestica"
+"285";"Malus prunifolia"
+"286";"Malus sp"
+"287";"Malus sylvestris"
+"288";"Malus toringo"
+"289";"Malus toringo var. sargentii"
+"290";"Menispermum canadense"
+"291";"Menispermum dauricum"
+"292";"Metasequoia glyptostroboides"
+"293";"Microbiota decussata"
+"294";"Myrica gale"
+"295";"Myricaria germanica"
+"296";"Oplopanax horridus"
+"297";"Ostrya carpinifolia"
+"298";"Pachysandra terminalis"
+"299";"Parthenocissus inserta"
+"300";"Parthenocissus quinquefolia"
+"301";"Paxistima myrtifolia"
+"302";"Phellodendron amurense"
+"303";"Philadelphus ×lemoinei"
+"304";"Philadelphus ×virginalis"
+"305";"Philadelphus coronarius"
+"306";"Philadelphus lewisii"
+"307";"Philadelphus lewisii var. gordonianus"
+"308";"Philadelphus pubescens"
+"309";"Philadelphus sp"
+"310";"Phyllodoce caerulea"
+"311";"Physocarpus opulifolius"
+"312";"Picea ×lutzii"
+"313";"Picea abies"
+"314";"Picea abies f. aurea"
+"315";"Picea abies f. condensata"
+"316";"Picea abies f. cruenta"
+"317";"Picea abies f. globosa"
+"318";"Picea abies f. nana"
+"319";"Picea abies f. nidiformis"
+"320";"Picea abies f. pendula"
+"321";"Picea abies f. tabulaeformis"
+"322";"Picea abies f. variegata"
+"323";"Picea abies f. viminalis"
+"324";"Picea abies f. virgata"
+"325";"Picea abies subsp. abies"
+"326";"Picea abies subsp. obovata"
+"327";"Picea asperata"
+"328";"Picea engelmannii"
+"329";"Picea glauca"
+"330";"Picea glauca var. albertiana"
+"331";"Picea glehnii"
+"332";"Picea jezoënsis"
+"333";"Picea koraiensis"
+"334";"Picea likiangensis"
+"335";"Picea mariana"
+"336";"Picea omorika"
+"337";"Picea pungens"
+"338";"Picea retroflexa"
+"339";"Picea rubens"
+"340";"Picea schrenkiana"
+"341";"Picea sitchensis"
+"342";"Picea sp"
+"343";"Pieris floribunda"
+"344";"Pinus banksiana "
+"345";"Pinus cembra"
+"346";"Pinus cembra subsp. cembra"
+"347";"Pinus cembra subsp. sibirica"
+"348";"Pinus contorta"
+"349";"Pinus contorta var. contorta"
+"350";"Pinus contorta var. latifolia"
+"351";"Pinus koraiensis"
+"352";"Pinus monticola"
+"353";"Pinus mugo"
+"354";"Pinus mugo subsp. uncinata"
+"355";"Pinus nigra"
+"356";"Pinus peuce"
+"357";"Pinus ponderosa"
+"358";"Pinus pumila"
+"359";"Pinus resinosa"
+"360";"Pinus sp"
+"361";"Pinus strobus"
+"362";"Pinus sylvestris"
+"363";"Pinus sylvestris f. aurea"
+"364";"Pinus sylvestris f. condensata"
+"365";"Pinus sylvestris f. globosa"
+"366";"Pinus sylvestris f. virgata"
+"367";"Pinus sylvestris 'Globosa'"
+"368";"Populus ×canadensis"
+"369";"Populus ×jackii 'Gileadensis'"
+"370";"Populus ×wettsteinii"
+"371";"Populus alba"
+"372";"Populus balsamifera"
+"373";"Populus balsamifera 'Tristis'"
+"374";"Populus canescens"
+"375";"Populus deltoides"
+"376";"Populus koreana"
+"377";"Populus laurifolia"
+"378";"Populus nigra"
+"379";"Populus 'Rasumowskiana'"
+"380";"Populus simonii"
+"381";"Populus sp"
+"382";"Populus suaveolens"
+"383";"Populus tremula"
+"384";"Populus tremuloides"
+"385";"Populus trichocarpa"
+"386";"Populus wilsonii"
+"387";"Potentilla fruticosa"
+"388";"Prunus avium"
+"389";"Prunus cerasifera"
+"390";"Prunus cerasus"
+"391";"Prunus domestica"
+"392";"Prunus domestica subsp. domestica"
+"393";"Prunus domestica subsp. insititia"
+"394";"Prunus laurocerasus"
+"395";"Prunus maackii"
+"396";"Prunus maximowiczii"
+"397";"Prunus padus"
+"398";"Prunus pensylvanica"
+"399";"Prunus prostrata"
+"400";"Prunus pumila"
+"401";"Prunus sargentii"
+"402";"Prunus serotina"
+"403";"Prunus sp"
+"404";"Prunus spinosa"
+"405";"Prunus tenella"
+"406";"Prunus tomentosa"
+"407";"Prunus triloba"
+"408";"Prunus virginiana"
+"409";"Pseudolarix amabilis"
+"410";"Pseudotsuga menziesii"
+"411";"Pseudotsuga menziesii var. glauca"
+"412";"Pterocarya pterocarpa"
+"413";"Pterocarya rhoifolia"
+"414";"Pyrus communis"
+"415";"Pyrus ussuriensis"
+"416";"Quercus coccinea"
+"417";"Quercus petraea"
+"418";"Quercus robur"
+"419";"Quercus rubra"
+"420";"Rhamnus cathartica"
+"421";"Rhamnus frangula"
+"422";"Rhododendron ×fraseri"
+"423";"Rhododendron aureum"
+"424";"Rhododendron brachycarpum"
+"425";"Rhododendron brachycarpum subsp. tigerstedtii"
+"426";"Rhododendron canadense"
+"427";"Rhododendron Catawbiense -ryhmä/gruppen/group"
+"428";"Rhododendron 'Cunningham's White'"
+"429";"Rhododendron dauricum"
+"430";"Rhododendron ferrugineum"
+"431";"Rhododendron Kosterianum -ryhmä/gruppen/group"
+"432";"Rhododendron lapponicum"
+"433";"Rhododendron luteum"
+"434";"Rhododendron molle"
+"435";"Rhododendron molle subsp. japonicum"
+"436";"Rhododendron schlippenbachii"
+"437";"Rhododendron smirnowii"
+"438";"Rhododendron sp"
+"439";"Rhododendron Tigerstedtii -ryhmä/gruppen/group"
+"440";"Rhus hirta"
+"441";"Ribes alpinum"
+"442";"Ribes nigrum"
+"443";"Ribes rubrum"
+"444";"Ribes spicatum"
+"445";"Ribes uva-crispa"
+"446";"Robinia pseudoacacia"
+"447";"Rosa acicularis"
+"448";"Rosa canina"
+"449";"Rosa dumalis"
+"450";"Rosa majalis"
+"451";"Rosa mollis"
+"452";"Rosa pimpinellifolia"
+"453";"Rosa rugosa"
+"454";"Rosa sherardii"
+"455";"Rosa sp"
+"456";"Rubus caesius"
+"457";"Rubus idaeus"
+"458";"Rubus odoratus"
+"459";"Rubus parviflorus"
+"460";"Rubus pruinosus"
+"461";"Rubus sp"
+"462";"Salix alba"
+"463";"Salix arbutifolia"
+"464";"Salix aurita"
+"465";"Salix borealis"
+"466";"Salix caprea"
+"467";"Salix cinerea"
+"468";"Salix daphnoides"
+"469";"Salix daphnoides subsp. acutifolia"
+"470";"Salix daphnoides subsp. daphnoides"
+"471";"Salix fragilis"
+"472";"Salix fragilis 'Bullata'"
+"473";"Salix glauca"
+"474";"Salix hastata"
+"475";"Salix herbacea"
+"476";"Salix lanata"
+"477";"Salix lapponum"
+"478";"Salix lucida"
+"479";"Salix myrsinifolia"
+"480";"Salix myrsinites"
+"481";"Salix myrtilloides"
+"482";"Salix pentandra"
+"483";"Salix phylicifolia"
+"484";"Salix polaris"
+"485";"Salix purpurea"
+"486";"Salix pyrolifolia"
+"487";"Salix repens"
+"488";"Salix reticulata"
+"489";"Salix rosmarinifolia"
+"490";"Salix 'Sibirica'"
+"491";"Salix sp"
+"492";"Salix starkeana"
+"493";"Salix triandra"
+"494";"Salix viminalis"
+"495";"Sambucus canadensis"
+"496";"Sambucus nigra"
+"497";"Sambucus racemosa"
+"498";"Sambucus sp"
+"499";"Schisandra chinensis"
+"500";"Sequoia sempervirens"
+"501";"Sequoiadendron giganteum"
+"502";"Solanum dulcamara"
+"503";"Sorbaria grandiflora"
+"504";"Sorbaria sorbifolia"
+"505";"Sorbaria sp"
+"506";"Sorbus ×thuringiaca 'Fastigiata'"
+"507";"Sorbus alnifolia"
+"508";"Sorbus americana"
+"509";"Sorbus aria"
+"510";"Sorbus aucuparia"
+"511";"Sorbus commixta"
+"512";"Sorbus hybrida"
+"513";"Sorbus intermedia"
+"514";"Sorbus koehneana"
+"515";"Sorbus prattii"
+"516";"Sorbus scopulina"
+"517";"Sorbus sp"
+"518";"Sorbus teodori"
+"519";"Sorbus torminalis"
+"520";"Spiraea ×cinerea"
+"521";"Spiraea ×multiflora"
+"522";"Spiraea ×rosalba"
+"523";"Spiraea ×sanssouciana"
+"524";"Spiraea ×vanhouttei"
+"525";"Spiraea alba"
+"526";"Spiraea 'Arguta'"
+"527";"Spiraea betulifolia"
+"528";"Spiraea Billiardii -ryhmä/gruppen/group"
+"529";"Spiraea cana"
+"530";"Spiraea chamaedryfolia"
+"531";"Spiraea douglasii"
+"532";"Spiraea fritschiana"
+"533";"Spiraea 'Grefsheim'"
+"534";"Spiraea hypericifolia"
+"535";"Spiraea japonica"
+"536";"Spiraea 'Margaritae'"
+"537";"Spiraea media"
+"538";"Spiraea nipponica"
+"539";"Spiraea rosthornii"
+"540";"Spiraea salicifolia "
+"541";"Spiraea sp"
+"542";"Spiraea tomentosa"
+"543";"Spiraea trichocarpa"
+"544";"Spiraea trilobata"
+"545";"Stephanandra incisa"
+"546";"Symphoricarpos albus"
+"547";"Symphoricarpos albus var. laevigatus"
+"548";"Syringa ×chinensis"
+"549";"Syringa ×henryi"
+"550";"Syringa ×josiflexa"
+"551";"Syringa ×nanceana"
+"552";"Syringa ×swegiflexa"
+"553";"Syringa josikaea"
+"554";"Syringa Preston -ryhmä/gruppen/group"
+"555";"Syringa reflexa"
+"556";"Syringa reticulata"
+"557";"Syringa sp"
+"558";"Syringa sweginowii"
+"559";"Syringa tigerstedtii"
+"560";"Syringa tomentella"
+"561";"Syringa villosa"
+"562";"Syringa wolfii"
+"563";"Syringa vulgaris"
+"564";"Tamarix pentandra"
+"565";"Taxus ×media"
+"566";"Taxus baccata"
+"567";"Taxus brevifolia"
+"568";"Taxus cuspidata"
+"569";"Taxus sp"
+"570";"Thuja koraiensis"
+"571";"Thuja occidentalis"
+"572";"Thuja plicata"
+"573";"Thuja sp"
+"574";"Thuja standishii"
+"575";"Thujopsis dolabrata"
+"576";"Tilia ×moltkei"
+"577";"Tilia ×vulgaris"
+"578";"Tilia americana"
+"579";"Tilia cordata"
+"580";"Tilia euchlora"
+"581";"Tilia japonica"
+"582";"Tilia mongolica"
+"583";"Tilia platyphyllos"
+"584";"Tilia sp"
+"585";"Tilia tomentosa"
+"586";"Tripterygium regelii"
+"587";"Tsuga canadensis"
+"588";"Tsuga caroliniana"
+"589";"Tsuga diversifolia"
+"590";"Tsuga heterophylla"
+"591";"Tsuga mertensiana"
+"592";"Tsuga sp"
+"593";"Ulmus americana"
+"594";"Ulmus glabra"
+"595";"Ulmus laevis"
+"596";"Ulmus minor"
+"597";"Ulmus pumila "
+"598";"Ulmus sp"
+"599";"Vaccinium corymbosum"
+"600";"Vaccinium microcarpum"
+"601";"Vaccinium myrtillus"
+"602";"Vaccinium oxycoccos"
+"603";"Vaccinium sp"
+"604";"Vaccinium uliginosum"
+"605";"Vaccinium vitis-idaea"
+"606";"Weigela Florida -ryhmä/gruppen/group"
+"607";"Weigela middendorffiana"
+"608";"Weigela praecox"
+"609";"Weigela sp"
+"610";"Viburnum carlesii"
+"611";"Viburnum cassinoides"
+"612";"Viburnum dentatum"
+"613";"Viburnum dentatum var. lucidum"
+"614";"Viburnum lantana"
+"615";"Viburnum lentago"
+"616";"Viburnum opulus"
+"617";"Viburnum rafinesquianum"
+"618";"Viburnum sargentii"
+"619";"Viburnum sp"
+"620";"Vinca minor"
+"621";"Vitis amurensis"
+"622";"Vitis riparia"]]>
 	</initial-data>
 </table>
 
 <table name="ymparistotaidetyyppi" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
+	<tag name="TODO"/>
 	<position x="360" y="1040"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
@@ -1784,6 +1813,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="kaluste" layers="0" collapse-mode="2" max-obj-count="16" z-value="0">
 	<schema name="varusteet"/>
 	<role name="infrao_admin"/>
+	<tag name="TODO"/>
 	<position x="2640" y="3320"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
@@ -1799,6 +1829,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="kantavuusluokkatyyppi" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
+	<tag name="TODO"/>
 	<position x="720" y="1040"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
@@ -1824,7 +1855,8 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="kasvilaji" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
-	<position x="1080" y="1040"/>
+	<tag name="TODO"/>
+	<position x="1140" y="1600"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
 	</column>
@@ -3329,6 +3361,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="kasviryhmatyyppi" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
+	<tag name="TODO"/>
 	<position x="1360" y="1040"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
@@ -3358,6 +3391,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="leikkivalinetyyppi" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
+	<tag name="TODO"/>
 	<position x="120" y="1240"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
@@ -3395,7 +3429,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<role name="infrao_admin"/>
 	<comment> <![CDATA[TODO: add selite in other languages (sv, en)?]]> </comment>
 	<tag name="TODO"/>
-	<position x="680" y="1880"/>
+	<position x="700" y="1800"/>
 	<column name="cid" not-null="true">
 		<type name="integer" length="0"/>
 	</column>
@@ -3686,6 +3720,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="liikennemerkkityyppi2020" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
+	<tag name="TODO"/>
 	<position x="760" y="1240"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
@@ -4395,6 +4430,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="toiminnallinenluokka" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
+	<tag name="TODO"/>
 	<position x="120" y="1400"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
@@ -4426,6 +4462,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="hulevesi" layers="0" collapse-mode="2" max-obj-count="16" z-value="0">
 	<schema name="kohteet"/>
 	<role name="infrao_admin"/>
+	<tag name="TODO"/>
 	<position x="1880" y="2440"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
@@ -4458,6 +4495,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="ymparistotaide" layers="0" collapse-mode="2" max-obj-count="16" z-value="0">
 	<schema name="kohteet"/>
 	<role name="infrao_admin"/>
+	<tag name="TODO"/>
 	<position x="3040" y="2520"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
@@ -4548,6 +4586,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="aineistotilatype" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
+	<tag name="TODO"/>
 	<position x="440" y="1400"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
@@ -4667,9 +4706,10 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	 dst-table="abstraktit.abstractvaruste"/>
 
 <table name="osoite" layers="0" collapse-mode="2" max-obj-count="18" z-value="0">
-	<schema name="abstraktit"/>
-	<role name="infrao_admin"/>
-	<position x="4720" y="1760"/>
+	<schema name="osoite"/>
+	<comment> <![CDATA[Viitesijaintialue: oma taulu, jossa suuralueet tms.?]]> </comment>
+	<tag name="TODO"/>
+	<position x="4760" y="2240"/>
 	<column name="id" not-null="true">
 		<type name="integer" length="0"/>
 	</column>
@@ -4721,7 +4761,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		<type name="varchar" length="255"/>
 		<comment> <![CDATA[Esim. Korso, Tikkurila]]> </comment>
 	</column>
-	<constraint name="osoite_pk" type="pk-constr" table="abstraktit.osoite">
+	<constraint name="osoite_pk" type="pk-constr" table="osoite.osoite">
 		<columns names="id" ref-type="src-columns"/>
 	</constraint>
 </table>
@@ -4729,6 +4769,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="pysakointiruutu" layers="0" collapse-mode="2" max-obj-count="16" z-value="0">
 	<schema name="kohteet"/>
 	<role name="infrao_admin"/>
+	<tag name="TODO"/>
 	<position x="3680" y="2560"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
@@ -4750,6 +4791,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="rakennetyyppi" layers="0" collapse-mode="2" max-obj-count="1" z-value="0">
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
+	<tag name="TODO"/>
 	<position x="760" y="1400"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
@@ -4805,7 +4847,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <relationship name="liikennevalo_inherits_abstractvaruste" type="relgen" layers="0"
 	 pk-pattern="{dt}_pk"
 	 custom-color="#ffbfcd"
-	 src-table="kohteet.liikennevalo"
+	 src-table="katualue.liikennevalo"
 	 dst-table="abstraktit.abstractvaruste"/>
 
 <relationship name="rakenne_inherits_abstractvaruste" type="relgen" layers="0"
@@ -4917,6 +4959,8 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="sijainti" layers="0" collapse-mode="2" max-obj-count="8" z-value="0">
 	<schema name="abstraktit"/>
 	<role name="infrao_admin"/>
+	<comment> <![CDATA[TODO: tarvitaanko? Jos tarve on pelkästään tallentaa tietoa luontitavasta ja/tai sijaintiepävarmuudesta niin voisi olla kohteen metatiedoissa?]]> </comment>
+	<tag name="TODO"/>
 	<position x="5280" y="1720"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
@@ -4979,7 +5023,8 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="erikoisrakennekerros" layers="0" collapse-mode="2" max-obj-count="9" z-value="0">
 	<schema name="kohteet"/>
 	<role name="infrao_admin"/>
-	<position x="3800" y="2120"/>
+	<tag name="TODO"/>
+	<position x="3560" y="2160"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
 	</column>
@@ -5015,7 +5060,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<role name="infrao_admin"/>
 	<comment> <![CDATA[TODO: id name as cid (codelist id) and move type integer. Change data: Selite is only text]]> </comment>
 	<tag name="TODO"/>
-	<position x="120" y="1720"/>
+	<position x="140" y="1760"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
 	</column>
@@ -5026,13 +5071,13 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		<columns names="id" ref-type="src-columns"/>
 	</constraint>
 	<initial-data>
-<![CDATA[id•selite⸣
-1•paalulaatat ja -hatut⸣
-2•vahvistetut maarakenteet⸣
-3•roudan- ja lämmöneristykset⸣
-4•kevennetyt penkereet⸣
-5•maapadot⸣
-6•kantava kasvualusta]]>
+<![CDATA["id";"selite"
+"1";"paalulaatat ja -hatut"
+"2";"vahvistetut maarakenteet"
+"3";"roudan- ja lämmöneristykset"
+"4";"kevennetyt penkereet"
+"5";"maapadot"
+"6";"kantava kasvualusta"]]>
 	</initial-data>
 </table>
 
@@ -5140,7 +5185,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 
 <table name="template_table" layers="0" collapse-mode="2" max-obj-count="16" z-value="0">
 	<schema name="abstraktit"/>
-	<position x="6000" y="560"/>
+	<position x="5700" y="600"/>
 	<column name="fid" not-null="true"
 	 identity-type="ALWAYS">
 		<type name="bigint" length="0"/>
@@ -5207,6 +5252,121 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	 custom-color="#cbb681"
 	 src-table="viheralue.viheralue"
 	 dst-table="viheralue.viheralueenosa"
+	 src-required="false" dst-required="false"/>
+
+<textbox name="Infra-o Skeema" layers="0" z-value="0" font-size="12">
+	<position x="120" y="180"/>
+	<comment> <![CDATA[https://www.infra-o.fi/2023/02/13/infra-o-skeemasta-on-julkaistu-versio-2-0-0/]]> </comment>
+</textbox>
+
+<table name="puu" layers="0" collapse-mode="2" max-obj-count="24" z-value="0">
+	<schema name="kasvillisuus"/>
+	<comment> <![CDATA[TODO: metatieto]]> </comment>
+	<tag name="TODO"/>
+	<position x="4700" y="60"/>
+	<column name="fid" not-null="true"
+	 identity-type="ALWAYS">
+		<type name="bigint" length="0"/>
+	</column>
+	<column name="identifier" default-value="gen_random_uuid()">
+		<type name="uuid" length="0"/>
+	</column>
+	<column name="nimi">
+		<type name="text" length="0"/>
+	</column>
+	<column name="valmistumisvuosi">
+		<type name="smallint" length="0"/>
+	</column>
+	<column name="perusparannusvuosi">
+		<type name="smallint" length="0"/>
+	</column>
+	<column name="alkuhetki">
+		<type name="timestamptz" length="0"/>
+		<comment> <![CDATA[Kohteen luontipäivämäärä]]> </comment>
+	</column>
+	<column name="loppuhetki">
+		<type name="timestamptz" length="0"/>
+		<comment> <![CDATA[Milloin kohde on poistettu. Tämän avulla voidaan tunnistaa poistetut kohteet, jos järjestelmät tukevat historiatietojen tallentamista]]> </comment>
+	</column>
+	<column name="kunnossapitaja">
+		<type name="text" length="0"/>
+		<comment> <![CDATA[Kunnossapitäjä]]> </comment>
+	</column>
+	<column name="haltija">
+		<type name="text" length="0"/>
+	</column>
+	<column name="omistaja">
+		<type name="text" length="0"/>
+	</column>
+	<column name="metatieto">
+		<type name="text" length="0"/>
+	</column>
+	<column name="korkeus">
+		<type name="float" length="0"/>
+		<comment> <![CDATA[Puun korkeus metreinä]]> </comment>
+	</column>
+	<column name="ymparys">
+		<type name="float" length="0"/>
+		<comment> <![CDATA[Puun ympärysmitta metreissä]]> </comment>
+	</column>
+	<column name="geom_point">
+		<type name="geometry" length="0" spatial-type="POINT" variation="1" srid="3067"/>
+	</column>
+	<column name="geom_line">
+		<type name="geometry" length="0" spatial-type="LINESTRING" variation="1" srid="3067"/>
+	</column>
+	<column name="geom_poly">
+		<type name="geometry" length="0" spatial-type="POLYGON" variation="1" srid="3067"/>
+	</column>
+	<constraint name="puu_fid_pk" type="pk-constr" table="kasvillisuus.puu">
+		<columns names="fid" ref-type="src-columns"/>
+	</constraint>
+
+	<customidxs object-type="column">
+		<object name="fid_katualueenosa" index="16"/>
+		<object name="fid_viheralueenosa" index="17"/>
+	</customidxs>
+
+	<customidxs object-type="constraint">
+		<object name="katualueenosa_fk" index="1"/>
+		<object name="viheralueenosa_fk" index="2"/>
+	</customidxs>
+</table>
+
+<relationship name="katualueenosa_has_many_puu" type="rel1n" layers="0"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#d36035"
+	 src-table="katualue.katualueenosa"
+	 dst-table="kasvillisuus.puu"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="viheralueenosa_has_many_puu" type="rel1n" layers="0"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#0f88df"
+	 src-table="viheralue.viheralueenosa"
+	 dst-table="kasvillisuus.puu"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="puutyyppi_has_many_puu" type="rel1n" layers="1"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#2012f5"
+	 src-table="koodistot.puutyyppi"
+	 dst-table="kasvillisuus.puu"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="puulaji_has_many_puu" type="rel1n" layers="1"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#4d7381"
+	 src-table="koodistot.puulaji"
+	 dst-table="kasvillisuus.puu"
 	 src-required="false" dst-required="false"/>
 
 <constraint name="talvihoidonluokka_fk" type="fk-constr" comparison-type="MATCH SIMPLE"
@@ -5408,7 +5568,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 </constraint>
 
 <constraint name="varustemateriaali_fk" type="fk-constr" comparison-type="MATCH FULL"
-	 upd-action="NO ACTION" del-action="CASCADE" ref-table="koodistot.varustemateriaali" table="kohteet.liikennevalo">
+	 upd-action="NO ACTION" del-action="CASCADE" ref-table="koodistot.varustemateriaali" table="katualue.liikennevalo">
 	<columns names="materiaali_id" ref-type="src-columns"/>
 	<columns names="id" ref-type="dst-columns"/>
 </constraint>
@@ -5486,7 +5646,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 </constraint>
 
 <constraint name="osoitetieto_fk" type="fk-constr" comparison-type="MATCH FULL"
-	 upd-action="CASCADE" del-action="CASCADE" ref-table="abstraktit.osoite" table="abstraktit.sijainti">
+	 upd-action="CASCADE" del-action="CASCADE" ref-table="osoite.osoite" table="abstraktit.sijainti">
 	<columns names="osoitetieto_id" ref-type="src-columns"/>
 	<columns names="id" ref-type="dst-columns"/>
 </constraint>
@@ -5636,12 +5796,12 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	</label>
 </relationship>
 
-<relationship name="rel_liikennemerkki_liikennemerkkityyppi" type="relfk" layers="0"
+<relationship name="rel_liikennemerkki_liikennemerkkityyppi" type="relfk" layers="1"
 	 src-table="varusteet.liikennemerkki"
 	 dst-table="koodistot.liikennemerkkityyppi" reference-fk="liikennemerkkityyppi_fk"
 	 src-required="false" dst-required="false"/>
 
-<relationship name="rel_liikennemerkki_liikennemerkkityyppi2020" type="relfk" layers="0"
+<relationship name="rel_liikennemerkki_liikennemerkkityyppi2020" type="relfk" layers="1"
 	 src-table="varusteet.liikennemerkki"
 	 dst-table="koodistot.liikennemerkkityyppi2020" reference-fk="liikennemerkkityyppi2020_fk"
 	 src-required="false" dst-required="false"/>
@@ -5673,7 +5833,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 
 <relationship name="rel_sijainti_osoite" type="relfk" layers="0"
 	 src-table="abstraktit.sijainti"
-	 dst-table="abstraktit.osoite" reference-fk="osoitetieto_fk"
+	 dst-table="osoite.osoite" reference-fk="osoitetieto_fk"
 	 src-required="false" dst-required="false">
 	<label ref-type="name-label">
 		<position x="0" y="0"/>

@@ -2,11 +2,20 @@
 
 # Create docs and SQLs from database model
 # More information about pgmodeler-cli.exe : https://pgmodeler.io/support/docs/613-command-line-interface
+ 
+# AUtomatic setting of pgModeler-cli, if variables are not set
+if [ ! -n "$PGMCLIEXE" ]; then
+    if [[ -n "$IS_WSL" || -n "$WSL_DISTRO_NAME" ]]; then
+        # Windows WSL
+        PGMCLIEXE='/mnt/c/Program Files/pgModeler102/pgmodeler-cli.exe'
+    else
+        # TODO: fix to check if pgmodeler is in path
+        echo "This is not WSL"
+    fi
+fi
 
-# Windows WSL usage - not working
-# https://stackoverflow.com/questions/38086185/how-to-check-if-a-program-is-run-in-bash-on-ubuntu-on-windows-and-not-just-plain
-#PGMCLIEXE='/mnt/c/Program Files/pgModeler102/pgmodeler-cli.exe'
-PGMCLIEXE='/opt/pgmodeler_102/pgmodeler-cli'
+#PGMCLIEXE='/opt/pgmodeler_102/pgmodeler-cli'
+
 DOCSDIR="../docs"
 SQLDIR="../sql"
 DBMFILE="../infrao_v02.dbm"
@@ -23,12 +32,12 @@ DBMFILE="../infrao_v02.dbm"
 BNAME=`basename "${DBMFILE%.*}"`
 
 echo "Create docs..."
-"${PGMCLIEXE}" -s --export-to-dict -if "${DBMFILE}" --output "${DOCSDIR}/$BNAME.html"
+#"${PGMCLIEXE}" -s --export-to-dict -if "${DBMFILE}" --output "${DOCSDIR}/$BNAME.html"
 "${PGMCLIEXE}" -s --export-to-png -if "${DBMFILE}" --output "${DOCSDIR}/$BNAME.png"
 
 # Create SQL
 echo "Create SQL-file..."
-"${PGMCLIEXE}" -s --export-to-file -if "${DBMFILE}" --output "${SQLDIR}/$BNAME.sql"
+#"${PGMCLIEXE}" -s --export-to-file -if "${DBMFILE}" --output "${SQLDIR}/$BNAME.sql"
 
 # -----------------------------------------------------------------------------
 # End of script

@@ -1,0 +1,28 @@
+#!/bin/bash
+
+# Create docs and SQLs from database model
+# More information about pgmodeler-cli.exe : https://pgmodeler.io/support/docs/613-command-line-interface
+
+PGMCLIEXE='/mnt/c/Program Files/pgModeler102/pgmodeler-cli.exe'
+DOCSDIR="../docs"
+SQLDIR="../sql"
+DBMFILE="../infrao_v02.dbm"
+
+# Check that exe and directories exists
+#echo ${PGMCLIEXE}
+[ ! -x "${PGMCLIEXE}" ] && { echo "ERROR: No pgModeler-cli executable: ${PGMCLIEXE}"; exit;  }
+[ ! -d "${DOCSDIR}" ] && { mkdir "${DOCSDIR}"; }
+[ ! -d "${SQLDIR}" ] && { mkdir "${SQLDIR}"; }
+[ ! -e "${DBMFILE}" ] && { echo "ERROR: No database model: ${DBMFILE} "  ; }
+
+# Create docs
+
+"${PGMCLIEXE}" --export-to-dict -if "${DBMFILE}" --output "${DOCSDIR}"
+
+# Create SQL
+
+# "${PGMCLIEXE}" --export-to-file -if "${DBMFILE}" --output "${SQLDIR}"
+
+# -----------------------------------------------------------------------------
+# End of script
+# -----------------------------------------------------------------------------

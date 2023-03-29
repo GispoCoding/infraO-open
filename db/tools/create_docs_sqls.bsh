@@ -4,6 +4,7 @@
 # More information about pgmodeler-cli.exe : https://pgmodeler.io/support/docs/613-command-line-interface
 
 # Windows WSL usage - not working
+# https://stackoverflow.com/questions/38086185/how-to-check-if-a-program-is-run-in-bash-on-ubuntu-on-windows-and-not-just-plain
 #PGMCLIEXE='/mnt/c/Program Files/pgModeler102/pgmodeler-cli.exe'
 PGMCLIEXE='/opt/pgmodeler_102/pgmodeler-cli'
 DOCSDIR="../docs"

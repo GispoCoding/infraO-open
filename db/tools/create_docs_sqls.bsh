@@ -3,7 +3,9 @@
 # Create docs and SQLs from database model
 # More information about pgmodeler-cli.exe : https://pgmodeler.io/support/docs/613-command-line-interface
 
-PGMCLIEXE='/mnt/c/Program Files/pgModeler102/pgmodeler-cli.exe'
+# Windows WSL usage - not working
+#PGMCLIEXE='/mnt/c/Program Files/pgModeler102/pgmodeler-cli.exe'
+PGMCLIEXE='/opt/pgmodeler_102/pgmodeler-cli'
 DOCSDIR="../docs"
 SQLDIR="../sql"
 DBMFILE="../infrao_v02.dbm"
@@ -17,11 +19,15 @@ DBMFILE="../infrao_v02.dbm"
 
 # Create docs
 
-"${PGMCLIEXE}" --export-to-dict -if "${DBMFILE}" --output "${DOCSDIR}"
+BNAME=`basename "${DBMFILE%.*}"`
+
+echo "Create docs..."
+"${PGMCLIEXE}" -s --export-to-dict -if "${DBMFILE}" --output "${DOCSDIR}/$BNAME.html"
+"${PGMCLIEXE}" -s --export-to-png -if "${DBMFILE}" --output "${DOCSDIR}/$BNAME.png"
 
 # Create SQL
-
-# "${PGMCLIEXE}" --export-to-file -if "${DBMFILE}" --output "${SQLDIR}"
+echo "Create SQL-file..."
+"${PGMCLIEXE}" -s --export-to-file -if "${DBMFILE}" --output "${SQLDIR}/$BNAME.sql"
 
 # -----------------------------------------------------------------------------
 # End of script

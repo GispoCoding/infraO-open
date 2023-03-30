@@ -1,0 +1,44 @@
+#!/bin/bash
+
+# Create docs and SQLs from database model
+# More information about pgmodeler-cli.exe : https://pgmodeler.io/support/docs/613-command-line-interface
+ 
+# AUtomatic setting of pgModeler-cli, if variables are not set
+if [ ! -n "$PGMCLIEXE" ]; then
+    if [[ -n "$IS_WSL" || -n "$WSL_DISTRO_NAME" ]]; then
+        # Windows WSL
+        PGMCLIEXE='/mnt/c/Program Files/pgModeler102/pgmodeler-cli.exe'
+    else
+        # TODO: fix to check if pgmodeler is in path
+        echo "This is not WSL"
+    fi
+fi
+
+#PGMCLIEXE='/opt/pgmodeler_102/pgmodeler-cli'
+
+DOCSDIR="../docs"
+SQLDIR="../sql"
+DBMFILE="../infrao_v02.dbm"
+
+# Check that exe and directories exists
+#echo ${PGMCLIEXE}
+[ ! -x "${PGMCLIEXE}" ] && { echo "ERROR: No pgModeler-cli executable: ${PGMCLIEXE}"; exit;  }
+[ ! -d "${DOCSDIR}" ] && { mkdir "${DOCSDIR}"; }
+[ ! -d "${SQLDIR}" ] && { mkdir "${SQLDIR}"; }
+[ ! -e "${DBMFILE}" ] && { echo "ERROR: No database model: ${DBMFILE} "  ; }
+
+# Create docs
+
+BNAME=`basename "${DBMFILE%.*}"`
+
+echo "Create docs..."
+#"${PGMCLIEXE}" -s --export-to-dict -if "${DBMFILE}" --output "${DOCSDIR}/$BNAME.html"
+"${PGMCLIEXE}" -s --export-to-png -if "${DBMFILE}" --output "${DOCSDIR}/$BNAME.png"
+
+# Create SQL
+echo "Create SQL-file..."
+#"${PGMCLIEXE}" -s --export-to-file -if "${DBMFILE}" --output "${SQLDIR}/$BNAME.sql"
+
+# -----------------------------------------------------------------------------
+# End of script
+# -----------------------------------------------------------------------------

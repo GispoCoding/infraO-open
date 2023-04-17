@@ -3,7 +3,7 @@
 CAUTION: Do not modify this file unless you know what you are doing.
  Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.9.4" use-changelog="false" last-position="1842,887" last-zoom="0.55" max-obj-count="81"
+<dbmodel pgmodeler-ver="0.9.4" use-changelog="false" last-position="1577,0" last-zoom="0.7" max-obj-count="81"
 	 default-schema="public" default-owner="infrao_admin"
 	 layers="Default layer,Codelist relations,Viher_katualue relations"
 	 active-layers="0"
@@ -229,7 +229,7 @@ Ratkottava: kuinka tämä tieto populoidaan jostain muualta? Digitransit API? Op
 		<type name="text" length="0"/>
 	</column>
 	<column name="geom">
-		<type name="geometry" length="0" spatial-type="MULTIPOLYGON" variation="1" srid="3067"/>
+		<type name="geometry" length="0" spatial-type="POLYGON" variation="1" srid="0"/>
 	</column>
 	<constraint name="viheralue_pk" type="pk-constr" table="viheralue.viheralue">
 		<columns names="fid" ref-type="src-columns"/>
@@ -318,7 +318,7 @@ Ratkottava: kuinka tämä tieto populoidaan jostain muualta? Digitransit API? Op
 	<comment><![CDATA[TODO:
 - sisaltaaKatualueenOsan -> relation?]]></comment>
 	<tag name="TODO"/>
-	<position x="3160" y="100"/>
+	<position x="3180" y="100"/>
 	<column name="fid" not-null="true"
 	 identity-type="ALWAYS">
 		<type name="bigint" length="0"/>
@@ -327,9 +327,9 @@ Ratkottava: kuinka tämä tieto populoidaan jostain muualta? Digitransit API? Op
 		<type name="text" length="0"/>
 	</column>
 	<column name="geom">
-		<type name="geometry" length="0" spatial-type="MULTIPOLYGON" variation="1" srid="3067"/>
+		<type name="geometry" length="0" spatial-type="POLYGON" variation="1" srid="3067"/>
 	</column>
-	<constraint name="katualue_fid_pk" type="pk-constr" table="katualue.katualue">
+	<constraint name="katualue_pk" type="pk-constr" table="katualue.katualue">
 		<columns names="fid" ref-type="src-columns"/>
 	</constraint>
 </table>
@@ -346,13 +346,13 @@ Ratkottava: kuinka tämä tieto populoidaan jostain muualta? Digitransit API? Op
 		<type name="bigint" length="0"/>
 	</column>
 	<column name="omistaja">
-		<type name="varchar" length="255"/>
+		<type name="text" length="255"/>
 	</column>
 	<column name="haltija">
-		<type name="varchar" length="255"/>
+		<type name="text" length="255"/>
 	</column>
 	<column name="kunnossapitaja">
-		<type name="varchar" length="255"/>
+		<type name="text" length="255"/>
 	</column>
 	<column name="perusparannusvuosi">
 		<type name="smallint" length="0"/>
@@ -469,7 +469,7 @@ Ratkottava: kuinka tämä tieto populoidaan jostain muualta? Digitransit API? Op
 
 <table name="katualueenosa" layers="0" collapse-mode="2" max-obj-count="25" z-value="0">
 	<schema name="katualue"/>
-	<position x="3640" y="100"/>
+	<position x="3660" y="100"/>
 	<column name="fid" not-null="true"
 	 identity-type="ALWAYS">
 		<type name="bigint" length="0"/>
@@ -529,12 +529,20 @@ Ratkottava: kuinka tämä tieto populoidaan jostain muualta? Digitransit API? Op
 		<type name="integer" length="0"/>
 	</column>
 	<column name="geom">
-		<type name="geometry" length="0" spatial-type="MULTIPOLYGON" variation="1" srid="3067"/>
+		<type name="geometry" length="0" spatial-type="POLYGON" variation="1" srid="3067"/>
 		<comment><![CDATA[sijaintitieto]]></comment>
 	</column>
 	<constraint name="katualueenosa_pk" type="pk-constr" table="katualue.katualueenosa">
 		<columns names="fid" ref-type="src-columns"/>
 	</constraint>
+
+	<customidxs object-type="column">
+		<object name="fid_katualue" index="20"/>
+	</customidxs>
+
+	<customidxs object-type="constraint">
+		<object name="katualue_fk" index="9"/>
+	</customidxs>
 </table>
 
 <sequence name="ymparistotaide_id_seq" cycle="false" start="1" increment="1" min-value="1" max-value="2147483647" cache="1">
@@ -5526,15 +5534,6 @@ Ratkottava: kuinka tämä tieto populoidaan jostain muualta? Digitransit API? Op
 	</constraint>
 </table>
 
-<relationship name="katualue_has_many_katualueenosa" type="rel1n" layers="0"
-	 src-col-pattern="{sc}_{st}"
-	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
-	 src-fk-pattern="{st}_fk"
-	 custom-color="#765b16"
-	 src-table="katualue.katualue"
-	 dst-table="katualue.katualueenosa"
-	 src-required="false" dst-required="false"/>
-
 <relationship name="viheralue_has_many_viheralueenosa" type="rel1n" layers="0"
 	 src-col-pattern="{sc}_{st}"
 	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
@@ -7285,7 +7284,7 @@ Ratkottava: kuinka tämä tieto populoidaan jostain muualta? Digitransit API? Op
 - metatieto
 - suunnitelmalinkkitieto]]></comment>
 	<tag name="TODO"/>
-	<position x="3160" y="320"/>
+	<position x="3180" y="340"/>
 	<column name="fid" not-null="true"
 	 identity-type="ALWAYS">
 		<type name="bigint" length="0"/>
@@ -7394,6 +7393,15 @@ Ratkottava: kuinka tämä tieto populoidaan jostain muualta? Digitransit API? Op
 	 custom-color="#e5ca51"
 	 src-table="koodistot.ajoratamerkintatyyppi"
 	 dst-table="katualue.ajoratamerkinta"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="katualue_has_many_katualueenosa" type="rel1n" layers="0"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#c1b0b1"
+	 src-table="katualue.katualue"
+	 dst-table="katualue.katualueenosa"
 	 src-required="false" dst-required="false"/>
 
 <constraint name="talvihoidonluokka_fk" type="fk-constr" comparison-type="MATCH SIMPLE"

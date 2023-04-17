@@ -5,7 +5,7 @@
 -- Model Author: ---
 -- object: infrao_admin | type: ROLE --
 -- DROP ROLE IF EXISTS infrao_admin;
---REATE ROLE infrao_admin WITH 
+--CREATE ROLE IF NOT EXISTS infrao_admin WITH 
 --	CREATEROLE
 --	LOGIN;
 -- ddl-end --
@@ -50,7 +50,38 @@ CREATE SCHEMA meta;
 ALTER SCHEMA meta OWNER TO infrao_admin;
 -- ddl-end --
 
-SET search_path TO pg_catalog,public,koodistot,kohteet,abstraktit,meta;
+-- object: varusteet | type: SCHEMA --
+-- DROP SCHEMA IF EXISTS varusteet CASCADE;
+CREATE SCHEMA varusteet;
+-- ddl-end --
+ALTER SCHEMA varusteet OWNER TO infrao_admin;
+-- ddl-end --
+
+-- object: katualue | type: SCHEMA --
+-- DROP SCHEMA IF EXISTS katualue CASCADE;
+CREATE SCHEMA katualue;
+-- ddl-end --
+
+-- object: viheralue | type: SCHEMA --
+-- DROP SCHEMA IF EXISTS viheralue CASCADE;
+CREATE SCHEMA viheralue;
+-- ddl-end --
+
+-- object: kasvillisuus | type: SCHEMA --
+-- DROP SCHEMA IF EXISTS kasvillisuus CASCADE;
+CREATE SCHEMA kasvillisuus;
+-- ddl-end --
+
+-- object: osoite | type: SCHEMA --
+-- DROP SCHEMA IF EXISTS osoite CASCADE;
+CREATE SCHEMA osoite;
+-- ddl-end --
+ALTER SCHEMA osoite OWNER TO infrao_admin;
+-- ddl-end --
+COMMENT ON SCHEMA osoite IS E'Sisältää kohteiden osoitetietoja.\nRatkottava: kuinka tämä tieto populoidaan jostain muualta? Digitransit API? OpenStreetMap? Kunnan oma osoitetietokanta?';
+-- ddl-end --
+
+SET search_path TO pg_catalog,public,koodistot,kohteet,abstraktit,meta,varusteet,katualue,viheralue,kasvillisuus,osoite;
 -- ddl-end --
 
 -- object: koodistot.viheralueen_kayttotarkoitus_id_seq | type: SEQUENCE --
@@ -71,39 +102,39 @@ ALTER SEQUENCE koodistot.viheralueen_kayttotarkoitus_id_seq OWNER TO infrao_admi
 -- object: koodistot.viheralueenkayttotarkoitus | type: TABLE --
 -- DROP TABLE IF EXISTS koodistot.viheralueenkayttotarkoitus CASCADE;
 CREATE TABLE koodistot.viheralueenkayttotarkoitus (
-	id serial NOT NULL,
-	selite text NOT NULL,
-	CONSTRAINT viheralueen_kayttotarkoitus_pk PRIMARY KEY (id)
+	cid integer NOT NULL,
+	selite text,
+	CONSTRAINT viheralueen_kayttotarkoitus_pk PRIMARY KEY (cid)
 );
 -- ddl-end --
 ALTER TABLE koodistot.viheralueenkayttotarkoitus OWNER TO infrao_admin;
 -- ddl-end --
 
-INSERT INTO koodistot.viheralueenkayttotarkoitus (id, selite) VALUES (E'1', E'erityisalue');
+INSERT INTO koodistot.viheralueenkayttotarkoitus (cid, selite) VALUES (E'1', E'erityisalue');
 -- ddl-end --
-INSERT INTO koodistot.viheralueenkayttotarkoitus (id, selite) VALUES (E'2', E'koirapuisto');
+INSERT INTO koodistot.viheralueenkayttotarkoitus (cid, selite) VALUES (E'2', E'koirapuisto');
 -- ddl-end --
-INSERT INTO koodistot.viheralueenkayttotarkoitus (id, selite) VALUES (E'3', E'leikkipaikka');
+INSERT INTO koodistot.viheralueenkayttotarkoitus (cid, selite) VALUES (E'3', E'leikkipaikka');
 -- ddl-end --
-INSERT INTO koodistot.viheralueenkayttotarkoitus (id, selite) VALUES (E'4', E'liikenneviheralue');
+INSERT INTO koodistot.viheralueenkayttotarkoitus (cid, selite) VALUES (E'4', E'liikenneviheralue');
 -- ddl-end --
-INSERT INTO koodistot.viheralueenkayttotarkoitus (id, selite) VALUES (E'5', E'liikuntapaikka');
+INSERT INTO koodistot.viheralueenkayttotarkoitus (cid, selite) VALUES (E'5', E'liikuntapaikka');
 -- ddl-end --
-INSERT INTO koodistot.viheralueenkayttotarkoitus (id, selite) VALUES (E'6', E'lumenvastaanottopaikka');
+INSERT INTO koodistot.viheralueenkayttotarkoitus (cid, selite) VALUES (E'6', E'lumenvastaanottopaikka');
 -- ddl-end --
-INSERT INTO koodistot.viheralueenkayttotarkoitus (id, selite) VALUES (E'7', E'puisto');
+INSERT INTO koodistot.viheralueenkayttotarkoitus (cid, selite) VALUES (E'7', E'puisto');
 -- ddl-end --
-INSERT INTO koodistot.viheralueenkayttotarkoitus (id, selite) VALUES (E'8', E'siirtolapuutarha');
+INSERT INTO koodistot.viheralueenkayttotarkoitus (cid, selite) VALUES (E'8', E'siirtolapuutarha');
 -- ddl-end --
-INSERT INTO koodistot.viheralueenkayttotarkoitus (id, selite) VALUES (E'9', E'suojelualue');
+INSERT INTO koodistot.viheralueenkayttotarkoitus (cid, selite) VALUES (E'9', E'suojelualue');
 -- ddl-end --
-INSERT INTO koodistot.viheralueenkayttotarkoitus (id, selite) VALUES (E'10', E'talousmetsa');
+INSERT INTO koodistot.viheralueenkayttotarkoitus (cid, selite) VALUES (E'10', E'talousmetsa');
 -- ddl-end --
-INSERT INTO koodistot.viheralueenkayttotarkoitus (id, selite) VALUES (E'11', E'ulkoilu- ja retkeilyalue');
+INSERT INTO koodistot.viheralueenkayttotarkoitus (cid, selite) VALUES (E'11', E'ulkoilu- ja retkeilyalue');
 -- ddl-end --
-INSERT INTO koodistot.viheralueenkayttotarkoitus (id, selite) VALUES (E'12', E'muu');
+INSERT INTO koodistot.viheralueenkayttotarkoitus (cid, selite) VALUES (E'12', E'muu');
 -- ddl-end --
-INSERT INTO koodistot.viheralueenkayttotarkoitus (id, selite) VALUES (E'13', E'ei tiedossa');
+INSERT INTO koodistot.viheralueenkayttotarkoitus (cid, selite) VALUES (E'13', E'ei tiedossa');
 -- ddl-end --
 
 -- object: koodistot.varuste_materiaali_id_seq | type: SEQUENCE --
@@ -124,43 +155,43 @@ ALTER SEQUENCE koodistot.varuste_materiaali_id_seq OWNER TO infrao_admin;
 -- object: koodistot.varustemateriaali | type: TABLE --
 -- DROP TABLE IF EXISTS koodistot.varustemateriaali CASCADE;
 CREATE TABLE koodistot.varustemateriaali (
-	id serial NOT NULL,
+	cid integer NOT NULL,
 	selite text NOT NULL,
-	CONSTRAINT varuste_materiaali_pk PRIMARY KEY (id)
+	CONSTRAINT varuste_materiaali_pk PRIMARY KEY (cid)
 );
 -- ddl-end --
 ALTER TABLE koodistot.varustemateriaali OWNER TO infrao_admin;
 -- ddl-end --
 
-INSERT INTO koodistot.varustemateriaali (id, selite) VALUES (E'1', E'betoni');
+INSERT INTO koodistot.varustemateriaali (cid, selite) VALUES (E'1', E'betoni');
 -- ddl-end --
-INSERT INTO koodistot.varustemateriaali (id, selite) VALUES (E'2', E'elementtiverkko');
+INSERT INTO koodistot.varustemateriaali (cid, selite) VALUES (E'2', E'elementtiverkko');
 -- ddl-end --
-INSERT INTO koodistot.varustemateriaali (id, selite) VALUES (E'3', E'kaksipuolinen teräspalkki');
+INSERT INTO koodistot.varustemateriaali (cid, selite) VALUES (E'3', E'kaksipuolinen teräspalkki');
 -- ddl-end --
-INSERT INTO koodistot.varustemateriaali (id, selite) VALUES (E'4', E'kivi');
+INSERT INTO koodistot.varustemateriaali (cid, selite) VALUES (E'4', E'kivi');
 -- ddl-end --
-INSERT INTO koodistot.varustemateriaali (id, selite) VALUES (E'5', E'metalli');
+INSERT INTO koodistot.varustemateriaali (cid, selite) VALUES (E'5', E'metalli');
 -- ddl-end --
-INSERT INTO koodistot.varustemateriaali (id, selite) VALUES (E'6', E'muovi');
+INSERT INTO koodistot.varustemateriaali (cid, selite) VALUES (E'6', E'muovi');
 -- ddl-end --
-INSERT INTO koodistot.varustemateriaali (id, selite) VALUES (E'7', E'panssariverkko');
+INSERT INTO koodistot.varustemateriaali (cid, selite) VALUES (E'7', E'panssariverkko');
 -- ddl-end --
-INSERT INTO koodistot.varustemateriaali (id, selite) VALUES (E'8', E'putkipalkki');
+INSERT INTO koodistot.varustemateriaali (cid, selite) VALUES (E'8', E'putkipalkki');
 -- ddl-end --
-INSERT INTO koodistot.varustemateriaali (id, selite) VALUES (E'9', E'puu');
+INSERT INTO koodistot.varustemateriaali (cid, selite) VALUES (E'9', E'puu');
 -- ddl-end --
-INSERT INTO koodistot.varustemateriaali (id, selite) VALUES (E'10', E'teräs');
+INSERT INTO koodistot.varustemateriaali (cid, selite) VALUES (E'10', E'teräs');
 -- ddl-end --
-INSERT INTO koodistot.varustemateriaali (id, selite) VALUES (E'11', E'teräspalkki');
+INSERT INTO koodistot.varustemateriaali (cid, selite) VALUES (E'11', E'teräspalkki');
 -- ddl-end --
-INSERT INTO koodistot.varustemateriaali (id, selite) VALUES (E'12', E'teräsverkko');
+INSERT INTO koodistot.varustemateriaali (cid, selite) VALUES (E'12', E'teräsverkko');
 -- ddl-end --
-INSERT INTO koodistot.varustemateriaali (id, selite) VALUES (E'13', E'vaijeri');
+INSERT INTO koodistot.varustemateriaali (cid, selite) VALUES (E'13', E'vaijeri');
 -- ddl-end --
-INSERT INTO koodistot.varustemateriaali (id, selite) VALUES (E'14', E'muu');
+INSERT INTO koodistot.varustemateriaali (cid, selite) VALUES (E'14', E'muu');
 -- ddl-end --
-INSERT INTO koodistot.varustemateriaali (id, selite) VALUES (E'15', E'ei tiedossa');
+INSERT INTO koodistot.varustemateriaali (cid, selite) VALUES (E'15', E'ei tiedossa');
 -- ddl-end --
 
 -- object: koodistot.hoitoluokka_id_seq | type: SEQUENCE --
@@ -181,79 +212,79 @@ ALTER SEQUENCE koodistot.hoitoluokka_id_seq OWNER TO infrao_admin;
 -- object: koodistot.hoitoluokkatyyppi | type: TABLE --
 -- DROP TABLE IF EXISTS koodistot.hoitoluokkatyyppi CASCADE;
 CREATE TABLE koodistot.hoitoluokkatyyppi (
-	id serial NOT NULL,
+	cid integer NOT NULL,
 	selite text NOT NULL,
-	CONSTRAINT hoitoluokka_pk PRIMARY KEY (id)
+	CONSTRAINT hoitoluokka_pk PRIMARY KEY (cid)
 );
 -- ddl-end --
 ALTER TABLE koodistot.hoitoluokkatyyppi OWNER TO infrao_admin;
 -- ddl-end --
 
-INSERT INTO koodistot.hoitoluokkatyyppi (id, selite) VALUES (E'1', E'R1 Rakennettu arvoviheralue');
+INSERT INTO koodistot.hoitoluokkatyyppi (cid, selite) VALUES (E'1', E'R1 Rakennettu arvoviheralue');
 -- ddl-end --
-INSERT INTO koodistot.hoitoluokkatyyppi (id, selite) VALUES (E'2', E'R2 Toimintaviheralue');
+INSERT INTO koodistot.hoitoluokkatyyppi (cid, selite) VALUES (E'2', E'R2 Toimintaviheralue');
 -- ddl-end --
-INSERT INTO koodistot.hoitoluokkatyyppi (id, selite) VALUES (E'3', E'R3 Käyttöviheralue');
+INSERT INTO koodistot.hoitoluokkatyyppi (cid, selite) VALUES (E'3', E'R3 Käyttöviheralue');
 -- ddl-end --
-INSERT INTO koodistot.hoitoluokkatyyppi (id, selite) VALUES (E'4', E'R4 Suoja- ja vaihettumisviheralue');
+INSERT INTO koodistot.hoitoluokkatyyppi (cid, selite) VALUES (E'4', E'R4 Suoja- ja vaihettumisviheralue');
 -- ddl-end --
-INSERT INTO koodistot.hoitoluokkatyyppi (id, selite) VALUES (E'5', E'A1 Arvoniitty');
+INSERT INTO koodistot.hoitoluokkatyyppi (cid, selite) VALUES (E'5', E'A1 Arvoniitty');
 -- ddl-end --
-INSERT INTO koodistot.hoitoluokkatyyppi (id, selite) VALUES (E'6', E'A2 Käyttöniitty');
+INSERT INTO koodistot.hoitoluokkatyyppi (cid, selite) VALUES (E'6', E'A2 Käyttöniitty');
 -- ddl-end --
-INSERT INTO koodistot.hoitoluokkatyyppi (id, selite) VALUES (E'7', E'A3 Maisemaniitty');
+INSERT INTO koodistot.hoitoluokkatyyppi (cid, selite) VALUES (E'7', E'A3 Maisemaniitty');
 -- ddl-end --
-INSERT INTO koodistot.hoitoluokkatyyppi (id, selite) VALUES (E'8', E'A4 Avoin alue');
+INSERT INTO koodistot.hoitoluokkatyyppi (cid, selite) VALUES (E'8', E'A4 Avoin alue');
 -- ddl-end --
-INSERT INTO koodistot.hoitoluokkatyyppi (id, selite) VALUES (E'9', E'A5 Maisemapelto');
+INSERT INTO koodistot.hoitoluokkatyyppi (cid, selite) VALUES (E'9', E'A5 Maisemapelto');
 -- ddl-end --
-INSERT INTO koodistot.hoitoluokkatyyppi (id, selite) VALUES (E'10', E'M1 Arvometsä');
+INSERT INTO koodistot.hoitoluokkatyyppi (cid, selite) VALUES (E'10', E'M1 Arvometsä');
 -- ddl-end --
-INSERT INTO koodistot.hoitoluokkatyyppi (id, selite) VALUES (E'11', E'M2 Lähimetsä');
+INSERT INTO koodistot.hoitoluokkatyyppi (cid, selite) VALUES (E'11', E'M2 Lähimetsä');
 -- ddl-end --
-INSERT INTO koodistot.hoitoluokkatyyppi (id, selite) VALUES (E'12', E'M3 Ulkoilu- ja virkistysmetsä');
+INSERT INTO koodistot.hoitoluokkatyyppi (cid, selite) VALUES (E'12', E'M3 Ulkoilu- ja virkistysmetsä');
 -- ddl-end --
-INSERT INTO koodistot.hoitoluokkatyyppi (id, selite) VALUES (E'13', E'M4 Suojametsä');
+INSERT INTO koodistot.hoitoluokkatyyppi (cid, selite) VALUES (E'13', E'M4 Suojametsä');
 -- ddl-end --
-INSERT INTO koodistot.hoitoluokkatyyppi (id, selite) VALUES (E'14', E'M5 Talousmetsä');
+INSERT INTO koodistot.hoitoluokkatyyppi (cid, selite) VALUES (E'14', E'M5 Talousmetsä');
 -- ddl-end --
-INSERT INTO koodistot.hoitoluokkatyyppi (id, selite) VALUES (E'15', E'S Suojelualueet');
+INSERT INTO koodistot.hoitoluokkatyyppi (cid, selite) VALUES (E'15', E'S Suojelualueet');
 -- ddl-end --
-INSERT INTO koodistot.hoitoluokkatyyppi (id, selite) VALUES (E'16', E'ei hoidossa');
+INSERT INTO koodistot.hoitoluokkatyyppi (cid, selite) VALUES (E'16', E'ei hoidossa');
 -- ddl-end --
-INSERT INTO koodistot.hoitoluokkatyyppi (id, selite) VALUES (E'17', E'U urheilualue');
+INSERT INTO koodistot.hoitoluokkatyyppi (cid, selite) VALUES (E'17', E'U urheilualue');
 -- ddl-end --
-INSERT INTO koodistot.hoitoluokkatyyppi (id, selite) VALUES (E'18', E'ajoradat, luokka I');
+INSERT INTO koodistot.hoitoluokkatyyppi (cid, selite) VALUES (E'18', E'ajoradat, luokka I');
 -- ddl-end --
-INSERT INTO koodistot.hoitoluokkatyyppi (id, selite) VALUES (E'19', E'ajoradat, luokka Il');
+INSERT INTO koodistot.hoitoluokkatyyppi (cid, selite) VALUES (E'19', E'ajoradat, luokka Il');
 -- ddl-end --
-INSERT INTO koodistot.hoitoluokkatyyppi (id, selite) VALUES (E'20', E'ajoradat, luokka Ill');
+INSERT INTO koodistot.hoitoluokkatyyppi (cid, selite) VALUES (E'20', E'ajoradat, luokka Ill');
 -- ddl-end --
-INSERT INTO koodistot.hoitoluokkatyyppi (id, selite) VALUES (E'21', E'kevyen liikenteen raitti, luokka l');
+INSERT INTO koodistot.hoitoluokkatyyppi (cid, selite) VALUES (E'21', E'kevyen liikenteen raitti, luokka l');
 -- ddl-end --
-INSERT INTO koodistot.hoitoluokkatyyppi (id, selite) VALUES (E'22', E'kevyen liikenteen raitti, luokka ll');
+INSERT INTO koodistot.hoitoluokkatyyppi (cid, selite) VALUES (E'22', E'kevyen liikenteen raitti, luokka ll');
 -- ddl-end --
-INSERT INTO koodistot.hoitoluokkatyyppi (id, selite) VALUES (E'23', E'kevyen liikenteen väylä, luokka l');
+INSERT INTO koodistot.hoitoluokkatyyppi (cid, selite) VALUES (E'23', E'kevyen liikenteen väylä, luokka l');
 -- ddl-end --
-INSERT INTO koodistot.hoitoluokkatyyppi (id, selite) VALUES (E'24', E'kevyen liikenteen väylä, luokka ll');
+INSERT INTO koodistot.hoitoluokkatyyppi (cid, selite) VALUES (E'24', E'kevyen liikenteen väylä, luokka ll');
 -- ddl-end --
-INSERT INTO koodistot.hoitoluokkatyyppi (id, selite) VALUES (E'25', E'jalkakäytävä, luokka l');
+INSERT INTO koodistot.hoitoluokkatyyppi (cid, selite) VALUES (E'25', E'jalkakäytävä, luokka l');
 -- ddl-end --
-INSERT INTO koodistot.hoitoluokkatyyppi (id, selite) VALUES (E'26', E'jalkakäytävä, luokka ll');
+INSERT INTO koodistot.hoitoluokkatyyppi (cid, selite) VALUES (E'26', E'jalkakäytävä, luokka ll');
 -- ddl-end --
-INSERT INTO koodistot.hoitoluokkatyyppi (id, selite) VALUES (E'27', E'torit ja aukiot, luokka l');
+INSERT INTO koodistot.hoitoluokkatyyppi (cid, selite) VALUES (E'27', E'torit ja aukiot, luokka l');
 -- ddl-end --
-INSERT INTO koodistot.hoitoluokkatyyppi (id, selite) VALUES (E'28', E'torit ja aukiot, luokka ll');
+INSERT INTO koodistot.hoitoluokkatyyppi (cid, selite) VALUES (E'28', E'torit ja aukiot, luokka ll');
 -- ddl-end --
-INSERT INTO koodistot.hoitoluokkatyyppi (id, selite) VALUES (E'29', E'kiinteistön kunnossapitovastuu');
+INSERT INTO koodistot.hoitoluokkatyyppi (cid, selite) VALUES (E'29', E'kiinteistön kunnossapitovastuu');
 -- ddl-end --
-INSERT INTO koodistot.hoitoluokkatyyppi (id, selite) VALUES (E'30', E'ei kunnossapitoa');
+INSERT INTO koodistot.hoitoluokkatyyppi (cid, selite) VALUES (E'30', E'ei kunnossapitoa');
 -- ddl-end --
-INSERT INTO koodistot.hoitoluokkatyyppi (id, selite) VALUES (E'31', E'ei talvikunnossapitoa');
+INSERT INTO koodistot.hoitoluokkatyyppi (cid, selite) VALUES (E'31', E'ei talvikunnossapitoa');
 -- ddl-end --
-INSERT INTO koodistot.hoitoluokkatyyppi (id, selite) VALUES (E'32', E'muu');
+INSERT INTO koodistot.hoitoluokkatyyppi (cid, selite) VALUES (E'32', E'muu');
 -- ddl-end --
-INSERT INTO koodistot.hoitoluokkatyyppi (id, selite) VALUES (E'33', E'ei tiedossa');
+INSERT INTO koodistot.hoitoluokkatyyppi (cid, selite) VALUES (E'33', E'ei tiedossa');
 -- ddl-end --
 
 -- object: public.viheralue_id_seq | type: SEQUENCE --
@@ -271,15 +302,10 @@ CREATE SEQUENCE public.viheralue_id_seq
 ALTER SEQUENCE public.viheralue_id_seq OWNER TO infrao_admin;
 -- ddl-end --
 
--- object: kohteet.viheralue | type: TABLE --
--- DROP TABLE IF EXISTS kohteet.viheralue CASCADE;
-CREATE TABLE kohteet.viheralue (
-	id serial NOT NULL,
-	sisaltaaviheralueenosan integer,
-	CONSTRAINT viheralue_pk PRIMARY KEY (id)
-);
--- ddl-end --
-ALTER TABLE kohteet.viheralue OWNER TO infrao_admin;
+-- object: postgis | type: EXTENSION --
+-- DROP EXTENSION IF EXISTS postgis CASCADE;
+--CREATE EXTENSION postgis
+--WITH SCHEMA public;
 -- ddl-end --
 
 -- object: kohteet.viheralueenosa_id_seq | type: SEQUENCE --
@@ -297,10 +323,16 @@ CREATE SEQUENCE kohteet.viheralueenosa_id_seq
 ALTER SEQUENCE kohteet.viheralueenosa_id_seq OWNER TO infrao_admin;
 -- ddl-end --
 
--- object: postgis | type: EXTENSION --
--- DROP EXTENSION IF EXISTS postgis CASCADE;
---CREATE EXTENSION postgis
---WITH SCHEMA kohteet;
+-- object: viheralue.viheralue | type: TABLE --
+-- DROP TABLE IF EXISTS viheralue.viheralue CASCADE;
+CREATE TABLE viheralue.viheralue (
+	fid bigint NOT NULL GENERATED ALWAYS AS IDENTITY ,
+	nimi text,
+	geom geometry(POLYGONZ),
+	CONSTRAINT viheralue_pk PRIMARY KEY (fid)
+);
+-- ddl-end --
+COMMENT ON TABLE viheralue.viheralue IS E'TODO:\n- sisaltaaViheralueenOsan -> relation?';
 -- ddl-end --
 
 -- object: koodistot.katuosanlaji_id_seq | type: SEQUENCE --
@@ -321,49 +353,49 @@ ALTER SEQUENCE koodistot.katuosanlaji_id_seq OWNER TO infrao_admin;
 -- object: koodistot.katuosanlaji | type: TABLE --
 -- DROP TABLE IF EXISTS koodistot.katuosanlaji CASCADE;
 CREATE TABLE koodistot.katuosanlaji (
-	id serial NOT NULL,
+	cid integer NOT NULL,
 	selite text NOT NULL,
-	CONSTRAINT katuosanlaji_pk PRIMARY KEY (id)
+	CONSTRAINT katuosanlaji_pk PRIMARY KEY (cid)
 );
 -- ddl-end --
 ALTER TABLE koodistot.katuosanlaji OWNER TO infrao_admin;
 -- ddl-end --
 
-INSERT INTO koodistot.katuosanlaji (id, selite) VALUES (E'1', E'ajorata');
+INSERT INTO koodistot.katuosanlaji (cid, selite) VALUES (E'1', E'ajorata');
 -- ddl-end --
-INSERT INTO koodistot.katuosanlaji (id, selite) VALUES (E'2', E'alikulkukäytävä');
+INSERT INTO koodistot.katuosanlaji (cid, selite) VALUES (E'2', E'alikulkukäytävä');
 -- ddl-end --
-INSERT INTO koodistot.katuosanlaji (id, selite) VALUES (E'3', E'jalkakäytävä');
+INSERT INTO koodistot.katuosanlaji (cid, selite) VALUES (E'3', E'jalkakäytävä');
 -- ddl-end --
-INSERT INTO koodistot.katuosanlaji (id, selite) VALUES (E'4', E'kävelytie');
+INSERT INTO koodistot.katuosanlaji (cid, selite) VALUES (E'4', E'kävelytie');
 -- ddl-end --
-INSERT INTO koodistot.katuosanlaji (id, selite) VALUES (E'5', E'luiska');
+INSERT INTO koodistot.katuosanlaji (cid, selite) VALUES (E'5', E'luiska');
 -- ddl-end --
-INSERT INTO koodistot.katuosanlaji (id, selite) VALUES (E'6', E'portaat');
+INSERT INTO koodistot.katuosanlaji (cid, selite) VALUES (E'6', E'portaat');
 -- ddl-end --
-INSERT INTO koodistot.katuosanlaji (id, selite) VALUES (E'7', E'pyöräilykaista');
+INSERT INTO koodistot.katuosanlaji (cid, selite) VALUES (E'7', E'pyöräilykaista');
 -- ddl-end --
-INSERT INTO koodistot.katuosanlaji (id, selite) VALUES (E'8', E'pyörätie');
+INSERT INTO koodistot.katuosanlaji (cid, selite) VALUES (E'8', E'pyörätie');
 -- ddl-end --
-INSERT INTO koodistot.katuosanlaji (id, selite) VALUES (E'9', E'raitiotie');
+INSERT INTO koodistot.katuosanlaji (cid, selite) VALUES (E'9', E'raitiotie');
 -- ddl-end --
-INSERT INTO koodistot.katuosanlaji (id, selite) VALUES (E'10', E'silta');
+INSERT INTO koodistot.katuosanlaji (cid, selite) VALUES (E'10', E'silta');
 -- ddl-end --
-INSERT INTO koodistot.katuosanlaji (id, selite) VALUES (E'11', E'tasoristeys');
+INSERT INTO koodistot.katuosanlaji (cid, selite) VALUES (E'11', E'tasoristeys');
 -- ddl-end --
-INSERT INTO koodistot.katuosanlaji (id, selite) VALUES (E'12', E'tonttiliittymä');
+INSERT INTO koodistot.katuosanlaji (cid, selite) VALUES (E'12', E'tonttiliittymä');
 -- ddl-end --
-INSERT INTO koodistot.katuosanlaji (id, selite) VALUES (E'13', E'tunneli');
+INSERT INTO koodistot.katuosanlaji (cid, selite) VALUES (E'13', E'tunneli');
 -- ddl-end --
-INSERT INTO koodistot.katuosanlaji (id, selite) VALUES (E'14', E'viheralue');
+INSERT INTO koodistot.katuosanlaji (cid, selite) VALUES (E'14', E'viheralue');
 -- ddl-end --
-INSERT INTO koodistot.katuosanlaji (id, selite) VALUES (E'15', E'välikaista');
+INSERT INTO koodistot.katuosanlaji (cid, selite) VALUES (E'15', E'välikaista');
 -- ddl-end --
-INSERT INTO koodistot.katuosanlaji (id, selite) VALUES (E'16', E'yhdistetty kevyen liikenteen väylä');
+INSERT INTO koodistot.katuosanlaji (cid, selite) VALUES (E'16', E'yhdistetty kevyen liikenteen väylä');
 -- ddl-end --
-INSERT INTO koodistot.katuosanlaji (id, selite) VALUES (E'17', E'muu');
+INSERT INTO koodistot.katuosanlaji (cid, selite) VALUES (E'17', E'muu');
 -- ddl-end --
-INSERT INTO koodistot.katuosanlaji (id, selite) VALUES (E'18', E'ei tiedossa');
+INSERT INTO koodistot.katuosanlaji (cid, selite) VALUES (E'18', E'ei tiedossa');
 -- ddl-end --
 
 -- object: koodistot.talvihoidonluokka_id_seq | type: SEQUENCE --
@@ -384,23 +416,23 @@ ALTER SEQUENCE koodistot.talvihoidonluokka_id_seq OWNER TO infrao_admin;
 -- object: koodistot.talvihoidonluokka | type: TABLE --
 -- DROP TABLE IF EXISTS koodistot.talvihoidonluokka CASCADE;
 CREATE TABLE koodistot.talvihoidonluokka (
-	id serial NOT NULL,
+	cid integer NOT NULL,
 	selite text NOT NULL,
-	CONSTRAINT talvihoidonluokka_pk PRIMARY KEY (id)
+	CONSTRAINT talvihoidonluokka_pk PRIMARY KEY (cid)
 );
 -- ddl-end --
 ALTER TABLE koodistot.talvihoidonluokka OWNER TO infrao_admin;
 -- ddl-end --
 
-INSERT INTO koodistot.talvihoidonluokka (id, selite) VALUES (E'1', E'A - kiireellisyysluokka');
+INSERT INTO koodistot.talvihoidonluokka (cid, selite) VALUES (E'1', E'A - kiireellisyysluokka');
 -- ddl-end --
-INSERT INTO koodistot.talvihoidonluokka (id, selite) VALUES (E'2', E'B - kiireellisyysluokka');
+INSERT INTO koodistot.talvihoidonluokka (cid, selite) VALUES (E'2', E'B - kiireellisyysluokka');
 -- ddl-end --
-INSERT INTO koodistot.talvihoidonluokka (id, selite) VALUES (E'3', E'C - kiireellisyysluokka');
+INSERT INTO koodistot.talvihoidonluokka (cid, selite) VALUES (E'3', E'C - kiireellisyysluokka');
 -- ddl-end --
-INSERT INTO koodistot.talvihoidonluokka (id, selite) VALUES (E'4', E'Ei kiireellisyysluokkaa');
+INSERT INTO koodistot.talvihoidonluokka (cid, selite) VALUES (E'4', E'Ei kiireellisyysluokkaa');
 -- ddl-end --
-INSERT INTO koodistot.talvihoidonluokka (id, selite) VALUES (E'5', E'Ei talvikunnossapitoa');
+INSERT INTO koodistot.talvihoidonluokka (cid, selite) VALUES (E'5', E'Ei talvikunnossapitoa');
 -- ddl-end --
 
 -- object: public.katualue_id_seq | type: SEQUENCE --
@@ -418,15 +450,18 @@ CREATE SEQUENCE public.katualue_id_seq
 ALTER SEQUENCE public.katualue_id_seq OWNER TO infrao_admin;
 -- ddl-end --
 
--- object: kohteet.katualue | type: TABLE --
--- DROP TABLE IF EXISTS kohteet.katualue CASCADE;
-CREATE TABLE kohteet.katualue (
-	id serial NOT NULL,
-	sisaltaakatualueenosan integer,
-	CONSTRAINT katualue_pk PRIMARY KEY (id)
+-- object: katualue.katualue | type: TABLE --
+-- DROP TABLE IF EXISTS katualue.katualue CASCADE;
+CREATE TABLE katualue.katualue (
+	fid bigint NOT NULL GENERATED ALWAYS AS IDENTITY ,
+	nimi text,
+	geom geometry(POLYGONZ, 3067),
+	CONSTRAINT katualue_pk PRIMARY KEY (fid)
 );
 -- ddl-end --
-ALTER TABLE kohteet.katualue OWNER TO infrao_admin;
+COMMENT ON TABLE katualue.katualue IS E'TODO:\n- sisaltaaKatualueenOsan -> relation?';
+-- ddl-end --
+ALTER TABLE katualue.katualue OWNER TO infrao_admin;
 -- ddl-end --
 
 -- object: public.katualueenosa_id_seq | type: SEQUENCE --
@@ -444,17 +479,16 @@ CREATE SEQUENCE public.katualueenosa_id_seq
 ALTER SEQUENCE public.katualueenosa_id_seq OWNER TO infrao_admin;
 -- ddl-end --
 
--- object: kohteet.viheralueenosa | type: TABLE --
--- DROP TABLE IF EXISTS kohteet.viheralueenosa CASCADE;
-CREATE TABLE kohteet.viheralueenosa (
-	id serial NOT NULL,
-	omistaja varchar(255),
-	haltija varchar(255),
-	kunnossapitaja varchar(255),
+-- object: viheralue.viheralueenosa | type: TABLE --
+-- DROP TABLE IF EXISTS viheralue.viheralueenosa CASCADE;
+CREATE TABLE viheralue.viheralueenosa (
+	fid bigint NOT NULL,
+	omistaja text,
+	haltija text,
+	kunnossapitaja text,
 	perusparannusvuosi smallint,
 	valmistumisvuosi smallint,
 	suojelualuekytkin boolean,
-	kuuluuviheralueeseen integer,
 	kayttotarkoitus_id integer,
 	laji_id integer,
 	hoitoluokka_id integer,
@@ -466,10 +500,9 @@ CREATE TABLE kohteet.viheralueenosa (
 	sisaltaakasvillisuus integer,
 	sisaltaavaruste integer,
 	geom geometry(MULTIPOLYGON, 3067),
-	CONSTRAINT viheralueenosa_pk PRIMARY KEY (id)
+	fid_viheralue bigint,
+	CONSTRAINT viheralueenosa_fid_pk PRIMARY KEY (fid)
 );
--- ddl-end --
-ALTER TABLE kohteet.viheralueenosa OWNER TO infrao_admin;
 -- ddl-end --
 
 -- object: public.melu_id_seq | type: SEQUENCE --
@@ -500,9 +533,9 @@ CREATE TABLE abstraktit.abstractvaruste (
 	kuuluukatualueenosaan integer,
 	materiaali_id integer,
 	suunnitelmalinkkitieto integer,
-	geom_poly geometry(POLYGON, 3067),
-	geom_piste geometry(POINT, 3067),
-	geom_line geometry(LINESTRING, 3067),
+	geom_poly geometry(POLYGONZ, 3067),
+	geom_piste geometry(POINTZ, 3067),
+	geom_line geometry(LINESTRINGZ, 3067),
 	CONSTRAINT abstractvaruste_pk PRIMARY KEY (id)
 );
 -- ddl-end --
@@ -524,10 +557,10 @@ CREATE SEQUENCE public.liikunta_id_seq
 ALTER SEQUENCE public.liikunta_id_seq OWNER TO infrao_admin;
 -- ddl-end --
 
--- object: kohteet.katualueenosa | type: TABLE --
--- DROP TABLE IF EXISTS kohteet.katualueenosa CASCADE;
-CREATE TABLE kohteet.katualueenosa (
-	id serial NOT NULL,
+-- object: katualue.katualueenosa | type: TABLE --
+-- DROP TABLE IF EXISTS katualue.katualueenosa CASCADE;
+CREATE TABLE katualue.katualueenosa (
+	fid bigint NOT NULL GENERATED ALWAYS AS IDENTITY ,
 	paatostieto_id integer,
 	kunnossapito varchar(255),
 	leveys double precision,
@@ -546,13 +579,12 @@ CREATE TABLE kohteet.katualueenosa (
 	suunnitelmalinkkitieto_id integer,
 	talvihoidonluokka_id integer,
 	sisaltaakasvillisuus_id integer,
-	geom geometry(MULTIPOLYGON, 3067),
-	CONSTRAINT katualueenosa_pk PRIMARY KEY (id)
+	geom geometry(POLYGONZ, 3067),
+	fid_katualue bigint,
+	CONSTRAINT katualueenosa_pk PRIMARY KEY (fid)
 );
 -- ddl-end --
-COMMENT ON COLUMN kohteet.katualueenosa.geom IS E'sijaintitieto';
--- ddl-end --
-ALTER TABLE kohteet.katualueenosa OWNER TO infrao_admin;
+COMMENT ON COLUMN katualue.katualueenosa.geom IS E'sijaintitieto';
 -- ddl-end --
 
 -- object: public.ymparistotaide_id_seq | type: SEQUENCE --
@@ -588,37 +620,37 @@ ALTER SEQUENCE koodistot.liikuntatyyppi_id_seq OWNER TO infrao_admin;
 -- object: koodistot.liikuntatyyppi | type: TABLE --
 -- DROP TABLE IF EXISTS koodistot.liikuntatyyppi CASCADE;
 CREATE TABLE koodistot.liikuntatyyppi (
-	id serial NOT NULL,
+	cid integer NOT NULL,
 	selite text NOT NULL,
-	CONSTRAINT liikuntatyyppi_pk PRIMARY KEY (id)
+	CONSTRAINT liikuntatyyppi_pk PRIMARY KEY (cid)
 );
 -- ddl-end --
 ALTER TABLE koodistot.liikuntatyyppi OWNER TO infrao_admin;
 -- ddl-end --
 
-INSERT INTO koodistot.liikuntatyyppi (id, selite) VALUES (E'1', E'jalkapallomaali');
+INSERT INTO koodistot.liikuntatyyppi (cid, selite) VALUES (E'1', E'jalkapallomaali');
 -- ddl-end --
-INSERT INTO koodistot.liikuntatyyppi (id, selite) VALUES (E'2', E'jääkiekkomaali');
+INSERT INTO koodistot.liikuntatyyppi (cid, selite) VALUES (E'2', E'jääkiekkomaali');
 -- ddl-end --
-INSERT INTO koodistot.liikuntatyyppi (id, selite) VALUES (E'3', E'koripalloteline');
+INSERT INTO koodistot.liikuntatyyppi (cid, selite) VALUES (E'3', E'koripalloteline');
 -- ddl-end --
-INSERT INTO koodistot.liikuntatyyppi (id, selite) VALUES (E'4', E'kuntoilutelineet');
+INSERT INTO koodistot.liikuntatyyppi (cid, selite) VALUES (E'4', E'kuntoilutelineet');
 -- ddl-end --
-INSERT INTO koodistot.liikuntatyyppi (id, selite) VALUES (E'5', E'lentopallotolppa');
+INSERT INTO koodistot.liikuntatyyppi (cid, selite) VALUES (E'5', E'lentopallotolppa');
 -- ddl-end --
-INSERT INTO koodistot.liikuntatyyppi (id, selite) VALUES (E'6', E'luistinkoppi');
+INSERT INTO koodistot.liikuntatyyppi (cid, selite) VALUES (E'6', E'luistinkoppi');
 -- ddl-end --
-INSERT INTO koodistot.liikuntatyyppi (id, selite) VALUES (E'7', E'palloseinä');
+INSERT INTO koodistot.liikuntatyyppi (cid, selite) VALUES (E'7', E'palloseinä');
 -- ddl-end --
-INSERT INTO koodistot.liikuntatyyppi (id, selite) VALUES (E'8', E'skeittiramppi');
+INSERT INTO koodistot.liikuntatyyppi (cid, selite) VALUES (E'8', E'skeittiramppi');
 -- ddl-end --
-INSERT INTO koodistot.liikuntatyyppi (id, selite) VALUES (E'9', E'sählymaali');
+INSERT INTO koodistot.liikuntatyyppi (cid, selite) VALUES (E'9', E'sählymaali');
 -- ddl-end --
-INSERT INTO koodistot.liikuntatyyppi (id, selite) VALUES (E'10', E'talviliukumäki(siirrettävä)');
+INSERT INTO koodistot.liikuntatyyppi (cid, selite) VALUES (E'10', E'talviliukumäki(siirrettävä)');
 -- ddl-end --
-INSERT INTO koodistot.liikuntatyyppi (id, selite) VALUES (E'11', E'muu');
+INSERT INTO koodistot.liikuntatyyppi (cid, selite) VALUES (E'11', E'muu');
 -- ddl-end --
-INSERT INTO koodistot.liikuntatyyppi (id, selite) VALUES (E'12', E'ei tiedossa');
+INSERT INTO koodistot.liikuntatyyppi (cid, selite) VALUES (E'12', E'ei tiedossa');
 -- ddl-end --
 
 -- object: public.kaluste_id_seq | type: SEQUENCE --
@@ -634,30 +666,6 @@ CREATE SEQUENCE public.kaluste_id_seq
 
 -- ddl-end --
 ALTER SEQUENCE public.kaluste_id_seq OWNER TO infrao_admin;
--- ddl-end --
-
--- object: kohteet.melu | type: TABLE --
--- DROP TABLE IF EXISTS kohteet.melu CASCADE;
-CREATE TABLE kohteet.melu (
-	id serial NOT NULL,
-	melutyyppi_id integer NOT NULL,
--- 	malli text,
--- 	perusparannusvuosi smallint,
--- 	suunta text,
--- 	valmistaja text,
--- 	valmistumisvuosi smallint,
--- 	kuuluuviheralueenosaan integer,
--- 	kuuluukatualueenosaan integer,
--- 	materiaali_id integer,
--- 	suunnitelmalinkkitieto integer,
--- 	geom_poly geometry(POLYGON, 3067),
--- 	geom_piste geometry(POINT, 3067),
--- 	geom_line geometry(LINESTRING, 3067),
-	CONSTRAINT melu_pk PRIMARY KEY (id)
-)
- INHERITS(abstraktit.abstractvaruste);
--- ddl-end --
-ALTER TABLE kohteet.melu OWNER TO infrao_admin;
 -- ddl-end --
 
 -- object: public.valaistus_id_seq | type: SEQUENCE --
@@ -690,30 +698,6 @@ CREATE SEQUENCE public.hulevesi_id_seq
 ALTER SEQUENCE public.hulevesi_id_seq OWNER TO infrao_admin;
 -- ddl-end --
 
--- object: kohteet.liikunta | type: TABLE --
--- DROP TABLE IF EXISTS kohteet.liikunta CASCADE;
-CREATE TABLE kohteet.liikunta (
-	id serial NOT NULL,
-	liikuntatyyppi_id integer NOT NULL,
--- 	malli text,
--- 	perusparannusvuosi smallint,
--- 	suunta text,
--- 	valmistaja text,
--- 	valmistumisvuosi smallint,
--- 	kuuluuviheralueenosaan integer,
--- 	kuuluukatualueenosaan integer,
--- 	materiaali_id integer,
--- 	suunnitelmalinkkitieto integer,
--- 	geom_poly geometry(POLYGON, 3067),
--- 	geom_piste geometry(POINT, 3067),
--- 	geom_line geometry(LINESTRING, 3067),
-	CONSTRAINT liikunta_pk PRIMARY KEY (id)
-)
- INHERITS(abstraktit.abstractvaruste);
--- ddl-end --
-ALTER TABLE kohteet.liikunta OWNER TO infrao_admin;
--- ddl-end --
-
 -- object: public.jate_id_seq | type: SEQUENCE --
 -- DROP SEQUENCE IF EXISTS public.jate_id_seq CASCADE;
 CREATE SEQUENCE public.jate_id_seq
@@ -727,30 +711,6 @@ CREATE SEQUENCE public.jate_id_seq
 
 -- ddl-end --
 ALTER SEQUENCE public.jate_id_seq OWNER TO infrao_admin;
--- ddl-end --
-
--- object: kohteet.jate | type: TABLE --
--- DROP TABLE IF EXISTS kohteet.jate CASCADE;
-CREATE TABLE kohteet.jate (
-	id serial NOT NULL,
-	jatetyyppi_id integer,
--- 	malli text,
--- 	perusparannusvuosi smallint,
--- 	suunta text,
--- 	valmistaja text,
--- 	valmistumisvuosi smallint,
--- 	kuuluuviheralueenosaan integer,
--- 	kuuluukatualueenosaan integer,
--- 	materiaali_id integer,
--- 	suunnitelmalinkkitieto integer,
--- 	geom_poly geometry(POLYGON, 3067),
--- 	geom_piste geometry(POINT, 3067),
--- 	geom_line geometry(LINESTRING, 3067),
-	CONSTRAINT jate_pk PRIMARY KEY (id)
-)
- INHERITS(abstraktit.abstractvaruste);
--- ddl-end --
-ALTER TABLE kohteet.jate OWNER TO infrao_admin;
 -- ddl-end --
 
 -- object: public.opaste_id_seq | type: SEQUENCE --
@@ -768,30 +728,6 @@ CREATE SEQUENCE public.opaste_id_seq
 ALTER SEQUENCE public.opaste_id_seq OWNER TO infrao_admin;
 -- ddl-end --
 
--- object: kohteet.opaste | type: TABLE --
--- DROP TABLE IF EXISTS kohteet.opaste CASCADE;
-CREATE TABLE kohteet.opaste (
-	id serial NOT NULL,
-	opastetyyppi_id integer,
--- 	malli text,
--- 	perusparannusvuosi smallint,
--- 	suunta text,
--- 	valmistaja text,
--- 	valmistumisvuosi smallint,
--- 	kuuluuviheralueenosaan integer,
--- 	kuuluukatualueenosaan integer,
--- 	materiaali_id integer,
--- 	suunnitelmalinkkitieto integer,
--- 	geom_poly geometry(POLYGON, 3067),
--- 	geom_piste geometry(POINT, 3067),
--- 	geom_line geometry(LINESTRING, 3067),
-	CONSTRAINT opaste_pk PRIMARY KEY (id)
-)
- INHERITS(abstraktit.abstractvaruste);
--- ddl-end --
-ALTER TABLE kohteet.opaste OWNER TO infrao_admin;
--- ddl-end --
-
 -- object: public.rakenne_id_seq | type: SEQUENCE --
 -- DROP SEQUENCE IF EXISTS public.rakenne_id_seq CASCADE;
 CREATE SEQUENCE public.rakenne_id_seq
@@ -805,30 +741,6 @@ CREATE SEQUENCE public.rakenne_id_seq
 
 -- ddl-end --
 ALTER SEQUENCE public.rakenne_id_seq OWNER TO infrao_admin;
--- ddl-end --
-
--- object: kohteet.rakenne | type: TABLE --
--- DROP TABLE IF EXISTS kohteet.rakenne CASCADE;
-CREATE TABLE kohteet.rakenne (
-	id serial NOT NULL,
-	rakennetyyyppi_id integer,
--- 	malli text,
--- 	perusparannusvuosi smallint,
--- 	suunta text,
--- 	valmistaja text,
--- 	valmistumisvuosi smallint,
--- 	kuuluuviheralueenosaan integer,
--- 	kuuluukatualueenosaan integer,
--- 	materiaali_id integer,
--- 	suunnitelmalinkkitieto integer,
--- 	geom_poly geometry(POLYGON, 3067),
--- 	geom_piste geometry(POINT, 3067),
--- 	geom_line geometry(LINESTRING, 3067),
-	CONSTRAINT rakenne_pk PRIMARY KEY (id)
-)
- INHERITS(abstraktit.abstractvaruste);
--- ddl-end --
-ALTER TABLE kohteet.rakenne OWNER TO infrao_admin;
 -- ddl-end --
 
 -- object: public.ajoratamerkinta_id_seq | type: SEQUENCE --
@@ -861,31 +773,6 @@ CREATE SEQUENCE public.liikennemerkki_id_seq
 ALTER SEQUENCE public.liikennemerkki_id_seq OWNER TO infrao_admin;
 -- ddl-end --
 
--- object: kohteet.liikennemerkki | type: TABLE --
--- DROP TABLE IF EXISTS kohteet.liikennemerkki CASCADE;
-CREATE TABLE kohteet.liikennemerkki (
-	id serial NOT NULL,
-	liikennemerkkityyppi_id integer,
-	liikennemerkkityyppi2020_id integer,
--- 	malli text,
--- 	perusparannusvuosi smallint,
--- 	suunta text,
--- 	valmistaja text,
--- 	valmistumisvuosi smallint,
--- 	kuuluuviheralueenosaan integer,
--- 	kuuluukatualueenosaan integer,
--- 	materiaali_id integer,
--- 	suunnitelmalinkkitieto integer,
--- 	geom_poly geometry(POLYGON, 3067),
--- 	geom_piste geometry(POINT, 3067),
--- 	geom_line geometry(LINESTRING, 3067),
-	CONSTRAINT liikennemerkki_pk PRIMARY KEY (id)
-)
- INHERITS(abstraktit.abstractvaruste);
--- ddl-end --
-ALTER TABLE kohteet.liikennemerkki OWNER TO infrao_admin;
--- ddl-end --
-
 -- object: public.leikkivaline_id_seq | type: SEQUENCE --
 -- DROP SEQUENCE IF EXISTS public.leikkivaline_id_seq CASCADE;
 CREATE SEQUENCE public.leikkivaline_id_seq
@@ -899,30 +786,6 @@ CREATE SEQUENCE public.leikkivaline_id_seq
 
 -- ddl-end --
 ALTER SEQUENCE public.leikkivaline_id_seq OWNER TO infrao_admin;
--- ddl-end --
-
--- object: kohteet.leikkivaline | type: TABLE --
--- DROP TABLE IF EXISTS kohteet.leikkivaline CASCADE;
-CREATE TABLE kohteet.leikkivaline (
-	id serial NOT NULL,
-	leikkivalinetyyppi_id integer,
--- 	malli text,
--- 	perusparannusvuosi smallint,
--- 	suunta text,
--- 	valmistaja text,
--- 	valmistumisvuosi smallint,
--- 	kuuluuviheralueenosaan integer,
--- 	kuuluukatualueenosaan integer,
--- 	materiaali_id integer,
--- 	suunnitelmalinkkitieto integer,
--- 	geom_poly geometry(POLYGON, 3067),
--- 	geom_piste geometry(POINT, 3067),
--- 	geom_line geometry(LINESTRING, 3067),
-	CONSTRAINT leikkivaline_pk PRIMARY KEY (id)
-)
- INHERITS(abstraktit.abstractvaruste);
--- ddl-end --
-ALTER TABLE kohteet.leikkivaline OWNER TO infrao_admin;
 -- ddl-end --
 
 -- object: public.muuvaruste_id_seq | type: SEQUENCE --
@@ -940,30 +803,6 @@ CREATE SEQUENCE public.muuvaruste_id_seq
 ALTER SEQUENCE public.muuvaruste_id_seq OWNER TO infrao_admin;
 -- ddl-end --
 
--- object: kohteet.muuvaruste | type: TABLE --
--- DROP TABLE IF EXISTS kohteet.muuvaruste CASCADE;
-CREATE TABLE kohteet.muuvaruste (
-	id serial NOT NULL,
-	muuvarustetyyppi_id integer,
--- 	malli text,
--- 	perusparannusvuosi smallint,
--- 	suunta text,
--- 	valmistaja text,
--- 	valmistumisvuosi smallint,
--- 	kuuluuviheralueenosaan integer,
--- 	kuuluukatualueenosaan integer,
--- 	materiaali_id integer,
--- 	suunnitelmalinkkitieto integer,
--- 	geom_poly geometry(POLYGON, 3067),
--- 	geom_piste geometry(POINT, 3067),
--- 	geom_line geometry(LINESTRING, 3067),
-	CONSTRAINT muuvaruste_pk PRIMARY KEY (id)
-)
- INHERITS(abstraktit.abstractvaruste);
--- ddl-end --
-ALTER TABLE kohteet.muuvaruste OWNER TO infrao_admin;
--- ddl-end --
-
 -- object: public.liikennevalo_id_seq | type: SEQUENCE --
 -- DROP SEQUENCE IF EXISTS public.liikennevalo_id_seq CASCADE;
 CREATE SEQUENCE public.liikennevalo_id_seq
@@ -977,29 +816,6 @@ CREATE SEQUENCE public.liikennevalo_id_seq
 
 -- ddl-end --
 ALTER SEQUENCE public.liikennevalo_id_seq OWNER TO infrao_admin;
--- ddl-end --
-
--- object: kohteet.liikennevalo | type: TABLE --
--- DROP TABLE IF EXISTS kohteet.liikennevalo CASCADE;
-CREATE TABLE kohteet.liikennevalo (
-	id serial NOT NULL,
--- 	malli text,
--- 	perusparannusvuosi smallint,
--- 	suunta text,
--- 	valmistaja text,
--- 	valmistumisvuosi smallint,
--- 	kuuluuviheralueenosaan integer,
--- 	kuuluukatualueenosaan integer,
--- 	materiaali_id integer,
--- 	suunnitelmalinkkitieto integer,
--- 	geom_poly geometry(POLYGON, 3067),
--- 	geom_piste geometry(POINT, 3067),
--- 	geom_line geometry(LINESTRING, 3067),
-	CONSTRAINT liikennevalo_pk PRIMARY KEY (id)
-)
- INHERITS(abstraktit.abstractvaruste);
--- ddl-end --
-ALTER TABLE kohteet.liikennevalo OWNER TO infrao_admin;
 -- ddl-end --
 
 -- object: koodistot.kunnossapitoluokka_id_seq | type: SEQUENCE --
@@ -1020,77 +836,77 @@ ALTER SEQUENCE koodistot.kunnossapitoluokka_id_seq OWNER TO infrao_admin;
 -- object: koodistot.kunnossapitoluokka | type: TABLE --
 -- DROP TABLE IF EXISTS koodistot.kunnossapitoluokka CASCADE;
 CREATE TABLE koodistot.kunnossapitoluokka (
-	id serial NOT NULL,
+	cid integer NOT NULL,
 	selite text NOT NULL,
-	CONSTRAINT kunnossapitoluokka_pk PRIMARY KEY (id)
+	CONSTRAINT kunnossapitoluokka_pk PRIMARY KEY (cid)
 );
 -- ddl-end --
 ALTER TABLE koodistot.kunnossapitoluokka OWNER TO infrao_admin;
 -- ddl-end --
 
-INSERT INTO koodistot.kunnossapitoluokka (id, selite) VALUES (E'1', E'ajoradat, luokka I');
+INSERT INTO koodistot.kunnossapitoluokka (cid, selite) VALUES (E'1', E'ajoradat, luokka I');
 -- ddl-end --
-INSERT INTO koodistot.kunnossapitoluokka (id, selite) VALUES (E'2', E'ajoradat, luokka II');
+INSERT INTO koodistot.kunnossapitoluokka (cid, selite) VALUES (E'2', E'ajoradat, luokka II');
 -- ddl-end --
-INSERT INTO koodistot.kunnossapitoluokka (id, selite) VALUES (E'3', E'ajoradat, luokka III');
+INSERT INTO koodistot.kunnossapitoluokka (cid, selite) VALUES (E'3', E'ajoradat, luokka III');
 -- ddl-end --
-INSERT INTO koodistot.kunnossapitoluokka (id, selite) VALUES (E'4', E'kevyen liikenteen raitti, luokka I');
+INSERT INTO koodistot.kunnossapitoluokka (cid, selite) VALUES (E'4', E'kevyen liikenteen raitti, luokka I');
 -- ddl-end --
-INSERT INTO koodistot.kunnossapitoluokka (id, selite) VALUES (E'5', E'kevyen liikenteen raitti, luokka II');
+INSERT INTO koodistot.kunnossapitoluokka (cid, selite) VALUES (E'5', E'kevyen liikenteen raitti, luokka II');
 -- ddl-end --
-INSERT INTO koodistot.kunnossapitoluokka (id, selite) VALUES (E'6', E'kevyen liikenteen väylä, luokka I');
+INSERT INTO koodistot.kunnossapitoluokka (cid, selite) VALUES (E'6', E'kevyen liikenteen väylä, luokka I');
 -- ddl-end --
-INSERT INTO koodistot.kunnossapitoluokka (id, selite) VALUES (E'7', E'kevyen liikenteen väylä, luokka II');
+INSERT INTO koodistot.kunnossapitoluokka (cid, selite) VALUES (E'7', E'kevyen liikenteen väylä, luokka II');
 -- ddl-end --
-INSERT INTO koodistot.kunnossapitoluokka (id, selite) VALUES (E'8', E'jalkakäytävä, luokka I');
+INSERT INTO koodistot.kunnossapitoluokka (cid, selite) VALUES (E'8', E'jalkakäytävä, luokka I');
 -- ddl-end --
-INSERT INTO koodistot.kunnossapitoluokka (id, selite) VALUES (E'9', E'jalkakäytävä, luokka II');
+INSERT INTO koodistot.kunnossapitoluokka (cid, selite) VALUES (E'9', E'jalkakäytävä, luokka II');
 -- ddl-end --
-INSERT INTO koodistot.kunnossapitoluokka (id, selite) VALUES (E'10', E'torit ja aukiot, luokka I');
+INSERT INTO koodistot.kunnossapitoluokka (cid, selite) VALUES (E'10', E'torit ja aukiot, luokka I');
 -- ddl-end --
-INSERT INTO koodistot.kunnossapitoluokka (id, selite) VALUES (E'11', E'torit ja aukiot, luokka II');
+INSERT INTO koodistot.kunnossapitoluokka (cid, selite) VALUES (E'11', E'torit ja aukiot, luokka II');
 -- ddl-end --
-INSERT INTO koodistot.kunnossapitoluokka (id, selite) VALUES (E'12', E'kiinteistön kunnossapitovastuu');
+INSERT INTO koodistot.kunnossapitoluokka (cid, selite) VALUES (E'12', E'kiinteistön kunnossapitovastuu');
 -- ddl-end --
-INSERT INTO koodistot.kunnossapitoluokka (id, selite) VALUES (E'13', E'ei kunnossapitoa');
+INSERT INTO koodistot.kunnossapitoluokka (cid, selite) VALUES (E'13', E'ei kunnossapitoa');
 -- ddl-end --
-INSERT INTO koodistot.kunnossapitoluokka (id, selite) VALUES (E'14', E'ei talvikunnosspitoa');
+INSERT INTO koodistot.kunnossapitoluokka (cid, selite) VALUES (E'14', E'ei talvikunnosspitoa');
 -- ddl-end --
-INSERT INTO koodistot.kunnossapitoluokka (id, selite) VALUES (E'15', E'A1 edustusviheralue');
+INSERT INTO koodistot.kunnossapitoluokka (cid, selite) VALUES (E'15', E'A1 edustusviheralue');
 -- ddl-end --
-INSERT INTO koodistot.kunnossapitoluokka (id, selite) VALUES (E'16', E'A2 käyttöviheralue');
+INSERT INTO koodistot.kunnossapitoluokka (cid, selite) VALUES (E'16', E'A2 käyttöviheralue');
 -- ddl-end --
-INSERT INTO koodistot.kunnossapitoluokka (id, selite) VALUES (E'17', E'A3 käyttö- ja suojaviheralue');
+INSERT INTO koodistot.kunnossapitoluokka (cid, selite) VALUES (E'17', E'A3 käyttö- ja suojaviheralue');
 -- ddl-end --
-INSERT INTO koodistot.kunnossapitoluokka (id, selite) VALUES (E'18', E'B1 maisemapelto');
+INSERT INTO koodistot.kunnossapitoluokka (cid, selite) VALUES (E'18', E'B1 maisemapelto');
 -- ddl-end --
-INSERT INTO koodistot.kunnossapitoluokka (id, selite) VALUES (E'19', E'B2 käyttöniitty');
+INSERT INTO koodistot.kunnossapitoluokka (cid, selite) VALUES (E'19', E'B2 käyttöniitty');
 -- ddl-end --
-INSERT INTO koodistot.kunnossapitoluokka (id, selite) VALUES (E'20', E'B3 maisemaniitty ja laidunalue');
+INSERT INTO koodistot.kunnossapitoluokka (cid, selite) VALUES (E'20', E'B3 maisemaniitty ja laidunalue');
 -- ddl-end --
-INSERT INTO koodistot.kunnossapitoluokka (id, selite) VALUES (E'21', E'B4 avoin alue ja näkymät');
+INSERT INTO koodistot.kunnossapitoluokka (cid, selite) VALUES (E'21', E'B4 avoin alue ja näkymät');
 -- ddl-end --
-INSERT INTO koodistot.kunnossapitoluokka (id, selite) VALUES (E'22', E'B5 arvoniitty');
+INSERT INTO koodistot.kunnossapitoluokka (cid, selite) VALUES (E'22', E'B5 arvoniitty');
 -- ddl-end --
-INSERT INTO koodistot.kunnossapitoluokka (id, selite) VALUES (E'23', E'C1 lähimetsä');
+INSERT INTO koodistot.kunnossapitoluokka (cid, selite) VALUES (E'23', E'C1 lähimetsä');
 -- ddl-end --
-INSERT INTO koodistot.kunnossapitoluokka (id, selite) VALUES (E'24', E'C2 ulkoilu- ja virkistysmetsä');
+INSERT INTO koodistot.kunnossapitoluokka (cid, selite) VALUES (E'24', E'C2 ulkoilu- ja virkistysmetsä');
 -- ddl-end --
-INSERT INTO koodistot.kunnossapitoluokka (id, selite) VALUES (E'25', E'C3 suojametsä');
+INSERT INTO koodistot.kunnossapitoluokka (cid, selite) VALUES (E'25', E'C3 suojametsä');
 -- ddl-end --
-INSERT INTO koodistot.kunnossapitoluokka (id, selite) VALUES (E'26', E'C4 talousmetsä');
+INSERT INTO koodistot.kunnossapitoluokka (cid, selite) VALUES (E'26', E'C4 talousmetsä');
 -- ddl-end --
-INSERT INTO koodistot.kunnossapitoluokka (id, selite) VALUES (E'27', E'C5 arvometsä');
+INSERT INTO koodistot.kunnossapitoluokka (cid, selite) VALUES (E'27', E'C5 arvometsä');
 -- ddl-end --
-INSERT INTO koodistot.kunnossapitoluokka (id, selite) VALUES (E'28', E'E erityisalue');
+INSERT INTO koodistot.kunnossapitoluokka (cid, selite) VALUES (E'28', E'E erityisalue');
 -- ddl-end --
-INSERT INTO koodistot.kunnossapitoluokka (id, selite) VALUES (E'29', E'ei hoidossa');
+INSERT INTO koodistot.kunnossapitoluokka (cid, selite) VALUES (E'29', E'ei hoidossa');
 -- ddl-end --
-INSERT INTO koodistot.kunnossapitoluokka (id, selite) VALUES (E'30', E'U urheilualue');
+INSERT INTO koodistot.kunnossapitoluokka (cid, selite) VALUES (E'30', E'U urheilualue');
 -- ddl-end --
-INSERT INTO koodistot.kunnossapitoluokka (id, selite) VALUES (E'31', E'muu');
+INSERT INTO koodistot.kunnossapitoluokka (cid, selite) VALUES (E'31', E'muu');
 -- ddl-end --
-INSERT INTO koodistot.kunnossapitoluokka (id, selite) VALUES (E'32', E'ei tiedossa');
+INSERT INTO koodistot.kunnossapitoluokka (cid, selite) VALUES (E'32', E'ei tiedossa');
 -- ddl-end --
 
 -- object: public.abstrakti_varuste_id_seq | type: SEQUENCE --
@@ -1111,25 +927,25 @@ ALTER SEQUENCE public.abstrakti_varuste_id_seq OWNER TO infrao_admin;
 -- object: koodistot.melutyyppi | type: TABLE --
 -- DROP TABLE IF EXISTS koodistot.melutyyppi CASCADE;
 CREATE TABLE koodistot.melutyyppi (
-	id serial NOT NULL,
+	cid integer NOT NULL,
 	selite text NOT NULL,
-	CONSTRAINT melutyyppi_pk PRIMARY KEY (id)
+	CONSTRAINT melutyyppi_pk PRIMARY KEY (cid)
 );
 -- ddl-end --
 ALTER TABLE koodistot.melutyyppi OWNER TO infrao_admin;
 -- ddl-end --
 
-INSERT INTO koodistot.melutyyppi (id, selite) VALUES (E'1', E'meluaita');
+INSERT INTO koodistot.melutyyppi (cid, selite) VALUES (E'1', E'meluaita');
 -- ddl-end --
-INSERT INTO koodistot.melutyyppi (id, selite) VALUES (E'2', E'melueste');
+INSERT INTO koodistot.melutyyppi (cid, selite) VALUES (E'2', E'melueste');
 -- ddl-end --
-INSERT INTO koodistot.melutyyppi (id, selite) VALUES (E'3', E'melumuuri');
+INSERT INTO koodistot.melutyyppi (cid, selite) VALUES (E'3', E'melumuuri');
 -- ddl-end --
-INSERT INTO koodistot.melutyyppi (id, selite) VALUES (E'4', E'meluvalli');
+INSERT INTO koodistot.melutyyppi (cid, selite) VALUES (E'4', E'meluvalli');
 -- ddl-end --
-INSERT INTO koodistot.melutyyppi (id, selite) VALUES (E'5', E'muu');
+INSERT INTO koodistot.melutyyppi (cid, selite) VALUES (E'5', E'muu');
 -- ddl-end --
-INSERT INTO koodistot.melutyyppi (id, selite) VALUES (E'6', E'ei tiedossa');
+INSERT INTO koodistot.melutyyppi (cid, selite) VALUES (E'6', E'ei tiedossa');
 -- ddl-end --
 
 -- object: abstraktit.abstractpaikkatietopalvelukohde | type: TABLE --
@@ -1155,229 +971,1465 @@ ALTER TABLE abstraktit.abstractpaikkatietopalvelukohde OWNER TO infrao_admin;
 -- object: koodistot.kalustetyyppi | type: TABLE --
 -- DROP TABLE IF EXISTS koodistot.kalustetyyppi CASCADE;
 CREATE TABLE koodistot.kalustetyyppi (
-	id serial NOT NULL,
+	cid integer NOT NULL,
 	selite text,
-	CONSTRAINT kalustetyyppi_pk PRIMARY KEY (id)
+	CONSTRAINT kalustetyyppi_pk PRIMARY KEY (cid)
 );
 -- ddl-end --
 ALTER TABLE koodistot.kalustetyyppi OWNER TO infrao_admin;
 -- ddl-end --
 
-INSERT INTO koodistot.kalustetyyppi (id, selite) VALUES (E'1', E'irtopenkki');
+INSERT INTO koodistot.kalustetyyppi (cid, selite) VALUES (E'1', E'irtopenkki');
 -- ddl-end --
-INSERT INTO koodistot.kalustetyyppi (id, selite) VALUES (E'2', E'istuin muu');
+INSERT INTO koodistot.kalustetyyppi (cid, selite) VALUES (E'2', E'istuin muu');
 -- ddl-end --
-INSERT INTO koodistot.kalustetyyppi (id, selite) VALUES (E'3', E'kalusteryhmä');
+INSERT INTO koodistot.kalustetyyppi (cid, selite) VALUES (E'3', E'kalusteryhmä');
 -- ddl-end --
-INSERT INTO koodistot.kalustetyyppi (id, selite) VALUES (E'4', E'kiintopenkki');
+INSERT INTO koodistot.kalustetyyppi (cid, selite) VALUES (E'4', E'kiintopenkki');
 -- ddl-end --
-INSERT INTO koodistot.kalustetyyppi (id, selite) VALUES (E'5', E'pöytä');
+INSERT INTO koodistot.kalustetyyppi (cid, selite) VALUES (E'5', E'pöytä');
 -- ddl-end --
-INSERT INTO koodistot.kalustetyyppi (id, selite) VALUES (E'6', E'pöytä-penkkiyhdistelmä');
+INSERT INTO koodistot.kalustetyyppi (cid, selite) VALUES (E'6', E'pöytä-penkkiyhdistelmä');
 -- ddl-end --
-INSERT INTO koodistot.kalustetyyppi (id, selite) VALUES (E'7', E'yhdenistuttava penkki');
+INSERT INTO koodistot.kalustetyyppi (cid, selite) VALUES (E'7', E'yhdenistuttava penkki');
 -- ddl-end --
-INSERT INTO koodistot.kalustetyyppi (id, selite) VALUES (E'8', E'muu');
+INSERT INTO koodistot.kalustetyyppi (cid, selite) VALUES (E'8', E'muu');
 -- ddl-end --
-INSERT INTO koodistot.kalustetyyppi (id, selite) VALUES (E'9', E'ei tiedossa');
+INSERT INTO koodistot.kalustetyyppi (cid, selite) VALUES (E'9', E'ei tiedossa');
 -- ddl-end --
 
 -- object: koodistot.opastetyyppi | type: TABLE --
 -- DROP TABLE IF EXISTS koodistot.opastetyyppi CASCADE;
 CREATE TABLE koodistot.opastetyyppi (
-	id serial NOT NULL,
+	cid integer NOT NULL,
 	selite text,
-	CONSTRAINT opastetyyyppi_pk PRIMARY KEY (id)
+	CONSTRAINT opastetyyyppi_pk PRIMARY KEY (cid)
 );
 -- ddl-end --
 ALTER TABLE koodistot.opastetyyppi OWNER TO infrao_admin;
 -- ddl-end --
 
-INSERT INTO koodistot.opastetyyppi (id, selite) VALUES (E'1', E'invapaikka');
+INSERT INTO koodistot.opastetyyppi (cid, selite) VALUES (E'1', E'invapaikka');
 -- ddl-end --
-INSERT INTO koodistot.opastetyyppi (id, selite) VALUES (E'2', E'koiraparkki');
+INSERT INTO koodistot.opastetyyppi (cid, selite) VALUES (E'2', E'koiraparkki');
 -- ddl-end --
-INSERT INTO koodistot.opastetyyppi (id, selite) VALUES (E'3', E'opastaulut ja -kyltit');
+INSERT INTO koodistot.opastetyyppi (cid, selite) VALUES (E'3', E'opastaulut ja -kyltit');
 -- ddl-end --
-INSERT INTO koodistot.opastetyyppi (id, selite) VALUES (E'4', E'muu');
+INSERT INTO koodistot.opastetyyppi (cid, selite) VALUES (E'4', E'muu');
 -- ddl-end --
-INSERT INTO koodistot.opastetyyppi (id, selite) VALUES (E'5', E'ei tiedossa');
+INSERT INTO koodistot.opastetyyppi (cid, selite) VALUES (E'5', E'ei tiedossa');
 -- ddl-end --
 
 -- object: koodistot.jatetyyppi | type: TABLE --
 -- DROP TABLE IF EXISTS koodistot.jatetyyppi CASCADE;
 CREATE TABLE koodistot.jatetyyppi (
-	id serial NOT NULL,
+	cid integer NOT NULL,
 	selite text,
-	CONSTRAINT jatetyyppi_pk PRIMARY KEY (id)
+	CONSTRAINT jatetyyppi_pk PRIMARY KEY (cid)
 );
 -- ddl-end --
 ALTER TABLE koodistot.jatetyyppi OWNER TO infrao_admin;
 -- ddl-end --
 
-INSERT INTO koodistot.jatetyyppi (id, selite) VALUES (E'1', E'jäteastia');
+INSERT INTO koodistot.jatetyyppi (cid, selite) VALUES (E'1', E'jäteastia');
 -- ddl-end --
-INSERT INTO koodistot.jatetyyppi (id, selite) VALUES (E'2', E'koiranroska-astia');
+INSERT INTO koodistot.jatetyyppi (cid, selite) VALUES (E'2', E'koiranroska-astia');
 -- ddl-end --
-INSERT INTO koodistot.jatetyyppi (id, selite) VALUES (E'3', E'roskakori');
+INSERT INTO koodistot.jatetyyppi (cid, selite) VALUES (E'3', E'roskakori');
 -- ddl-end --
-INSERT INTO koodistot.jatetyyppi (id, selite) VALUES (E'4', E'muu');
+INSERT INTO koodistot.jatetyyppi (cid, selite) VALUES (E'4', E'muu');
 -- ddl-end --
-INSERT INTO koodistot.jatetyyppi (id, selite) VALUES (E'5', E'ei tiedossa');
+INSERT INTO koodistot.jatetyyppi (cid, selite) VALUES (E'5', E'ei tiedossa');
 -- ddl-end --
 
 -- object: koodistot.pintamateriaali | type: TABLE --
 -- DROP TABLE IF EXISTS koodistot.pintamateriaali CASCADE;
 CREATE TABLE koodistot.pintamateriaali (
-	id serial NOT NULL,
+	cid integer NOT NULL,
 	selite text,
-	CONSTRAINT pintamateriaali_pk PRIMARY KEY (id)
+	CONSTRAINT pintamateriaali_pk PRIMARY KEY (cid)
 );
 -- ddl-end --
 ALTER TABLE koodistot.pintamateriaali OWNER TO infrao_admin;
 -- ddl-end --
 
-INSERT INTO koodistot.pintamateriaali (id, selite) VALUES (E'1', E'asfalttipäällyste');
+INSERT INTO koodistot.pintamateriaali (cid, selite) VALUES (E'1', E'asfalttipäällyste');
 -- ddl-end --
-INSERT INTO koodistot.pintamateriaali (id, selite) VALUES (E'2', E'asfalttibetoni');
+INSERT INTO koodistot.pintamateriaali (cid, selite) VALUES (E'2', E'asfalttibetoni');
 -- ddl-end --
-INSERT INTO koodistot.pintamateriaali (id, selite) VALUES (E'3', E'betonilaatta');
+INSERT INTO koodistot.pintamateriaali (cid, selite) VALUES (E'3', E'betonilaatta');
 -- ddl-end --
-INSERT INTO koodistot.pintamateriaali (id, selite) VALUES (E'4', E'betonikivi- ja -laattapäällyste');
+INSERT INTO koodistot.pintamateriaali (cid, selite) VALUES (E'4', E'betonikivi- ja -laattapäällyste');
 -- ddl-end --
-INSERT INTO koodistot.pintamateriaali (id, selite) VALUES (E'5', E'betonipäällyste (valettavat)');
+INSERT INTO koodistot.pintamateriaali (cid, selite) VALUES (E'5', E'betonipäällyste (valettavat)');
 -- ddl-end --
-INSERT INTO koodistot.pintamateriaali (id, selite) VALUES (E'6', E'emulsiopintaus (LP)');
+INSERT INTO koodistot.pintamateriaali (cid, selite) VALUES (E'6', E'emulsiopintaus (LP)');
 -- ddl-end --
-INSERT INTO koodistot.pintamateriaali (id, selite) VALUES (E'7', E'kenttäkivetys');
+INSERT INTO koodistot.pintamateriaali (cid, selite) VALUES (E'7', E'kenttäkivetys');
 -- ddl-end --
-INSERT INTO koodistot.pintamateriaali (id, selite) VALUES (E'8', E'liuskekivetys');
+INSERT INTO koodistot.pintamateriaali (cid, selite) VALUES (E'8', E'liuskekivetys');
 -- ddl-end --
-INSERT INTO koodistot.pintamateriaali (id, selite) VALUES (E'9', E'luonnonkivilaatoitus');
+INSERT INTO koodistot.pintamateriaali (cid, selite) VALUES (E'9', E'luonnonkivilaatoitus');
 -- ddl-end --
-INSERT INTO koodistot.pintamateriaali (id, selite) VALUES (E'10', E'metallirakenne');
+INSERT INTO koodistot.pintamateriaali (cid, selite) VALUES (E'10', E'metallirakenne');
 -- ddl-end --
-INSERT INTO koodistot.pintamateriaali (id, selite) VALUES (E'11', E'murskepäällyste');
+INSERT INTO koodistot.pintamateriaali (cid, selite) VALUES (E'11', E'murskepäällyste');
 -- ddl-end --
-INSERT INTO koodistot.pintamateriaali (id, selite) VALUES (E'12', E'noppakivetys');
+INSERT INTO koodistot.pintamateriaali (cid, selite) VALUES (E'12', E'noppakivetys');
 -- ddl-end --
-INSERT INTO koodistot.pintamateriaali (id, selite) VALUES (E'13', E'nupukivetys');
+INSERT INTO koodistot.pintamateriaali (cid, selite) VALUES (E'13', E'nupukivetys');
 -- ddl-end --
-INSERT INTO koodistot.pintamateriaali (id, selite) VALUES (E'14', E'puupäällyste');
+INSERT INTO koodistot.pintamateriaali (cid, selite) VALUES (E'14', E'puupäällyste');
 -- ddl-end --
-INSERT INTO koodistot.pintamateriaali (id, selite) VALUES (E'15', E'sirotepintaus (SIP)');
+INSERT INTO koodistot.pintamateriaali (cid, selite) VALUES (E'15', E'sirotepintaus (SIP)');
 -- ddl-end --
-INSERT INTO koodistot.pintamateriaali (id, selite) VALUES (E'16', E'sorapäällyste');
+INSERT INTO koodistot.pintamateriaali (cid, selite) VALUES (E'16', E'sorapäällyste');
 -- ddl-end --
-INSERT INTO koodistot.pintamateriaali (id, selite) VALUES (E'17', E'soratien pintaus (SOP)');
+INSERT INTO koodistot.pintamateriaali (cid, selite) VALUES (E'17', E'soratien pintaus (SOP)');
 -- ddl-end --
-INSERT INTO koodistot.pintamateriaali (id, selite) VALUES (E'18', E'muu');
+INSERT INTO koodistot.pintamateriaali (cid, selite) VALUES (E'18', E'muu');
 -- ddl-end --
-INSERT INTO koodistot.pintamateriaali (id, selite) VALUES (E'19', E'ei tiedossa');
+INSERT INTO koodistot.pintamateriaali (cid, selite) VALUES (E'19', E'ei tiedossa');
 -- ddl-end --
 
 -- object: koodistot.hulevesityyppi | type: TABLE --
 -- DROP TABLE IF EXISTS koodistot.hulevesityyppi CASCADE;
 CREATE TABLE koodistot.hulevesityyppi (
-	id serial NOT NULL,
+	cid integer NOT NULL,
 	selite text,
-	CONSTRAINT hulevesityyppi_pk PRIMARY KEY (id)
+	CONSTRAINT hulevesityyppi_pk PRIMARY KEY (cid)
 );
 -- ddl-end --
 ALTER TABLE koodistot.hulevesityyppi OWNER TO infrao_admin;
 -- ddl-end --
 
-INSERT INTO koodistot.hulevesityyppi (id, selite) VALUES (E'1', E'avo-oja');
+INSERT INTO koodistot.hulevesityyppi (cid, selite) VALUES (E'1', E'avo-oja');
 -- ddl-end --
-INSERT INTO koodistot.hulevesityyppi (id, selite) VALUES (E'2', E'avopainanne');
+INSERT INTO koodistot.hulevesityyppi (cid, selite) VALUES (E'2', E'avopainanne');
 -- ddl-end --
-INSERT INTO koodistot.hulevesityyppi (id, selite) VALUES (E'3', E'avouoma');
+INSERT INTO koodistot.hulevesityyppi (cid, selite) VALUES (E'3', E'avouoma');
 -- ddl-end --
-INSERT INTO koodistot.hulevesityyppi (id, selite) VALUES (E'4', E'hulevesiallas');
+INSERT INTO koodistot.hulevesityyppi (cid, selite) VALUES (E'4', E'hulevesiallas');
 -- ddl-end --
-INSERT INTO koodistot.hulevesityyppi (id, selite) VALUES (E'5', E'hulevesikaivo');
+INSERT INTO koodistot.hulevesityyppi (cid, selite) VALUES (E'5', E'hulevesikaivo');
 -- ddl-end --
-INSERT INTO koodistot.hulevesityyppi (id, selite) VALUES (E'6', E'hulevesikosteikko');
+INSERT INTO koodistot.hulevesityyppi (cid, selite) VALUES (E'6', E'hulevesikosteikko');
 -- ddl-end --
-INSERT INTO koodistot.hulevesityyppi (id, selite) VALUES (E'7', E'imeytyskaivanto');
+INSERT INTO koodistot.hulevesityyppi (cid, selite) VALUES (E'7', E'imeytyskaivanto');
 -- ddl-end --
-INSERT INTO koodistot.hulevesityyppi (id, selite) VALUES (E'8', E'imeytyskenttä');
+INSERT INTO koodistot.hulevesityyppi (cid, selite) VALUES (E'8', E'imeytyskenttä');
 -- ddl-end --
-INSERT INTO koodistot.hulevesityyppi (id, selite) VALUES (E'9', E'imeytyspainanne');
+INSERT INTO koodistot.hulevesityyppi (cid, selite) VALUES (E'9', E'imeytyspainanne');
 -- ddl-end --
-INSERT INTO koodistot.hulevesityyppi (id, selite) VALUES (E'10', E'noro');
+INSERT INTO koodistot.hulevesityyppi (cid, selite) VALUES (E'10', E'noro');
 -- ddl-end --
-INSERT INTO koodistot.hulevesityyppi (id, selite) VALUES (E'11', E'patorakenne');
+INSERT INTO koodistot.hulevesityyppi (cid, selite) VALUES (E'11', E'patorakenne');
 -- ddl-end --
-INSERT INTO koodistot.hulevesityyppi (id, selite) VALUES (E'12', E'pidätysallas');
+INSERT INTO koodistot.hulevesityyppi (cid, selite) VALUES (E'12', E'pidätysallas');
 -- ddl-end --
-INSERT INTO koodistot.hulevesityyppi (id, selite) VALUES (E'13', E'puro');
+INSERT INTO koodistot.hulevesityyppi (cid, selite) VALUES (E'13', E'puro');
 -- ddl-end --
-INSERT INTO koodistot.hulevesityyppi (id, selite) VALUES (E'14', E'purkukaivo');
+INSERT INTO koodistot.hulevesityyppi (cid, selite) VALUES (E'14', E'purkukaivo');
 -- ddl-end --
-INSERT INTO koodistot.hulevesityyppi (id, selite) VALUES (E'15', E'rumpu');
+INSERT INTO koodistot.hulevesityyppi (cid, selite) VALUES (E'15', E'rumpu');
 -- ddl-end --
-INSERT INTO koodistot.hulevesityyppi (id, selite) VALUES (E'16', E'sulkukaivo');
+INSERT INTO koodistot.hulevesityyppi (cid, selite) VALUES (E'16', E'sulkukaivo');
 -- ddl-end --
-INSERT INTO koodistot.hulevesityyppi (id, selite) VALUES (E'17', E'säätökaivo');
+INSERT INTO koodistot.hulevesityyppi (cid, selite) VALUES (E'17', E'säätökaivo');
 -- ddl-end --
-INSERT INTO koodistot.hulevesityyppi (id, selite) VALUES (E'18', E'säätöpato');
+INSERT INTO koodistot.hulevesityyppi (cid, selite) VALUES (E'18', E'säätöpato');
 -- ddl-end --
-INSERT INTO koodistot.hulevesityyppi (id, selite) VALUES (E'19', E'tarkastuskaivo');
+INSERT INTO koodistot.hulevesityyppi (cid, selite) VALUES (E'19', E'tarkastuskaivo');
 -- ddl-end --
-INSERT INTO koodistot.hulevesityyppi (id, selite) VALUES (E'20', E'tarkastusputki');
+INSERT INTO koodistot.hulevesityyppi (cid, selite) VALUES (E'20', E'tarkastusputki');
 -- ddl-end --
-INSERT INTO koodistot.hulevesityyppi (id, selite) VALUES (E'21', E'tulvauoma');
+INSERT INTO koodistot.hulevesityyppi (cid, selite) VALUES (E'21', E'tulvauoma');
 -- ddl-end --
-INSERT INTO koodistot.hulevesityyppi (id, selite) VALUES (E'22', E'vesikouru');
+INSERT INTO koodistot.hulevesityyppi (cid, selite) VALUES (E'22', E'vesikouru');
 -- ddl-end --
-INSERT INTO koodistot.hulevesityyppi (id, selite) VALUES (E'23', E'viivytysallas');
+INSERT INTO koodistot.hulevesityyppi (cid, selite) VALUES (E'23', E'viivytysallas');
 -- ddl-end --
-INSERT INTO koodistot.hulevesityyppi (id, selite) VALUES (E'24', E'muu');
+INSERT INTO koodistot.hulevesityyppi (cid, selite) VALUES (E'24', E'muu');
 -- ddl-end --
-INSERT INTO koodistot.hulevesityyppi (id, selite) VALUES (E'25', E'ei tiedossa');
+INSERT INTO koodistot.hulevesityyppi (cid, selite) VALUES (E'25', E'ei tiedossa');
 -- ddl-end --
 
 -- object: koodistot.ajoratamerkintatyyppi | type: TABLE --
 -- DROP TABLE IF EXISTS koodistot.ajoratamerkintatyyppi CASCADE;
 CREATE TABLE koodistot.ajoratamerkintatyyppi (
-	id serial NOT NULL,
+	cid integer NOT NULL,
 	selite text NOT NULL,
-	CONSTRAINT ajoramerkintatyyppi_pk PRIMARY KEY (id)
+	CONSTRAINT ajoramerkintatyyppi_pk PRIMARY KEY (cid)
 );
 -- ddl-end --
 ALTER TABLE koodistot.ajoratamerkintatyyppi OWNER TO infrao_admin;
 -- ddl-end --
 
-INSERT INTO koodistot.ajoratamerkintatyyppi (id, selite) VALUES (E'1', E'katkoviiva');
+INSERT INTO koodistot.ajoratamerkintatyyppi (cid, selite) VALUES (E'1', E'katkoviiva');
 -- ddl-end --
-INSERT INTO koodistot.ajoratamerkintatyyppi (id, selite) VALUES (E'2', E'sulkuviiva');
+INSERT INTO koodistot.ajoratamerkintatyyppi (cid, selite) VALUES (E'2', E'sulkuviiva');
 -- ddl-end --
-INSERT INTO koodistot.ajoratamerkintatyyppi (id, selite) VALUES (E'3', E'suojatie');
+INSERT INTO koodistot.ajoratamerkintatyyppi (cid, selite) VALUES (E'3', E'suojatie');
 -- ddl-end --
-INSERT INTO koodistot.ajoratamerkintatyyppi (id, selite) VALUES (E'4', E'muu');
+INSERT INTO koodistot.ajoratamerkintatyyppi (cid, selite) VALUES (E'4', E'muu');
 -- ddl-end --
-INSERT INTO koodistot.ajoratamerkintatyyppi (id, selite) VALUES (E'5', E'ei tiedossa');
+INSERT INTO koodistot.ajoratamerkintatyyppi (cid, selite) VALUES (E'5', E'ei tiedossa');
 -- ddl-end --
 
 -- object: koodistot.puutyyppi | type: TABLE --
 -- DROP TABLE IF EXISTS koodistot.puutyyppi CASCADE;
 CREATE TABLE koodistot.puutyyppi (
-	id serial NOT NULL,
+	cid integer NOT NULL,
 	selite text NOT NULL,
-	CONSTRAINT puutyppi_pk PRIMARY KEY (id)
+	CONSTRAINT puutyppi_pk PRIMARY KEY (cid)
 );
 -- ddl-end --
 ALTER TABLE koodistot.puutyyppi OWNER TO infrao_admin;
 -- ddl-end --
 
-INSERT INTO koodistot.puutyyppi (id, selite) VALUES (E'1', E'havupuu');
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'1', E'Abies amabilis');
 -- ddl-end --
-INSERT INTO koodistot.puutyyppi (id, selite) VALUES (E'2', E'lehtipuu');
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'2', E'Abies balsamea');
 -- ddl-end --
-INSERT INTO koodistot.puutyyppi (id, selite) VALUES (E'3', E'muu');
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'3', E'Abies concolor');
 -- ddl-end --
-INSERT INTO koodistot.puutyyppi (id, selite) VALUES (E'4', E'ei tiedossa');
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'4', E'Abies fraseri');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'5', E'Abies grandis');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'6', E'Abies holophylla');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'7', E'Abies homolepis');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'8', E'Abies koreana');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'9', E'Abies lasiocarpa');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'10', E'Abies lasiocarpa var. arizonica');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'11', E'Abies mariesii');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'12', E'Abies nephrolepis');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'13', E'Abies nordmanniana');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'14', E'Abies procera');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'15', E'Abies sachalinensis');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'16', E'Abies sibirica');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'17', E'Abies sp');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'18', E'Abies veitchii');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'19', E'Acanthopanax senticosus');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'20', E'Acer barbinerve');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'21', E'Acer campestre');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'22', E'Acer circinatum');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'23', E'Acer japonicum');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'24', E'Acer mono');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'25', E'Acer negundo');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'26', E'Acer palmatum');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'27', E'Acer pensylvanicum');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'28', E'Acer platanoides');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'29', E'Acer platanoides ''Reitenbachii''');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'30', E'Acer platanoides ''Schwedleri''');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'31', E'Acer pseudoplatanus');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'32', E'Acer pseudosieboldianum');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'33', E'Acer rubrum');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'34', E'Acer saccharinum');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'35', E'Acer saccharum');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'36', E'Acer sieboldianum');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'37', E'Acer sp');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'38', E'Acer spicatum');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'39', E'Acer tataricum');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'40', E'Acer tataricum subsp. ginnala');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'41', E'Acer tataricum subsp. semenowii');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'42', E'Acer tataricum subsp. tataricum');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'43', E'Acer tegmentosum');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'44', E'Acer triflorum');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'45', E'Acer ukurunduense');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'46', E'Actinidia arguta');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'47', E'Actinidia kolomikta');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'48', E'Aesculus hippocastanum');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'49', E'Aesculus octandra');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'50', E'Alnus glutinosa');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'51', E'Alnus glutinosa f. quercifolia');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'52', E'Alnus incana');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'53', E'Alnus incana f. gibberosa');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'54', E'Alnus incana f. laciniata');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'55', E'Alnus incana subsp. kolaënsis');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'56', E'Alnus mandshurica');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'57', E'Alnus sp');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'58', E'Alnus viridis');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'59', E'Amelanchier alnifolia');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'60', E'Amelanchier laevis');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'61', E'Amelanchier lamarckii');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'62', E'Amelanchier sp');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'63', E'Amelanchier spicata');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'64', E'Andromeda polifolia');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'65', E'Aralia elata');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'66', E'Arctostaphylos alpinus');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'67', E'Arctostaphylos uva-ursi');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'68', E'Aristolochia macrophylla');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'69', E'Aronia ×prunifolia');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'70', E'Aronia arbutifolia');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'71', E'Aronia melanocarpa');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'72', E'Aronia sp');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'73', E'Artemisia abronatum');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'74', E'Berberis koreana');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'75', E'Berberis sp');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'76', E'Berberis thunbergii');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'77', E'Berberis vulgaris');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'78', E'Betula alleghaniensis');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'79', E'Betula ermanii');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'80', E'Betula fruticosa');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'81', E'Betula lenta');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'82', E'Betula nana');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'83', E'Betula papyrifera');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'84', E'Betula pendula');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'85', E'Betula pendula ''Dalecarlica''');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'86', E'Betula pendula f. bircalensis');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'87', E'Betula pendula f. crispa');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'88', E'Betula pendula f. palmeri');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'89', E'Betula pendula f. tristis');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'90', E'Betula pendula var. carelica');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'91', E'Betula pendula ''Youngii''');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'92', E'Betula pubescens');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'93', E'Betula pubescens f. aurea');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'94', E'Betula pubescens f. rubra');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'95', E'Betula pubescens subsp. czerepanovii');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'96', E'Betula sp');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'97', E'Buddleja davidii');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'98', E'Buxus sempervirens');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'99', E'Calluna vulgaris');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'100', E'Caragana arborescens');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'101', E'Caragana aurantiaca');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'102', E'Caragana frutex');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'103', E'Carpinus betulus');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'104', E'Cassiope hypnoides');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'105', E'Cassiope tetragona');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'106', E'Celastrus orbiculatus');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'107', E'Celastrus scandens');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'108', E'Cercidiphyllum japonicum');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'109', E'Cercidiphyllum magnificum');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'110', E'Chaenomeles japonica');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'111', E'Chamaecyparis lawsoniana');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'112', E'Chamaecyparis nootkatensis');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'113', E'Chamaecyparis pisifera');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'114', E'Chamaecyparis sp');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'115', E'Chamaedaphne calyculata');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'116', E'Chimaphila umbellata');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'117', E'Cladrastis kentukea');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'118', E'Clematis alpina');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'119', E'Clematis ochotensis');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'120', E'Clematis sibirica');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'121', E'Clematis sp');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'122', E'Clematis tangutica');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'123', E'Clematis vitalba');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'124', E'Clematis viticella');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'125', E'Colutea arborescens');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'126', E'Cornus alba');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'127', E'Cornus alba ''Sibirica''');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'128', E'Cornus alba subsp. alba');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'129', E'Cornus alba subsp. stolonifera');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'130', E'Cornus mas');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'131', E'Cornus sanguinea');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'132', E'Cornus sp');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'133', E'Corylus avellana');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'134', E'Corylus colurna');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'135', E'Corylus cornuta');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'136', E'Corylus maxima ''Purpurea''');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'137', E'Corylus sp');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'138', E'Cotoneaster dammeri');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'139', E'Cotoneaster dammeri var. radicans');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'140', E'Cotoneaster divaricatus');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'141', E'Cotoneaster horizontalis');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'142', E'Cotoneaster integerrimus');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'143', E'Cotoneaster lucidus');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'144', E'Cotoneaster nanshan');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'145', E'Cotoneaster niger');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'146', E'Cotoneaster ''Skogholm''');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'147', E'Cotoneaster sp');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'148', E'Crataegus ×mordenensis');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'149', E'Crataegus chlorosarca');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'150', E'Crataegus douglasii');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'151', E'Crataegus flabellata');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'152', E'Crataegus grayana');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'153', E'Crataegus intricata');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'154', E'Crataegus korolkovii');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'155', E'Crataegus laevigata');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'156', E'Crataegus macracantha');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'157', E'Crataegus monogyna');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'158', E'Crataegus nigra');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'159', E'Crataegus rhipidophylla');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'160', E'Crataegus sanguinea');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'161', E'Crataegus sp');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'162', E'Crataegus submollis');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'163', E'Cytisus ×versicolor');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'164', E'Cytisus decumbens');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'165', E'Cytisus glaber');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'166', E'Cytisus purpureus');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'167', E'Cytisus scoparius');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'168', E'Cytisus sp');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'169', E'Daphne blagayana');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'170', E'Daphne cneorum');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'171', E'Daphne mezereum');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'172', E'Daphne sp');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'173', E'Deutzia amurensis');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'174', E'Deutzia scabra');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'175', E'Diapensia lapponica');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'176', E'Diervilla lonicera');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'177', E'Diervilla sessilifolia');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'178', E'Dryas octopetala');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'179', E'Elaeagnus commutata');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'180', E'Empetrum nigrum');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'181', E'Erica herbacea');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'182', E'Erica tetralix');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'183', E'Euonymus alatus');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'184', E'Euonymus europaeus');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'185', E'Euonymus fortunei');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'186', E'Euonymus hamiltonianus');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'187', E'Euonymus nanus');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'188', E'Euonymus planipes');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'189', E'Euonymus sp');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'190', E'Exochorda racemosa');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'191', E'Fagus grandifolia');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'192', E'Fagus sp');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'193', E'Fagus sylvatica');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'194', E'Fagus sylvatica f. purpurea');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'195', E'Forsythia ovata');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'196', E'Fothergilla major');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'197', E'Fraxinus americana');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'198', E'Fraxinus excelsior');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'199', E'Fraxinus mandshurica');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'200', E'Fraxinus nigra');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'201', E'Fraxinus pennsylvanica');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'202', E'Fraxinus sp');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'203', E'Genista tinctoria');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'204', E'Ginkgo biloba');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'205', E'Gleditsia triacanthos');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'206', E'Halesia carolina');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'207', E'Hamamelis virginiana');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'208', E'Hedera helix');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'209', E'Hippophaë rhamnoides');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'210', E'Holodiscus discolor');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'211', E'Hydrangea anomala');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'212', E'Hydrangea anomala subsp. petiolaris');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'213', E'Hydrangea arborescens');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'214', E'Hydrangea heteromalla ''Bretschneideri''');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'215', E'Hydrangea paniculata ''Grandiflora''');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'216', E'Hydrangea sp');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'217', E'Ilex verticillata');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'218', E'Jamesia americana');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'219', E'Juglans ailanthifolia');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'220', E'Juglans cinerea');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'221', E'Juglans mandshurica');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'222', E'Juglans nigra');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'223', E'Juglans sp');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'224', E'Juniperus chinensis');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'225', E'Juniperus communis');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'226', E'Juniperus communis subsp. alpina');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'227', E'Juniperus horizontalis');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'228', E'Juniperus sabina');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'229', E'Juniperus sp');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'230', E'Juniperus squamata');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'231', E'Juniperus virginiana');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'232', E'Kalmia angustifolia');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'233', E'Kalmia latifolia');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'234', E'Kalmia polifolia');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'235', E'Kalmia sp');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'236', E'Kerria japonica');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'237', E'Kolkwitzia amabilis');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'238', E'Laburnum ×watereri');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'239', E'Laburnum alpinum');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'240', E'Larix ×marschlinsii');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'241', E'Larix decidua');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'242', E'Larix decidua subsp. polonica');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'243', E'Larix gmelinii');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'244', E'Larix gmelinii var. gmelinii');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'245', E'Larix gmelinii var. japonica');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'246', E'Larix gmelinii var. olgensis');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'247', E'Larix gmelinii var. principis-rupprechtii');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'248', E'Larix kaempferi');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'249', E'Larix laricina');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'250', E'Larix lyallii');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'251', E'Larix occidentalis');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'252', E'Larix sibirica');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'253', E'Larix sp');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'254', E'Ledum palustre');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'255', E'Ligustrum vulgare');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'256', E'Linnaea borealis');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'257', E'Liquidambar styraciflua');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'258', E'Liriodendron tulipifera');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'259', E'Loiseleuria procumbens');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'260', E'Lonicera ×bella');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'261', E'Lonicera ×brownii');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'262', E'Lonicera ×notha');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'263', E'Lonicera ×xylosteoides');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'264', E'Lonicera albertii');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'265', E'Lonicera alpigena');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'266', E'Lonicera caerulea');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'267', E'Lonicera caprifolium');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'268', E'Lonicera caucasica');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'269', E'Lonicera chrysantha');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'270', E'Lonicera involucrata');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'271', E'Lonicera maackii');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'272', E'Lonicera nigra');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'273', E'Lonicera periclymenum');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'274', E'Lonicera sp');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'275', E'Lonicera tatarica');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'276', E'Lonicera xylosteum');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'277', E'Maackia amurensis');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'278', E'Magnolia acuminata');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'279', E'Magnolia kobus');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'280', E'Magnolia sieboldii');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'281', E'Magnolia sp');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'282', E'Mahonia aquifolium');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'283', E'Malus baccata');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'284', E'Malus domestica');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'285', E'Malus prunifolia');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'286', E'Malus sp');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'287', E'Malus sylvestris');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'288', E'Malus toringo');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'289', E'Malus toringo var. sargentii');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'290', E'Menispermum canadense');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'291', E'Menispermum dauricum');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'292', E'Metasequoia glyptostroboides');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'293', E'Microbiota decussata');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'294', E'Myrica gale');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'295', E'Myricaria germanica');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'296', E'Oplopanax horridus');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'297', E'Ostrya carpinifolia');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'298', E'Pachysandra terminalis');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'299', E'Parthenocissus inserta');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'300', E'Parthenocissus quinquefolia');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'301', E'Paxistima myrtifolia');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'302', E'Phellodendron amurense');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'303', E'Philadelphus ×lemoinei');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'304', E'Philadelphus ×virginalis');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'305', E'Philadelphus coronarius');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'306', E'Philadelphus lewisii');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'307', E'Philadelphus lewisii var. gordonianus');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'308', E'Philadelphus pubescens');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'309', E'Philadelphus sp');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'310', E'Phyllodoce caerulea');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'311', E'Physocarpus opulifolius');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'312', E'Picea ×lutzii');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'313', E'Picea abies');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'314', E'Picea abies f. aurea');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'315', E'Picea abies f. condensata');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'316', E'Picea abies f. cruenta');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'317', E'Picea abies f. globosa');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'318', E'Picea abies f. nana');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'319', E'Picea abies f. nidiformis');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'320', E'Picea abies f. pendula');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'321', E'Picea abies f. tabulaeformis');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'322', E'Picea abies f. variegata');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'323', E'Picea abies f. viminalis');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'324', E'Picea abies f. virgata');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'325', E'Picea abies subsp. abies');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'326', E'Picea abies subsp. obovata');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'327', E'Picea asperata');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'328', E'Picea engelmannii');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'329', E'Picea glauca');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'330', E'Picea glauca var. albertiana');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'331', E'Picea glehnii');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'332', E'Picea jezoënsis');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'333', E'Picea koraiensis');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'334', E'Picea likiangensis');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'335', E'Picea mariana');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'336', E'Picea omorika');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'337', E'Picea pungens');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'338', E'Picea retroflexa');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'339', E'Picea rubens');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'340', E'Picea schrenkiana');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'341', E'Picea sitchensis');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'342', E'Picea sp');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'343', E'Pieris floribunda');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'344', E'Pinus banksiana');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'345', E'Pinus cembra');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'346', E'Pinus cembra subsp. cembra');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'347', E'Pinus cembra subsp. sibirica');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'348', E'Pinus contorta');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'349', E'Pinus contorta var. contorta');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'350', E'Pinus contorta var. latifolia');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'351', E'Pinus koraiensis');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'352', E'Pinus monticola');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'353', E'Pinus mugo');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'354', E'Pinus mugo subsp. uncinata');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'355', E'Pinus nigra');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'356', E'Pinus peuce');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'357', E'Pinus ponderosa');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'358', E'Pinus pumila');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'359', E'Pinus resinosa');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'360', E'Pinus sp');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'361', E'Pinus strobus');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'362', E'Pinus sylvestris');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'363', E'Pinus sylvestris f. aurea');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'364', E'Pinus sylvestris f. condensata');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'365', E'Pinus sylvestris f. globosa');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'366', E'Pinus sylvestris f. virgata');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'367', E'Pinus sylvestris ''Globosa''');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'368', E'Populus ×canadensis');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'369', E'Populus ×jackii ''Gileadensis''');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'370', E'Populus ×wettsteinii');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'371', E'Populus alba');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'372', E'Populus balsamifera');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'373', E'Populus balsamifera ''Tristis''');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'374', E'Populus canescens');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'375', E'Populus deltoides');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'376', E'Populus koreana');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'377', E'Populus laurifolia');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'378', E'Populus nigra');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'379', E'Populus ''Rasumowskiana''');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'380', E'Populus simonii');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'381', E'Populus sp');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'382', E'Populus suaveolens');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'383', E'Populus tremula');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'384', E'Populus tremuloides');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'385', E'Populus trichocarpa');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'386', E'Populus wilsonii');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'387', E'Potentilla fruticosa');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'388', E'Prunus avium');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'389', E'Prunus cerasifera');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'390', E'Prunus cerasus');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'391', E'Prunus domestica');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'392', E'Prunus domestica subsp. domestica');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'393', E'Prunus domestica subsp. insititia');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'394', E'Prunus laurocerasus');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'395', E'Prunus maackii');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'396', E'Prunus maximowiczii');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'397', E'Prunus padus');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'398', E'Prunus pensylvanica');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'399', E'Prunus prostrata');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'400', E'Prunus pumila');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'401', E'Prunus sargentii');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'402', E'Prunus serotina');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'403', E'Prunus sp');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'404', E'Prunus spinosa');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'405', E'Prunus tenella');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'406', E'Prunus tomentosa');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'407', E'Prunus triloba');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'408', E'Prunus virginiana');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'409', E'Pseudolarix amabilis');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'410', E'Pseudotsuga menziesii');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'411', E'Pseudotsuga menziesii var. glauca');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'412', E'Pterocarya pterocarpa');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'413', E'Pterocarya rhoifolia');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'414', E'Pyrus communis');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'415', E'Pyrus ussuriensis');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'416', E'Quercus coccinea');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'417', E'Quercus petraea');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'418', E'Quercus robur');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'419', E'Quercus rubra');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'420', E'Rhamnus cathartica');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'421', E'Rhamnus frangula');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'422', E'Rhododendron ×fraseri');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'423', E'Rhododendron aureum');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'424', E'Rhododendron brachycarpum');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'425', E'Rhododendron brachycarpum subsp. tigerstedtii');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'426', E'Rhododendron canadense');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'427', E'Rhododendron Catawbiense -ryhmä/gruppen/group');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'428', E'Rhododendron ''Cunningham''s White''');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'429', E'Rhododendron dauricum');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'430', E'Rhododendron ferrugineum');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'431', E'Rhododendron Kosterianum -ryhmä/gruppen/group');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'432', E'Rhododendron lapponicum');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'433', E'Rhododendron luteum');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'434', E'Rhododendron molle');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'435', E'Rhododendron molle subsp. japonicum');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'436', E'Rhododendron schlippenbachii');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'437', E'Rhododendron smirnowii');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'438', E'Rhododendron sp');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'439', E'Rhododendron Tigerstedtii -ryhmä/gruppen/group');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'440', E'Rhus hirta');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'441', E'Ribes alpinum');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'442', E'Ribes nigrum');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'443', E'Ribes rubrum');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'444', E'Ribes spicatum');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'445', E'Ribes uva-crispa');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'446', E'Robinia pseudoacacia');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'447', E'Rosa acicularis');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'448', E'Rosa canina');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'449', E'Rosa dumalis');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'450', E'Rosa majalis');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'451', E'Rosa mollis');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'452', E'Rosa pimpinellifolia');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'453', E'Rosa rugosa');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'454', E'Rosa sherardii');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'455', E'Rosa sp');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'456', E'Rubus caesius');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'457', E'Rubus idaeus');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'458', E'Rubus odoratus');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'459', E'Rubus parviflorus');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'460', E'Rubus pruinosus');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'461', E'Rubus sp');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'462', E'Salix alba');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'463', E'Salix arbutifolia');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'464', E'Salix aurita');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'465', E'Salix borealis');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'466', E'Salix caprea');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'467', E'Salix cinerea');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'468', E'Salix daphnoides');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'469', E'Salix daphnoides subsp. acutifolia');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'470', E'Salix daphnoides subsp. daphnoides');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'471', E'Salix fragilis');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'472', E'Salix fragilis ''Bullata''');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'473', E'Salix glauca');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'474', E'Salix hastata');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'475', E'Salix herbacea');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'476', E'Salix lanata');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'477', E'Salix lapponum');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'478', E'Salix lucida');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'479', E'Salix myrsinifolia');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'480', E'Salix myrsinites');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'481', E'Salix myrtilloides');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'482', E'Salix pentandra');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'483', E'Salix phylicifolia');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'484', E'Salix polaris');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'485', E'Salix purpurea');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'486', E'Salix pyrolifolia');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'487', E'Salix repens');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'488', E'Salix reticulata');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'489', E'Salix rosmarinifolia');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'490', E'Salix ''Sibirica''');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'491', E'Salix sp');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'492', E'Salix starkeana');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'493', E'Salix triandra');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'494', E'Salix viminalis');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'495', E'Sambucus canadensis');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'496', E'Sambucus nigra');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'497', E'Sambucus racemosa');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'498', E'Sambucus sp');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'499', E'Schisandra chinensis');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'500', E'Sequoia sempervirens');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'501', E'Sequoiadendron giganteum');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'502', E'Solanum dulcamara');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'503', E'Sorbaria grandiflora');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'504', E'Sorbaria sorbifolia');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'505', E'Sorbaria sp');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'506', E'Sorbus ×thuringiaca ''Fastigiata''');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'507', E'Sorbus alnifolia');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'508', E'Sorbus americana');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'509', E'Sorbus aria');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'510', E'Sorbus aucuparia');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'511', E'Sorbus commixta');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'512', E'Sorbus hybrida');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'513', E'Sorbus intermedia');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'514', E'Sorbus koehneana');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'515', E'Sorbus prattii');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'516', E'Sorbus scopulina');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'517', E'Sorbus sp');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'518', E'Sorbus teodori');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'519', E'Sorbus torminalis');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'520', E'Spiraea ×cinerea');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'521', E'Spiraea ×multiflora');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'522', E'Spiraea ×rosalba');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'523', E'Spiraea ×sanssouciana');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'524', E'Spiraea ×vanhouttei');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'525', E'Spiraea alba');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'526', E'Spiraea ''Arguta''');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'527', E'Spiraea betulifolia');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'528', E'Spiraea Billiardii -ryhmä/gruppen/group');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'529', E'Spiraea cana');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'530', E'Spiraea chamaedryfolia');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'531', E'Spiraea douglasii');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'532', E'Spiraea fritschiana');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'533', E'Spiraea ''Grefsheim''');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'534', E'Spiraea hypericifolia');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'535', E'Spiraea japonica');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'536', E'Spiraea ''Margaritae''');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'537', E'Spiraea media');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'538', E'Spiraea nipponica');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'539', E'Spiraea rosthornii');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'540', E'Spiraea salicifolia');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'541', E'Spiraea sp');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'542', E'Spiraea tomentosa');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'543', E'Spiraea trichocarpa');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'544', E'Spiraea trilobata');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'545', E'Stephanandra incisa');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'546', E'Symphoricarpos albus');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'547', E'Symphoricarpos albus var. laevigatus');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'548', E'Syringa ×chinensis');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'549', E'Syringa ×henryi');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'550', E'Syringa ×josiflexa');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'551', E'Syringa ×nanceana');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'552', E'Syringa ×swegiflexa');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'553', E'Syringa josikaea');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'554', E'Syringa Preston -ryhmä/gruppen/group');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'555', E'Syringa reflexa');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'556', E'Syringa reticulata');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'557', E'Syringa sp');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'558', E'Syringa sweginowii');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'559', E'Syringa tigerstedtii');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'560', E'Syringa tomentella');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'561', E'Syringa villosa');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'562', E'Syringa wolfii');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'563', E'Syringa vulgaris');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'564', E'Tamarix pentandra');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'565', E'Taxus ×media');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'566', E'Taxus baccata');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'567', E'Taxus brevifolia');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'568', E'Taxus cuspidata');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'569', E'Taxus sp');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'570', E'Thuja koraiensis');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'571', E'Thuja occidentalis');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'572', E'Thuja plicata');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'573', E'Thuja sp');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'574', E'Thuja standishii');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'575', E'Thujopsis dolabrata');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'576', E'Tilia ×moltkei');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'577', E'Tilia ×vulgaris');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'578', E'Tilia americana');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'579', E'Tilia cordata');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'580', E'Tilia euchlora');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'581', E'Tilia japonica');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'582', E'Tilia mongolica');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'583', E'Tilia platyphyllos');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'584', E'Tilia sp');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'585', E'Tilia tomentosa');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'586', E'Tripterygium regelii');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'587', E'Tsuga canadensis');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'588', E'Tsuga caroliniana');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'589', E'Tsuga diversifolia');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'590', E'Tsuga heterophylla');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'591', E'Tsuga mertensiana');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'592', E'Tsuga sp');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'593', E'Ulmus americana');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'594', E'Ulmus glabra');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'595', E'Ulmus laevis');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'596', E'Ulmus minor');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'597', E'Ulmus pumila');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'598', E'Ulmus sp');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'599', E'Vaccinium corymbosum');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'600', E'Vaccinium microcarpum');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'601', E'Vaccinium myrtillus');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'602', E'Vaccinium oxycoccos');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'603', E'Vaccinium sp');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'604', E'Vaccinium uliginosum');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'605', E'Vaccinium vitis-idaea');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'606', E'Weigela Florida -ryhmä/gruppen/group');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'607', E'Weigela middendorffiana');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'608', E'Weigela praecox');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'609', E'Weigela sp');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'610', E'Viburnum carlesii');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'611', E'Viburnum cassinoides');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'612', E'Viburnum dentatum');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'613', E'Viburnum dentatum var. lucidum');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'614', E'Viburnum lantana');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'615', E'Viburnum lentago');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'616', E'Viburnum opulus');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'617', E'Viburnum rafinesquianum');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'618', E'Viburnum sargentii');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'619', E'Viburnum sp');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'620', E'Vinca minor');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'621', E'Vitis amurensis');
+-- ddl-end --
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'622', E'Vitis riparia');
 -- ddl-end --
 
 -- object: abstraktit.abstractkasvillisuus | type: TABLE --
@@ -1403,6412 +2455,6317 @@ ALTER TABLE abstraktit.abstractkasvillisuus OWNER TO infrao_admin;
 -- object: koodistot.puulaji | type: TABLE --
 -- DROP TABLE IF EXISTS koodistot.puulaji CASCADE;
 CREATE TABLE koodistot.puulaji (
-	id serial NOT NULL,
+	cid integer NOT NULL,
 	selite text,
-	CONSTRAINT puulaji_pk PRIMARY KEY (id)
+	CONSTRAINT puulaji_pk PRIMARY KEY (cid)
 );
 -- ddl-end --
 ALTER TABLE koodistot.puulaji OWNER TO infrao_admin;
 -- ddl-end --
 
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'1', E'Abies amabilis');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'1', E'Abies amabilis');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'2', E'Abies balsamea');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'2', E'Abies balsamea');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'3', E'Abies concolor');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'3', E'Abies concolor');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'4', E'Abies fraseri');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'4', E'Abies fraseri');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'5', E'Abies grandis');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'5', E'Abies grandis');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'6', E'Abies holophylla');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'6', E'Abies holophylla');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'7', E'Abies homolepis');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'7', E'Abies homolepis');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'8', E'Abies koreana');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'8', E'Abies koreana');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'9', E'Abies lasiocarpa');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'9', E'Abies lasiocarpa');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'10', E'Abies lasiocarpa var. arizonica');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'10', E'Abies lasiocarpa var. arizonica');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'11', E'Abies mariesii');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'11', E'Abies mariesii');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'12', E'Abies nephrolepis');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'12', E'Abies nephrolepis');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'13', E'Abies nordmanniana');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'13', E'Abies nordmanniana');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'14', E'Abies procera');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'14', E'Abies procera');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'15', E'Abies sachalinensis');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'15', E'Abies sachalinensis');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'16', E'Abies sibirica');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'16', E'Abies sibirica');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'17', E'Abies sp');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'17', E'Abies sp');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'18', E'Abies veitchii');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'18', E'Abies veitchii');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'19', E'Acanthopanax senticosus');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'19', E'Acanthopanax senticosus');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'20', E'Acer barbinerve');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'20', E'Acer barbinerve');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'21', E'Acer campestre');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'21', E'Acer campestre');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'22', E'Acer circinatum');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'22', E'Acer circinatum');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'23', E'Acer japonicum');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'23', E'Acer japonicum');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'24', E'Acer mono');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'24', E'Acer mono');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'25', E'Acer negundo');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'25', E'Acer negundo');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'26', E'Acer palmatum');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'26', E'Acer palmatum');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'27', E'Acer pensylvanicum');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'27', E'Acer pensylvanicum');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'28', E'Acer platanoides');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'28', E'Acer platanoides');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'29', E'Acer platanoides ''Reitenbachii''');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'29', E'Acer platanoides ''Reitenbachii''');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'30', E'Acer platanoides ''Schwedleri''');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'30', E'Acer platanoides ''Schwedleri''');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'31', E'Acer pseudoplatanus');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'31', E'Acer pseudoplatanus');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'32', E'Acer pseudosieboldianum');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'32', E'Acer pseudosieboldianum');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'33', E'Acer rubrum');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'33', E'Acer rubrum');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'34', E'Acer saccharinum');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'34', E'Acer saccharinum');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'35', E'Acer saccharum');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'35', E'Acer saccharum');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'36', E'Acer sieboldianum');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'36', E'Acer sieboldianum');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'37', E'Acer sp');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'37', E'Acer sp');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'38', E'Acer spicatum');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'38', E'Acer spicatum');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'39', E'Acer tataricum');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'39', E'Acer tataricum');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'40', E'Acer tataricum subsp. ginnala');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'40', E'Acer tataricum subsp. ginnala');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'41', E'Acer tataricum subsp. semenowii');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'41', E'Acer tataricum subsp. semenowii');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'42', E'Acer tataricum subsp. tataricum');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'42', E'Acer tataricum subsp. tataricum');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'43', E'Acer tegmentosum');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'43', E'Acer tegmentosum');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'44', E'Acer triflorum');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'44', E'Acer triflorum');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'45', E'Acer ukurunduense');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'45', E'Acer ukurunduense');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'46', E'Actinidia arguta');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'46', E'Actinidia arguta');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'47', E'Actinidia kolomikta');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'47', E'Actinidia kolomikta');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'48', E'Aesculus hippocastanum');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'48', E'Aesculus hippocastanum');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'49', E'Aesculus octandra');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'49', E'Aesculus octandra');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'50', E'Alnus glutinosa');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'50', E'Alnus glutinosa');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'51', E'Alnus glutinosa f. quercifolia');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'51', E'Alnus glutinosa f. quercifolia');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'52', E'Alnus incana');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'52', E'Alnus incana');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'53', E'Alnus incana f. gibberosa');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'53', E'Alnus incana f. gibberosa');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'54', E'Alnus incana f. laciniata');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'54', E'Alnus incana f. laciniata');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'55', E'Alnus incana subsp. kolaënsis');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'55', E'Alnus incana subsp. kolaënsis');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'56', E'Alnus mandshurica');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'56', E'Alnus mandshurica');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'57', E'Alnus sp');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'57', E'Alnus sp');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'58', E'Alnus viridis');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'58', E'Alnus viridis');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'59', E'Amelanchier alnifolia');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'59', E'Amelanchier alnifolia');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'60', E'Amelanchier laevis');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'60', E'Amelanchier laevis');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'61', E'Amelanchier lamarckii');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'61', E'Amelanchier lamarckii');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'62', E'Amelanchier sp');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'62', E'Amelanchier sp');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'63', E'Amelanchier spicata');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'63', E'Amelanchier spicata');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'64', E'Andromeda polifolia');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'64', E'Andromeda polifolia');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'65', E'Aralia elata');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'65', E'Aralia elata');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'66', E'Arctostaphylos alpinus');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'66', E'Arctostaphylos alpinus');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'67', E'Arctostaphylos uva-ursi');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'67', E'Arctostaphylos uva-ursi');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'68', E'Aristolochia macrophylla');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'68', E'Aristolochia macrophylla');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'69', E'Aronia ×prunifolia');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'69', E'Aronia ×prunifolia');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'70', E'Aronia arbutifolia');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'70', E'Aronia arbutifolia');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'71', E'Aronia melanocarpa');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'71', E'Aronia melanocarpa');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'72', E'Aronia sp');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'72', E'Aronia sp');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'73', E'Artemisia abronatum');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'73', E'Artemisia abronatum');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'74', E'Berberis koreana');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'74', E'Berberis koreana');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'75', E'Berberis sp');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'75', E'Berberis sp');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'76', E'Berberis thunbergii');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'76', E'Berberis thunbergii');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'77', E'Berberis vulgaris');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'77', E'Berberis vulgaris');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'78', E'Betula alleghaniensis');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'78', E'Betula alleghaniensis');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'79', E'Betula ermanii');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'79', E'Betula ermanii');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'80', E'Betula fruticosa');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'80', E'Betula fruticosa');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'81', E'Betula lenta');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'81', E'Betula lenta');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'82', E'Betula nana');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'82', E'Betula nana');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'83', E'Betula papyrifera');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'83', E'Betula papyrifera');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'84', E'Betula pendula');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'84', E'Betula pendula');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'85', E'Betula pendula ''Dalecarlica''');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'85', E'Betula pendula ''Dalecarlica''');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'86', E'Betula pendula f. bircalensis');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'86', E'Betula pendula f. bircalensis');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'87', E'Betula pendula f. crispa');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'87', E'Betula pendula f. crispa');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'88', E'Betula pendula f. palmeri');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'88', E'Betula pendula f. palmeri');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'89', E'Betula pendula f. tristis');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'89', E'Betula pendula f. tristis');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'90', E'Betula pendula var. carelica');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'90', E'Betula pendula var. carelica');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'91', E'Betula pendula ''Youngii''');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'91', E'Betula pendula ''Youngii''');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'92', E'Betula pubescens');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'92', E'Betula pubescens');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'93', E'Betula pubescens f. aurea');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'93', E'Betula pubescens f. aurea');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'94', E'Betula pubescens f. rubra');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'94', E'Betula pubescens f. rubra');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'95', E'Betula pubescens subsp. czerepanovii');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'95', E'Betula pubescens subsp. czerepanovii');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'96', E'Betula sp');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'96', E'Betula sp');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'97', E'Buddleja davidii');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'97', E'Buddleja davidii');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'98', E'Buxus sempervirens');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'98', E'Buxus sempervirens');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'99', E'Calluna vulgaris');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'99', E'Calluna vulgaris');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'100', E'Caragana arborescens');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'100', E'Caragana arborescens');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'101', E'Caragana aurantiaca');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'101', E'Caragana aurantiaca');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'102', E'Caragana frutex');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'102', E'Caragana frutex');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'103', E'Carpinus betulus');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'103', E'Carpinus betulus');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'104', E'Cassiope hypnoides');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'104', E'Cassiope hypnoides');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'105', E'Cassiope tetragona');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'105', E'Cassiope tetragona');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'106', E'Celastrus orbiculatus');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'106', E'Celastrus orbiculatus');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'107', E'Celastrus scandens');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'107', E'Celastrus scandens');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'108', E'Cercidiphyllum japonicum');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'108', E'Cercidiphyllum japonicum');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'109', E'Cercidiphyllum magnificum');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'109', E'Cercidiphyllum magnificum');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'110', E'Chaenomeles japonica');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'110', E'Chaenomeles japonica');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'111', E'Chamaecyparis lawsoniana');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'111', E'Chamaecyparis lawsoniana');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'112', E'Chamaecyparis nootkatensis');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'112', E'Chamaecyparis nootkatensis');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'113', E'Chamaecyparis pisifera');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'113', E'Chamaecyparis pisifera');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'114', E'Chamaecyparis sp');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'114', E'Chamaecyparis sp');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'115', E'Chamaedaphne calyculata');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'115', E'Chamaedaphne calyculata');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'116', E'Chimaphila umbellata');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'116', E'Chimaphila umbellata');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'117', E'Cladrastis kentukea');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'117', E'Cladrastis kentukea');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'118', E'Clematis alpina');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'118', E'Clematis alpina');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'119', E'Clematis ochotensis');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'119', E'Clematis ochotensis');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'120', E'Clematis sibirica');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'120', E'Clematis sibirica');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'121', E'Clematis sp');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'121', E'Clematis sp');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'122', E'Clematis tangutica');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'122', E'Clematis tangutica');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'123', E'Clematis vitalba');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'123', E'Clematis vitalba');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'124', E'Clematis viticella');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'124', E'Clematis viticella');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'125', E'Colutea arborescens');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'125', E'Colutea arborescens');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'126', E'Cornus alba');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'126', E'Cornus alba');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'127', E'Cornus alba ''Sibirica''');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'127', E'Cornus alba ''Sibirica''');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'128', E'Cornus alba subsp. alba');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'128', E'Cornus alba subsp. alba');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'129', E'Cornus alba subsp. stolonifera');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'129', E'Cornus alba subsp. stolonifera');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'130', E'Cornus mas');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'130', E'Cornus mas');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'131', E'Cornus sanguinea');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'131', E'Cornus sanguinea');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'132', E'Cornus sp');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'132', E'Cornus sp');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'133', E'Corylus avellana');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'133', E'Corylus avellana');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'134', E'Corylus colurna');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'134', E'Corylus colurna');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'135', E'Corylus cornuta');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'135', E'Corylus cornuta');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'136', E'Corylus maxima ''Purpurea''');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'136', E'Corylus maxima ''Purpurea''');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'137', E'Corylus sp');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'137', E'Corylus sp');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'138', E'Cotoneaster dammeri');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'138', E'Cotoneaster dammeri');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'139', E'Cotoneaster dammeri var. radicans');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'139', E'Cotoneaster dammeri var. radicans');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'140', E'Cotoneaster divaricatus');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'140', E'Cotoneaster divaricatus');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'141', E'Cotoneaster horizontalis');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'141', E'Cotoneaster horizontalis');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'142', E'Cotoneaster integerrimus');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'142', E'Cotoneaster integerrimus');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'143', E'Cotoneaster lucidus');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'143', E'Cotoneaster lucidus');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'144', E'Cotoneaster nanshan');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'144', E'Cotoneaster nanshan');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'145', E'Cotoneaster niger');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'145', E'Cotoneaster niger');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'146', E'Cotoneaster ''Skogholm''');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'146', E'Cotoneaster ''Skogholm''');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'147', E'Cotoneaster sp');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'147', E'Cotoneaster sp');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'148', E'Crataegus ×mordenensis');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'148', E'Crataegus ×mordenensis');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'149', E'Crataegus chlorosarca');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'149', E'Crataegus chlorosarca');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'150', E'Crataegus douglasii');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'150', E'Crataegus douglasii');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'151', E'Crataegus flabellata');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'151', E'Crataegus flabellata');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'152', E'Crataegus grayana');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'152', E'Crataegus grayana');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'153', E'Crataegus intricata');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'153', E'Crataegus intricata');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'154', E'Crataegus korolkovii');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'154', E'Crataegus korolkovii');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'155', E'Crataegus laevigata');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'155', E'Crataegus laevigata');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'156', E'Crataegus macracantha');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'156', E'Crataegus macracantha');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'157', E'Crataegus monogyna');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'157', E'Crataegus monogyna');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'158', E'Crataegus nigra');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'158', E'Crataegus nigra');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'159', E'Crataegus rhipidophylla');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'159', E'Crataegus rhipidophylla');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'160', E'Crataegus sanguinea');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'160', E'Crataegus sanguinea');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'161', E'Crataegus sp');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'161', E'Crataegus sp');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'162', E'Crataegus submollis');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'162', E'Crataegus submollis');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'163', E'Cytisus ×versicolor');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'163', E'Cytisus ×versicolor');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'164', E'Cytisus decumbens');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'164', E'Cytisus decumbens');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'165', E'Cytisus glaber');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'165', E'Cytisus glaber');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'166', E'Cytisus purpureus');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'166', E'Cytisus purpureus');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'167', E'Cytisus scoparius');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'167', E'Cytisus scoparius');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'168', E'Cytisus sp');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'168', E'Cytisus sp');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'169', E'Daphne blagayana');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'169', E'Daphne blagayana');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'170', E'Daphne cneorum');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'170', E'Daphne cneorum');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'171', E'Daphne mezereum');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'171', E'Daphne mezereum');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'172', E'Daphne sp');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'172', E'Daphne sp');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'173', E'Deutzia amurensis');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'173', E'Deutzia amurensis');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'174', E'Deutzia scabra');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'174', E'Deutzia scabra');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'175', E'Diapensia lapponica');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'175', E'Diapensia lapponica');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'176', E'Diervilla lonicera');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'176', E'Diervilla lonicera');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'177', E'Diervilla sessilifolia');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'177', E'Diervilla sessilifolia');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'178', E'Dryas octopetala');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'178', E'Dryas octopetala');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'179', E'Elaeagnus commutata');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'179', E'Elaeagnus commutata');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'180', E'Empetrum nigrum');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'180', E'Empetrum nigrum');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'181', E'Erica herbacea');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'181', E'Erica herbacea');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'182', E'Erica tetralix');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'182', E'Erica tetralix');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'183', E'Euonymus alatus');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'183', E'Euonymus alatus');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'184', E'Euonymus europaeus');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'184', E'Euonymus europaeus');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'185', E'Euonymus fortunei');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'185', E'Euonymus fortunei');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'186', E'Euonymus hamiltonianus');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'186', E'Euonymus hamiltonianus');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'187', E'Euonymus nanus');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'187', E'Euonymus nanus');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'188', E'Euonymus planipes');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'188', E'Euonymus planipes');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'189', E'Euonymus sp');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'189', E'Euonymus sp');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'190', E'Exochorda racemosa');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'190', E'Exochorda racemosa');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'191', E'Fagus grandifolia');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'191', E'Fagus grandifolia');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'192', E'Fagus sp');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'192', E'Fagus sp');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'193', E'Fagus sylvatica');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'193', E'Fagus sylvatica');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'194', E'Fagus sylvatica f. purpurea');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'194', E'Fagus sylvatica f. purpurea');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'195', E'Forsythia ovata');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'195', E'Forsythia ovata');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'196', E'Fothergilla major');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'196', E'Fothergilla major');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'197', E'Fraxinus americana');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'197', E'Fraxinus americana');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'198', E'Fraxinus excelsior');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'198', E'Fraxinus excelsior');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'199', E'Fraxinus mandshurica');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'199', E'Fraxinus mandshurica');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'200', E'Fraxinus nigra');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'200', E'Fraxinus nigra');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'201', E'Fraxinus pennsylvanica');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'201', E'Fraxinus pennsylvanica');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'202', E'Fraxinus sp');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'202', E'Fraxinus sp');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'203', E'Genista tinctoria');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'203', E'Genista tinctoria');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'204', E'Ginkgo biloba');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'204', E'Ginkgo biloba');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'205', E'Gleditsia triacanthos');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'205', E'Gleditsia triacanthos');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'206', E'Halesia carolina');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'206', E'Halesia carolina');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'207', E'Hamamelis virginiana');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'207', E'Hamamelis virginiana');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'208', E'Hedera helix');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'208', E'Hedera helix');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'209', E'Hippophaë rhamnoides');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'209', E'Hippophaë rhamnoides');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'210', E'Holodiscus discolor');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'210', E'Holodiscus discolor');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'211', E'Hydrangea anomala');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'211', E'Hydrangea anomala');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'212', E'Hydrangea anomala subsp. petiolaris');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'212', E'Hydrangea anomala subsp. petiolaris');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'213', E'Hydrangea arborescens');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'213', E'Hydrangea arborescens');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'214', E'Hydrangea heteromalla ''Bretschneideri''');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'214', E'Hydrangea heteromalla ''Bretschneideri''');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'215', E'Hydrangea paniculata ''Grandiflora''');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'215', E'Hydrangea paniculata ''Grandiflora''');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'216', E'Hydrangea sp');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'216', E'Hydrangea sp');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'217', E'Ilex verticillata');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'217', E'Ilex verticillata');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'218', E'Jamesia americana');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'218', E'Jamesia americana');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'219', E'Juglans ailanthifolia');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'219', E'Juglans ailanthifolia');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'220', E'Juglans cinerea');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'220', E'Juglans cinerea');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'221', E'Juglans mandshurica');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'221', E'Juglans mandshurica');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'222', E'Juglans nigra');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'222', E'Juglans nigra');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'223', E'Juglans sp');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'223', E'Juglans sp');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'224', E'Juniperus chinensis');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'224', E'Juniperus chinensis');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'225', E'Juniperus communis');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'225', E'Juniperus communis');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'226', E'Juniperus communis subsp. alpina');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'226', E'Juniperus communis subsp. alpina');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'227', E'Juniperus horizontalis');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'227', E'Juniperus horizontalis');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'228', E'Juniperus sabina');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'228', E'Juniperus sabina');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'229', E'Juniperus sp');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'229', E'Juniperus sp');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'230', E'Juniperus squamata');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'230', E'Juniperus squamata');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'231', E'Juniperus virginiana');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'231', E'Juniperus virginiana');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'232', E'Kalmia angustifolia');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'232', E'Kalmia angustifolia');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'233', E'Kalmia latifolia');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'233', E'Kalmia latifolia');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'234', E'Kalmia polifolia');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'234', E'Kalmia polifolia');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'235', E'Kalmia sp');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'235', E'Kalmia sp');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'236', E'Kerria japonica');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'236', E'Kerria japonica');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'237', E'Kolkwitzia amabilis');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'237', E'Kolkwitzia amabilis');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'238', E'Laburnum ×watereri');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'238', E'Laburnum ×watereri');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'239', E'Laburnum alpinum');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'239', E'Laburnum alpinum');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'240', E'Larix ×marschlinsii');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'240', E'Larix ×marschlinsii');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'241', E'Larix decidua');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'241', E'Larix decidua');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'242', E'Larix decidua subsp. polonica');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'242', E'Larix decidua subsp. polonica');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'243', E'Larix gmelinii');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'243', E'Larix gmelinii');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'244', E'Larix gmelinii var. gmelinii');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'244', E'Larix gmelinii var. gmelinii');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'245', E'Larix gmelinii var. japonica');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'245', E'Larix gmelinii var. japonica');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'246', E'Larix gmelinii var. olgensis');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'246', E'Larix gmelinii var. olgensis');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'247', E'Larix gmelinii var. principis-rupprechtii');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'247', E'Larix gmelinii var. principis-rupprechtii');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'248', E'Larix kaempferi');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'248', E'Larix kaempferi');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'249', E'Larix laricina');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'249', E'Larix laricina');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'250', E'Larix lyallii');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'250', E'Larix lyallii');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'251', E'Larix occidentalis');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'251', E'Larix occidentalis');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'252', E'Larix sibirica');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'252', E'Larix sibirica');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'253', E'Larix sp');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'253', E'Larix sp');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'254', E'Ledum palustre');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'254', E'Ledum palustre');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'255', E'Ligustrum vulgare');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'255', E'Ligustrum vulgare');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'256', E'Linnaea borealis');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'256', E'Linnaea borealis');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'257', E'Liquidambar styraciflua');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'257', E'Liquidambar styraciflua');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'258', E'Liriodendron tulipifera');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'258', E'Liriodendron tulipifera');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'259', E'Loiseleuria procumbens');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'259', E'Loiseleuria procumbens');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'260', E'Lonicera ×bella');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'260', E'Lonicera ×bella');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'261', E'Lonicera ×brownii');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'261', E'Lonicera ×brownii');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'262', E'Lonicera ×notha');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'262', E'Lonicera ×notha');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'263', E'Lonicera ×xylosteoides');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'263', E'Lonicera ×xylosteoides');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'264', E'Lonicera albertii');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'264', E'Lonicera albertii');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'265', E'Lonicera alpigena');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'265', E'Lonicera alpigena');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'266', E'Lonicera caerulea');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'266', E'Lonicera caerulea');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'267', E'Lonicera caprifolium');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'267', E'Lonicera caprifolium');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'268', E'Lonicera caucasica');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'268', E'Lonicera caucasica');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'269', E'Lonicera chrysantha');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'269', E'Lonicera chrysantha');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'270', E'Lonicera involucrata');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'270', E'Lonicera involucrata');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'271', E'Lonicera maackii');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'271', E'Lonicera maackii');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'272', E'Lonicera nigra');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'272', E'Lonicera nigra');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'273', E'Lonicera periclymenum');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'273', E'Lonicera periclymenum');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'274', E'Lonicera sp');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'274', E'Lonicera sp');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'275', E'Lonicera tatarica');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'275', E'Lonicera tatarica');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'276', E'Lonicera xylosteum');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'276', E'Lonicera xylosteum');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'277', E'Maackia amurensis');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'277', E'Maackia amurensis');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'278', E'Magnolia acuminata');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'278', E'Magnolia acuminata');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'279', E'Magnolia kobus');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'279', E'Magnolia kobus');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'280', E'Magnolia sieboldii');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'280', E'Magnolia sieboldii');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'281', E'Magnolia sp');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'281', E'Magnolia sp');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'282', E'Mahonia aquifolium');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'282', E'Mahonia aquifolium');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'283', E'Malus baccata');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'283', E'Malus baccata');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'284', E'Malus domestica');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'284', E'Malus domestica');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'285', E'Malus prunifolia');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'285', E'Malus prunifolia');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'286', E'Malus sp');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'286', E'Malus sp');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'287', E'Malus sylvestris');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'287', E'Malus sylvestris');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'288', E'Malus toringo');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'288', E'Malus toringo');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'289', E'Malus toringo var. sargentii');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'289', E'Malus toringo var. sargentii');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'290', E'Menispermum canadense');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'290', E'Menispermum canadense');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'291', E'Menispermum dauricum');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'291', E'Menispermum dauricum');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'292', E'Metasequoia glyptostroboides');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'292', E'Metasequoia glyptostroboides');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'293', E'Microbiota decussata');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'293', E'Microbiota decussata');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'294', E'Myrica gale');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'294', E'Myrica gale');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'295', E'Myricaria germanica');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'295', E'Myricaria germanica');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'296', E'Oplopanax horridus');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'296', E'Oplopanax horridus');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'297', E'Ostrya carpinifolia');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'297', E'Ostrya carpinifolia');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'298', E'Pachysandra terminalis');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'298', E'Pachysandra terminalis');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'299', E'Parthenocissus inserta');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'299', E'Parthenocissus inserta');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'300', E'Parthenocissus quinquefolia');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'300', E'Parthenocissus quinquefolia');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'301', E'Paxistima myrtifolia');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'301', E'Paxistima myrtifolia');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'302', E'Phellodendron amurense');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'302', E'Phellodendron amurense');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'303', E'Philadelphus ×lemoinei');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'303', E'Philadelphus ×lemoinei');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'304', E'Philadelphus ×virginalis');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'304', E'Philadelphus ×virginalis');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'305', E'Philadelphus coronarius');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'305', E'Philadelphus coronarius');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'306', E'Philadelphus lewisii');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'306', E'Philadelphus lewisii');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'307', E'Philadelphus lewisii var. gordonianus');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'307', E'Philadelphus lewisii var. gordonianus');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'308', E'Philadelphus pubescens');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'308', E'Philadelphus pubescens');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'309', E'Philadelphus sp');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'309', E'Philadelphus sp');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'310', E'Phyllodoce caerulea');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'310', E'Phyllodoce caerulea');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'311', E'Physocarpus opulifolius');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'311', E'Physocarpus opulifolius');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'312', E'Picea ×lutzii');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'312', E'Picea ×lutzii');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'313', E'Picea abies');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'313', E'Picea abies');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'314', E'Picea abies f. aurea');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'314', E'Picea abies f. aurea');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'315', E'Picea abies f. condensata');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'315', E'Picea abies f. condensata');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'316', E'Picea abies f. cruenta');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'316', E'Picea abies f. cruenta');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'317', E'Picea abies f. globosa');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'317', E'Picea abies f. globosa');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'318', E'Picea abies f. nana');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'318', E'Picea abies f. nana');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'319', E'Picea abies f. nidiformis');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'319', E'Picea abies f. nidiformis');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'320', E'Picea abies f. pendula');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'320', E'Picea abies f. pendula');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'321', E'Picea abies f. tabulaeformis');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'321', E'Picea abies f. tabulaeformis');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'322', E'Picea abies f. variegata');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'322', E'Picea abies f. variegata');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'323', E'Picea abies f. viminalis');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'323', E'Picea abies f. viminalis');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'324', E'Picea abies f. virgata');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'324', E'Picea abies f. virgata');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'325', E'Picea abies subsp. abies');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'325', E'Picea abies subsp. abies');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'326', E'Picea abies subsp. obovata');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'326', E'Picea abies subsp. obovata');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'327', E'Picea asperata');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'327', E'Picea asperata');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'328', E'Picea engelmannii');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'328', E'Picea engelmannii');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'329', E'Picea glauca');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'329', E'Picea glauca');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'330', E'Picea glauca var. albertiana');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'330', E'Picea glauca var. albertiana');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'331', E'Picea glehnii');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'331', E'Picea glehnii');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'332', E'Picea jezoënsis');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'332', E'Picea jezoënsis');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'333', E'Picea koraiensis');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'333', E'Picea koraiensis');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'334', E'Picea likiangensis');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'334', E'Picea likiangensis');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'335', E'Picea mariana');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'335', E'Picea mariana');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'336', E'Picea omorika');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'336', E'Picea omorika');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'337', E'Picea pungens');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'337', E'Picea pungens');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'338', E'Picea retroflexa');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'338', E'Picea retroflexa');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'339', E'Picea rubens');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'339', E'Picea rubens');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'340', E'Picea schrenkiana');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'340', E'Picea schrenkiana');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'341', E'Picea sitchensis');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'341', E'Picea sitchensis');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'342', E'Picea sp');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'342', E'Picea sp');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'343', E'Pieris floribunda');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'343', E'Pieris floribunda');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'344', E'Pinus banksiana');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'344', E'Pinus banksiana');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'345', E'Pinus cembra');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'345', E'Pinus cembra');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'346', E'Pinus cembra subsp. cembra');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'346', E'Pinus cembra subsp. cembra');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'347', E'Pinus cembra subsp. sibirica');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'347', E'Pinus cembra subsp. sibirica');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'348', E'Pinus contorta');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'348', E'Pinus contorta');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'349', E'Pinus contorta var. contorta');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'349', E'Pinus contorta var. contorta');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'350', E'Pinus contorta var. latifolia');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'350', E'Pinus contorta var. latifolia');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'351', E'Pinus koraiensis');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'351', E'Pinus koraiensis');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'352', E'Pinus monticola');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'352', E'Pinus monticola');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'353', E'Pinus mugo');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'353', E'Pinus mugo');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'354', E'Pinus mugo subsp. uncinata');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'354', E'Pinus mugo subsp. uncinata');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'355', E'Pinus nigra');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'355', E'Pinus nigra');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'356', E'Pinus peuce');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'356', E'Pinus peuce');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'357', E'Pinus ponderosa');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'357', E'Pinus ponderosa');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'358', E'Pinus pumila');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'358', E'Pinus pumila');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'359', E'Pinus resinosa');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'359', E'Pinus resinosa');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'360', E'Pinus sp');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'360', E'Pinus sp');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'361', E'Pinus strobus');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'361', E'Pinus strobus');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'362', E'Pinus sylvestris');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'362', E'Pinus sylvestris');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'363', E'Pinus sylvestris f. aurea');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'363', E'Pinus sylvestris f. aurea');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'364', E'Pinus sylvestris f. condensata');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'364', E'Pinus sylvestris f. condensata');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'365', E'Pinus sylvestris f. globosa');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'365', E'Pinus sylvestris f. globosa');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'366', E'Pinus sylvestris f. virgata');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'366', E'Pinus sylvestris f. virgata');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'367', E'Pinus sylvestris ''Globosa''');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'367', E'Pinus sylvestris ''Globosa''');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'368', E'Populus ×canadensis');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'368', E'Populus ×canadensis');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'369', E'Populus ×jackii ''Gileadensis''');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'369', E'Populus ×jackii ''Gileadensis''');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'370', E'Populus ×wettsteinii');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'370', E'Populus ×wettsteinii');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'371', E'Populus alba');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'371', E'Populus alba');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'372', E'Populus balsamifera');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'372', E'Populus balsamifera');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'373', E'Populus balsamifera ''Tristis''');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'373', E'Populus balsamifera ''Tristis''');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'374', E'Populus canescens');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'374', E'Populus canescens');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'375', E'Populus deltoides');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'375', E'Populus deltoides');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'376', E'Populus koreana');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'376', E'Populus koreana');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'377', E'Populus laurifolia');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'377', E'Populus laurifolia');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'378', E'Populus nigra');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'378', E'Populus nigra');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'379', E'Populus ''Rasumowskiana''');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'379', E'Populus ''Rasumowskiana''');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'380', E'Populus simonii');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'380', E'Populus simonii');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'381', E'Populus sp');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'381', E'Populus sp');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'382', E'Populus suaveolens');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'382', E'Populus suaveolens');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'383', E'Populus tremula');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'383', E'Populus tremula');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'384', E'Populus tremuloides');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'384', E'Populus tremuloides');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'385', E'Populus trichocarpa');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'385', E'Populus trichocarpa');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'386', E'Populus wilsonii');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'386', E'Populus wilsonii');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'387', E'Potentilla fruticosa');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'387', E'Potentilla fruticosa');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'388', E'Prunus avium');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'388', E'Prunus avium');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'389', E'Prunus cerasifera');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'389', E'Prunus cerasifera');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'390', E'Prunus cerasus');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'390', E'Prunus cerasus');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'391', E'Prunus domestica');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'391', E'Prunus domestica');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'392', E'Prunus domestica subsp. domestica');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'392', E'Prunus domestica subsp. domestica');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'393', E'Prunus domestica subsp. insititia');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'393', E'Prunus domestica subsp. insititia');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'394', E'Prunus laurocerasus');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'394', E'Prunus laurocerasus');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'395', E'Prunus maackii');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'395', E'Prunus maackii');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'396', E'Prunus maximowiczii');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'396', E'Prunus maximowiczii');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'397', E'Prunus padus');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'397', E'Prunus padus');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'398', E'Prunus pensylvanica');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'398', E'Prunus pensylvanica');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'399', E'Prunus prostrata');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'399', E'Prunus prostrata');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'400', E'Prunus pumila');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'400', E'Prunus pumila');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'401', E'Prunus sargentii');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'401', E'Prunus sargentii');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'402', E'Prunus serotina');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'402', E'Prunus serotina');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'403', E'Prunus sp');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'403', E'Prunus sp');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'404', E'Prunus spinosa');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'404', E'Prunus spinosa');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'405', E'Prunus tenella');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'405', E'Prunus tenella');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'406', E'Prunus tomentosa');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'406', E'Prunus tomentosa');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'407', E'Prunus triloba');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'407', E'Prunus triloba');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'408', E'Prunus virginiana');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'408', E'Prunus virginiana');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'409', E'Pseudolarix amabilis');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'409', E'Pseudolarix amabilis');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'410', E'Pseudotsuga menziesii');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'410', E'Pseudotsuga menziesii');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'411', E'Pseudotsuga menziesii var. glauca');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'411', E'Pseudotsuga menziesii var. glauca');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'412', E'Pterocarya pterocarpa');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'412', E'Pterocarya pterocarpa');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'413', E'Pterocarya rhoifolia');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'413', E'Pterocarya rhoifolia');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'414', E'Pyrus communis');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'414', E'Pyrus communis');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'415', E'Pyrus ussuriensis');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'415', E'Pyrus ussuriensis');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'416', E'Quercus coccinea');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'416', E'Quercus coccinea');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'417', E'Quercus petraea');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'417', E'Quercus petraea');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'418', E'Quercus robur');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'418', E'Quercus robur');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'419', E'Quercus rubra');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'419', E'Quercus rubra');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'420', E'Rhamnus cathartica');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'420', E'Rhamnus cathartica');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'421', E'Rhamnus frangula');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'421', E'Rhamnus frangula');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'422', E'Rhododendron ×fraseri');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'422', E'Rhododendron ×fraseri');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'423', E'Rhododendron aureum');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'423', E'Rhododendron aureum');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'424', E'Rhododendron brachycarpum');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'424', E'Rhododendron brachycarpum');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'425', E'Rhododendron brachycarpum subsp. tigerstedtii');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'425', E'Rhododendron brachycarpum subsp. tigerstedtii');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'426', E'Rhododendron canadense');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'426', E'Rhododendron canadense');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'427', E'Rhododendron Catawbiense -ryhmä/gruppen/group');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'427', E'Rhododendron Catawbiense -ryhmä/gruppen/group');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'428', E'Rhododendron ''Cunningham''s White''');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'428', E'Rhododendron ''Cunningham''s White''');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'429', E'Rhododendron dauricum');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'429', E'Rhododendron dauricum');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'430', E'Rhododendron ferrugineum');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'430', E'Rhododendron ferrugineum');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'431', E'Rhododendron Kosterianum -ryhmä/gruppen/group');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'431', E'Rhododendron Kosterianum -ryhmä/gruppen/group');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'432', E'Rhododendron lapponicum');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'432', E'Rhododendron lapponicum');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'433', E'Rhododendron luteum');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'433', E'Rhododendron luteum');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'434', E'Rhododendron molle');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'434', E'Rhododendron molle');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'435', E'Rhododendron molle subsp. japonicum');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'435', E'Rhododendron molle subsp. japonicum');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'436', E'Rhododendron schlippenbachii');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'436', E'Rhododendron schlippenbachii');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'437', E'Rhododendron smirnowii');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'437', E'Rhododendron smirnowii');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'438', E'Rhododendron sp');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'438', E'Rhododendron sp');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'439', E'Rhododendron Tigerstedtii -ryhmä/gruppen/group');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'439', E'Rhododendron Tigerstedtii -ryhmä/gruppen/group');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'440', E'Rhus hirta');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'440', E'Rhus hirta');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'441', E'Ribes alpinum');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'441', E'Ribes alpinum');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'442', E'Ribes nigrum');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'442', E'Ribes nigrum');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'443', E'Ribes rubrum');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'443', E'Ribes rubrum');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'444', E'Ribes spicatum');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'444', E'Ribes spicatum');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'445', E'Ribes uva-crispa');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'445', E'Ribes uva-crispa');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'446', E'Robinia pseudoacacia');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'446', E'Robinia pseudoacacia');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'447', E'Rosa acicularis');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'447', E'Rosa acicularis');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'448', E'Rosa canina');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'448', E'Rosa canina');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'449', E'Rosa dumalis');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'449', E'Rosa dumalis');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'450', E'Rosa majalis');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'450', E'Rosa majalis');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'451', E'Rosa mollis');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'451', E'Rosa mollis');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'452', E'Rosa pimpinellifolia');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'452', E'Rosa pimpinellifolia');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'453', E'Rosa rugosa');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'453', E'Rosa rugosa');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'454', E'Rosa sherardii');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'454', E'Rosa sherardii');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'455', E'Rosa sp');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'455', E'Rosa sp');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'456', E'Rubus caesius');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'456', E'Rubus caesius');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'457', E'Rubus idaeus');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'457', E'Rubus idaeus');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'458', E'Rubus odoratus');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'458', E'Rubus odoratus');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'459', E'Rubus parviflorus');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'459', E'Rubus parviflorus');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'460', E'Rubus pruinosus');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'460', E'Rubus pruinosus');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'461', E'Rubus sp');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'461', E'Rubus sp');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'462', E'Salix alba');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'462', E'Salix alba');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'463', E'Salix arbutifolia');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'463', E'Salix arbutifolia');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'464', E'Salix aurita');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'464', E'Salix aurita');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'465', E'Salix borealis');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'465', E'Salix borealis');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'466', E'Salix caprea');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'466', E'Salix caprea');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'467', E'Salix cinerea');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'467', E'Salix cinerea');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'468', E'Salix daphnoides');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'468', E'Salix daphnoides');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'469', E'Salix daphnoides subsp. acutifolia');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'469', E'Salix daphnoides subsp. acutifolia');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'470', E'Salix daphnoides subsp. daphnoides');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'470', E'Salix daphnoides subsp. daphnoides');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'471', E'Salix fragilis');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'471', E'Salix fragilis');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'472', E'Salix fragilis ''Bullata''');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'472', E'Salix fragilis ''Bullata''');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'473', E'Salix glauca');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'473', E'Salix glauca');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'474', E'Salix hastata');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'474', E'Salix hastata');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'475', E'Salix herbacea');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'475', E'Salix herbacea');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'476', E'Salix lanata');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'476', E'Salix lanata');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'477', E'Salix lapponum');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'477', E'Salix lapponum');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'478', E'Salix lucida');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'478', E'Salix lucida');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'479', E'Salix myrsinifolia');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'479', E'Salix myrsinifolia');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'480', E'Salix myrsinites');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'480', E'Salix myrsinites');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'481', E'Salix myrtilloides');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'481', E'Salix myrtilloides');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'482', E'Salix pentandra');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'482', E'Salix pentandra');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'483', E'Salix phylicifolia');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'483', E'Salix phylicifolia');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'484', E'Salix polaris');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'484', E'Salix polaris');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'485', E'Salix purpurea');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'485', E'Salix purpurea');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'486', E'Salix pyrolifolia');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'486', E'Salix pyrolifolia');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'487', E'Salix repens');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'487', E'Salix repens');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'488', E'Salix reticulata');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'488', E'Salix reticulata');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'489', E'Salix rosmarinifolia');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'489', E'Salix rosmarinifolia');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'490', E'Salix ''Sibirica''');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'490', E'Salix ''Sibirica''');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'491', E'Salix sp');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'491', E'Salix sp');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'492', E'Salix starkeana');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'492', E'Salix starkeana');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'493', E'Salix triandra');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'493', E'Salix triandra');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'494', E'Salix viminalis');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'494', E'Salix viminalis');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'495', E'Sambucus canadensis');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'495', E'Sambucus canadensis');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'496', E'Sambucus nigra');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'496', E'Sambucus nigra');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'497', E'Sambucus racemosa');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'497', E'Sambucus racemosa');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'498', E'Sambucus sp');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'498', E'Sambucus sp');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'499', E'Schisandra chinensis');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'499', E'Schisandra chinensis');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'500', E'Sequoia sempervirens');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'500', E'Sequoia sempervirens');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'501', E'Sequoiadendron giganteum');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'501', E'Sequoiadendron giganteum');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'502', E'Solanum dulcamara');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'502', E'Solanum dulcamara');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'503', E'Sorbaria grandiflora');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'503', E'Sorbaria grandiflora');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'504', E'Sorbaria sorbifolia');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'504', E'Sorbaria sorbifolia');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'505', E'Sorbaria sp');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'505', E'Sorbaria sp');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'506', E'Sorbus ×thuringiaca ''Fastigiata''');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'506', E'Sorbus ×thuringiaca ''Fastigiata''');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'507', E'Sorbus alnifolia');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'507', E'Sorbus alnifolia');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'508', E'Sorbus americana');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'508', E'Sorbus americana');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'509', E'Sorbus aria');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'509', E'Sorbus aria');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'510', E'Sorbus aucuparia');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'510', E'Sorbus aucuparia');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'511', E'Sorbus commixta');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'511', E'Sorbus commixta');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'512', E'Sorbus hybrida');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'512', E'Sorbus hybrida');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'513', E'Sorbus intermedia');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'513', E'Sorbus intermedia');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'514', E'Sorbus koehneana');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'514', E'Sorbus koehneana');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'515', E'Sorbus prattii');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'515', E'Sorbus prattii');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'516', E'Sorbus scopulina');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'516', E'Sorbus scopulina');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'517', E'Sorbus sp');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'517', E'Sorbus sp');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'518', E'Sorbus teodori');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'518', E'Sorbus teodori');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'519', E'Sorbus torminalis');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'519', E'Sorbus torminalis');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'520', E'Spiraea ×cinerea');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'520', E'Spiraea ×cinerea');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'521', E'Spiraea ×multiflora');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'521', E'Spiraea ×multiflora');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'522', E'Spiraea ×rosalba');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'522', E'Spiraea ×rosalba');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'523', E'Spiraea ×sanssouciana');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'523', E'Spiraea ×sanssouciana');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'524', E'Spiraea ×vanhouttei');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'524', E'Spiraea ×vanhouttei');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'525', E'Spiraea alba');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'525', E'Spiraea alba');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'526', E'Spiraea ''Arguta''');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'526', E'Spiraea ''Arguta''');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'527', E'Spiraea betulifolia');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'527', E'Spiraea betulifolia');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'528', E'Spiraea Billiardii -ryhmä/gruppen/group');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'528', E'Spiraea Billiardii -ryhmä/gruppen/group');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'529', E'Spiraea cana');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'529', E'Spiraea cana');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'530', E'Spiraea chamaedryfolia');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'530', E'Spiraea chamaedryfolia');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'531', E'Spiraea douglasii');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'531', E'Spiraea douglasii');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'532', E'Spiraea fritschiana');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'532', E'Spiraea fritschiana');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'533', E'Spiraea ''Grefsheim''');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'533', E'Spiraea ''Grefsheim''');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'534', E'Spiraea hypericifolia');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'534', E'Spiraea hypericifolia');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'535', E'Spiraea japonica');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'535', E'Spiraea japonica');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'536', E'Spiraea ''Margaritae''');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'536', E'Spiraea ''Margaritae''');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'537', E'Spiraea media');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'537', E'Spiraea media');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'538', E'Spiraea nipponica');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'538', E'Spiraea nipponica');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'539', E'Spiraea rosthornii');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'539', E'Spiraea rosthornii');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'540', E'Spiraea salicifolia');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'540', E'Spiraea salicifolia');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'541', E'Spiraea sp');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'541', E'Spiraea sp');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'542', E'Spiraea tomentosa');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'542', E'Spiraea tomentosa');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'543', E'Spiraea trichocarpa');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'543', E'Spiraea trichocarpa');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'544', E'Spiraea trilobata');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'544', E'Spiraea trilobata');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'545', E'Stephanandra incisa');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'545', E'Stephanandra incisa');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'546', E'Symphoricarpos albus');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'546', E'Symphoricarpos albus');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'547', E'Symphoricarpos albus var. laevigatus');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'547', E'Symphoricarpos albus var. laevigatus');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'548', E'Syringa ×chinensis');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'548', E'Syringa ×chinensis');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'549', E'Syringa ×henryi');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'549', E'Syringa ×henryi');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'550', E'Syringa ×josiflexa');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'550', E'Syringa ×josiflexa');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'551', E'Syringa ×nanceana');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'551', E'Syringa ×nanceana');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'552', E'Syringa ×swegiflexa');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'552', E'Syringa ×swegiflexa');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'553', E'Syringa josikaea');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'553', E'Syringa josikaea');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'554', E'Syringa Preston -ryhmä/gruppen/group');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'554', E'Syringa Preston -ryhmä/gruppen/group');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'555', E'Syringa reflexa');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'555', E'Syringa reflexa');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'556', E'Syringa reticulata');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'556', E'Syringa reticulata');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'557', E'Syringa sp');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'557', E'Syringa sp');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'558', E'Syringa sweginowii');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'558', E'Syringa sweginowii');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'559', E'Syringa tigerstedtii');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'559', E'Syringa tigerstedtii');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'560', E'Syringa tomentella');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'560', E'Syringa tomentella');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'561', E'Syringa villosa');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'561', E'Syringa villosa');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'562', E'Syringa wolfii');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'562', E'Syringa wolfii');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'563', E'Syringa vulgaris');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'563', E'Syringa vulgaris');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'564', E'Tamarix pentandra');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'564', E'Tamarix pentandra');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'565', E'Taxus ×media');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'565', E'Taxus ×media');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'566', E'Taxus baccata');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'566', E'Taxus baccata');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'567', E'Taxus brevifolia');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'567', E'Taxus brevifolia');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'568', E'Taxus cuspidata');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'568', E'Taxus cuspidata');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'569', E'Taxus sp');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'569', E'Taxus sp');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'570', E'Thuja koraiensis');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'570', E'Thuja koraiensis');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'571', E'Thuja occidentalis');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'571', E'Thuja occidentalis');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'572', E'Thuja plicata');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'572', E'Thuja plicata');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'573', E'Thuja sp');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'573', E'Thuja sp');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'574', E'Thuja standishii');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'574', E'Thuja standishii');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'575', E'Thujopsis dolabrata');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'575', E'Thujopsis dolabrata');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'576', E'Tilia ×moltkei');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'576', E'Tilia ×moltkei');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'577', E'Tilia ×vulgaris');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'577', E'Tilia ×vulgaris');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'578', E'Tilia americana');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'578', E'Tilia americana');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'579', E'Tilia cordata');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'579', E'Tilia cordata');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'580', E'Tilia euchlora');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'580', E'Tilia euchlora');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'581', E'Tilia japonica');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'581', E'Tilia japonica');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'582', E'Tilia mongolica');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'582', E'Tilia mongolica');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'583', E'Tilia platyphyllos');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'583', E'Tilia platyphyllos');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'584', E'Tilia sp');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'584', E'Tilia sp');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'585', E'Tilia tomentosa');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'585', E'Tilia tomentosa');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'586', E'Tripterygium regelii');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'586', E'Tripterygium regelii');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'587', E'Tsuga canadensis');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'587', E'Tsuga canadensis');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'588', E'Tsuga caroliniana');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'588', E'Tsuga caroliniana');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'589', E'Tsuga diversifolia');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'589', E'Tsuga diversifolia');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'590', E'Tsuga heterophylla');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'590', E'Tsuga heterophylla');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'591', E'Tsuga mertensiana');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'591', E'Tsuga mertensiana');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'592', E'Tsuga sp');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'592', E'Tsuga sp');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'593', E'Ulmus americana');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'593', E'Ulmus americana');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'594', E'Ulmus glabra');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'594', E'Ulmus glabra');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'595', E'Ulmus laevis');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'595', E'Ulmus laevis');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'596', E'Ulmus minor');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'596', E'Ulmus minor');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'597', E'Ulmus pumila');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'597', E'Ulmus pumila');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'598', E'Ulmus sp');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'598', E'Ulmus sp');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'599', E'Vaccinium corymbosum');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'599', E'Vaccinium corymbosum');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'600', E'Vaccinium microcarpum');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'600', E'Vaccinium microcarpum');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'601', E'Vaccinium myrtillus');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'601', E'Vaccinium myrtillus');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'602', E'Vaccinium oxycoccos');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'602', E'Vaccinium oxycoccos');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'603', E'Vaccinium sp');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'603', E'Vaccinium sp');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'604', E'Vaccinium uliginosum');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'604', E'Vaccinium uliginosum');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'605', E'Vaccinium vitis-idaea');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'605', E'Vaccinium vitis-idaea');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'606', E'Weigela Florida -ryhmä/gruppen/group');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'606', E'Weigela Florida -ryhmä/gruppen/group');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'607', E'Weigela middendorffiana');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'607', E'Weigela middendorffiana');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'608', E'Weigela praecox');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'608', E'Weigela praecox');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'609', E'Weigela sp');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'609', E'Weigela sp');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'610', E'Viburnum carlesii');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'610', E'Viburnum carlesii');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'611', E'Viburnum cassinoides');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'611', E'Viburnum cassinoides');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'612', E'Viburnum dentatum');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'612', E'Viburnum dentatum');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'613', E'Viburnum dentatum var. lucidum');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'613', E'Viburnum dentatum var. lucidum');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'614', E'Viburnum lantana');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'614', E'Viburnum lantana');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'615', E'Viburnum lentago');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'615', E'Viburnum lentago');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'616', E'Viburnum opulus');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'616', E'Viburnum opulus');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'617', E'Viburnum rafinesquianum');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'617', E'Viburnum rafinesquianum');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'618', E'Viburnum sargentii');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'618', E'Viburnum sargentii');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'619', E'Viburnum sp');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'619', E'Viburnum sp');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'620', E'Vinca minor');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'620', E'Vinca minor');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'621', E'Vitis amurensis');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'621', E'Vitis amurensis');
 -- ddl-end --
-INSERT INTO koodistot.puulaji (id, selite) VALUES (E'622', E'Vitis riparia');
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'622', E'Vitis riparia');
 -- ddl-end --
 
 -- object: koodistot.ymparistotaidetyyppi | type: TABLE --
 -- DROP TABLE IF EXISTS koodistot.ymparistotaidetyyppi CASCADE;
 CREATE TABLE koodistot.ymparistotaidetyyppi (
-	id serial NOT NULL,
+	cid integer NOT NULL,
 	selite text,
-	CONSTRAINT ymparistotaidetyyppi_pk PRIMARY KEY (id)
+	CONSTRAINT ymparistotaidetyyppi_pk PRIMARY KEY (cid)
 );
 -- ddl-end --
 ALTER TABLE koodistot.ymparistotaidetyyppi OWNER TO infrao_admin;
 -- ddl-end --
 
-INSERT INTO koodistot.ymparistotaidetyyppi (id, selite) VALUES (E'1', E'kivi');
+INSERT INTO koodistot.ymparistotaidetyyppi (cid, selite) VALUES (E'1', E'kivi');
 -- ddl-end --
-INSERT INTO koodistot.ymparistotaidetyyppi (id, selite) VALUES (E'2', E'maakivet');
+INSERT INTO koodistot.ymparistotaidetyyppi (cid, selite) VALUES (E'2', E'maakivet');
 -- ddl-end --
-INSERT INTO koodistot.ymparistotaidetyyppi (id, selite) VALUES (E'3', E'paasikivi');
+INSERT INTO koodistot.ymparistotaidetyyppi (cid, selite) VALUES (E'3', E'paasikivi');
 -- ddl-end --
-INSERT INTO koodistot.ymparistotaidetyyppi (id, selite) VALUES (E'4', E'patsas/muistomerkki');
+INSERT INTO koodistot.ymparistotaidetyyppi (cid, selite) VALUES (E'4', E'patsas/muistomerkki');
 -- ddl-end --
-INSERT INTO koodistot.ymparistotaidetyyppi (id, selite) VALUES (E'5', E'puistoveistokset');
+INSERT INTO koodistot.ymparistotaidetyyppi (cid, selite) VALUES (E'5', E'puistoveistokset');
 -- ddl-end --
-INSERT INTO koodistot.ymparistotaidetyyppi (id, selite) VALUES (E'6', E'rantakiveys');
+INSERT INTO koodistot.ymparistotaidetyyppi (cid, selite) VALUES (E'6', E'rantakiveys');
 -- ddl-end --
-INSERT INTO koodistot.ymparistotaidetyyppi (id, selite) VALUES (E'7', E'muu');
+INSERT INTO koodistot.ymparistotaidetyyppi (cid, selite) VALUES (E'7', E'muu');
 -- ddl-end --
-INSERT INTO koodistot.ymparistotaidetyyppi (id, selite) VALUES (E'8', E'ei tiedossa');
--- ddl-end --
-
--- object: kohteet.kaluste | type: TABLE --
--- DROP TABLE IF EXISTS kohteet.kaluste CASCADE;
-CREATE TABLE kohteet.kaluste (
-	id serial NOT NULL,
-	kalustetyyppi_id integer NOT NULL,
--- 	malli text,
--- 	perusparannusvuosi smallint,
--- 	suunta text,
--- 	valmistaja text,
--- 	valmistumisvuosi smallint,
--- 	kuuluuviheralueenosaan integer,
--- 	kuuluukatualueenosaan integer,
--- 	materiaali_id integer,
--- 	suunnitelmalinkkitieto integer,
--- 	geom_poly geometry(POLYGON, 3067),
--- 	geom_piste geometry(POINT, 3067),
--- 	geom_line geometry(LINESTRING, 3067),
-	CONSTRAINT kaluste_pk PRIMARY KEY (id)
-)
- INHERITS(abstraktit.abstractvaruste);
--- ddl-end --
-ALTER TABLE kohteet.kaluste OWNER TO infrao_admin;
+INSERT INTO koodistot.ymparistotaidetyyppi (cid, selite) VALUES (E'8', E'ei tiedossa');
 -- ddl-end --
 
 -- object: koodistot.kantavuusluokkatyyppi | type: TABLE --
 -- DROP TABLE IF EXISTS koodistot.kantavuusluokkatyyppi CASCADE;
 CREATE TABLE koodistot.kantavuusluokkatyyppi (
-	id serial NOT NULL,
+	cid integer NOT NULL,
 	selite text,
-	CONSTRAINT kantavuusluokkatyyppi_pk PRIMARY KEY (id)
+	CONSTRAINT kantavuusluokkatyyppi_pk PRIMARY KEY (cid)
 );
 -- ddl-end --
 ALTER TABLE koodistot.kantavuusluokkatyyppi OWNER TO infrao_admin;
 -- ddl-end --
 
-INSERT INTO koodistot.kantavuusluokkatyyppi (id, selite) VALUES (E'1', E'A');
+INSERT INTO koodistot.kantavuusluokkatyyppi (cid, selite) VALUES (E'1', E'A');
 -- ddl-end --
-INSERT INTO koodistot.kantavuusluokkatyyppi (id, selite) VALUES (E'2', E'B');
+INSERT INTO koodistot.kantavuusluokkatyyppi (cid, selite) VALUES (E'2', E'B');
 -- ddl-end --
-INSERT INTO koodistot.kantavuusluokkatyyppi (id, selite) VALUES (E'3', E'C');
+INSERT INTO koodistot.kantavuusluokkatyyppi (cid, selite) VALUES (E'3', E'C');
 -- ddl-end --
-INSERT INTO koodistot.kantavuusluokkatyyppi (id, selite) VALUES (E'4', E'D');
+INSERT INTO koodistot.kantavuusluokkatyyppi (cid, selite) VALUES (E'4', E'D');
 -- ddl-end --
-INSERT INTO koodistot.kantavuusluokkatyyppi (id, selite) VALUES (E'5', E'E');
+INSERT INTO koodistot.kantavuusluokkatyyppi (cid, selite) VALUES (E'5', E'E');
 -- ddl-end --
-INSERT INTO koodistot.kantavuusluokkatyyppi (id, selite) VALUES (E'6', E'F');
+INSERT INTO koodistot.kantavuusluokkatyyppi (cid, selite) VALUES (E'6', E'F');
 -- ddl-end --
-INSERT INTO koodistot.kantavuusluokkatyyppi (id, selite) VALUES (E'7', E'G');
+INSERT INTO koodistot.kantavuusluokkatyyppi (cid, selite) VALUES (E'7', E'G');
 -- ddl-end --
 
 -- object: koodistot.kasvilaji | type: TABLE --
 -- DROP TABLE IF EXISTS koodistot.kasvilaji CASCADE;
 CREATE TABLE koodistot.kasvilaji (
-	id serial NOT NULL,
+	cid integer NOT NULL,
 	selite text,
-	CONSTRAINT kasvilaji_pk PRIMARY KEY (id)
+	CONSTRAINT kasvilaji_pk PRIMARY KEY (cid)
 );
 -- ddl-end --
 ALTER TABLE koodistot.kasvilaji OWNER TO infrao_admin;
 -- ddl-end --
 
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1', E'Acanthopanax senticosus');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1', E'Acanthopanax senticosus');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'2', E'Acer campestre');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'2', E'Acer campestre');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'3', E'Acer ginnala');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'3', E'Acer ginnala');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'4', E'Acer spicatum');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'4', E'Acer spicatum');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'5', E'Acer tataricum');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'5', E'Acer tataricum');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'6', E'Acer');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'6', E'Acer');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'7', E'Achillea filipendulina');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'7', E'Achillea filipendulina');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'8', E'Achillea millefolium');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'8', E'Achillea millefolium');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'9', E'Achillea ptarmica ''Flore pleno');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'9', E'Achillea ptarmica ''Flore pleno');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'10', E'Achillea ptarmica');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'10', E'Achillea ptarmica');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'11', E'Aconitum henryi');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'11', E'Aconitum henryi');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'12', E'Aconitum lycoctonum ssp septentrionale');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'12', E'Aconitum lycoctonum ssp septentrionale');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'13', E'Aconitum lycoctonum ssp.lycoctonum');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'13', E'Aconitum lycoctonum ssp.lycoctonum');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'14', E'Aconitum lycoctonum ssp.neapolitanum');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'14', E'Aconitum lycoctonum ssp.neapolitanum');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'15', E'Aconitum napellus album');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'15', E'Aconitum napellus album');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'16', E'Aconitum napellus ssp. lusitanicum ''Newry Blue''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'16', E'Aconitum napellus ssp. lusitanicum ''Newry Blue''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'17', E'Aconitum napellus ssp. lusitanicum');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'17', E'Aconitum napellus ssp. lusitanicum');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'18', E'Aconitum x stoerkianum ''Bicolor''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'18', E'Aconitum x stoerkianum ''Bicolor''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'19', E'Aconitum');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'19', E'Aconitum');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'20', E'Aconitun x stoerkianum');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'20', E'Aconitun x stoerkianum');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'21', E'Aconogonon alpinum');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'21', E'Aconogonon alpinum');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'22', E'Aconogonon divaricatum');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'22', E'Aconogonon divaricatum');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'23', E'Aconogonon polystachyum');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'23', E'Aconogonon polystachyum');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'24', E'Aconogonon weyrichii');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'24', E'Aconogonon weyrichii');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'25', E'Acorus calamus');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'25', E'Acorus calamus');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'26', E'Actaea erythrocarpa');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'26', E'Actaea erythrocarpa');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'27', E'Actinidia kolomikta');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'27', E'Actinidia kolomikta');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'28', E'Adonis vernalis');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'28', E'Adonis vernalis');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'29', E'Aegopodium podagraria');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'29', E'Aegopodium podagraria');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'30', E'Agapanthus campanulatus ''Blue Giant''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'30', E'Agapanthus campanulatus ''Blue Giant''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'31', E'Agastache foeniculum');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'31', E'Agastache foeniculum');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'32', E'Aguilegia x hybr. ''McKana''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'32', E'Aguilegia x hybr. ''McKana''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'33', E'Ajuga pyramidalis');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'33', E'Ajuga pyramidalis');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'34', E'Ajuga reptans ''Atropurpurea''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'34', E'Ajuga reptans ''Atropurpurea''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'35', E'Ajuga reptans');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'35', E'Ajuga reptans');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'36', E'Alcea rosea');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'36', E'Alcea rosea');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'37', E'Alchemilla alpina');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'37', E'Alchemilla alpina');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'38', E'Alchemilla mollis');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'38', E'Alchemilla mollis');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'39', E'Alisma plantago-aquatica');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'39', E'Alisma plantago-aquatica');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'40', E'Allium aflatunense');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'40', E'Allium aflatunense');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'41', E'Allium atropurpureum');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'41', E'Allium atropurpureum');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'42', E'Allium caeruleum');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'42', E'Allium caeruleum');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'43', E'Allium carinatum subsp. pulchellum');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'43', E'Allium carinatum subsp. pulchellum');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'44', E'Allium cernuum');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'44', E'Allium cernuum');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'45', E'Allium christophii');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'45', E'Allium christophii');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'46', E'Allium cyaneum');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'46', E'Allium cyaneum');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'47', E'Allium fistulosum');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'47', E'Allium fistulosum');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'48', E'Allium giganteum');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'48', E'Allium giganteum');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'49', E'Allium karataviense');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'49', E'Allium karataviense');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'50', E'Allium moly');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'50', E'Allium moly');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'51', E'Allium narcissiflorum');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'51', E'Allium narcissiflorum');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'52', E'Allium nigrum');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'52', E'Allium nigrum');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'53', E'Allium porrum');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'53', E'Allium porrum');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'54', E'Allium rosenbachianum');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'54', E'Allium rosenbachianum');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'55', E'Allium sativum');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'55', E'Allium sativum');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'56', E'Allium schoeneprasum');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'56', E'Allium schoeneprasum');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'57', E'Allium sphaerocephalum');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'57', E'Allium sphaerocephalum');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'58', E'Allium tuberosum');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'58', E'Allium tuberosum');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'59', E'Allium ursinum');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'59', E'Allium ursinum');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'60', E'Alnus viridis');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'60', E'Alnus viridis');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'61', E'Alopecurus pratensis');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'61', E'Alopecurus pratensis');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'62', E'Amelanchier alnifolia');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'62', E'Amelanchier alnifolia');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'63', E'Amelanchier laevis');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'63', E'Amelanchier laevis');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'64', E'Amelanchier lamarckii');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'64', E'Amelanchier lamarckii');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'65', E'Amelanchier spicata');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'65', E'Amelanchier spicata');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'66', E'Amelanchier');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'66', E'Amelanchier');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'67', E'Anaphalis margaritacea');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'67', E'Anaphalis margaritacea');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'68', E'Anaphalis triplinervis');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'68', E'Anaphalis triplinervis');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'69', E'Anchusa angustissima');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'69', E'Anchusa angustissima');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'70', E'Anchusa azurea');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'70', E'Anchusa azurea');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'71', E'Andromeda polifolia');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'71', E'Andromeda polifolia');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'72', E'Anemone canadensis');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'72', E'Anemone canadensis');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'73', E'Anemone hupehensis var. japonica');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'73', E'Anemone hupehensis var. japonica');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'74', E'Anemone multifida');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'74', E'Anemone multifida');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'75', E'Anemone narcissiflora');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'75', E'Anemone narcissiflora');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'76', E'Anemone nemorosa');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'76', E'Anemone nemorosa');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'77', E'Anemone rivularis');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'77', E'Anemone rivularis');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'78', E'Anemone sylvestris');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'78', E'Anemone sylvestris');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'79', E'Anemone tomentosa');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'79', E'Anemone tomentosa');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'80', E'Anemone x fulgens');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'80', E'Anemone x fulgens');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'81', E'Anemone x lesseri');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'81', E'Anemone x lesseri');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'82', E'Anethum graveolens');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'82', E'Anethum graveolens');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'83', E'Angelica archangelica');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'83', E'Angelica archangelica');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'84', E'Antchriscus cerefolium');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'84', E'Antchriscus cerefolium');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'85', E'Antemis marchalliana');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'85', E'Antemis marchalliana');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'86', E'Antennaria dioica ''Rubra''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'86', E'Antennaria dioica ''Rubra''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'87', E'Antennaria dioica');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'87', E'Antennaria dioica');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'88', E'Antennaria parvifolia');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'88', E'Antennaria parvifolia');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'89', E'Antennaria plantaginifolia');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'89', E'Antennaria plantaginifolia');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'90', E'Anthemis carpatica');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'90', E'Anthemis carpatica');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'91', E'Anthemis tinctoria');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'91', E'Anthemis tinctoria');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'92', E'Anthericum liliago');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'92', E'Anthericum liliago');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'93', E'Anthericum ramosum');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'93', E'Anthericum ramosum');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'94', E'Anthyllis vulneraria');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'94', E'Anthyllis vulneraria');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'95', E'Apium var. dulce');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'95', E'Apium var. dulce');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'96', E'Aquilegia alpina');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'96', E'Aquilegia alpina');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'97', E'Aquilegia chrysantha');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'97', E'Aquilegia chrysantha');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'98', E'Aquilegia flabellata');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'98', E'Aquilegia flabellata');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'99', E'Aquilegia formosa');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'99', E'Aquilegia formosa');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'100', E'Aquilegia glandulosa var. jucunda');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'100', E'Aquilegia glandulosa var. jucunda');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'101', E'Aquilegia skinneri');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'101', E'Aquilegia skinneri');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'102', E'Aquilegia vulgaris ''Alba''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'102', E'Aquilegia vulgaris ''Alba''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'103', E'Aquilegia vulgaris ''Altrosa''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'103', E'Aquilegia vulgaris ''Altrosa''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'104', E'Aquilegia vulgaris ''Rosea''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'104', E'Aquilegia vulgaris ''Rosea''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'105', E'Aquilegia vulgaris');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'105', E'Aquilegia vulgaris');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'106', E'Aquilegia x hybr. ''Blue Star''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'106', E'Aquilegia x hybr. ''Blue Star''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'107', E'Aquilegia x hybr. ''Crimson Star''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'107', E'Aquilegia x hybr. ''Crimson Star''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'108', E'Aquilegia x hybr. ''Snow Queen''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'108', E'Aquilegia x hybr. ''Snow Queen''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'109', E'Aquilegia x hybr.');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'109', E'Aquilegia x hybr.');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'110', E'Arabis blepharophylla');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'110', E'Arabis blepharophylla');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'111', E'Arabis caucasica');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'111', E'Arabis caucasica');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'112', E'Arabis ferdinandi-coburgi');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'112', E'Arabis ferdinandi-coburgi');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'113', E'Arabis x arendsii');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'113', E'Arabis x arendsii');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'114', E'Arctostaphylos uva-ursi');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'114', E'Arctostaphylos uva-ursi');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'115', E'Arenaria balearica');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'115', E'Arenaria balearica');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'116', E'Arenaria montana');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'116', E'Arenaria montana');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'117', E'Arenaria tetraquerta');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'117', E'Arenaria tetraquerta');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'118', E'Aristolochia macrophylla');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'118', E'Aristolochia macrophylla');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'119', E'Aristolochia');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'119', E'Aristolochia');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'120', E'Armeria juniperifolia');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'120', E'Armeria juniperifolia');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'121', E'Armeria maritima');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'121', E'Armeria maritima');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'122', E'Arnica montana');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'122', E'Arnica montana');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'123', E'Arnica sachalinensis');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'123', E'Arnica sachalinensis');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'124', E'Aronia arbutifolia');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'124', E'Aronia arbutifolia');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'125', E'Aronia melanocarpa ''Glorie''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'125', E'Aronia melanocarpa ''Glorie''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'126', E'Aronia melanocarpa');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'126', E'Aronia melanocarpa');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'127', E'Aronia mitschurinii ''Viking''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'127', E'Aronia mitschurinii ''Viking''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'128', E'Aronia mitschurinii');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'128', E'Aronia mitschurinii');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'129', E'Aronia x prunifolia');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'129', E'Aronia x prunifolia');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'130', E'Aronia');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'130', E'Aronia');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'131', E'Artemisia absinthium');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'131', E'Artemisia absinthium');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'132', E'Artemisia arbotanum');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'132', E'Artemisia arbotanum');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'133', E'Artemisia dracunculus');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'133', E'Artemisia dracunculus');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'134', E'Artemisia lactiflora');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'134', E'Artemisia lactiflora');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'135', E'Artemisia ludoviciana');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'135', E'Artemisia ludoviciana');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'136', E'Artemisia maritima');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'136', E'Artemisia maritima');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'137', E'Artemisia schmidtiana ''Nana''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'137', E'Artemisia schmidtiana ''Nana''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'138', E'Artemisia schmidtiana');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'138', E'Artemisia schmidtiana');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'139', E'Artemisia');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'139', E'Artemisia');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'140', E'Arum italicum');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'140', E'Arum italicum');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'141', E'Arum maculatum');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'141', E'Arum maculatum');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'142', E'Aruncus aethusifolius');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'142', E'Aruncus aethusifolius');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'143', E'Aruncus dioicus');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'143', E'Aruncus dioicus');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'144', E'Aruncus');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'144', E'Aruncus');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'145', E'Asarum canadense');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'145', E'Asarum canadense');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'146', E'Asarum europaeum');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'146', E'Asarum europaeum');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'147', E'Asparagus officinalis');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'147', E'Asparagus officinalis');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'148', E'Asperula orientalis');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'148', E'Asperula orientalis');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'149', E'Aster alpinus ''Abendschein''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'149', E'Aster alpinus ''Abendschein''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'150', E'Aster alpinus ''Albus''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'150', E'Aster alpinus ''Albus''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'151', E'Aster alpinus ''Blue Star''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'151', E'Aster alpinus ''Blue Star''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'152', E'Aster alpinus');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'152', E'Aster alpinus');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'153', E'Aster amellus ''Blue King''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'153', E'Aster amellus ''Blue King''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'154', E'Aster amellus ''Danzig''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'154', E'Aster amellus ''Danzig''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'155', E'Aster amellus ''King George''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'155', E'Aster amellus ''King George''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'156', E'Aster amellus ''Rudolf Goethe''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'156', E'Aster amellus ''Rudolf Goethe''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'157', E'Aster amellus ''Sonia''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'157', E'Aster amellus ''Sonia''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'158', E'Aster amellus');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'158', E'Aster amellus');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'159', E'Aster dumosus ''Starlight''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'159', E'Aster dumosus ''Starlight''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'160', E'Aster dumosus ''Waldenberg''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'160', E'Aster dumosus ''Waldenberg''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'161', E'Aster novi-belgii ''Dauerblau''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'161', E'Aster novi-belgii ''Dauerblau''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'162', E'Aster novi-belgii ''Eventide''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'162', E'Aster novi-belgii ''Eventide''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'163', E'Aster novi-belgii ''Red Sunset''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'163', E'Aster novi-belgii ''Red Sunset''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'164', E'Aster novi-belgii ''White Ladies''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'164', E'Aster novi-belgii ''White Ladies''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'165', E'Aster novi-belgii ''Winston Churchill''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'165', E'Aster novi-belgii ''Winston Churchill''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'166', E'Aster x alpellus');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'166', E'Aster x alpellus');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'167', E'Astilbe Arendsii -hybr. ''Federsee''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'167', E'Astilbe Arendsii -hybr. ''Federsee''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'168', E'Astilbe Arendsii-hybr. ''Amethyst''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'168', E'Astilbe Arendsii-hybr. ''Amethyst''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'169', E'Astilbe Arendsii-hybr. ''Bonn''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'169', E'Astilbe Arendsii-hybr. ''Bonn''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'170', E'Astilbe Arendsii-hybr. ''Brautschleier''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'170', E'Astilbe Arendsii-hybr. ''Brautschleier''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'171', E'Astilbe Arendsii-hybr. ''Bremen''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'171', E'Astilbe Arendsii-hybr. ''Bremen''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'172', E'Astilbe Arendsii-hybr. ''Cattleya''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'172', E'Astilbe Arendsii-hybr. ''Cattleya''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'173', E'Astilbe Arendsii-hybr. ''Deutschland''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'173', E'Astilbe Arendsii-hybr. ''Deutschland''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'174', E'Astilbe Arendsii-hybr. ''Erika''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'174', E'Astilbe Arendsii-hybr. ''Erika''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'175', E'Astilbe Arendsii-hybr. ''Etna''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'175', E'Astilbe Arendsii-hybr. ''Etna''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'176', E'Astilbe Arendsii-hybr. ''Europa''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'176', E'Astilbe Arendsii-hybr. ''Europa''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'177', E'Astilbe Arendsii-hybr. ''Fanal''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'177', E'Astilbe Arendsii-hybr. ''Fanal''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'178', E'Astilbe Arendsii-hybr. ''Feuer''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'178', E'Astilbe Arendsii-hybr. ''Feuer''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'179', E'Astilbe Arendsii-hybr. ''Gladstone''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'179', E'Astilbe Arendsii-hybr. ''Gladstone''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'180', E'Astilbe Arendsii-hybr. ''Gloria Purpurea''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'180', E'Astilbe Arendsii-hybr. ''Gloria Purpurea''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'181', E'Astilbe Arendsii-hybr. ''Gloria''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'181', E'Astilbe Arendsii-hybr. ''Gloria''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'182', E'Astilbe Arendsii-hybr. ''Glut''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'182', E'Astilbe Arendsii-hybr. ''Glut''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'183', E'Astilbe Arendsii-hybr. ''Hyasinth''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'183', E'Astilbe Arendsii-hybr. ''Hyasinth''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'184', E'Astilbe Arendsii-hybr. ''Irrlicht''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'184', E'Astilbe Arendsii-hybr. ''Irrlicht''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'185', E'Astilbe Arendsii-hybr. ''Montgomery''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'185', E'Astilbe Arendsii-hybr. ''Montgomery''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'186', E'Astilbe Arendsii-hybr. ''Peach Blossom''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'186', E'Astilbe Arendsii-hybr. ''Peach Blossom''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'187', E'Astilbe Arendsii-hybr. ''Red Sentinel''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'187', E'Astilbe Arendsii-hybr. ''Red Sentinel''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'188', E'Astilbe Arendsii-hybr. ''Rheinland''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'188', E'Astilbe Arendsii-hybr. ''Rheinland''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'189', E'Astilbe Arendsii-hybr. ''Spinelli''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'189', E'Astilbe Arendsii-hybr. ''Spinelli''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'190', E'Astilbe Arendsii-hybr. ''Straussenf.''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'190', E'Astilbe Arendsii-hybr. ''Straussenf.''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'191', E'Astilbe Arendsii-hybr. ''Weisse Gloria''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'191', E'Astilbe Arendsii-hybr. ''Weisse Gloria''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'192', E'Astilbe Arendsii-hybr.');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'192', E'Astilbe Arendsii-hybr.');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'193', E'Astilbe chinensis ''Finale''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'193', E'Astilbe chinensis ''Finale''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'194', E'Astilbe chinensis ''Pumila''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'194', E'Astilbe chinensis ''Pumila''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'195', E'Astilbe chinensis');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'195', E'Astilbe chinensis');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'196', E'Astilbe Japonica-ryhmä');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'196', E'Astilbe Japonica-ryhmä');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'197', E'Astilbe');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'197', E'Astilbe');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'198', E'Astilboides tabularis');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'198', E'Astilboides tabularis');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'199', E'Astrantia major');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'199', E'Astrantia major');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'200', E'Athyrium filix-femina');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'200', E'Athyrium filix-femina');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'201', E'Athyrium niponicum');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'201', E'Athyrium niponicum');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'202', E'Aubrieta deltoidea');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'202', E'Aubrieta deltoidea');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'203', E'Aubrieta x cultorum');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'203', E'Aubrieta x cultorum');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'204', E'Azalea mollis');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'204', E'Azalea mollis');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'205', E'Bellis perennis ''Purpurmandel''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'205', E'Bellis perennis ''Purpurmandel''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'206', E'Bellis perennis ''Rosa''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'206', E'Bellis perennis ''Rosa''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'207', E'Bellis perennis');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'207', E'Bellis perennis');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'208', E'Berberis thunbergii ''Admiration''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'208', E'Berberis thunbergii ''Admiration''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'209', E'Berberis thunbergii ''Atropurpurea nana''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'209', E'Berberis thunbergii ''Atropurpurea nana''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'210', E'Berberis thunbergii ''Atropurpurea''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'210', E'Berberis thunbergii ''Atropurpurea''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'211', E'Berberis thunbergii');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'211', E'Berberis thunbergii');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'212', E'Berberis vulgaris ''Atropurpurea''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'212', E'Berberis vulgaris ''Atropurpurea''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'213', E'Berberis vulgaris');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'213', E'Berberis vulgaris');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'214', E'Berberis x ottawensis ''Superba''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'214', E'Berberis x ottawensis ''Superba''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'215', E'Berberis');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'215', E'Berberis');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'216', E'Bergenia cordifolia ''Rotblom''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'216', E'Bergenia cordifolia ''Rotblom''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'217', E'Bergenia cordifolia');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'217', E'Bergenia cordifolia');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'218', E'Bergenia crassifolia');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'218', E'Bergenia crassifolia');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'219', E'Bergenia');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'219', E'Bergenia');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'220', E'Bistorta affinis');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'220', E'Bistorta affinis');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'221', E'Bistorta major ''Superba''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'221', E'Bistorta major ''Superba''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'222', E'Bistorta major');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'222', E'Bistorta major');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'223', E'Borago officinalis');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'223', E'Borago officinalis');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'224', E'Brunnera macrophylla');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'224', E'Brunnera macrophylla');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'225', E'Butomus umbellatus');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'225', E'Butomus umbellatus');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'226', E'Calamagrostis epigejos');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'226', E'Calamagrostis epigejos');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'227', E'Calendula officinalis');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'227', E'Calendula officinalis');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'228', E'Calla palustris');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'228', E'Calla palustris');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'229', E'Calluna vulgaris');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'229', E'Calluna vulgaris');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'230', E'Caltha palustris');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'230', E'Caltha palustris');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'231', E'Campanula carpatica ''Blaue Clips''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'231', E'Campanula carpatica ''Blaue Clips''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'232', E'Campanula carpatica ''Weisse Clips''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'232', E'Campanula carpatica ''Weisse Clips''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'233', E'Campanula carpatica');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'233', E'Campanula carpatica');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'234', E'Campanula glomerata');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'234', E'Campanula glomerata');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'235', E'Campanula latifolia');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'235', E'Campanula latifolia');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'236', E'Campanula patula');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'236', E'Campanula patula');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'237', E'Campanula persicifolia');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'237', E'Campanula persicifolia');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'238', E'Campanula portenschlagiana');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'238', E'Campanula portenschlagiana');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'239', E'Campanula rapunculoides');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'239', E'Campanula rapunculoides');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'240', E'Campanula rotundifolia');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'240', E'Campanula rotundifolia');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'241', E'Caragana arborescens ''Lorbergii Pendula''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'241', E'Caragana arborescens ''Lorbergii Pendula''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'242', E'Caragana arborescens ''Lorbergii''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'242', E'Caragana arborescens ''Lorbergii''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'243', E'Caragana arborescens ''Walker''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'243', E'Caragana arborescens ''Walker''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'244', E'Caragana arborescens');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'244', E'Caragana arborescens');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'245', E'Caragana frutex');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'245', E'Caragana frutex');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'246', E'Caragana');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'246', E'Caragana');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'247', E'Carex acuta');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'247', E'Carex acuta');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'248', E'Carex brunnea');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'248', E'Carex brunnea');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'249', E'Carex nigra');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'249', E'Carex nigra');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'250', E'Carex ovalis');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'250', E'Carex ovalis');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'251', E'Carex pseudocyperus');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'251', E'Carex pseudocyperus');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'252', E'Carex rhynchophysa');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'252', E'Carex rhynchophysa');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'253', E'Carex rostrata');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'253', E'Carex rostrata');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'254', E'Carex vesicaria');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'254', E'Carex vesicaria');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'255', E'Carum carvi');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'255', E'Carum carvi');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'256', E'Celastrus orbiculatus');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'256', E'Celastrus orbiculatus');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'257', E'Celastrus scandens ''Autumn Revolution''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'257', E'Celastrus scandens ''Autumn Revolution''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'258', E'Centaurea cyanus');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'258', E'Centaurea cyanus');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'259', E'Centaurea montana');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'259', E'Centaurea montana');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'260', E'Centaurea');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'260', E'Centaurea');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'261', E'Centranthus ruber');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'261', E'Centranthus ruber');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'262', E'Cerastium tomentosum ''Columnae''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'262', E'Cerastium tomentosum ''Columnae''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'263', E'Cerastium tomentosum');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'263', E'Cerastium tomentosum');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'264', E'Cercidiphyllum japonicum');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'264', E'Cercidiphyllum japonicum');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'265', E'Chaenomeles japonica');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'265', E'Chaenomeles japonica');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'266', E'Chamaecyparis lawsoniana ''Alumii''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'266', E'Chamaecyparis lawsoniana ''Alumii''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'267', E'Chamaecyparis pisifera');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'267', E'Chamaecyparis pisifera');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'268', E'Chelone obliqua');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'268', E'Chelone obliqua');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'269', E'Chiastophyllum oppositifolium');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'269', E'Chiastophyllum oppositifolium');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'270', E'Chimaphila umbellata');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'270', E'Chimaphila umbellata');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'271', E'Chrysanthemum leucanthemum ''Maikönigin''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'271', E'Chrysanthemum leucanthemum ''Maikönigin''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'272', E'Chrysanthemum');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'272', E'Chrysanthemum');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'273', E'Cimicifuga racemosa var. cordifolia');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'273', E'Cimicifuga racemosa var. cordifolia');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'274', E'Claytonia sibirica');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'274', E'Claytonia sibirica');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'275', E'Clematis alpina');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'275', E'Clematis alpina');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'276', E'Clematis integrif. ''Blue Panno''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'276', E'Clematis integrif. ''Blue Panno''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'277', E'Clematis ''Nadezda''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'277', E'Clematis ''Nadezda''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'278', E'Clematis ''Niobe''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'278', E'Clematis ''Niobe''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'279', E'Clematis ''Paul Farges''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'279', E'Clematis ''Paul Farges''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'280', E'Clematis recta');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'280', E'Clematis recta');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'281', E'Clematis sibirica');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'281', E'Clematis sibirica');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'282', E'Clematis tangutica');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'282', E'Clematis tangutica');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'283', E'Clematis viticella');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'283', E'Clematis viticella');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'284', E'Clematis x jackmanii');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'284', E'Clematis x jackmanii');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'285', E'Colchicum autumnale');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'285', E'Colchicum autumnale');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'286', E'Colchicum bommuelleri');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'286', E'Colchicum bommuelleri');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'287', E'Colchicum cilicicum');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'287', E'Colchicum cilicicum');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'288', E'Colchicum hybridum');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'288', E'Colchicum hybridum');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'289', E'Colchicum speciosum');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'289', E'Colchicum speciosum');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'290', E'Comarum palustre');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'290', E'Comarum palustre');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'291', E'Convallaria majalis');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'291', E'Convallaria majalis');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'292', E'Coreopsis grandiflora');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'292', E'Coreopsis grandiflora');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'293', E'Coreopsis verticillata');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'293', E'Coreopsis verticillata');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'294', E'Coriandrum sativum');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'294', E'Coriandrum sativum');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'295', E'Cornus alba ''Argenteomarginata''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'295', E'Cornus alba ''Argenteomarginata''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'296', E'Cornus alba ''Gouchaultii''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'296', E'Cornus alba ''Gouchaultii''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'297', E'Cornus alba ''Kesselringii''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'297', E'Cornus alba ''Kesselringii''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'298', E'Cornus alba ''Sibirica Variegata''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'298', E'Cornus alba ''Sibirica Variegata''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'299', E'Cornus alba ''Sibirica''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'299', E'Cornus alba ''Sibirica''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'300', E'Cornus alba ssp.alba');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'300', E'Cornus alba ssp.alba');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'301', E'Cornus alba ssp.stolonifera ''Flaviramea''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'301', E'Cornus alba ssp.stolonifera ''Flaviramea''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'302', E'Cornus alba stolonifera ''Kelsey''s Dwarf');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'302', E'Cornus alba stolonifera ''Kelsey''s Dwarf');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'303', E'Cornus sanguinea');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'303', E'Cornus sanguinea');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'304', E'Cornus sericea ''Bailadeline''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'304', E'Cornus sericea ''Bailadeline''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'305', E'Cornus');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'305', E'Cornus');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'306', E'Coronilla varia');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'306', E'Coronilla varia');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'307', E'Corydalis lutea');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'307', E'Corydalis lutea');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'308', E'Corydalis nobilis');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'308', E'Corydalis nobilis');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'309', E'Corydalis solida');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'309', E'Corydalis solida');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'310', E'Corylus avellana ''Contorta''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'310', E'Corylus avellana ''Contorta''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'311', E'Corylus avellana');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'311', E'Corylus avellana');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'312', E'Cotoneaster dammerii');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'312', E'Cotoneaster dammerii');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'313', E'Cotoneaster integerrimus');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'313', E'Cotoneaster integerrimus');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'314', E'Cotoneaster lucidus');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'314', E'Cotoneaster lucidus');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'315', E'Cotoneaster ''Skogsholm''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'315', E'Cotoneaster ''Skogsholm''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'316', E'Cotoneaster');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'316', E'Cotoneaster');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'317', E'Crataegus douglasii');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'317', E'Crataegus douglasii');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'318', E'Crataegus grayana');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'318', E'Crataegus grayana');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'319', E'Crataegus intricata');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'319', E'Crataegus intricata');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'320', E'Crataegus laevigata');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'320', E'Crataegus laevigata');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'321', E'Crataegus monogyna');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'321', E'Crataegus monogyna');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'322', E'Crataegus sp.');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'322', E'Crataegus sp.');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'323', E'Crataegus submollis');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'323', E'Crataegus submollis');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'324', E'Crataegus x media ''Paul''s Scarlet''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'324', E'Crataegus x media ''Paul''s Scarlet''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'325', E'Crataegus x mordenensis ''Toba''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'325', E'Crataegus x mordenensis ''Toba''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'326', E'Crocus ancyrensis');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'326', E'Crocus ancyrensis');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'327', E'Crocus angustifolius');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'327', E'Crocus angustifolius');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'328', E'Crocus chrysanthus');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'328', E'Crocus chrysanthus');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'329', E'Crocus corsicus');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'329', E'Crocus corsicus');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'330', E'Crocus etruscus');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'330', E'Crocus etruscus');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'331', E'Crocus laevigatus');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'331', E'Crocus laevigatus');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'332', E'Crocus speciosus');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'332', E'Crocus speciosus');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'333', E'Crocus tommasinianus');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'333', E'Crocus tommasinianus');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'334', E'Crocus vernus');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'334', E'Crocus vernus');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'335', E'Cymbalaria muralis');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'335', E'Cymbalaria muralis');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'336', E'Cytisus decumbens');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'336', E'Cytisus decumbens');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'337', E'Cytisus glaber');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'337', E'Cytisus glaber');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'338', E'Cytisus purpureus');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'338', E'Cytisus purpureus');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'339', E'Daphne mezereum');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'339', E'Daphne mezereum');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'340', E'Darmera peltata');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'340', E'Darmera peltata');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'341', E'Dasiphora fruticosa ''Abbotswood''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'341', E'Dasiphora fruticosa ''Abbotswood''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'342', E'Dasiphora fruticosa ''Elizabeth''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'342', E'Dasiphora fruticosa ''Elizabeth''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'343', E'Dasiphora fruticosa ''Floppy Disk''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'343', E'Dasiphora fruticosa ''Floppy Disk''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'344', E'Dasiphora fruticosa ''Fridhem''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'344', E'Dasiphora fruticosa ''Fridhem''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'345', E'Dasiphora fruticosa ''Goldfinger''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'345', E'Dasiphora fruticosa ''Goldfinger''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'346', E'Dasiphora fruticosa ''Goldteppic''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'346', E'Dasiphora fruticosa ''Goldteppic''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'347', E'Dasiphora fruticosa ''Hacemann''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'347', E'Dasiphora fruticosa ''Hacemann''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'348', E'Dasiphora fruticosa ''Jackman''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'348', E'Dasiphora fruticosa ''Jackman''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'349', E'Dasiphora fruticosa ''Kobold''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'349', E'Dasiphora fruticosa ''Kobold''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'350', E'Dasiphora fruticosa ''Longacre''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'350', E'Dasiphora fruticosa ''Longacre''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'351', E'Dasiphora fruticosa ''Lovely Pink''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'351', E'Dasiphora fruticosa ''Lovely Pink''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'352', E'Dasiphora fruticosa ''Mount Everest''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'352', E'Dasiphora fruticosa ''Mount Everest''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'353', E'Dasiphora fruticosa ''Månelys''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'353', E'Dasiphora fruticosa ''Månelys''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'354', E'Dasiphora fruticosa ''Primrose Beauty''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'354', E'Dasiphora fruticosa ''Primrose Beauty''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'355', E'Dasiphora fruticosa ''Princess''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'355', E'Dasiphora fruticosa ''Princess''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'356', E'Dasiphora fruticosa ''Red Ace''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'356', E'Dasiphora fruticosa ''Red Ace''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'357', E'Dasiphora fruticosa ''Sandved''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'357', E'Dasiphora fruticosa ''Sandved''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'358', E'Dasiphora fruticosa ''Snow Flake''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'358', E'Dasiphora fruticosa ''Snow Flake''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'359', E'Dasiphora fruticosa ''Tervola''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'359', E'Dasiphora fruticosa ''Tervola''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'360', E'Dasiphora fruticosa ''Tilford Cream''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'360', E'Dasiphora fruticosa ''Tilford Cream''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'361', E'Dasiphora fruticosa');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'361', E'Dasiphora fruticosa');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'362', E'Delphinium ''Astolat''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'362', E'Delphinium ''Astolat''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'363', E'Delphinium ''Black Knight''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'363', E'Delphinium ''Black Knight''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'364', E'Delphinium ''Blue Beauty''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'364', E'Delphinium ''Blue Beauty''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'365', E'Delphinium ''Blue Bird''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'365', E'Delphinium ''Blue Bird''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'366', E'Delphinium ''Galahad''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'366', E'Delphinium ''Galahad''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'367', E'Delphinium ''King Arthur''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'367', E'Delphinium ''King Arthur''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'368', E'Deschampsia flexuosa');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'368', E'Deschampsia flexuosa');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'369', E'Dianthus barbatus');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'369', E'Dianthus barbatus');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'370', E'Dianthus deltoides');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'370', E'Dianthus deltoides');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'371', E'Dianthus gratianopolitanus');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'371', E'Dianthus gratianopolitanus');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'372', E'Dianthus plumarius');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'372', E'Dianthus plumarius');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'373', E'Dicentra formosa ''Alba''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'373', E'Dicentra formosa ''Alba''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'374', E'Dicentra formosa ''Luxuriant''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'374', E'Dicentra formosa ''Luxuriant''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'375', E'Dicentra formosa');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'375', E'Dicentra formosa');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'376', E'Dicentra spectabilis');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'376', E'Dicentra spectabilis');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'377', E'Dictamnus albus');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'377', E'Dictamnus albus');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'378', E'Diervilla lonicera ''Helo''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'378', E'Diervilla lonicera ''Helo''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'379', E'Diervilla lonicera');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'379', E'Diervilla lonicera');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'380', E'Diervilla sessilifolia ''Cool Splash''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'380', E'Diervilla sessilifolia ''Cool Splash''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'381', E'Diervilla sessilifolia ''Kajo''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'381', E'Diervilla sessilifolia ''Kajo''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'382', E'Diervilla sessilifolia ''Rusko''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'382', E'Diervilla sessilifolia ''Rusko''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'383', E'Diervilla sessilifolia');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'383', E'Diervilla sessilifolia');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'384', E'Diervilla x splendens');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'384', E'Diervilla x splendens');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'385', E'Digitalis grandiflora');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'385', E'Digitalis grandiflora');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'386', E'Digitalis purpurea');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'386', E'Digitalis purpurea');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'387', E'Doronicum orientale ''Finesse''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'387', E'Doronicum orientale ''Finesse''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'388', E'Doronicum orientale');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'388', E'Doronicum orientale');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'389', E'Doronicum plantagineum');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'389', E'Doronicum plantagineum');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'390', E'Doronicum');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'390', E'Doronicum');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'391', E'Dracokephalum sibiricum');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'391', E'Dracokephalum sibiricum');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'392', E'Dryas octopetala');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'392', E'Dryas octopetala');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'393', E'Dryopteris carthusiana');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'393', E'Dryopteris carthusiana');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'394', E'Dryopteris filix-mas');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'394', E'Dryopteris filix-mas');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'395', E'Dryoptreris filix-mas');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'395', E'Dryoptreris filix-mas');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'396', E'Echinacea purpurea ''Magnus''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'396', E'Echinacea purpurea ''Magnus''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'397', E'Echinacea purpurea');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'397', E'Echinacea purpurea');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'398', E'Echinops bannaticus');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'398', E'Echinops bannaticus');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'399', E'Empetrum nigrum');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'399', E'Empetrum nigrum');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'400', E'Epimedium x rubrum');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'400', E'Epimedium x rubrum');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'401', E'Epimedium x youngianum ''Niveum''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'401', E'Epimedium x youngianum ''Niveum''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'402', E'Eremurus robustus');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'402', E'Eremurus robustus');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'403', E'Erigeron ''Adria''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'403', E'Erigeron ''Adria''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'404', E'Erigeron aurantiacus');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'404', E'Erigeron aurantiacus');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'405', E'Erigeron ''Azurfee''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'405', E'Erigeron ''Azurfee''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'406', E'Erigeron ''Grandiflorus''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'406', E'Erigeron ''Grandiflorus''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'407', E'Erigeron ''Schöne Blau''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'407', E'Erigeron ''Schöne Blau''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'408', E'Erigeron speciosus');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'408', E'Erigeron speciosus');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'409', E'Erigeron');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'409', E'Erigeron');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'410', E'Eryngium alpinum ''Amethyst''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'410', E'Eryngium alpinum ''Amethyst''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'411', E'Eryngium alpinum ''James Ivory''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'411', E'Eryngium alpinum ''James Ivory''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'412', E'Eryngium alpinum');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'412', E'Eryngium alpinum');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'413', E'Eryngium planum');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'413', E'Eryngium planum');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'414', E'Euonymus europaeus');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'414', E'Euonymus europaeus');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'415', E'Euonymus nanus var. turkestanicus');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'415', E'Euonymus nanus var. turkestanicus');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'416', E'Eupatorium cannabinum');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'416', E'Eupatorium cannabinum');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'417', E'Eupatorium purpureum');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'417', E'Eupatorium purpureum');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'418', E'Eupatorium');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'418', E'Eupatorium');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'419', E'Euphorbia cyparissias');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'419', E'Euphorbia cyparissias');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'420', E'Euphorbia palustris');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'420', E'Euphorbia palustris');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'421', E'Euphorbia polychroma');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'421', E'Euphorbia polychroma');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'422', E'Fallopia jabonica var. compacta');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'422', E'Fallopia jabonica var. compacta');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'423', E'Fallopia japonica var. compacta');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'423', E'Fallopia japonica var. compacta');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'424', E'Fallopia japonica');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'424', E'Fallopia japonica');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'425', E'Fallopia sachalinensis');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'425', E'Fallopia sachalinensis');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'426', E'Festuca cinerea');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'426', E'Festuca cinerea');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'427', E'Festuca gautieri');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'427', E'Festuca gautieri');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'428', E'Filipendula rubra');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'428', E'Filipendula rubra');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'429', E'Filipendula ulmaria');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'429', E'Filipendula ulmaria');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'430', E'Filipendula vulgaris ''Plena''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'430', E'Filipendula vulgaris ''Plena''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'431', E'Filipendula vulgaris ''Rosea''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'431', E'Filipendula vulgaris ''Rosea''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'432', E'Filipendula vulgaris');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'432', E'Filipendula vulgaris');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'433', E'Foeniculum vulgare var. dulce');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'433', E'Foeniculum vulgare var. dulce');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'434', E'Forsythia ''Northern Gold''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'434', E'Forsythia ''Northern Gold''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'435', E'Forsythia ovata');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'435', E'Forsythia ovata');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'436', E'Forsythia');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'436', E'Forsythia');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'437', E'Fothergilla major ''Velho''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'437', E'Fothergilla major ''Velho''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'438', E'Fothergilla major');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'438', E'Fothergilla major');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'439', E'Fritillaria imperialis');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'439', E'Fritillaria imperialis');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'440', E'Fritillaria meleagris');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'440', E'Fritillaria meleagris');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'441', E'Galanthus elwesii');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'441', E'Galanthus elwesii');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'442', E'Galanthus nivalis');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'442', E'Galanthus nivalis');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'443', E'Galium odoratum');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'443', E'Galium odoratum');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'444', E'Galium verum');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'444', E'Galium verum');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'445', E'Genista tinctoria');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'445', E'Genista tinctoria');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'446', E'Gentiana cruciata');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'446', E'Gentiana cruciata');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'447', E'Gentiana septemfida');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'447', E'Gentiana septemfida');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'448', E'Gentiana sino-ornata');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'448', E'Gentiana sino-ornata');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'449', E'Geranium himalayense ''Derrick Cook''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'449', E'Geranium himalayense ''Derrick Cook''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'450', E'Geranium himalayense ''Gravetye''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'450', E'Geranium himalayense ''Gravetye''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'451', E'Geranium himalayense');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'451', E'Geranium himalayense');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'452', E'Geranium ibericum');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'452', E'Geranium ibericum');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'453', E'Geranium ''Johnson''s Blue''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'453', E'Geranium ''Johnson''s Blue''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'454', E'Geranium macrorrhizum ''Purple Red''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'454', E'Geranium macrorrhizum ''Purple Red''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'455', E'Geranium macrorrhizum ''Purpurrot''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'455', E'Geranium macrorrhizum ''Purpurrot''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'456', E'Geranium macrorrhizum');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'456', E'Geranium macrorrhizum');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'457', E'Geranium nepalense');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'457', E'Geranium nepalense');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'458', E'Geranium palustre');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'458', E'Geranium palustre');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'459', E'Geranium pratense');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'459', E'Geranium pratense');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'460', E'Geranium sanguineum ''Elke''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'460', E'Geranium sanguineum ''Elke''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'461', E'Geranium sanguineum ''Max Frei''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'461', E'Geranium sanguineum ''Max Frei''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'462', E'Geranium sanguineum');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'462', E'Geranium sanguineum');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'463', E'Geranium sylvaticum');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'463', E'Geranium sylvaticum');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'464', E'Geranium x cantabrigiense ''Biokovo''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'464', E'Geranium x cantabrigiense ''Biokovo''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'465', E'Geranium x cantabrigiense ''Cambridge''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'465', E'Geranium x cantabrigiense ''Cambridge''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'466', E'Geranium x cantabrigiense ''Karmina''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'466', E'Geranium x cantabrigiense ''Karmina''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'467', E'Geranium x cantabrigiense');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'467', E'Geranium x cantabrigiense');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'468', E'Geranium x magnificum');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'468', E'Geranium x magnificum');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'469', E'Geum coccineum ''Borisii''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'469', E'Geum coccineum ''Borisii''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'470', E'Geum coccineum');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'470', E'Geum coccineum');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'471', E'Gillenia trifoliata');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'471', E'Gillenia trifoliata');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'472', E'Gladioulus imbricatus');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'472', E'Gladioulus imbricatus');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'473', E'Glechoma hederacea');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'473', E'Glechoma hederacea');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'474', E'Glyceria maxima');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'474', E'Glyceria maxima');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'475', E'Gymnocarpium dryopteris');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'475', E'Gymnocarpium dryopteris');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'476', E'Gypsophila paniculata');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'476', E'Gypsophila paniculata');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'477', E'Gypsophilla repens');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'477', E'Gypsophilla repens');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'478', E'Hedera helix');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'478', E'Hedera helix');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'479', E'Helenium ''Grimson Beauty''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'479', E'Helenium ''Grimson Beauty''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'480', E'Helenium hoopesii');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'480', E'Helenium hoopesii');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'481', E'Helenium hybrida');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'481', E'Helenium hybrida');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'482', E'Helenium ''The Bishop''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'482', E'Helenium ''The Bishop''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'483', E'Helenium ''Wesergold''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'483', E'Helenium ''Wesergold''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'484', E'Heliopsis helianthoides v.sca. ''Goldball');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'484', E'Heliopsis helianthoides v.sca. ''Goldball');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'485', E'Heliopsis helianthoides v.sca.''Goldfiede');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'485', E'Heliopsis helianthoides v.sca.''Goldfiede');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'486', E'Heliopsis helianthoides v.scabra ''Patula');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'486', E'Heliopsis helianthoides v.scabra ''Patula');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'487', E'Hemerocallis ''Aino''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'487', E'Hemerocallis ''Aino''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'488', E'Hemerocallis ''Apricot''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'488', E'Hemerocallis ''Apricot''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'489', E'Hemerocallis ''Atlas''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'489', E'Hemerocallis ''Atlas''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'490', E'Hemerocallis ''Carminea''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'490', E'Hemerocallis ''Carminea''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'491', E'Hemerocallis citrina');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'491', E'Hemerocallis citrina');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'492', E'Hemerocallis ''Corky''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'492', E'Hemerocallis ''Corky''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'493', E'Hemerocallis ''Elegant Candy''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'493', E'Hemerocallis ''Elegant Candy''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'494', E'Hemerocallis ''Entrapment''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'494', E'Hemerocallis ''Entrapment''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'495', E'Hemerocallis ''Flaming Sword''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'495', E'Hemerocallis ''Flaming Sword''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'496', E'Hemerocallis ''Frans Hals');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'496', E'Hemerocallis ''Frans Hals');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'497', E'Hemerocallis ''Free Wheelin''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'497', E'Hemerocallis ''Free Wheelin''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'498', E'Hemerocallis fulva ''Europa''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'498', E'Hemerocallis fulva ''Europa''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'499', E'Hemerocallis fulva');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'499', E'Hemerocallis fulva');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'500', E'Hemerocallis ''Golden Seapter''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'500', E'Hemerocallis ''Golden Seapter''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'501', E'Hemerocallis ''Indian Sky''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'501', E'Hemerocallis ''Indian Sky''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'502', E'Hemerocallis ''Joan Senior''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'502', E'Hemerocallis ''Joan Senior''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'503', E'Hemerocallis ''Kantarelli''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'503', E'Hemerocallis ''Kantarelli''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'504', E'Hemerocallis ''Kurt''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'504', E'Hemerocallis ''Kurt''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'505', E'Hemerocallis lilio-asphodelus');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'505', E'Hemerocallis lilio-asphodelus');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'506', E'Hemerocallis ''Little Girl''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'506', E'Hemerocallis ''Little Girl''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'507', E'Hemerocallis ''Margaret Perry''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'507', E'Hemerocallis ''Margaret Perry''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'508', E'Hemerocallis middendorffii');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'508', E'Hemerocallis middendorffii');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'509', E'Hemerocallis minor');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'509', E'Hemerocallis minor');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'510', E'Hemerocallis ''Pink Damask''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'510', E'Hemerocallis ''Pink Damask''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'511', E'Hemerocallis ''Radiant''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'511', E'Hemerocallis ''Radiant''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'512', E'Hemerocallis ''Rocket City''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'512', E'Hemerocallis ''Rocket City''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'513', E'Hemerocallis ''Sammy Russel''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'513', E'Hemerocallis ''Sammy Russel''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'514', E'Hemerocallis ''Sirkku''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'514', E'Hemerocallis ''Sirkku''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'515', E'Hemerocallis ''Stella D''oro''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'515', E'Hemerocallis ''Stella D''oro''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'516', E'Hemerocallis ''Tejas''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'516', E'Hemerocallis ''Tejas''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'517', E'Hemerocallis ''Valliant''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'517', E'Hemerocallis ''Valliant''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'518', E'Hemerocallis ''Watchyl Wild Indian''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'518', E'Hemerocallis ''Watchyl Wild Indian''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'519', E'Hemerocallis ''Violet Hour''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'519', E'Hemerocallis ''Violet Hour''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'520', E'Hemerocallis');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'520', E'Hemerocallis');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'521', E'Hepatica nobilis');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'521', E'Hepatica nobilis');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'522', E'Heracleum mantegazzianum');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'522', E'Heracleum mantegazzianum');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'523', E'Hesperis matronalis');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'523', E'Hesperis matronalis');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'524', E'Heuchera micrantha ''Palace Purple''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'524', E'Heuchera micrantha ''Palace Purple''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'525', E'Heuchera sanguinea');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'525', E'Heuchera sanguinea');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'526', E'Heucherella tiarelloides');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'526', E'Heucherella tiarelloides');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'527', E'Hippophae rhamnoides ''Raisa''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'527', E'Hippophae rhamnoides ''Raisa''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'528', E'Hippophae rhamnoides ''Rudolf''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'528', E'Hippophae rhamnoides ''Rudolf''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'529', E'Hippophaë rhamnoides');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'529', E'Hippophaë rhamnoides');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'530', E'Holodiscus discolor');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'530', E'Holodiscus discolor');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'531', E'Hosta ''Color Festival''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'531', E'Hosta ''Color Festival''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'532', E'Hosta crispula');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'532', E'Hosta crispula');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'533', E'Hosta Fortunei ''Albopicta''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'533', E'Hosta Fortunei ''Albopicta''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'534', E'Hosta Fortunei ''Aurea''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'534', E'Hosta Fortunei ''Aurea''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'535', E'Hosta Fortunei ''Francee''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'535', E'Hosta Fortunei ''Francee''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'536', E'Hosta Fortunei ''Patriot''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'536', E'Hosta Fortunei ''Patriot''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'537', E'Hosta Fortunei');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'537', E'Hosta Fortunei');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'538', E'Hosta lancifolia');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'538', E'Hosta lancifolia');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'539', E'Hosta ''Orange Marmalade''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'539', E'Hosta ''Orange Marmalade''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'540', E'Hosta plantaginea ''Grandiflora''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'540', E'Hosta plantaginea ''Grandiflora''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'541', E'Hosta plantaginea');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'541', E'Hosta plantaginea');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'542', E'Hosta rectifolia ''Tallboy''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'542', E'Hosta rectifolia ''Tallboy''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'543', E'Hosta rectifolia');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'543', E'Hosta rectifolia');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'544', E'Hosta sieboldiana ''Elegans''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'544', E'Hosta sieboldiana ''Elegans''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'545', E'Hosta sieboldiana ''Reykjavik''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'545', E'Hosta sieboldiana ''Reykjavik''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'546', E'Hosta sieboldiana');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'546', E'Hosta sieboldiana');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'547', E'Hosta sieboldii ''Alba''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'547', E'Hosta sieboldii ''Alba''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'548', E'Hosta sieboldii');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'548', E'Hosta sieboldii');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'549', E'Hosta undulata ''Albomarginata''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'549', E'Hosta undulata ''Albomarginata''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'550', E'Hosta undulata ''Crispum''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'550', E'Hosta undulata ''Crispum''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'551', E'Hosta undulata ''Erromena''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'551', E'Hosta undulata ''Erromena''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'552', E'Hosta undulata ''Mediovariegata''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'552', E'Hosta undulata ''Mediovariegata''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'553', E'Hosta undulata');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'553', E'Hosta undulata');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'554', E'Hosta ventricosa ''Aureomaculata''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'554', E'Hosta ventricosa ''Aureomaculata''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'555', E'Hosta ventricosa ''Variegata''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'555', E'Hosta ventricosa ''Variegata''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'556', E'Hosta ventricosa');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'556', E'Hosta ventricosa');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'557', E'Hosta');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'557', E'Hosta');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'558', E'Humulus lupulus');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'558', E'Humulus lupulus');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'559', E'Hyacinthus orientalis');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'559', E'Hyacinthus orientalis');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'560', E'Hydrangea anomala ssp. petiolaris');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'560', E'Hydrangea anomala ssp. petiolaris');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'561', E'Hydrangea arborescens ''Annabelle''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'561', E'Hydrangea arborescens ''Annabelle''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'562', E'Hydrangea arborescens ''Grandiflora''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'562', E'Hydrangea arborescens ''Grandiflora''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'563', E'Hydrangea heteromalla');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'563', E'Hydrangea heteromalla');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'564', E'Hydrangea paniculata ''Early Sensation''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'564', E'Hydrangea paniculata ''Early Sensation''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'565', E'Hydrangea paniculata ''Grandiflora''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'565', E'Hydrangea paniculata ''Grandiflora''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'566', E'Hydrangea paniculata ''Mustila''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'566', E'Hydrangea paniculata ''Mustila''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'567', E'Hydrangea paniculata ''Praecox''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'567', E'Hydrangea paniculata ''Praecox''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'568', E'Hydrangea paniculata');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'568', E'Hydrangea paniculata');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'569', E'Hyssopus officinalis');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'569', E'Hyssopus officinalis');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'570', E'Iberis semperfirens');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'570', E'Iberis semperfirens');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'571', E'Incarvillea mairei');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'571', E'Incarvillea mairei');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'572', E'Inula ensifolia');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'572', E'Inula ensifolia');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'573', E'Inula helenium');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'573', E'Inula helenium');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'574', E'Iris ''Azurea''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'574', E'Iris ''Azurea''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'575', E'Iris barbata elatior ''Joanna''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'575', E'Iris barbata elatior ''Joanna''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'576', E'Iris Barbata-hybrida ´Pastel Charme´');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'576', E'Iris Barbata-hybrida ´Pastel Charme´');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'577', E'Iris Barbata-hybrida');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'577', E'Iris Barbata-hybrida');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'578', E'Iris ''Cyanea''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'578', E'Iris ''Cyanea''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'579', E'Iris ''Eleanor Roosevelt''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'579', E'Iris ''Eleanor Roosevelt''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'580', E'Iris ''Empress of India''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'580', E'Iris ''Empress of India''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'581', E'Iris ensata ''Higo Stain''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'581', E'Iris ensata ''Higo Stain''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'582', E'Iris ensata ''Nippon''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'582', E'Iris ensata ''Nippon''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'583', E'Iris ''Espada''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'583', E'Iris ''Espada''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'584', E'Iris germanica ''Helge''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'584', E'Iris germanica ''Helge''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'585', E'Iris germanica ''Snow Queen''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'585', E'Iris germanica ''Snow Queen''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'586', E'Iris germanica');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'586', E'Iris germanica');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'587', E'Iris orentalis');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'587', E'Iris orentalis');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'588', E'Iris orientalis ''Aloa''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'588', E'Iris orientalis ''Aloa''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'589', E'Iris pseudacorus');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'589', E'Iris pseudacorus');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'590', E'Iris pumila');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'590', E'Iris pumila');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'591', E'Iris reticulata');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'591', E'Iris reticulata');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'592', E'Iris ''Romance''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'592', E'Iris ''Romance''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'593', E'Iris setosa');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'593', E'Iris setosa');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'594', E'Iris sibirica alba');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'594', E'Iris sibirica alba');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'595', E'Iris sibirica ''Blue King''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'595', E'Iris sibirica ''Blue King''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'596', E'Iris sibirica ''Blue Moon''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'596', E'Iris sibirica ''Blue Moon''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'597', E'Iris sibirica ''Ceasar''s Brother''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'597', E'Iris sibirica ''Ceasar''s Brother''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'598', E'Iris sibirica ''Heavenly Blue''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'598', E'Iris sibirica ''Heavenly Blue''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'599', E'Iris sibirica ''Julius''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'599', E'Iris sibirica ''Julius''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'600', E'Iris sibirica ''Marja-Leena''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'600', E'Iris sibirica ''Marja-Leena''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'601', E'Iris sibirica ''Perry Blue''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'601', E'Iris sibirica ''Perry Blue''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'602', E'Iris sibirica ''Ruffled Velvet''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'602', E'Iris sibirica ''Ruffled Velvet''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'603', E'Iris sibirica ''Snow Queen''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'603', E'Iris sibirica ''Snow Queen''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'604', E'Iris sibirica ''Thunkhannock''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'604', E'Iris sibirica ''Thunkhannock''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'605', E'Iris sibirica');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'605', E'Iris sibirica');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'606', E'Iris ''Terry''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'606', E'Iris ''Terry''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'607', E'Iris ''White Knight''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'607', E'Iris ''White Knight''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'608', E'Juncus conglomeratus');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'608', E'Juncus conglomeratus');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'609', E'Juncus effusus');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'609', E'Juncus effusus');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'610', E'Juniperus chinensis ''Mint Julep''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'610', E'Juniperus chinensis ''Mint Julep''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'611', E'Juniperus chinensis ''Pfitzeriana Compact');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'611', E'Juniperus chinensis ''Pfitzeriana Compact');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'612', E'Juniperus communis ''Hongisto 13''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'612', E'Juniperus communis ''Hongisto 13''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'613', E'Juniperus communis ''Jääkäri''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'613', E'Juniperus communis ''Jääkäri''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'614', E'Juniperus communis ''Norrback''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'614', E'Juniperus communis ''Norrback''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'615', E'Juniperus communis ''Repanda''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'615', E'Juniperus communis ''Repanda''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'616', E'Juniperus communis ''Sisu''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'616', E'Juniperus communis ''Sisu''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'617', E'Juniperus communis ''Suecica''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'617', E'Juniperus communis ''Suecica''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'618', E'Juniperus communis');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'618', E'Juniperus communis');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'619', E'Juniperus horizontalis ''Glauca''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'619', E'Juniperus horizontalis ''Glauca''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'620', E'Juniperus sabina ''Tamarischifolia''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'620', E'Juniperus sabina ''Tamarischifolia''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'621', E'Juniperus sabina');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'621', E'Juniperus sabina');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'622', E'Juniperus squamata ''Meyeri''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'622', E'Juniperus squamata ''Meyeri''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'623', E'Juniperus virginiana ''Sky Rocket''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'623', E'Juniperus virginiana ''Sky Rocket''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'624', E'Kalmia angustifolia');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'624', E'Kalmia angustifolia');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'625', E'Kalmia latifolia ''Peppermint''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'625', E'Kalmia latifolia ''Peppermint''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'626', E'Kalmia polifolia');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'626', E'Kalmia polifolia');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'627', E'Kolkwitzia amabilis');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'627', E'Kolkwitzia amabilis');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'628', E'Laburnum alpinum');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'628', E'Laburnum alpinum');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'629', E'Lamiastrum galeobdolon');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'629', E'Lamiastrum galeobdolon');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'630', E'Lathyrus latifolius');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'630', E'Lathyrus latifolius');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'631', E'Lavandula angustifolia');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'631', E'Lavandula angustifolia');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'632', E'Lavatera thuringiaca');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'632', E'Lavatera thuringiaca');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'633', E'Ledum palustre');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'633', E'Ledum palustre');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'634', E'Leontopodium alpinum');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'634', E'Leontopodium alpinum');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'635', E'Leucanthemum x superbum');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'635', E'Leucanthemum x superbum');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'636', E'Leucathemum vulgare');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'636', E'Leucathemum vulgare');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'637', E'Levisticum officinale');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'637', E'Levisticum officinale');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'638', E'Leymus arenarius');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'638', E'Leymus arenarius');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'639', E'Liatris spicata ''Floristan Weiss''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'639', E'Liatris spicata ''Floristan Weiss''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'640', E'Liatris spicata ''Kobold''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'640', E'Liatris spicata ''Kobold''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'641', E'Liatris spicata');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'641', E'Liatris spicata');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'642', E'Liatris');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'642', E'Liatris');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'643', E'Ligularia dentata ''Desdemona''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'643', E'Ligularia dentata ''Desdemona''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'644', E'Ligularia dentata ''Orange Queen''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'644', E'Ligularia dentata ''Orange Queen''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'645', E'Ligularia dentata ''Othello''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'645', E'Ligularia dentata ''Othello''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'646', E'Ligularia dentata');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'646', E'Ligularia dentata');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'647', E'Ligularia fischeri');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'647', E'Ligularia fischeri');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'648', E'Ligularia ''Hietala''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'648', E'Ligularia ''Hietala''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'649', E'Ligularia japonica');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'649', E'Ligularia japonica');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'650', E'Ligularia macrophylla ''New Star''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'650', E'Ligularia macrophylla ''New Star''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'651', E'Ligularia przewalskii ''Romeo''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'651', E'Ligularia przewalskii ''Romeo''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'652', E'Ligularia przewalskii');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'652', E'Ligularia przewalskii');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'653', E'Ligularia sibirica');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'653', E'Ligularia sibirica');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'654', E'Ligularia tangutica');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'654', E'Ligularia tangutica');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'655', E'Ligularia veitchiana');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'655', E'Ligularia veitchiana');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'656', E'Ligularia wilsoniana ''Hiisi''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'656', E'Ligularia wilsoniana ''Hiisi''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'657', E'Ligularia wilsoniana');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'657', E'Ligularia wilsoniana');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'658', E'Ligularia x hessei ''Greynok Gold''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'658', E'Ligularia x hessei ''Greynok Gold''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'659', E'Ligularia x hessei');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'659', E'Ligularia x hessei');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'660', E'Ligularia x palmatiloba');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'660', E'Ligularia x palmatiloba');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'661', E'Ligularia');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'661', E'Ligularia');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'662', E'Ligustrum vulgare');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'662', E'Ligustrum vulgare');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'663', E'Lilium bulbiferum');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'663', E'Lilium bulbiferum');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'664', E'Lilium candidum');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'664', E'Lilium candidum');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'665', E'Lilium lancifolium');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'665', E'Lilium lancifolium');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'666', E'Lilium martagon ''Album''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'666', E'Lilium martagon ''Album''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'667', E'Lilium martagon');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'667', E'Lilium martagon');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'668', E'Lilium regale');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'668', E'Lilium regale');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'669', E'Lilium');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'669', E'Lilium');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'670', E'Linaria vulgaris');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'670', E'Linaria vulgaris');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'671', E'Linnea borealis');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'671', E'Linnea borealis');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'672', E'Linum usitatissimum');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'672', E'Linum usitatissimum');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'673', E'Lonicera alpigena');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'673', E'Lonicera alpigena');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'674', E'Lonicera caerulea '' Jörgen''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'674', E'Lonicera caerulea '' Jörgen''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'675', E'Lonicera caerulea');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'675', E'Lonicera caerulea');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'676', E'Lonicera caprifolium');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'676', E'Lonicera caprifolium');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'677', E'Lonicera caucasica');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'677', E'Lonicera caucasica');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'678', E'Lonicera chrysantha');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'678', E'Lonicera chrysantha');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'679', E'Lonicera involucrata');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'679', E'Lonicera involucrata');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'680', E'Lonicera morrowii');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'680', E'Lonicera morrowii');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'681', E'Lonicera nigra');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'681', E'Lonicera nigra');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'682', E'Lonicera periclymenum');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'682', E'Lonicera periclymenum');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'683', E'Lonicera tatarica ''Rosea''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'683', E'Lonicera tatarica ''Rosea''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'684', E'Lonicera tatarica ''Sanna''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'684', E'Lonicera tatarica ''Sanna''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'685', E'Lonicera tatarica');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'685', E'Lonicera tatarica');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'686', E'Lonicera x amoena');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'686', E'Lonicera x amoena');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'687', E'Lonicera x bella ''Dropmore''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'687', E'Lonicera x bella ''Dropmore''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'688', E'Lonicera x bella ''Sakura''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'688', E'Lonicera x bella ''Sakura''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'689', E'Lonicera x bella ''Zabelii''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'689', E'Lonicera x bella ''Zabelii''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'690', E'Lonicera x bella');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'690', E'Lonicera x bella');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'691', E'Lonicera x xylosteoides ''Clavey''s Dwarf''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'691', E'Lonicera x xylosteoides ''Clavey''s Dwarf''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'692', E'Lonicera xylosteum');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'692', E'Lonicera xylosteum');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'693', E'Lonicera');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'693', E'Lonicera');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'694', E'Lotus corniculatus');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'694', E'Lotus corniculatus');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'695', E'Lupinus polyphyllus');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'695', E'Lupinus polyphyllus');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'696', E'Luzula nivea');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'696', E'Luzula nivea');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'697', E'Luzula pilosa');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'697', E'Luzula pilosa');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'698', E'Lychnis alpina');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'698', E'Lychnis alpina');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'699', E'Lychnis chalcedonica');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'699', E'Lychnis chalcedonica');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'700', E'Lychnis coronaria');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'700', E'Lychnis coronaria');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'701', E'Lychnis viscaria');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'701', E'Lychnis viscaria');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'702', E'Lysimachia clethroides');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'702', E'Lysimachia clethroides');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'703', E'Lysimachia nummularia');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'703', E'Lysimachia nummularia');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'704', E'Lysimachia punctata');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'704', E'Lysimachia punctata');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'705', E'Lysimachia thyrsiflora');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'705', E'Lysimachia thyrsiflora');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'706', E'Lysimachia vulgaris');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'706', E'Lysimachia vulgaris');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'707', E'Lythrum salicaria ''Robert''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'707', E'Lythrum salicaria ''Robert''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'708', E'Lythrum salicaria');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'708', E'Lythrum salicaria');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'709', E'Macleya cordata');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'709', E'Macleya cordata');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'710', E'Magnolia sieboldii');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'710', E'Magnolia sieboldii');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'711', E'Magnolia stellata');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'711', E'Magnolia stellata');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'712', E'Magnolia x soulangiana');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'712', E'Magnolia x soulangiana');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'713', E'Mahonia aquifolium');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'713', E'Mahonia aquifolium');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'714', E'Malus toringo var. sargentii');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'714', E'Malus toringo var. sargentii');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'715', E'Malva alcea');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'715', E'Malva alcea');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'716', E'Malva moscata');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'716', E'Malva moscata');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'717', E'Matricaria retutita');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'717', E'Matricaria retutita');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'718', E'Matteuccia struthiopteris');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'718', E'Matteuccia struthiopteris');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'719', E'Matteuchia struthiopteris');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'719', E'Matteuchia struthiopteris');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'720', E'Mecanopsis betonicifolia');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'720', E'Mecanopsis betonicifolia');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'721', E'Melica nutans');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'721', E'Melica nutans');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'722', E'Melissa officinalis');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'722', E'Melissa officinalis');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'723', E'Menispermum canadense');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'723', E'Menispermum canadense');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'724', E'Menispermum dauricum');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'724', E'Menispermum dauricum');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'725', E'Mentha spicata var. crispa');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'725', E'Mentha spicata var. crispa');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'726', E'Mentha spicata');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'726', E'Mentha spicata');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'727', E'Mentha x piperita');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'727', E'Mentha x piperita');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'728', E'Menyanthes trifoliata');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'728', E'Menyanthes trifoliata');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'729', E'Meum athamanticum');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'729', E'Meum athamanticum');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'730', E'Microbiota decussata');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'730', E'Microbiota decussata');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'731', E'Milium effusum');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'731', E'Milium effusum');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'732', E'Miscanthus sacchariflorus');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'732', E'Miscanthus sacchariflorus');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'733', E'Miscanthus sinensis');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'733', E'Miscanthus sinensis');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'734', E'Molinia caerulea var. arundinacea');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'734', E'Molinia caerulea var. arundinacea');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'735', E'Molinia caerulea');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'735', E'Molinia caerulea');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'736', E'Monarda didyma ''Purpurea''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'736', E'Monarda didyma ''Purpurea''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'737', E'Monarda didyma ''Sarlakka''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'737', E'Monarda didyma ''Sarlakka''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'738', E'Monarda didyma ''Syklaami''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'738', E'Monarda didyma ''Syklaami''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'739', E'Monarda didyma');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'739', E'Monarda didyma');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'740', E'Muscari armeniacum');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'740', E'Muscari armeniacum');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'741', E'Muscari azureum');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'741', E'Muscari azureum');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'742', E'Muscari botryoides');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'742', E'Muscari botryoides');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'743', E'Muscari comosum');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'743', E'Muscari comosum');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'744', E'Muscari neglectum');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'744', E'Muscari neglectum');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'745', E'Myosotis scorpioides');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'745', E'Myosotis scorpioides');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'746', E'Myosotis sylvatica');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'746', E'Myosotis sylvatica');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'747', E'Myrica gale');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'747', E'Myrica gale');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'748', E'Myrica germanica');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'748', E'Myrica germanica');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'749', E'Myricaria germanica');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'749', E'Myricaria germanica');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'750', E'Narcissus asturiensis');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'750', E'Narcissus asturiensis');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'751', E'Narcissus bulbocodium');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'751', E'Narcissus bulbocodium');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'752', E'Narcissus cyclamineus');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'752', E'Narcissus cyclamineus');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'753', E'Narcissus jonquilla');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'753', E'Narcissus jonquilla');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'754', E'Narcissus poëticus');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'754', E'Narcissus poëticus');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'755', E'Narcissus pseudonarcissus');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'755', E'Narcissus pseudonarcissus');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'756', E'Narcissus tazetta');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'756', E'Narcissus tazetta');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'757', E'Narcissus triandrus');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'757', E'Narcissus triandrus');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'758', E'Narcissus x incomparabilis');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'758', E'Narcissus x incomparabilis');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'759', E'Narcissus x medioluteus');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'759', E'Narcissus x medioluteus');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'760', E'Nepeta x faassenii');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'760', E'Nepeta x faassenii');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'761', E'Nymphaea alba');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'761', E'Nymphaea alba');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'762', E'Nymphaea candida');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'762', E'Nymphaea candida');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'763', E'Nymphaea tetragona');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'763', E'Nymphaea tetragona');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'764', E'Ocimum basilicum');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'764', E'Ocimum basilicum');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'765', E'Oenothera missouriensis');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'765', E'Oenothera missouriensis');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'766', E'Oenothera tetragona');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'766', E'Oenothera tetragona');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'767', E'Omphalodes verna');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'767', E'Omphalodes verna');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'768', E'Oplopanax horridus');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'768', E'Oplopanax horridus');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'769', E'Origanum majorana');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'769', E'Origanum majorana');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'770', E'Origanum vulgare');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'770', E'Origanum vulgare');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'771', E'Oxalis fontana ''Rufa''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'771', E'Oxalis fontana ''Rufa''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'772', E'Pachysandra terminalis');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'772', E'Pachysandra terminalis');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'773', E'Paeonia Lactiflora-hybr.');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'773', E'Paeonia Lactiflora-hybr.');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'774', E'Paeonia officinalis');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'774', E'Paeonia officinalis');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'775', E'Paeonia');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'775', E'Paeonia');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'776', E'Papaver croceum');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'776', E'Papaver croceum');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'777', E'Papaver pseudo-orientale ''Allergo''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'777', E'Papaver pseudo-orientale ''Allergo''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'778', E'Papaver pseudo-orientale ''Border Beauty''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'778', E'Papaver pseudo-orientale ''Border Beauty''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'779', E'Papaver pseudo-orientale ''Peter Pan''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'779', E'Papaver pseudo-orientale ''Peter Pan''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'780', E'Papaver pseudo-orientale');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'780', E'Papaver pseudo-orientale');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'781', E'Parthenocissus inserta');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'781', E'Parthenocissus inserta');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'782', E'Parthenocissus quinquefolia ''Engelmannii');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'782', E'Parthenocissus quinquefolia ''Engelmannii');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'783', E'Penstemon barbatus');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'783', E'Penstemon barbatus');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'784', E'Penstemon hirsutus');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'784', E'Penstemon hirsutus');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'785', E'Petasites hybridus');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'785', E'Petasites hybridus');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'786', E'Petasites japonicus');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'786', E'Petasites japonicus');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'787', E'Petasites');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'787', E'Petasites');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'788', E'Petroselinum crispum');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'788', E'Petroselinum crispum');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'789', E'Phalaris arundinacea ''Picta''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'789', E'Phalaris arundinacea ''Picta''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'790', E'Phalaris arundinacea');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'790', E'Phalaris arundinacea');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'791', E'Philadelphus coronarius');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'791', E'Philadelphus coronarius');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'792', E'Philadelphus inodorus var. grandiflorus');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'792', E'Philadelphus inodorus var. grandiflorus');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'793', E'Philadelphus lewisii var. gordonianus');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'793', E'Philadelphus lewisii var. gordonianus');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'794', E'Philadelphus lewisii var. lew.''Waterton''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'794', E'Philadelphus lewisii var. lew.''Waterton''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'795', E'Philadelphus Lewisii-hybr. ''Tähtisilmä''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'795', E'Philadelphus Lewisii-hybr. ''Tähtisilmä''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'796', E'Philadelphus pubescens');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'796', E'Philadelphus pubescens');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'797', E'Philadelphus x lemoinei');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'797', E'Philadelphus x lemoinei');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'798', E'Philadelphus x virginalis');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'798', E'Philadelphus x virginalis');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'799', E'Philadelphus');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'799', E'Philadelphus');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'800', E'Phlox carolina');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'800', E'Phlox carolina');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'801', E'Phlox paniculata ''Aida''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'801', E'Phlox paniculata ''Aida''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'802', E'Phlox paniculata ''Amethyst''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'802', E'Phlox paniculata ''Amethyst''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'803', E'Phlox paniculata ''Bor der Gem''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'803', E'Phlox paniculata ''Bor der Gem''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'804', E'Phlox paniculata ''Jules Sandeau''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'804', E'Phlox paniculata ''Jules Sandeau''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'805', E'Phlox paniculata ''Kirchenfürst''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'805', E'Phlox paniculata ''Kirchenfürst''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'806', E'Phlox paniculata ''Lassberg''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'806', E'Phlox paniculata ''Lassberg''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'807', E'Phlox paniculata ''Mia Ruys''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'807', E'Phlox paniculata ''Mia Ruys''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'808', E'Phlox paniculata ''Orange Perfection''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'808', E'Phlox paniculata ''Orange Perfection''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'809', E'Phlox paniculata ''Pax''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'809', E'Phlox paniculata ''Pax''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'810', E'Phlox paniculata ''Rheinländer''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'810', E'Phlox paniculata ''Rheinländer''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'811', E'Phlox paniculata ''Spitfire''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'811', E'Phlox paniculata ''Spitfire''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'812', E'Phlox paniculata ''Starfire''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'812', E'Phlox paniculata ''Starfire''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'813', E'Phlox paniculata ''Wilhelm Kesselring''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'813', E'Phlox paniculata ''Wilhelm Kesselring''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'814', E'Phlox paniculata');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'814', E'Phlox paniculata');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'815', E'Phlox stolonifera');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'815', E'Phlox stolonifera');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'816', E'Phlox subulata ''Atropurpurea''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'816', E'Phlox subulata ''Atropurpurea''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'817', E'Phlox subulata ''Betty''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'817', E'Phlox subulata ''Betty''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'818', E'Phlox subulata ''Mai''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'818', E'Phlox subulata ''Mai''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'819', E'Phlox subulata ''Moerheimii''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'819', E'Phlox subulata ''Moerheimii''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'820', E'Phlox subulata ''Rosea''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'820', E'Phlox subulata ''Rosea''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'821', E'Phlox subulata ''Temiscaming''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'821', E'Phlox subulata ''Temiscaming''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'822', E'Phlox subulata');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'822', E'Phlox subulata');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'823', E'Phragmites australis');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'823', E'Phragmites australis');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'824', E'Physalis alkekengi');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'824', E'Physalis alkekengi');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'825', E'Physocarpus opulifolius ''Diablo''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'825', E'Physocarpus opulifolius ''Diablo''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'826', E'Physocarpus opulifolius');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'826', E'Physocarpus opulifolius');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'827', E'Physocarpus');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'827', E'Physocarpus');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'828', E'Picea abies ''Echiniformis''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'828', E'Picea abies ''Echiniformis''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'829', E'Picea abies ''Globosa''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'829', E'Picea abies ''Globosa''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'830', E'Picea abies ''Kartio''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'830', E'Picea abies ''Kartio''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'831', E'Picea abies ''Nana''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'831', E'Picea abies ''Nana''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'832', E'Picea abies ''Nidiformis''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'832', E'Picea abies ''Nidiformis''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'833', E'Picea abies ''Tabuliformis''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'833', E'Picea abies ''Tabuliformis''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'834', E'Picea glauca ''Conica''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'834', E'Picea glauca ''Conica''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'835', E'Pieris floribunda');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'835', E'Pieris floribunda');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'836', E'Pimpinella anisum');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'836', E'Pimpinella anisum');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'837', E'Pinus mugo ''Gnom''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'837', E'Pinus mugo ''Gnom''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'838', E'Pinus mugo ''Pumilio''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'838', E'Pinus mugo ''Pumilio''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'839', E'Pinus mugo ssp. mugo');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'839', E'Pinus mugo ssp. mugo');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'840', E'Pinus pumila');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'840', E'Pinus pumila');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'841', E'Pinus pumila''Glauca''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'841', E'Pinus pumila''Glauca''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'842', E'Pinus sylvestris ''Nana''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'842', E'Pinus sylvestris ''Nana''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'843', E'Platycodon grandiflorus');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'843', E'Platycodon grandiflorus');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'844', E'Polemonium caeruleum');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'844', E'Polemonium caeruleum');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'845', E'Polygonatum multiflorum');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'845', E'Polygonatum multiflorum');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'846', E'Polygonatum odoratum');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'846', E'Polygonatum odoratum');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'847', E'Polygonatum x hybridum');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'847', E'Polygonatum x hybridum');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'848', E'Polypodium vulgare');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'848', E'Polypodium vulgare');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'849', E'Portulaca oleracea ssp. sativa');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'849', E'Portulaca oleracea ssp. sativa');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'850', E'Potentilla anserina');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'850', E'Potentilla anserina');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'851', E'Potentilla atrosanguinea');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'851', E'Potentilla atrosanguinea');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'852', E'Potentilla aurea');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'852', E'Potentilla aurea');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'853', E'Potentilla nepalensis');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'853', E'Potentilla nepalensis');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'854', E'Potentilla tridentata ''Nuuk''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'854', E'Potentilla tridentata ''Nuuk''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'855', E'Potentilla');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'855', E'Potentilla');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'856', E'Primula Auricula -hybr.');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'856', E'Primula Auricula -hybr.');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'857', E'Primula denticulata');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'857', E'Primula denticulata');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'858', E'Primula florindae');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'858', E'Primula florindae');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'859', E'Primula rosea ''Gigas''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'859', E'Primula rosea ''Gigas''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'860', E'Primula vulgaris');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'860', E'Primula vulgaris');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'861', E'Prunella grandiflora');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'861', E'Prunella grandiflora');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'862', E'Prunus cerasus');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'862', E'Prunus cerasus');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'863', E'Prunus padus');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'863', E'Prunus padus');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'864', E'Prunus pumila var. depressa');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'864', E'Prunus pumila var. depressa');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'865', E'Prunus sp.');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'865', E'Prunus sp.');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'866', E'Prunus tenella');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'866', E'Prunus tenella');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'867', E'Prunus virginiana ''Shubert''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'867', E'Prunus virginiana ''Shubert''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'868', E'Pteridium aquilinum');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'868', E'Pteridium aquilinum');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'869', E'Pulmonaria saccharata');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'869', E'Pulmonaria saccharata');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'870', E'Pulmonaria');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'870', E'Pulmonaria');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'871', E'Pulsatilla vulgaris');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'871', E'Pulsatilla vulgaris');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'872', E'Puschkinia scilloides var. libanotica');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'872', E'Puschkinia scilloides var. libanotica');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'873', E'Ranunculus ficaria');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'873', E'Ranunculus ficaria');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'874', E'Rhamnus cathartica');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'874', E'Rhamnus cathartica');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'875', E'Rheum palmatum subsp. tanguticum');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'875', E'Rheum palmatum subsp. tanguticum');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'876', E'Rhodiola kirilowii');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'876', E'Rhodiola kirilowii');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'877', E'Rhodiola rosea');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'877', E'Rhodiola rosea');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'878', E'Rhododendron canadense');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'878', E'Rhododendron canadense');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'879', E'Rhododendron catawbiense ''Grandiflorum''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'879', E'Rhododendron catawbiense ''Grandiflorum''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'880', E'Rhododendron ''Cunninghams''s White''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'880', E'Rhododendron ''Cunninghams''s White''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'881', E'Rhododendron ferrugineum');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'881', E'Rhododendron ferrugineum');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'882', E'Rhododendron Forrestii-hybr. ''Elviira''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'882', E'Rhododendron Forrestii-hybr. ''Elviira''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'883', E'Rhododendron Ghent-Ryhmä ''Aamurusko''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'883', E'Rhododendron Ghent-Ryhmä ''Aamurusko''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'884', E'Rhododendron japonicum');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'884', E'Rhododendron japonicum');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'885', E'Rhododendron ''Kullervo''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'885', E'Rhododendron ''Kullervo''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'886', E'Rhododendron Lights-Ryhmä ''Orchid Lights''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'886', E'Rhododendron Lights-Ryhmä ''Orchid Lights''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'887', E'Rhododendron luteum');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'887', E'Rhododendron luteum');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'888', E'Rhododendron ''Nova Zembla''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'888', E'Rhododendron ''Nova Zembla''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'889', E'Rhododendron ''P.M.A. Tigerstedt''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'889', E'Rhododendron ''P.M.A. Tigerstedt''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'890', E'Rhododendron ''Pohjanatsalea''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'890', E'Rhododendron ''Pohjanatsalea''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'891', E'Rhododendron ''Pohjolan Tytär''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'891', E'Rhododendron ''Pohjolan Tytär''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'892', E'Rhododendron smirnowii ''Hellikki''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'892', E'Rhododendron smirnowii ''Hellikki''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'893', E'Rhododendron ''St.Micchel''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'893', E'Rhododendron ''St.Micchel''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'894', E'Rhododendron Tigerst.-hybr. ''Helsinki Un');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'894', E'Rhododendron Tigerst.-hybr. ''Helsinki Un');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'895', E'Rhododendron Tigerstedii-hybr. ''Haaga''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'895', E'Rhododendron Tigerstedii-hybr. ''Haaga''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'896', E'Rhododendron x fraseri');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'896', E'Rhododendron x fraseri');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'897', E'Rhododendron');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'897', E'Rhododendron');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'898', E'Rhus aromatica ''Gro-Low''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'898', E'Rhus aromatica ''Gro-Low''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'899', E'Ribes alpinum ''Pumilum''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'899', E'Ribes alpinum ''Pumilum''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'900', E'Ribes alpinum');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'900', E'Ribes alpinum');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'901', E'Ribes aureum');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'901', E'Ribes aureum');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'902', E'Ribes glandulosum');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'902', E'Ribes glandulosum');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'903', E'Ribes ''Hinnonmäen Keltainen''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'903', E'Ribes ''Hinnonmäen Keltainen''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'904', E'Ribes ''Jonkheer van Tets''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'904', E'Ribes ''Jonkheer van Tets''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'905', E'Ribes ''Lepaan Punainen''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'905', E'Ribes ''Lepaan Punainen''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'906', E'Ribes nigrum ''Melalahti''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'906', E'Ribes nigrum ''Melalahti''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'907', E'Ribes nigrum ''Mortti''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'907', E'Ribes nigrum ''Mortti''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'908', E'Ribes nigrum ''Vertti''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'908', E'Ribes nigrum ''Vertti''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'909', E'Ribes nigrum ''Öjebyn''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'909', E'Ribes nigrum ''Öjebyn''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'910', E'Ribes nigrum');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'910', E'Ribes nigrum');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'911', E'Ribes ''Punainen Hollantilainen''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'911', E'Ribes ''Punainen Hollantilainen''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'912', E'Ribes ''Rondom''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'912', E'Ribes ''Rondom''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'913', E'Ribes ''Rotes Wunder Katri''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'913', E'Ribes ''Rotes Wunder Katri''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'914', E'Ribes rubrum ''Aili''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'914', E'Ribes rubrum ''Aili''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'915', E'Ribes rubrum ''Katri''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'915', E'Ribes rubrum ''Katri''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'916', E'Ribes rubrum');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'916', E'Ribes rubrum');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'917', E'Ribes Rubrum-ryhmä');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'917', E'Ribes Rubrum-ryhmä');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'918', E'Ribes sanguineum');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'918', E'Ribes sanguineum');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'919', E'Ribes uva-crispa ''Hinnonmäen keltainen''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'919', E'Ribes uva-crispa ''Hinnonmäen keltainen''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'920', E'Ribes uva-crispa');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'920', E'Ribes uva-crispa');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'921', E'Ribes ''Valkea Jüterborger''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'921', E'Ribes ''Valkea Jüterborger''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'922', E'Ribes ''Valkoinen Hollantilainen''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'922', E'Ribes ''Valkoinen Hollantilainen''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'923', E'Ribes ''Valkoinen suomalainen''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'923', E'Ribes ''Valkoinen suomalainen''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'924', E'Ribes');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'924', E'Ribes');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'925', E'Rodgersia aesculifolia');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'925', E'Rodgersia aesculifolia');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'926', E'Rodgersia pinnata');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'926', E'Rodgersia pinnata');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'927', E'Rosa '' Hein Mück''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'927', E'Rosa '' Hein Mück''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'928', E'Rosa ''Abigaile''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'928', E'Rosa ''Abigaile''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'929', E'Rosa acicularis ''Dornröschen''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'929', E'Rosa acicularis ''Dornröschen''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'930', E'Rosa acicularis');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'930', E'Rosa acicularis');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'931', E'Rosa ''Alain''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'931', E'Rosa ''Alain''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'932', E'Rosa alba ''Celestial''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'932', E'Rosa alba ''Celestial''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'933', E'Rosa alba');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'933', E'Rosa alba');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'934', E'Rosa ''Alchymist''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'934', E'Rosa ''Alchymist''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'935', E'Rosa ''Allgold''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'935', E'Rosa ''Allgold''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'936', E'Rosa ''Allotria''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'936', E'Rosa ''Allotria''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'937', E'Rosa ''Amber Queen''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'937', E'Rosa ''Amber Queen''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'938', E'Rosa amblyotis');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'938', E'Rosa amblyotis');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'939', E'Rosa ''Anabell''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'939', E'Rosa ''Anabell''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'940', E'Rosa ''Andalusien''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'940', E'Rosa ''Andalusien''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'941', E'Rosa ''Angela''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'941', E'Rosa ''Angela''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'942', E'Rosa ''Armsterdam''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'942', E'Rosa ''Armsterdam''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'943', E'Rosa ''Australian Gold''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'943', E'Rosa ''Australian Gold''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'944', E'Rosa ''Bad Füssing''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'944', E'Rosa ''Bad Füssing''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'945', E'Rosa ''Ballet''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'945', E'Rosa ''Ballet''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'946', E'Rosa ''Barkarole''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'946', E'Rosa ''Barkarole''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'947', E'Rosa ''Bassino'' -runkoruusu');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'947', E'Rosa ''Bassino'' -runkoruusu');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'948', E'Rosa ''Bassino''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'948', E'Rosa ''Bassino''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'949', E'Rosa ''Bella Rosa''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'949', E'Rosa ''Bella Rosa''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'950', E'Rosa ''Bella Weiss''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'950', E'Rosa ''Bella Weiss''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'951', E'Rosa ''Bengali''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'951', E'Rosa ''Bengali''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'952', E'Rosa ''Bernina''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'952', E'Rosa ''Bernina''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'953', E'Rosa ''Bernstein-Rose''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'953', E'Rosa ''Bernstein-Rose''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'954', E'Rosa ''Black Lady''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'954', E'Rosa ''Black Lady''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'955', E'Rosa blanda');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'955', E'Rosa blanda');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'956', E'Rosa ''Blue Parfym''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'956', E'Rosa ''Blue Parfym''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'957', E'Rosa ''Bonica''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'957', E'Rosa ''Bonica''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'958', E'Rosa ''Buismans Triumph''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'958', E'Rosa ''Buismans Triumph''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'959', E'Rosa canina');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'959', E'Rosa canina');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'960', E'Rosa canina''General Jaquemonot''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'960', E'Rosa canina''General Jaquemonot''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'961', E'Rosa carolina');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'961', E'Rosa carolina');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'962', E'Rosa centifolia muscosa ''Nuits de Young''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'962', E'Rosa centifolia muscosa ''Nuits de Young''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'963', E'Rosa ''Champagner''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'963', E'Rosa ''Champagner''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'964', E'Rosa ''Champs Elysees''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'964', E'Rosa ''Champs Elysees''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'965', E'Rosa ''Chinatown''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'965', E'Rosa ''Chinatown''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'966', E'Rosa ''Chorus''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'966', E'Rosa ''Chorus''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'967', E'Rosa ''Dalli Dalli''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'967', E'Rosa ''Dalli Dalli''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'968', E'Rosa ''Deutsche Welle''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'968', E'Rosa ''Deutsche Welle''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'969', E'Rosa ''Dolly Parton''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'969', E'Rosa ''Dolly Parton''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'970', E'Rosa ''Dorola''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'970', E'Rosa ''Dorola''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'971', E'Rosa ''Duftrauch''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'971', E'Rosa ''Duftrauch''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'972', E'Rosa ''Duftwolke''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'972', E'Rosa ''Duftwolke''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'973', E'Rosa ''Duftzauber''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'973', E'Rosa ''Duftzauber''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'974', E'Rosa dumalis');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'974', E'Rosa dumalis');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'975', E'Rosa ''Dwarf Pavement''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'975', E'Rosa ''Dwarf Pavement''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'976', E'Rosa ''Edelweiss''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'976', E'Rosa ''Edelweiss''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'977', E'Rosa ''Elisabeth of Glamis''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'977', E'Rosa ''Elisabeth of Glamis''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'978', E'Rosa ''Elmshorn''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'978', E'Rosa ''Elmshorn''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'979', E'Rosa ''Erna Grootendorst''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'979', E'Rosa ''Erna Grootendorst''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'980', E'Rosa ''Erna Harkness''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'980', E'Rosa ''Erna Harkness''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'981', E'Rosa ''Erotica''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'981', E'Rosa ''Erotica''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'982', E'Rosa ''Europeana''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'982', E'Rosa ''Europeana''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'983', E'Rosa ''F. J. Grootendorst''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'983', E'Rosa ''F. J. Grootendorst''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'984', E'Rosa ''Fair Play''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'984', E'Rosa ''Fair Play''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'985', E'Rosa ''Fairy Dance''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'985', E'Rosa ''Fairy Dance''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'986', E'Rosa ''Fiona''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'986', E'Rosa ''Fiona''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'987', E'Rosa ''Flammentanz''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'987', E'Rosa ''Flammentanz''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'988', E'Rosa foetida ''Bicolor''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'988', E'Rosa foetida ''Bicolor''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'989', E'Rosa foetida ''Persian Yellow''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'989', E'Rosa foetida ''Persian Yellow''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'990', E'Rosa ''Foxi Pavement''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'990', E'Rosa ''Foxi Pavement''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'991', E'Rosa ''Francofort''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'991', E'Rosa ''Francofort''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'992', E'Rosa ''Frau Astrid Späth''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'992', E'Rosa ''Frau Astrid Späth''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'993', E'Rosa ''Fresco''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'993', E'Rosa ''Fresco''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'994', E'Rosa ''Friesia'' -runkoruusu');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'994', E'Rosa ''Friesia'' -runkoruusu');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'995', E'Rosa ''Friesia''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'995', E'Rosa ''Friesia''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'996', E'Rosa ''Friz Nobis''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'996', E'Rosa ''Friz Nobis''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'997', E'Rosa ''Frühlingsduft''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'997', E'Rosa ''Frühlingsduft''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'998', E'Rosa ''Fuggerstad Augsburg''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'998', E'Rosa ''Fuggerstad Augsburg''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'999', E'Rosa gallica ''Merveille''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'999', E'Rosa gallica ''Merveille''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1000', E'Rosa gallica ''Splendens''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1000', E'Rosa gallica ''Splendens''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1001', E'Rosa ''Gartenzauber 84''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1001', E'Rosa ''Gartenzauber 84''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1002', E'Rosa ''Gisselfeldt''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1002', E'Rosa ''Gisselfeldt''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1003', E'Rosa glabrifolia');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1003', E'Rosa glabrifolia');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1004', E'Rosa glauca');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1004', E'Rosa glauca');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1005', E'Rosa ''Golden Holstein''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1005', E'Rosa ''Golden Holstein''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1006', E'Rosa ''Goldmarie 82''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1006', E'Rosa ''Goldmarie 82''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1007', E'Rosa ''Goldmarie''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1007', E'Rosa ''Goldmarie''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1008', E'Rosa ''Goldquelle''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1008', E'Rosa ''Goldquelle''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1009', E'Rosa ''Graham Thomas''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1009', E'Rosa ''Graham Thomas''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1010', E'Rosa ''Gruss an Bayern''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1010', E'Rosa ''Gruss an Bayern''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1011', E'Rosa ''Hanne''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1011', E'Rosa ''Hanne''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1012', E'Rosa ''Hansa''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1012', E'Rosa ''Hansa''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1013', E'Rosa ''Hanseat''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1013', E'Rosa ''Hanseat''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1014', E'Rosa ''Heckenfeuer''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1014', E'Rosa ''Heckenfeuer''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1015', E'Rosa ''Heidekind''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1015', E'Rosa ''Heidekind''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1016', E'Rosa ''Heidekönigin''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1016', E'Rosa ''Heidekönigin''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1017', E'Rosa ''Heidesommer'' -runkoruusu');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1017', E'Rosa ''Heidesommer'' -runkoruusu');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1018', E'Rosa ''Heinz Erhard''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1018', E'Rosa ''Heinz Erhard''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1019', E'Rosa ''Heinzelmännchen''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1019', E'Rosa ''Heinzelmännchen''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1020', E'Rosa ''Helga''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1020', E'Rosa ''Helga''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1021', E'Rosa ''Helsingör''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1021', E'Rosa ''Helsingör''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1022', E'Rosa ''Herzog von Windsor''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1022', E'Rosa ''Herzog von Windsor''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1023', E'Rosa ''Holstein 87''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1023', E'Rosa ''Holstein 87''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1024', E'Rosa ''Iced Ginger''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1024', E'Rosa ''Iced Ginger''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1025', E'Rosa ''Ingrid Bergman''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1025', E'Rosa ''Ingrid Bergman''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1026', E'Rosa ''Ingrid Weibull''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1026', E'Rosa ''Ingrid Weibull''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1027', E'Rosa ''Insel Mainau''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1027', E'Rosa ''Insel Mainau''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1028', E'Rosa ''Interrama''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1028', E'Rosa ''Interrama''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1029', E'Rosa ''Irene af Danmark''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1029', E'Rosa ''Irene af Danmark''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1030', E'Rosa ''Jan Spek''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1030', E'Rosa ''Jan Spek''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1031', E'Rosa ''Joseph Guy''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1031', E'Rosa ''Joseph Guy''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1032', E'Rosa ''Juhannusmorsian''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1032', E'Rosa ''Juhannusmorsian''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1033', E'Rosa ''Kaarina''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1033', E'Rosa ''Kaarina''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1034', E'Rosa ''Karen Blixen''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1034', E'Rosa ''Karen Blixen''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1035', E'Rosa ''Kimono''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1035', E'Rosa ''Kimono''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1036', E'Rosa ''King''s Ransom''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1036', E'Rosa ''King''s Ransom''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1037', E'Rosa ''Kordes Brilliant''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1037', E'Rosa ''Kordes Brilliant''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1038', E'Rosa ''Korona''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1038', E'Rosa ''Korona''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1039', E'Rosa ''Kotiliesi''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1039', E'Rosa ''Kotiliesi''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1040', E'Rosa ''Königin Beatrix''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1040', E'Rosa ''Königin Beatrix''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1041', E'Rosa ''Königin der Rosen''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1041', E'Rosa ''Königin der Rosen''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1042', E'Rosa ''La Paloma 85''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1042', E'Rosa ''La Paloma 85''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1043', E'Rosa ''Lady Rose''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1043', E'Rosa ''Lady Rose''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1044', E'Rosa ''Landora''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1044', E'Rosa ''Landora''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1045', E'Rosa ''Lapponia''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1045', E'Rosa ''Lapponia''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1046', E'Rosa ''Lavaglut''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1046', E'Rosa ''Lavaglut''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1047', E'Rosa ''Lavender Dream''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1047', E'Rosa ''Lavender Dream''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1048', E'Rosa ''Lili Marleen''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1048', E'Rosa ''Lili Marleen''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1049', E'Rosa ''Little Lemmy''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1049', E'Rosa ''Little Lemmy''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1050', E'Rosa ''Lolita''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1050', E'Rosa ''Lolita''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1051', E'Rosa ''Ludvigshafen am Rhein''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1051', E'Rosa ''Ludvigshafen am Rhein''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1052', E'Rosa ''Lübecker Rotspon''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1052', E'Rosa ''Lübecker Rotspon''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1053', E'Rosa ''Maiden''s Blush''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1053', E'Rosa ''Maiden''s Blush''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1054', E'Rosa ''Maigold''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1054', E'Rosa ''Maigold''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1055', E'Rosa ''Mainzer Fastnacht''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1055', E'Rosa ''Mainzer Fastnacht''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1056', E'Rosa majalis ''Foecundissima''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1056', E'Rosa majalis ''Foecundissima''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1057', E'Rosa majalis ''Tornedal''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1057', E'Rosa majalis ''Tornedal''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1058', E'Rosa majalis');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1058', E'Rosa majalis');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1059', E'Rosa ''Maria Mathilda''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1059', E'Rosa ''Maria Mathilda''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1060', E'Rosa ''Mariandel''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1060', E'Rosa ''Mariandel''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1061', E'Rosa ''Marietta''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1061', E'Rosa ''Marietta''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1062', E'Rosa ''Marlena''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1062', E'Rosa ''Marlena''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1063', E'Rosa ''Marselisborg''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1063', E'Rosa ''Marselisborg''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1064', E'Rosa ''Meteor''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1064', E'Rosa ''Meteor''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1065', E'Rosa ''Michelle''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1065', E'Rosa ''Michelle''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1066', E'Rosa ''Mildred Scheel''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1066', E'Rosa ''Mildred Scheel''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1067', E'Rosa ''Minette''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1067', E'Rosa ''Minette''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1068', E'Rosa ''Moje');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1068', E'Rosa ''Moje');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1069', E'Rosa ''Monica''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1069', E'Rosa ''Monica''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1070', E'Rosa ''Montana''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1070', E'Rosa ''Montana''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1071', E'Rosa ''Moyesii''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1071', E'Rosa ''Moyesii''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1072', E'Rosa ''Nevada''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1072', E'Rosa ''Nevada''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1073', E'Rosa ''Nicole''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1073', E'Rosa ''Nicole''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1074', E'Rosa ''Nina Weibull''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1074', E'Rosa ''Nina Weibull''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1075', E'Rosa nitida');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1075', E'Rosa nitida');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1076', E'Rosa omaiensis f. pteracantha');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1076', E'Rosa omaiensis f. pteracantha');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1077', E'Rosa ''Onni''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1077', E'Rosa ''Onni''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1078', E'Rosa ''Orange Meillandina''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1078', E'Rosa ''Orange Meillandina''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1079', E'Rosa ''Orange Sensation''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1079', E'Rosa ''Orange Sensation''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1080', E'Rosa ''Orange Triumph''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1080', E'Rosa ''Orange Triumph''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1081', E'Rosa ''Osiana''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1081', E'Rosa ''Osiana''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1082', E'Rosa ''Papula''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1082', E'Rosa ''Papula''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1083', E'Rosa ''Pascali''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1083', E'Rosa ''Pascali''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1084', E'Rosa ''Peace''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1084', E'Rosa ''Peace''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1085', E'Rosa pendulina');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1085', E'Rosa pendulina');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1086', E'Rosa ''Pernille Poulsen''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1086', E'Rosa ''Pernille Poulsen''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1087', E'Rosa ''Pfälzer Gold''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1087', E'Rosa ''Pfälzer Gold''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1088', E'Rosa ''Piccadilly');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1088', E'Rosa ''Piccadilly');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1089', E'Rosa ''Piccolo''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1089', E'Rosa ''Piccolo''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1090', E'Rosa pimpinellifolia ''Aicha''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1090', E'Rosa pimpinellifolia ''Aicha''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1091', E'Rosa pimpinellifolia ''Frulingsduft''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1091', E'Rosa pimpinellifolia ''Frulingsduft''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1092', E'Rosa pimpinellifolia ''Frühlingsgold''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1092', E'Rosa pimpinellifolia ''Frühlingsgold''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1093', E'Rosa pimpinellifolia ''Grandiflora''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1093', E'Rosa pimpinellifolia ''Grandiflora''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1094', E'Rosa pimpinellifolia ''Maigold''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1094', E'Rosa pimpinellifolia ''Maigold''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1095', E'Rosa pimpinellifolia ''Plena''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1095', E'Rosa pimpinellifolia ''Plena''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1096', E'Rosa pimpinellifolia ''Stanwell Perpetual''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1096', E'Rosa pimpinellifolia ''Stanwell Perpetual''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1097', E'Rosa pimpinellifolia ''Tove Jansson''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1097', E'Rosa pimpinellifolia ''Tove Jansson''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1098', E'Rosa pimpinellifolia');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1098', E'Rosa pimpinellifolia');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1099', E'Rosa pimpinellifolia''Fruhlingsduft''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1099', E'Rosa pimpinellifolia''Fruhlingsduft''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1100', E'Rosa pimpinellifolia''Prarie Dawn''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1100', E'Rosa pimpinellifolia''Prarie Dawn''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1101', E'Rosa ''Pink Grootendorst''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1101', E'Rosa ''Pink Grootendorst''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1102', E'Rosa ''Pink Minimo''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1102', E'Rosa ''Pink Minimo''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1103', E'Rosa ''Pink Pavement''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1103', E'Rosa ''Pink Pavement''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1104', E'Rosa ''Pink Robusta''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1104', E'Rosa ''Pink Robusta''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1105', E'Rosa ''Pohjantähti''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1105', E'Rosa ''Pohjantähti''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1106', E'Rosa ''Poppet''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1106', E'Rosa ''Poppet''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1107', E'Rosa ''Poppius''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1107', E'Rosa ''Poppius''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1108', E'Rosa ''President Kekkonen''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1108', E'Rosa ''President Kekkonen''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1109', E'Rosa ''Prins Claus''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1109', E'Rosa ''Prins Claus''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1110', E'Rosa ''Prominent''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1110', E'Rosa ''Prominent''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1111', E'Rosa ''Pussta''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1111', E'Rosa ''Pussta''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1112', E'Rosa ''Queen Elisabeth''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1112', E'Rosa ''Queen Elisabeth''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1113', E'Rosa ''Red Minimo''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1113', E'Rosa ''Red Minimo''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1114', E'Rosa ''Red Peace''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1114', E'Rosa ''Red Peace''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1115', E'Rosa ''Regensberg''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1115', E'Rosa ''Regensberg''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1116', E'Rosa ''Rheinaupark''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1116', E'Rosa ''Rheinaupark''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1117', E'Rosa ''Robusta''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1117', E'Rosa ''Robusta''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1118', E'Rosa ''Rosali''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1118', E'Rosa ''Rosali''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1119', E'Rosa ''Rosamunde''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1119', E'Rosa ''Rosamunde''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1120', E'Rosa ''Rosenfee''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1120', E'Rosa ''Rosenfee''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1121', E'Rosa ''Rosenstadt Zweibrücken''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1121', E'Rosa ''Rosenstadt Zweibrücken''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1122', E'Rosa ''Roseromantic''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1122', E'Rosa ''Roseromantic''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1123', E'Rosa ''Rosy Carpet''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1123', E'Rosa ''Rosy Carpet''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1124', E'Rosa rubiginosa ''Magnifiga''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1124', E'Rosa rubiginosa ''Magnifiga''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1125', E'Rosa rubiginosa');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1125', E'Rosa rubiginosa');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1126', E'Rosa ''Rubina''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1126', E'Rosa ''Rubina''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1127', E'Rosa rugosa f. alba');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1127', E'Rosa rugosa f. alba');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1128', E'Rosa rugosa ''Fru Dagmar Hastrup''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1128', E'Rosa rugosa ''Fru Dagmar Hastrup''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1129', E'Rosa rugosa ''Max Graf''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1129', E'Rosa rugosa ''Max Graf''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1130', E'Rosa rugosa ''Pink Robusta''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1130', E'Rosa rugosa ''Pink Robusta''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1131', E'Rosa rugosa ''Pohjolan Kuningatar''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1131', E'Rosa rugosa ''Pohjolan Kuningatar''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1132', E'Rosa rugosa ''Rote Max Graf''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1132', E'Rosa rugosa ''Rote Max Graf''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1133', E'Rosa rugosa ''Scabrosa''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1133', E'Rosa rugosa ''Scabrosa''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1134', E'Rosa rugosa ''Schneezwerg''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1134', E'Rosa rugosa ''Schneezwerg''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1135', E'Rosa rugosa ''Signe Relander''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1135', E'Rosa rugosa ''Signe Relander''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1136', E'Rosa rugosa');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1136', E'Rosa rugosa');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1137', E'Rosa ''Rumba''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1137', E'Rosa ''Rumba''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1138', E'Rosa ''Ruskeala''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1138', E'Rosa ''Ruskeala''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1139', E'Rosa ''Samba''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1139', E'Rosa ''Samba''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1140', E'Rosa ''Scarlet Pavement''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1140', E'Rosa ''Scarlet Pavement''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1141', E'Rosa ''Schloss Mannheim''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1141', E'Rosa ''Schloss Mannheim''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1142', E'Rosa ''Schneekönigin''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1142', E'Rosa ''Schneekönigin''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1143', E'Rosa ''Schneewitchen''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1143', E'Rosa ''Schneewitchen''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1144', E'Rosa ''Schwarze Madonna''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1144', E'Rosa ''Schwarze Madonna''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1145', E'Rosa ''Schweizergrüss''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1145', E'Rosa ''Schweizergrüss''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1146', E'Rosa ''Shalom''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1146', E'Rosa ''Shalom''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1147', E'Rosa ''Sipi''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1147', E'Rosa ''Sipi''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1148', E'Rosa ''Smarty''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1148', E'Rosa ''Smarty''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1149', E'Rosa ''Snow Ballet''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1149', E'Rosa ''Snow Ballet''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1150', E'Rosa ''Sommerwind'' -runkoruusu');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1150', E'Rosa ''Sommerwind'' -runkoruusu');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1151', E'Rosa ''Sommerwind''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1151', E'Rosa ''Sommerwind''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1152', E'Rosa ''Sonnenröschen''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1152', E'Rosa ''Sonnenröschen''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1153', E'Rosa ''Southampton''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1153', E'Rosa ''Southampton''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1154', E'Rosa ''Souvenir de Christophe Cochet''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1154', E'Rosa ''Souvenir de Christophe Cochet''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1155', E'Rosa ''Souvenir de la Malmaison''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1155', E'Rosa ''Souvenir de la Malmaison''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1156', E'Rosa ''Splendens''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1156', E'Rosa ''Splendens''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1157', E'Rosa ''Staffa''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1157', E'Rosa ''Staffa''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1158', E'Rosa ''Summer Holiday''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1158', E'Rosa ''Summer Holiday''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1159', E'Rosa ''Sunflare''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1159', E'Rosa ''Sunflare''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1160', E'Rosa ''Super Star''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1160', E'Rosa ''Super Star''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1161', E'Rosa ''Swany''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1161', E'Rosa ''Swany''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1162', E'Rosa ''The Fairy'' -runkoruusu');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1162', E'Rosa ''The Fairy'' -runkoruusu');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1163', E'Rosa ''The Fairy''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1163', E'Rosa ''The Fairy''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1164', E'Rosa ''Thérèse Bugnet''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1164', E'Rosa ''Thérèse Bugnet''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1165', E'Rosa ''Tip Top''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1165', E'Rosa ''Tip Top''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1166', E'Rosa ''Tom Tom''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1166', E'Rosa ''Tom Tom''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1167', E'Rosa ''Topsi''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1167', E'Rosa ''Topsi''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1168', E'Rosa ''Tornado''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1168', E'Rosa ''Tornado''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1169', E'Rosa ''Traumerei'' -runkoruusu');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1169', E'Rosa ''Traumerei'' -runkoruusu');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1170', E'Rosa ''Traumerei''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1170', E'Rosa ''Traumerei''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1171', E'Rosa ''Traumland''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1171', E'Rosa ''Traumland''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1172', E'Rosa ''Trier''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1172', E'Rosa ''Trier''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1173', E'Rosa ''Troika''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1173', E'Rosa ''Troika''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1174', E'Rosa ''Uncle Walter''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1174', E'Rosa ''Uncle Walter''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1175', E'Rosa ''Uwe Seeler''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1175', E'Rosa ''Uwe Seeler''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1176', E'Rosa ''Weibull''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1176', E'Rosa ''Weibull''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1177', E'Rosa ''Western Sun''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1177', E'Rosa ''Western Sun''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1178', E'Rosa ''Whisky''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1178', E'Rosa ''Whisky''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1179', E'Rosa villosa');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1179', E'Rosa villosa');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1180', E'Rosa virginiana');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1180', E'Rosa virginiana');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1181', E'Rosa x harisonii ''Harison''s Yellow''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1181', E'Rosa x harisonii ''Harison''s Yellow''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1182', E'Rosa x harisonii');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1182', E'Rosa x harisonii');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1183', E'Rosa x malyi ''Kempeleen Kaunotar''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1183', E'Rosa x malyi ''Kempeleen Kaunotar''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1184', E'Rosa x mariae-graebneriae');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1184', E'Rosa x mariae-graebneriae');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1185', E'Rosa x rugotida ''Dart''s Defender''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1185', E'Rosa x rugotida ''Dart''s Defender''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1186', E'Rosa x rugotida');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1186', E'Rosa x rugotida');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1187', E'Rosa x spaethiana');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1187', E'Rosa x spaethiana');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1188', E'Rosa ''Yellow Meillandina''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1188', E'Rosa ''Yellow Meillandina''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1189', E'Rosa ''Yesterday''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1189', E'Rosa ''Yesterday''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1190', E'Rosa ''Zonta-Rose''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1190', E'Rosa ''Zonta-Rose''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1191', E'Rosa');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1191', E'Rosa');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1192', E'Rosmarinus officinalis');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1192', E'Rosmarinus officinalis');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1193', E'Rubus alleghaniensis');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1193', E'Rubus alleghaniensis');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1194', E'Rubus articus x idaeus ''Heisa''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1194', E'Rubus articus x idaeus ''Heisa''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1195', E'Rubus caesius');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1195', E'Rubus caesius');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1196', E'Rubus deliciosus');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1196', E'Rubus deliciosus');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1197', E'Rubus idaeus ''Muskoka''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1197', E'Rubus idaeus ''Muskoka''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1198', E'Rubus idaeus');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1198', E'Rubus idaeus');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1199', E'Rubus odoratus');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1199', E'Rubus odoratus');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1200', E'Rubus saxatilis');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1200', E'Rubus saxatilis');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1201', E'Rudbeckia fulgida var. speciosa');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1201', E'Rudbeckia fulgida var. speciosa');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1202', E'Rudbeckia fulgida var. sullivantii');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1202', E'Rudbeckia fulgida var. sullivantii');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1203', E'Rudbeckia laciniata ''Goldball''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1203', E'Rudbeckia laciniata ''Goldball''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1204', E'Salix alba');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1204', E'Salix alba');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1205', E'Salix aurita');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1205', E'Salix aurita');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1206', E'Salix caprea');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1206', E'Salix caprea');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1207', E'Salix cinerea');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1207', E'Salix cinerea');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1208', E'Salix daphnoides acutifolia');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1208', E'Salix daphnoides acutifolia');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1209', E'Salix daphnoides');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1209', E'Salix daphnoides');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1210', E'Salix dasyclados');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1210', E'Salix dasyclados');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1211', E'Salix fragilis ''Bullata''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1211', E'Salix fragilis ''Bullata''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1212', E'Salix gl.callicarpaea ''Haltia');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1212', E'Salix gl.callicarpaea ''Haltia');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1213', E'Salix glauca');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1213', E'Salix glauca');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1214', E'Salix lanata');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1214', E'Salix lanata');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1215', E'Salix lapponum');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1215', E'Salix lapponum');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1216', E'Salix myrsinifolia');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1216', E'Salix myrsinifolia');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1217', E'Salix myrtilloides');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1217', E'Salix myrtilloides');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1218', E'Salix pentandra');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1218', E'Salix pentandra');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1219', E'Salix phylicifolia');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1219', E'Salix phylicifolia');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1220', E'Salix purpurea ''Nana''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1220', E'Salix purpurea ''Nana''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1221', E'Salix purpurea x rosmarinifolia');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1221', E'Salix purpurea x rosmarinifolia');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1222', E'Salix purpurea');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1222', E'Salix purpurea');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1223', E'Salix pyrolifolia');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1223', E'Salix pyrolifolia');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1224', E'Salix repens arenaria');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1224', E'Salix repens arenaria');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1225', E'Salix repens ''Saret''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1225', E'Salix repens ''Saret''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1226', E'Salix repens');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1226', E'Salix repens');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1227', E'Salix rosmarinifolia');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1227', E'Salix rosmarinifolia');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1228', E'Salix ''Sibirica''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1228', E'Salix ''Sibirica''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1229', E'Salix starkeana');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1229', E'Salix starkeana');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1230', E'Salix triandra');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1230', E'Salix triandra');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1231', E'Salix viminalis');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1231', E'Salix viminalis');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1232', E'Salix ''Vitellina Tristis''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1232', E'Salix ''Vitellina Tristis''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1233', E'Salix ''Vitellina''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1233', E'Salix ''Vitellina''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1234', E'Salix x aurora ''Tuhkimo''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1234', E'Salix x aurora ''Tuhkimo''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1235', E'Salix x dasyclados');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1235', E'Salix x dasyclados');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1236', E'Salix x mollissima');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1236', E'Salix x mollissima');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1237', E'Salix x rubens');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1237', E'Salix x rubens');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1238', E'Salix');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1238', E'Salix');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1239', E'Salvia nemorosa');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1239', E'Salvia nemorosa');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1240', E'Salvia officinalis');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1240', E'Salvia officinalis');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1241', E'Salvia x sylvestris ''Blaukönigin''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1241', E'Salvia x sylvestris ''Blaukönigin''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1242', E'Salvia x sylvestris ''Rosakönigin''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1242', E'Salvia x sylvestris ''Rosakönigin''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1243', E'Salvia x sylvestris');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1243', E'Salvia x sylvestris');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1244', E'Sambucus canadensis ´Maxima´');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1244', E'Sambucus canadensis ´Maxima´');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1245', E'Sambucus racemosa');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1245', E'Sambucus racemosa');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1246', E'Sanguisorba officinalis');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1246', E'Sanguisorba officinalis');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1247', E'Saponaria officinalis ''Alba Plena''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1247', E'Saponaria officinalis ''Alba Plena''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1248', E'Saponaria officinalis ''Rubra Plena''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1248', E'Saponaria officinalis ''Rubra Plena''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1249', E'Saponaria officinalis');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1249', E'Saponaria officinalis');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1250', E'Satureja hortensis');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1250', E'Satureja hortensis');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1251', E'Saxifraga Arendsii-hybr.');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1251', E'Saxifraga Arendsii-hybr.');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1252', E'Saxifraga hostii');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1252', E'Saxifraga hostii');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1253', E'Saxifraga paniculata');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1253', E'Saxifraga paniculata');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1254', E'Saxifraga ''Purpurteppich''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1254', E'Saxifraga ''Purpurteppich''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1255', E'Saxifraga rotundifolia');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1255', E'Saxifraga rotundifolia');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1256', E'Saxifraga ''Schneeteppich''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1256', E'Saxifraga ''Schneeteppich''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1257', E'Schisandra chinensis');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1257', E'Schisandra chinensis');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1258', E'Scirpus sylvaticus');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1258', E'Scirpus sylvaticus');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1259', E'Sedum acre');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1259', E'Sedum acre');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1260', E'Sedum aizoon');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1260', E'Sedum aizoon');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1261', E'Sedum album');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1261', E'Sedum album');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1262', E'Sedum ''Common Red''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1262', E'Sedum ''Common Red''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1263', E'Sedum ewersii');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1263', E'Sedum ewersii');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1264', E'Sedum floriferum ''Weihenstephaner Gold''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1264', E'Sedum floriferum ''Weihenstephaner Gold''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1265', E'Sedum ''Herbstfreude''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1265', E'Sedum ''Herbstfreude''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1266', E'Sedum pachyclados');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1266', E'Sedum pachyclados');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1267', E'Sedum spathulifolium ''Purpureum''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1267', E'Sedum spathulifolium ''Purpureum''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1268', E'Sedum spathulifolium');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1268', E'Sedum spathulifolium');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1269', E'Sedum spectabile');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1269', E'Sedum spectabile');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1270', E'Sedum spurium ''Rosea''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1270', E'Sedum spurium ''Rosea''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1271', E'Sedum spurium');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1271', E'Sedum spurium');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1272', E'Sedum ''Stewed Rhubarb Mountain''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1272', E'Sedum ''Stewed Rhubarb Mountain''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1273', E'Sedum telephium ''Munstead Dark Red''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1273', E'Sedum telephium ''Munstead Dark Red''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1274', E'Sedum telephium subsp. maximum');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1274', E'Sedum telephium subsp. maximum');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1275', E'Sedum');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1275', E'Sedum');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1276', E'Sempervivum tectorum');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1276', E'Sempervivum tectorum');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1277', E'Sinapsis alba');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1277', E'Sinapsis alba');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1278', E'Solidago canadensis ''Goldking''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1278', E'Solidago canadensis ''Goldking''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1279', E'Solidago canadensis');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1279', E'Solidago canadensis');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1280', E'Solidago virgaurea');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1280', E'Solidago virgaurea');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1281', E'Solidago x hybr. ''Golden Mosa''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1281', E'Solidago x hybr. ''Golden Mosa''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1282', E'Solidago x hybr. ''Goldstar''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1282', E'Solidago x hybr. ''Goldstar''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1283', E'Solidago x hybr. ''Leraft''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1283', E'Solidago x hybr. ''Leraft''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1284', E'Solidago x hybr.');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1284', E'Solidago x hybr.');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1285', E'Solidago');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1285', E'Solidago');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1286', E'Sorbaria sorbifolia');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1286', E'Sorbaria sorbifolia');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1287', E'Sorbus aucuparia');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1287', E'Sorbus aucuparia');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1288', E'Spiraea alba ''Allikko''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1288', E'Spiraea alba ''Allikko''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1289', E'Spiraea alba var. latifolia');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1289', E'Spiraea alba var. latifolia');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1290', E'Spiraea alba');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1290', E'Spiraea alba');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1291', E'Spiraea ''Arguta''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1291', E'Spiraea ''Arguta''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1292', E'Spiraea beauverdiana ''Lumikki''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1292', E'Spiraea beauverdiana ''Lumikki''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1293', E'Spiraea beauverdiana');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1293', E'Spiraea beauverdiana');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1294', E'Spiraea betulifolia `Thor´');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1294', E'Spiraea betulifolia `Thor´');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1295', E'Spiraea betulifolia ''Island''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1295', E'Spiraea betulifolia ''Island''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1296', E'Spiraea betulifolia ''Renko''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1296', E'Spiraea betulifolia ''Renko''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1297', E'Spiraea betulifolia var. ''Aemiliana''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1297', E'Spiraea betulifolia var. ''Aemiliana''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1298', E'Spiraea betulifolia var. lucida');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1298', E'Spiraea betulifolia var. lucida');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1299', E'Spiraea betulifolia');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1299', E'Spiraea betulifolia');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1300', E'Spiraea Billiardii-hybr.');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1300', E'Spiraea Billiardii-hybr.');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1301', E'Spiraea cana');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1301', E'Spiraea cana');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1302', E'Spiraea chamaedryfolia ''Martti''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1302', E'Spiraea chamaedryfolia ''Martti''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1303', E'Spiraea chamaedryfolia var. ulmifolia');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1303', E'Spiraea chamaedryfolia var. ulmifolia');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1304', E'Spiraea chamaedryfolia');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1304', E'Spiraea chamaedryfolia');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1305', E'Spiraea decumbens');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1305', E'Spiraea decumbens');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1306', E'Spiraea densiflora');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1306', E'Spiraea densiflora');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1307', E'Spiraea douglasii');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1307', E'Spiraea douglasii');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1308', E'Spiraea fritschiana');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1308', E'Spiraea fritschiana');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1309', E'Spiraea ''Grefsheim''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1309', E'Spiraea ''Grefsheim''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1310', E'Spiraea hypericifolia');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1310', E'Spiraea hypericifolia');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1311', E'Spiraea japonica ''Albiflora''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1311', E'Spiraea japonica ''Albiflora''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1312', E'Spiraea japonica ''Anthony Waterer''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1312', E'Spiraea japonica ''Anthony Waterer''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1313', E'Spiraea japonica ''Arnold''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1313', E'Spiraea japonica ''Arnold''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1314', E'Spiraea japonica ''Firelight''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1314', E'Spiraea japonica ''Firelight''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1315', E'Spiraea japonica ''Froebelii''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1315', E'Spiraea japonica ''Froebelii''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1316', E'Spiraea japonica ''Golden Princess''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1316', E'Spiraea japonica ''Golden Princess''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1317', E'Spiraea japonica ''Goldflame''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1317', E'Spiraea japonica ''Goldflame''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1318', E'Spiraea japonica ''Goldmound''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1318', E'Spiraea japonica ''Goldmound''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1319', E'Spiraea japonica ''Lilly''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1319', E'Spiraea japonica ''Lilly''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1320', E'Spiraea japonica ''Little Princess''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1320', E'Spiraea japonica ''Little Princess''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1321', E'Spiraea japonica ''Manon''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1321', E'Spiraea japonica ''Manon''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1322', E'Spiraea japonica ''Nana''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1322', E'Spiraea japonica ''Nana''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1323', E'Spiraea japonica ''Neon Flash''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1323', E'Spiraea japonica ''Neon Flash''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1324', E'Spiraea japonica ''Odensala''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1324', E'Spiraea japonica ''Odensala''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1325', E'Spiraea japonica ''Shirobana''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1325', E'Spiraea japonica ''Shirobana''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1326', E'Spiraea japonica ''walbuma Magic Carpet''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1326', E'Spiraea japonica ''walbuma Magic Carpet''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1327', E'Spiraea japonica');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1327', E'Spiraea japonica');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1328', E'Spiraea ''Margaritae''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1328', E'Spiraea ''Margaritae''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1329', E'Spiraea media');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1329', E'Spiraea media');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1330', E'Spiraea nipponica ''Halwards Silwer''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1330', E'Spiraea nipponica ''Halwards Silwer''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1331', E'Spiraea nipponica ''June Bride''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1331', E'Spiraea nipponica ''June Bride''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1332', E'Spiraea nipponica');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1332', E'Spiraea nipponica');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1333', E'Spiraea rubella');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1333', E'Spiraea rubella');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1334', E'Spiraea salicifolia');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1334', E'Spiraea salicifolia');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1335', E'Spiraea stevenii');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1335', E'Spiraea stevenii');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1336', E'Spiraea ''Summersnow''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1336', E'Spiraea ''Summersnow''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1337', E'Spiraea trichocarpa');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1337', E'Spiraea trichocarpa');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1338', E'Spiraea trilobata');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1338', E'Spiraea trilobata');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1339', E'Spiraea x bumalda ''Denistar''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1339', E'Spiraea x bumalda ''Denistar''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1340', E'Spiraea x bumalda ''Superstar''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1340', E'Spiraea x bumalda ''Superstar''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1341', E'Spiraea x cinerea');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1341', E'Spiraea x cinerea');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1342', E'Spiraea x rosalba');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1342', E'Spiraea x rosalba');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1343', E'Spiraea x sanssouciana');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1343', E'Spiraea x sanssouciana');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1344', E'Spiraea x vanhouttei');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1344', E'Spiraea x vanhouttei');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1345', E'Spiraea x watsoniana ''Kruunu''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1345', E'Spiraea x watsoniana ''Kruunu''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1346', E'Spiraea x watsoniana');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1346', E'Spiraea x watsoniana');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1347', E'Spiraea');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1347', E'Spiraea');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1348', E'Stachys byzantina');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1348', E'Stachys byzantina');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1349', E'Stachys macrantha ''Superba''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1349', E'Stachys macrantha ''Superba''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1350', E'Stachys macrantha');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1350', E'Stachys macrantha');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1351', E'Stephanandra incisa ''Crispa''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1351', E'Stephanandra incisa ''Crispa''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1352', E'Stephnandra incisa ''Crispa''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1352', E'Stephnandra incisa ''Crispa''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1353', E'Symphoricarpos albus var. laevigatus');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1353', E'Symphoricarpos albus var. laevigatus');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1354', E'Syringa josikaea');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1354', E'Syringa josikaea');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1355', E'Syringa patula');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1355', E'Syringa patula');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1356', E'Syringa Preston-hybr. ''Coral''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1356', E'Syringa Preston-hybr. ''Coral''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1357', E'Syringa Preston-hybr. ''Elinor''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1357', E'Syringa Preston-hybr. ''Elinor''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1358', E'Syringa Preston-hybr. ''Holger''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1358', E'Syringa Preston-hybr. ''Holger''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1359', E'Syringa Preston-hybr. ''James MacFarlane''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1359', E'Syringa Preston-hybr. ''James MacFarlane''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1360', E'Syringa Preston-hybr. ''Royalty''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1360', E'Syringa Preston-hybr. ''Royalty''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1361', E'Syringa reflexa');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1361', E'Syringa reflexa');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1362', E'Syringa reticulata');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1362', E'Syringa reticulata');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1363', E'Syringa vulgaris ''Alba''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1363', E'Syringa vulgaris ''Alba''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1364', E'Syringa vulgaris ''Amoena''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1364', E'Syringa vulgaris ''Amoena''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1365', E'Syringa vulgaris ''Andenken an Ludvig Späth''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1365', E'Syringa vulgaris ''Andenken an Ludvig Späth''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1366', E'Syringa vulgaris ''Charles Joly''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1366', E'Syringa vulgaris ''Charles Joly''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1367', E'Syringa vulgaris hybr.');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1367', E'Syringa vulgaris hybr.');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1368', E'Syringa vulgaris ''Katherine Havemayer''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1368', E'Syringa vulgaris ''Katherine Havemayer''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1369', E'Syringa vulgaris ''Michel Buchner''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1369', E'Syringa vulgaris ''Michel Buchner''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1370', E'Syringa vulgaris ''Mme Lemoine''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1370', E'Syringa vulgaris ''Mme Lemoine''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1371', E'Syringa vulgaris ''Moskovan kaunotar''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1371', E'Syringa vulgaris ''Moskovan kaunotar''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1372', E'Syringa vulgaris ''Sensation''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1372', E'Syringa vulgaris ''Sensation''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1373', E'Syringa vulgaris');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1373', E'Syringa vulgaris');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1374', E'Syringa x chinensis ''Bicolor''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1374', E'Syringa x chinensis ''Bicolor''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1375', E'Syringa x chinensis ''Saugeana''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1375', E'Syringa x chinensis ''Saugeana''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1376', E'Syringa x chinensis');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1376', E'Syringa x chinensis');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1377', E'Syringa x henryi ''Tammelan Kaunotar''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1377', E'Syringa x henryi ''Tammelan Kaunotar''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1378', E'Syringa x henryi ''Tapaninsyreeni''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1378', E'Syringa x henryi ''Tapaninsyreeni''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1379', E'Syringa x henryi');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1379', E'Syringa x henryi');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1380', E'Syringa x josiflexa '' Veera''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1380', E'Syringa x josiflexa '' Veera''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1381', E'Syringa x josiflexa');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1381', E'Syringa x josiflexa');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1382', E'Syringa');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1382', E'Syringa');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1383', E'Tanacetum coccineum');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1383', E'Tanacetum coccineum');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1384', E'Tanacetum vulgare');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1384', E'Tanacetum vulgare');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1385', E'Taxus baccata');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1385', E'Taxus baccata');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1386', E'Taxus cuspidata ''Nana''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1386', E'Taxus cuspidata ''Nana''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1387', E'Taxus cuspidata');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1387', E'Taxus cuspidata');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1388', E'Taxus x media ''Hicksii''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1388', E'Taxus x media ''Hicksii''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1389', E'Taxus');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1389', E'Taxus');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1390', E'Telekia speciosa');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1390', E'Telekia speciosa');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1391', E'Tellima grandiflora');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1391', E'Tellima grandiflora');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1392', E'Thalictrum aquilegiifolium');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1392', E'Thalictrum aquilegiifolium');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1393', E'Thalictrum delavayi');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1393', E'Thalictrum delavayi');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1394', E'Thalictrum flavum');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1394', E'Thalictrum flavum');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1395', E'Thelypteris phegopteris');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1395', E'Thelypteris phegopteris');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1396', E'Thuja koraiensis');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1396', E'Thuja koraiensis');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1397', E'Thuja occidentalis ''Brabant''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1397', E'Thuja occidentalis ''Brabant''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1398', E'Thuja occidentalis ''Columna''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1398', E'Thuja occidentalis ''Columna''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1399', E'Thuja occidentalis ''Fastigiata''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1399', E'Thuja occidentalis ''Fastigiata''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1400', E'Thuja occidentalis ''Globosa''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1400', E'Thuja occidentalis ''Globosa''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1401', E'Thuja occidentalis ''Holmstrup''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1401', E'Thuja occidentalis ''Holmstrup''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1402', E'Thuja occidentalis ''Hoveyi''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1402', E'Thuja occidentalis ''Hoveyi''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1403', E'Thuja occidentalis ''Smaragd''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1403', E'Thuja occidentalis ''Smaragd''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1404', E'Thuja occidentalis ''Sunkist''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1404', E'Thuja occidentalis ''Sunkist''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1405', E'Thuja occidentalis ''Woodwardii''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1405', E'Thuja occidentalis ''Woodwardii''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1406', E'Thuja occidentalis');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1406', E'Thuja occidentalis');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1407', E'Thujopsis dolabrata');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1407', E'Thujopsis dolabrata');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1408', E'Thymus citriodorus');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1408', E'Thymus citriodorus');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1409', E'Thymus serphyllum');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1409', E'Thymus serphyllum');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1410', E'Thymus vulgaris');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1410', E'Thymus vulgaris');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1411', E'Tiarella cordifolia');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1411', E'Tiarella cordifolia');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1412', E'Tiarella wherryi');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1412', E'Tiarella wherryi');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1413', E'Tiarella');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1413', E'Tiarella');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1414', E'Trientalis europaea');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1414', E'Trientalis europaea');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1415', E'Trifolium repens');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1415', E'Trifolium repens');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1416', E'Trollius chinensis ''Goldkönigin''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1416', E'Trollius chinensis ''Goldkönigin''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1417', E'Trollius chinensis');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1417', E'Trollius chinensis');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1418', E'Trollius europaeus');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1418', E'Trollius europaeus');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1419', E'Trollius-hybr. ''Orange Globe''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1419', E'Trollius-hybr. ''Orange Globe''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1420', E'Trollius-hybr. ''Orange Princess''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1420', E'Trollius-hybr. ''Orange Princess''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1421', E'Trollius-hybr.');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1421', E'Trollius-hybr.');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1422', E'Tsuga canadensis');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1422', E'Tsuga canadensis');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1423', E'Tsuga diversifolia');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1423', E'Tsuga diversifolia');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1424', E'Tsuga heterophylla');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1424', E'Tsuga heterophylla');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1425', E'Tsuga mertensiana');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1425', E'Tsuga mertensiana');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1426', E'Tulipa armena');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1426', E'Tulipa armena');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1427', E'Tulipa biflora');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1427', E'Tulipa biflora');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1428', E'Tulipa celsiana');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1428', E'Tulipa celsiana');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1429', E'Tulipa clusiana');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1429', E'Tulipa clusiana');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1430', E'Tulipa fosteriana');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1430', E'Tulipa fosteriana');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1431', E'Tulipa greigii');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1431', E'Tulipa greigii');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1432', E'Tulipa humilis');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1432', E'Tulipa humilis');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1433', E'Tulipa kaufmanniana');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1433', E'Tulipa kaufmanniana');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1434', E'Tulipa lanata');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1434', E'Tulipa lanata');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1435', E'Tulipa linifolia');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1435', E'Tulipa linifolia');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1436', E'Tulipa marjoletti');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1436', E'Tulipa marjoletti');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1437', E'Tulipa ostrowskiana');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1437', E'Tulipa ostrowskiana');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1438', E'Tulipa sylvestris');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1438', E'Tulipa sylvestris');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1439', E'Tulipa tarda');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1439', E'Tulipa tarda');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1440', E'Typha angustifolia');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1440', E'Typha angustifolia');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1441', E'Typha latifolia');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1441', E'Typha latifolia');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1442', E'Vaccinium ''Aron''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1442', E'Vaccinium ''Aron''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1443', E'Vaccinium corymbosum ''Aino''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1443', E'Vaccinium corymbosum ''Aino''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1444', E'Vaccinium corymbosum ''North Blue''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1444', E'Vaccinium corymbosum ''North Blue''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1445', E'Vaccinium corymbosum');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1445', E'Vaccinium corymbosum');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1446', E'Vaccinium microcarpum');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1446', E'Vaccinium microcarpum');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1447', E'Vaccinium myrtilus');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1447', E'Vaccinium myrtilus');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1448', E'Vaccinium oxycoccos');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1448', E'Vaccinium oxycoccos');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1449', E'Vaccinium uliginosum');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1449', E'Vaccinium uliginosum');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1450', E'Vaccinium vitis-idaea');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1450', E'Vaccinium vitis-idaea');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1451', E'Waldsteinia ternata');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1451', E'Waldsteinia ternata');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1452', E'Weigela florida ''Minuet''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1452', E'Weigela florida ''Minuet''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1453', E'Weigela hybrida');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1453', E'Weigela hybrida');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1454', E'Weigela middendorffiana');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1454', E'Weigela middendorffiana');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1455', E'Weigela praecox');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1455', E'Weigela praecox');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1456', E'Verbascum nigrum');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1456', E'Verbascum nigrum');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1457', E'Verbascum olympicum');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1457', E'Verbascum olympicum');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1458', E'Verbascum thapsus');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1458', E'Verbascum thapsus');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1459', E'Veronica austriaca ''Royal Blue''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1459', E'Veronica austriaca ''Royal Blue''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1460', E'Veronica austriaca');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1460', E'Veronica austriaca');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1461', E'Veronica longifolia');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1461', E'Veronica longifolia');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1462', E'Veronica officinalis');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1462', E'Veronica officinalis');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1463', E'Veronica prostrata');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1463', E'Veronica prostrata');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1464', E'Veronica spicata nana ''Blauteppich''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1464', E'Veronica spicata nana ''Blauteppich''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1465', E'Veronica spicata');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1465', E'Veronica spicata');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1466', E'Veronica');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1466', E'Veronica');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1467', E'Viburnum dentatum var. lucidum');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1467', E'Viburnum dentatum var. lucidum');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1468', E'Viburnum lantana');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1468', E'Viburnum lantana');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1469', E'Viburnum lentago ''Jenkki''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1469', E'Viburnum lentago ''Jenkki''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1470', E'Viburnum opulus f. roseum');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1470', E'Viburnum opulus f. roseum');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1471', E'Viburnum opulus ''Kallion Pallo''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1471', E'Viburnum opulus ''Kallion Pallo''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1472', E'Viburnum opulus ''Nanum''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1472', E'Viburnum opulus ''Nanum''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1473', E'Viburnum opulus ''Nordplant''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1473', E'Viburnum opulus ''Nordplant''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1474', E'Viburnum opulus ''Pohjan Neito''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1474', E'Viburnum opulus ''Pohjan Neito''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1475', E'Viburnum opulus ssp. opulus');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1475', E'Viburnum opulus ssp. opulus');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1476', E'Viburnum opulus ssp. trilobum');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1476', E'Viburnum opulus ssp. trilobum');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1477', E'Viburnum opulus');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1477', E'Viburnum opulus');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1478', E'Viburnum sargentii ''Blue Muffin''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1478', E'Viburnum sargentii ''Blue Muffin''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1479', E'Viburnum sargentii ''Onondaga''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1479', E'Viburnum sargentii ''Onondaga''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1480', E'Viburnum');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1480', E'Viburnum');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1481', E'Vinca minor ''Argenteovariegata''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1481', E'Vinca minor ''Argenteovariegata''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1482', E'Vinca minor');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1482', E'Vinca minor');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1483', E'Viola ''Ella''');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1483', E'Viola ''Ella''');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1484', E'Viola odorata');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1484', E'Viola odorata');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1485', E'Vitis labrusca');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1485', E'Vitis labrusca');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1486', E'muu');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1486', E'muu');
 -- ddl-end --
-INSERT INTO koodistot.kasvilaji (id, selite) VALUES (E'1487', E'ei tiedossa');
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1487', E'ei tiedossa');
 -- ddl-end --
 
 -- object: koodistot.kasviryhmatyyppi | type: TABLE --
 -- DROP TABLE IF EXISTS koodistot.kasviryhmatyyppi CASCADE;
 CREATE TABLE koodistot.kasviryhmatyyppi (
-	id serial NOT NULL,
+	cid integer NOT NULL,
 	selite text,
-	CONSTRAINT kasviryhmatyyppi_pk PRIMARY KEY (id)
+	CONSTRAINT kasviryhmatyyppi_pk PRIMARY KEY (cid)
 );
 -- ddl-end --
 ALTER TABLE koodistot.kasviryhmatyyppi OWNER TO infrao_admin;
 -- ddl-end --
 
-INSERT INTO koodistot.kasviryhmatyyppi (id, selite) VALUES (E'1', E'havupensas');
+INSERT INTO koodistot.kasviryhmatyyppi (cid, selite) VALUES (E'1', E'havupensas');
 -- ddl-end --
-INSERT INTO koodistot.kasviryhmatyyppi (id, selite) VALUES (E'2', E'köynnös');
+INSERT INTO koodistot.kasviryhmatyyppi (cid, selite) VALUES (E'2', E'köynnös');
 -- ddl-end --
-INSERT INTO koodistot.kasviryhmatyyppi (id, selite) VALUES (E'3', E'köynnösruusu');
+INSERT INTO koodistot.kasviryhmatyyppi (cid, selite) VALUES (E'3', E'köynnösruusu');
 -- ddl-end --
-INSERT INTO koodistot.kasviryhmatyyppi (id, selite) VALUES (E'4', E'lehtipensas');
+INSERT INTO koodistot.kasviryhmatyyppi (cid, selite) VALUES (E'4', E'lehtipensas');
 -- ddl-end --
-INSERT INTO koodistot.kasviryhmatyyppi (id, selite) VALUES (E'5', E'maustekasvi');
+INSERT INTO koodistot.kasviryhmatyyppi (cid, selite) VALUES (E'5', E'maustekasvi');
 -- ddl-end --
-INSERT INTO koodistot.kasviryhmatyyppi (id, selite) VALUES (E'6', E'perenna');
+INSERT INTO koodistot.kasviryhmatyyppi (cid, selite) VALUES (E'6', E'perenna');
 -- ddl-end --
-INSERT INTO koodistot.kasviryhmatyyppi (id, selite) VALUES (E'7', E'varpu');
+INSERT INTO koodistot.kasviryhmatyyppi (cid, selite) VALUES (E'7', E'varpu');
 -- ddl-end --
-INSERT INTO koodistot.kasviryhmatyyppi (id, selite) VALUES (E'8', E'ryhmäruusu');
+INSERT INTO koodistot.kasviryhmatyyppi (cid, selite) VALUES (E'8', E'ryhmäruusu');
 -- ddl-end --
-INSERT INTO koodistot.kasviryhmatyyppi (id, selite) VALUES (E'9', E'yksivuotinen kasvi');
+INSERT INTO koodistot.kasviryhmatyyppi (cid, selite) VALUES (E'9', E'yksivuotinen kasvi');
 -- ddl-end --
-INSERT INTO koodistot.kasviryhmatyyppi (id, selite) VALUES (E'10', E'muu');
+INSERT INTO koodistot.kasviryhmatyyppi (cid, selite) VALUES (E'10', E'muu');
 -- ddl-end --
-INSERT INTO koodistot.kasviryhmatyyppi (id, selite) VALUES (E'11', E'ei tiedossa');
+INSERT INTO koodistot.kasviryhmatyyppi (cid, selite) VALUES (E'11', E'ei tiedossa');
 -- ddl-end --
 
 -- object: koodistot.leikkivalinetyyppi | type: TABLE --
 -- DROP TABLE IF EXISTS koodistot.leikkivalinetyyppi CASCADE;
 CREATE TABLE koodistot.leikkivalinetyyppi (
-	id serial NOT NULL,
+	cid integer NOT NULL,
 	selite text,
-	CONSTRAINT leikkivalinetyyppi_pk PRIMARY KEY (id)
+	CONSTRAINT leikkivalinetyyppi_pk PRIMARY KEY (cid)
 );
 -- ddl-end --
 ALTER TABLE koodistot.leikkivalinetyyppi OWNER TO infrao_admin;
 -- ddl-end --
 
-INSERT INTO koodistot.leikkivalinetyyppi (id, selite) VALUES (E'1', E'aita');
+INSERT INTO koodistot.leikkivalinetyyppi (cid, selite) VALUES (E'1', E'aita');
 -- ddl-end --
-INSERT INTO koodistot.leikkivalinetyyppi (id, selite) VALUES (E'2', E'hiekkalaatikko');
+INSERT INTO koodistot.leikkivalinetyyppi (cid, selite) VALUES (E'2', E'hiekkalaatikko');
 -- ddl-end --
-INSERT INTO koodistot.leikkivalinetyyppi (id, selite) VALUES (E'3', E'jousilelu');
+INSERT INTO koodistot.leikkivalinetyyppi (cid, selite) VALUES (E'3', E'jousilelu');
 -- ddl-end --
-INSERT INTO koodistot.leikkivalinetyyppi (id, selite) VALUES (E'4', E'karuselli');
+INSERT INTO koodistot.leikkivalinetyyppi (cid, selite) VALUES (E'4', E'karuselli');
 -- ddl-end --
-INSERT INTO koodistot.leikkivalinetyyppi (id, selite) VALUES (E'5', E'katos');
+INSERT INTO koodistot.leikkivalinetyyppi (cid, selite) VALUES (E'5', E'katos');
 -- ddl-end --
-INSERT INTO koodistot.leikkivalinetyyppi (id, selite) VALUES (E'6', E'keinulauta');
+INSERT INTO koodistot.leikkivalinetyyppi (cid, selite) VALUES (E'6', E'keinulauta');
 -- ddl-end --
-INSERT INTO koodistot.leikkivalinetyyppi (id, selite) VALUES (E'7', E'keinumisvälineet');
+INSERT INTO koodistot.leikkivalinetyyppi (cid, selite) VALUES (E'7', E'keinumisvälineet');
 -- ddl-end --
-INSERT INTO koodistot.leikkivalinetyyppi (id, selite) VALUES (E'8', E'keinut');
+INSERT INTO koodistot.leikkivalinetyyppi (cid, selite) VALUES (E'8', E'keinut');
 -- ddl-end --
-INSERT INTO koodistot.leikkivalinetyyppi (id, selite) VALUES (E'9', E'kiipeilyteline');
+INSERT INTO koodistot.leikkivalinetyyppi (cid, selite) VALUES (E'9', E'kiipeilyteline');
 -- ddl-end --
-INSERT INTO koodistot.leikkivalinetyyppi (id, selite) VALUES (E'10', E'köysirata');
+INSERT INTO koodistot.leikkivalinetyyppi (cid, selite) VALUES (E'10', E'köysirata');
 -- ddl-end --
-INSERT INTO koodistot.leikkivalinetyyppi (id, selite) VALUES (E'11', E'leikkimökki');
+INSERT INTO koodistot.leikkivalinetyyppi (cid, selite) VALUES (E'11', E'leikkimökki');
 -- ddl-end --
-INSERT INTO koodistot.leikkivalinetyyppi (id, selite) VALUES (E'12', E'liukumäki');
+INSERT INTO koodistot.leikkivalinetyyppi (cid, selite) VALUES (E'12', E'liukumäki');
 -- ddl-end --
-INSERT INTO koodistot.leikkivalinetyyppi (id, selite) VALUES (E'13', E'monitoimiväline');
+INSERT INTO koodistot.leikkivalinetyyppi (cid, selite) VALUES (E'13', E'monitoimiväline');
 -- ddl-end --
-INSERT INTO koodistot.leikkivalinetyyppi (id, selite) VALUES (E'14', E'patsas');
+INSERT INTO koodistot.leikkivalinetyyppi (cid, selite) VALUES (E'14', E'patsas');
 -- ddl-end --
-INSERT INTO koodistot.leikkivalinetyyppi (id, selite) VALUES (E'15', E'tasapainoiluväline');
+INSERT INTO koodistot.leikkivalinetyyppi (cid, selite) VALUES (E'15', E'tasapainoiluväline');
 -- ddl-end --
-INSERT INTO koodistot.leikkivalinetyyppi (id, selite) VALUES (E'16', E'muu');
+INSERT INTO koodistot.leikkivalinetyyppi (cid, selite) VALUES (E'16', E'muu');
 -- ddl-end --
-INSERT INTO koodistot.leikkivalinetyyppi (id, selite) VALUES (E'17', E'ei tiedossa');
+INSERT INTO koodistot.leikkivalinetyyppi (cid, selite) VALUES (E'17', E'ei tiedossa');
 -- ddl-end --
 
 -- object: koodistot.liikennemerkkityyppi | type: TABLE --
 -- DROP TABLE IF EXISTS koodistot.liikennemerkkityyppi CASCADE;
 CREATE TABLE koodistot.liikennemerkkityyppi (
-	id serial NOT NULL,
+	cid integer NOT NULL,
 	selite text,
-	CONSTRAINT liikennemerkkityyppi_pk PRIMARY KEY (id)
+	CONSTRAINT liikennemerkkityyppi_pk PRIMARY KEY (cid)
 );
+-- ddl-end --
+COMMENT ON TABLE koodistot.liikennemerkkityyppi IS E'TODO: add selite in other languages (sv, en)?';
 -- ddl-end --
 ALTER TABLE koodistot.liikennemerkkityyppi OWNER TO infrao_admin;
 -- ddl-end --
 
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'1', E'111. Mutka oikealle');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'1', E'111. Mutka oikealle');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'2', E'112. Mutka vasemmalle');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'2', E'112. Mutka vasemmalle');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'3', E'113. Mutkia, joista ensimmäinen oikealle');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'3', E'113. Mutkia, joista ensimmäinen oikealle');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'4', E'114. Mutkia, joista ensimmäinen vasemmalle');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'4', E'114. Mutkia, joista ensimmäinen vasemmalle');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'5', E'115. Jyrkkä alamäki');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'5', E'115. Jyrkkä alamäki');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'6', E'116. Jyrkkä ylämäki');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'6', E'116. Jyrkkä ylämäki');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'7', E'121. Kapeneva tie');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'7', E'121. Kapeneva tie');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'8', E'122. Kaksisuuntainen liikenne');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'8', E'122. Kaksisuuntainen liikenne');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'9', E'131. Avattava silta');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'9', E'131. Avattava silta');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'10', E'132. Lautta, laituri tai ranta');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'10', E'132. Lautta, laituri tai ranta');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'11', E'133. Liikenneruuhka');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'11', E'133. Liikenneruuhka');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'12', E'141. Epätasainen tie');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'12', E'141. Epätasainen tie');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'13', E'141 a. Töyssyjä');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'13', E'141 a. Töyssyjä');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'14', E'142. Tietyö');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'14', E'142. Tietyö');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'15', E'143. Irtokiviä');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'15', E'143. Irtokiviä');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'16', E'144. Liukas ajorata');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'16', E'144. Liukas ajorata');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'17', E'147. Vaarallinen tien reuna');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'17', E'147. Vaarallinen tien reuna');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'18', E'151. Suojatien ennakkovaroitus');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'18', E'151. Suojatien ennakkovaroitus');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'19', E'152. Lapsia');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'19', E'152. Lapsia');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'20', E'153. Pyöräilijöitä');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'20', E'153. Pyöräilijöitä');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'21', E'154. Hiihtolatu');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'21', E'154. Hiihtolatu');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'22', E'155. Hirvieläimiä');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'22', E'155. Hirvieläimiä');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'23', E'156. Poroja');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'23', E'156. Poroja');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'24', E'161. Tienristeys');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'24', E'161. Tienristeys');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'25', E'162. Sivutien risteys');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'25', E'162. Sivutien risteys');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'26', E'163. Sivutien risteys');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'26', E'163. Sivutien risteys');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'27', E'164. Sivutien risteys');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'27', E'164. Sivutien risteys');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'28', E'165. Liikennevalot');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'28', E'165. Liikennevalot');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'29', E'166. Liikenneympyrä');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'29', E'166. Liikenneympyrä');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'30', E'167. Raitiotie');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'30', E'167. Raitiotie');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'31', E'171. Rautatien tasoristeys ilman puomeja');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'31', E'171. Rautatien tasoristeys ilman puomeja');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'32', E'172. Rautatien tasoristeys, jossa on puomit');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'32', E'172. Rautatien tasoristeys, jossa on puomit');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'33', E'173. 174. 175. Rautatien tasoristeyksen lähestymismerkit');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'33', E'173. 174. 175. Rautatien tasoristeyksen lähestymismerkit');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'34', E'176. Yksiraiteisen rautatien tasoristeys');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'34', E'176. Yksiraiteisen rautatien tasoristeys');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'35', E'177. Kaksi- tai useampiraiteisen rautatien tasoristeys');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'35', E'177. Kaksi- tai useampiraiteisen rautatien tasoristeys');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'36', E'181. Putoavia kiviä');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'36', E'181. Putoavia kiviä');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'37', E'182. Matalalla lentäviä lentokoneita');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'37', E'182. Matalalla lentäviä lentokoneita');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'38', E'183. Sivutuuli');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'38', E'183. Sivutuuli');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'39', E'189. Muu vaara');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'39', E'189. Muu vaara');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'40', E'211. Etuajo-oikeutettu tie');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'40', E'211. Etuajo-oikeutettu tie');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'41', E'212. Etuajo-oikeuden päättyminen');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'41', E'212. Etuajo-oikeuden päättyminen');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'42', E'221. Etuajo-oikeus kohdattaessa');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'42', E'221. Etuajo-oikeus kohdattaessa');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'43', E'222. Väistämisvelvollisuus kohdattaessa');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'43', E'222. Väistämisvelvollisuus kohdattaessa');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'44', E'231. Väistämisvelvollisuus risteyksessä');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'44', E'231. Väistämisvelvollisuus risteyksessä');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'45', E'232. Pakollinen pysäyttäminen');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'45', E'232. Pakollinen pysäyttäminen');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'46', E'311. Ajoneuvolla ajo kielletty');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'46', E'311. Ajoneuvolla ajo kielletty');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'47', E'312. Moottorikäyttöisellä ajoneuvolla ajo kielletty');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'47', E'312. Moottorikäyttöisellä ajoneuvolla ajo kielletty');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'48', E'313. Kuorma- ja pakettiautolla ajo kielletty');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'48', E'313. Kuorma- ja pakettiautolla ajo kielletty');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'49', E'314. Ajoneuvoyhdistelmällä ajo kielletty');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'49', E'314. Ajoneuvoyhdistelmällä ajo kielletty');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'50', E'315. Traktorilla ajo kielletty');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'50', E'315. Traktorilla ajo kielletty');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'51', E'316. Moottoripyörällä ajo kielletty');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'51', E'316. Moottoripyörällä ajo kielletty');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'52', E'317. Moottorikelkalla ajo kielletty');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'52', E'317. Moottorikelkalla ajo kielletty');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'53', E'318. Vaarallisten aineiden kuljetus kielletty');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'53', E'318. Vaarallisten aineiden kuljetus kielletty');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'54', E'319. Linja-autolla ajo kielletty');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'54', E'319. Linja-autolla ajo kielletty');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'55', E'321. Mopolla ajo kielletty');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'55', E'321. Mopolla ajo kielletty');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'56', E'322. Polkupyörällä ja mopolla ajo kielletty');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'56', E'322. Polkupyörällä ja mopolla ajo kielletty');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'57', E'323. Jalankulku kielletty');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'57', E'323. Jalankulku kielletty');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'58', E'324. Jalankulku sekä polkupyörällä ja mopolla ajo kielletty');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'58', E'324. Jalankulku sekä polkupyörällä ja mopolla ajo kielletty');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'59', E'325. Ratsastus kielletty');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'59', E'325. Ratsastus kielletty');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'60', E'331. Kielletty ajosuunta');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'60', E'331. Kielletty ajosuunta');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'61', E'332. Vasemmalle kääntyminen kielletty');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'61', E'332. Vasemmalle kääntyminen kielletty');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'62', E'333. Oikealle kääntyminen kielletty');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'62', E'333. Oikealle kääntyminen kielletty');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'63', E'334. U-käännös kielletty');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'63', E'334. U-käännös kielletty');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'64', E'341. Ajoneuvon suurin sallittu leveys');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'64', E'341. Ajoneuvon suurin sallittu leveys');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'65', E'342. Ajoneuvon suurin sallittu korkeus');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'65', E'342. Ajoneuvon suurin sallittu korkeus');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'66', E'343. Ajoneuvon tai ajoneuvoyhdistelmän suurin sallittu pituus');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'66', E'343. Ajoneuvon tai ajoneuvoyhdistelmän suurin sallittu pituus');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'67', E'344. Ajoneuvon suurin sallittu massa');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'67', E'344. Ajoneuvon suurin sallittu massa');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'68', E'345. Ajoneuvoyhdistelmän suurin sallittu massa');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'68', E'345. Ajoneuvoyhdistelmän suurin sallittu massa');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'69', E'346. Ajoneuvon suurin sallittu akselille kohdistuva massa');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'69', E'346. Ajoneuvon suurin sallittu akselille kohdistuva massa');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'70', E'347. Ajoneuvon suurin sallittu telille kohdistuva massa');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'70', E'347. Ajoneuvon suurin sallittu telille kohdistuva massa');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'71', E'351. Ohituskielto');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'71', E'351. Ohituskielto');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'72', E'352. Ohituskielto päättyy');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'72', E'352. Ohituskielto päättyy');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'73', E'353. Ohituskielto kuorma-autolla');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'73', E'353. Ohituskielto kuorma-autolla');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'74', E'354. Ohituskielto kuorma-autolla päättyy');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'74', E'354. Ohituskielto kuorma-autolla päättyy');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'75', E'361. Nopeusrajoitus');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'75', E'361. Nopeusrajoitus');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'76', E'362. Nopeusrajoitus päättyy');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'76', E'362. Nopeusrajoitus päättyy');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'77', E'363. Nopeusrajoitusalue');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'77', E'363. Nopeusrajoitusalue');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'78', E'364. Nopeusrajoitusalue päättyy');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'78', E'364. Nopeusrajoitusalue päättyy');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'79', E'365. Ajokaistakohtainen kielto tai rajoitus');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'79', E'365. Ajokaistakohtainen kielto tai rajoitus');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'80', E'371. Pysäyttäminen kielletty');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'80', E'371. Pysäyttäminen kielletty');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'81', E'372. Pysäköinti kielletty');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'81', E'372. Pysäköinti kielletty');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'82', E'373. Pysäköintikieltoalue');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'82', E'373. Pysäköintikieltoalue');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'83', E'374. Pysäköintikieltoalue päättyy');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'83', E'374. Pysäköintikieltoalue päättyy');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'84', E'375. Taksiasema-alue');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'84', E'375. Taksiasema-alue');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'85', E'376. Taksin pysäyttämispaikka');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'85', E'376. Taksin pysäyttämispaikka');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'86', E'381. Vuoropysäköinti');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'86', E'381. Vuoropysäköinti');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'87', E'382. Vuoropysäköinti');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'87', E'382. Vuoropysäköinti');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'88', E'391. Pakollinen pysäyttäminen tullitarkastusta varten');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'88', E'391. Pakollinen pysäyttäminen tullitarkastusta varten');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'89', E'392. Pakollinen pysäyttäminen tarkastusta varten');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'89', E'392. Pakollinen pysäyttäminen tarkastusta varten');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'90', E'393. Moottorikäyttöisten ajoneuvojen vähimmäisetäisyys');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'90', E'393. Moottorikäyttöisten ajoneuvojen vähimmäisetäisyys');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'91', E'411. Pakollinen ajosuunta');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'91', E'411. Pakollinen ajosuunta');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'92', E'412. Pakollinen ajosuunta');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'92', E'412. Pakollinen ajosuunta');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'93', E'413. Pakollinen ajosuunta');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'93', E'413. Pakollinen ajosuunta');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'94', E'414. Pakollinen ajosuunta');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'94', E'414. Pakollinen ajosuunta');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'95', E'415. Pakollinen ajosuunta');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'95', E'415. Pakollinen ajosuunta');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'96', E'416. Pakollinen kiertosuunta');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'96', E'416. Pakollinen kiertosuunta');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'97', E'417. Liikenteen jakaja');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'97', E'417. Liikenteen jakaja');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'98', E'418. Liikenteen jakaja');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'98', E'418. Liikenteen jakaja');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'99', E'421. Jalkakäytävä');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'99', E'421. Jalkakäytävä');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'100', E'422. Pyörätie');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'100', E'422. Pyörätie');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'101', E'423. Yhdistetty pyörätie ja jalkakäytävä');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'101', E'423. Yhdistetty pyörätie ja jalkakäytävä');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'102', E'424. Pyörätie ja jalkakäytävä rinnakkain');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'102', E'424. Pyörätie ja jalkakäytävä rinnakkain');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'103', E'425. Pyörätie ja jalkakäytävä rinnakkain');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'103', E'425. Pyörätie ja jalkakäytävä rinnakkain');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'104', E'426. Moottorikelkkailureitti');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'104', E'426. Moottorikelkkailureitti');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'105', E'427. Ratsastustie');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'105', E'427. Ratsastustie');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'106', E'511. Suojatie');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'106', E'511. Suojatie');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'107', E'520. Liityntäpysäköintipaikka');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'107', E'520. Liityntäpysäköintipaikka');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'108', E'521. Pysäköintipaikka');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'108', E'521. Pysäköintipaikka');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'109', E'521 a. Ajoneuvojen sijoitus pysäköintipaikalla');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'109', E'521 a. Ajoneuvojen sijoitus pysäköintipaikalla');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'110', E'521 b. Ajoneuvojen sijoitus pysäköintipaikalla');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'110', E'521 b. Ajoneuvojen sijoitus pysäköintipaikalla');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'111', E'521 c. Ajoneuvojen sijoitus pysäköintipaikalla');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'111', E'521 c. Ajoneuvojen sijoitus pysäköintipaikalla');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'112', E'522. Kohtaamispaikka');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'112', E'522. Kohtaamispaikka');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'113', E'531. Paikallisliikenteen linja-auton pysäkki');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'113', E'531. Paikallisliikenteen linja-auton pysäkki');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'114', E'532. Kaukoliikenteen linja-auton pysäkki');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'114', E'532. Kaukoliikenteen linja-auton pysäkki');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'115', E'533. Raitiovaunun pysäkki');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'115', E'533. Raitiovaunun pysäkki');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'116', E'534. Taksiasema');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'116', E'534. Taksiasema');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'117', E'541 a. Linja-autokaista');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'117', E'541 a. Linja-autokaista');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'118', E'541 b. Linja-autokaista');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'118', E'541 b. Linja-autokaista');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'119', E'542 a. Linja-autokaista päättyy');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'119', E'542 a. Linja-autokaista päättyy');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'120', E'542 b. Linja-autokaista päättyy');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'120', E'542 b. Linja-autokaista päättyy');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'121', E'543 a. Raitiovaunukaista');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'121', E'543 a. Raitiovaunukaista');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'122', E'543 b. Raitiovaunukaista');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'122', E'543 b. Raitiovaunukaista');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'123', E'544 a. Raitiovaunukaista päättyy');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'123', E'544 a. Raitiovaunukaista päättyy');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'124', E'544 b. Raitiovaunukaista päättyy');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'124', E'544 b. Raitiovaunukaista päättyy');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'125', E'551. Yksisuuntainen tie');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'125', E'551. Yksisuuntainen tie');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'126', E'561. Moottoritie');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'126', E'561. Moottoritie');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'127', E'562. Moottoritie päättyy');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'127', E'562. Moottoritie päättyy');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'128', E'563. Moottoriliikennetie');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'128', E'563. Moottoriliikennetie');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'129', E'564. Moottoriliikennetie päättyy');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'129', E'564. Moottoriliikennetie päättyy');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'130', E'565. Tunneli');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'130', E'565. Tunneli');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'131', E'566. Tunneli päättyy');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'131', E'566. Tunneli päättyy');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'132', E'567. Hätäpysäyttämispaikka');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'132', E'567. Hätäpysäyttämispaikka');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'133', E'571. Taajama');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'133', E'571. Taajama');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'134', E'572. Taajama päättyy');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'134', E'572. Taajama päättyy');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'135', E'573. Pihakatu');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'135', E'573. Pihakatu');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'136', E'574. Pihakatu päättyy');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'136', E'574. Pihakatu päättyy');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'137', E'575. Kävelykatu');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'137', E'575. Kävelykatu');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'138', E'576. Kävelykatu päättyy');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'138', E'576. Kävelykatu päättyy');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'139', E'611. Suunnistustaulu');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'139', E'611. Suunnistustaulu');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'140', E'612. Suunnistustaulu');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'140', E'612. Suunnistustaulu');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'141', E'613. Kiertotien suunnistustaulu');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'141', E'613. Kiertotien suunnistustaulu');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'142', E'614. Kiertotien suunnistustaulu');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'142', E'614. Kiertotien suunnistustaulu');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'143', E'615. Kiertotieopastus');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'143', E'615. Kiertotieopastus');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'144', E'616. Ajoreittiopastus');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'144', E'616. Ajoreittiopastus');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'145', E'621. Ajokaistaopastus');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'145', E'621. Ajokaistaopastus');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'146', E'622. Ajokaistaopastus');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'146', E'622. Ajokaistaopastus');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'147', E'623. Ajokaistan päättyminen');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'147', E'623. Ajokaistan päättyminen');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'148', E'631. Ajokaistan yläpuolinen viitta');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'148', E'631. Ajokaistan yläpuolinen viitta');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'149', E'632. Ajokaistan yläpuolinen viitta');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'149', E'632. Ajokaistan yläpuolinen viitta');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'150', E'633. Ajokaistan yläpuolinen erkanemisviitta');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'150', E'633. Ajokaistan yläpuolinen erkanemisviitta');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'151', E'641. Tienviitta');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'151', E'641. Tienviitta');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'152', E'642. Erkanemisviitta');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'152', E'642. Erkanemisviitta');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'153', E'643. Yksityisen tien viitta');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'153', E'643. Yksityisen tien viitta');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'154', E'644. Osoiteviitta');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'154', E'644. Osoiteviitta');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'155', E'644 a. Osoiteviittan ennakkomerkki');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'155', E'644 a. Osoiteviittan ennakkomerkki');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'156', E'645. Kevyen liikenteen viitta');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'156', E'645. Kevyen liikenteen viitta');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'157', E'646. Kiertotien viitta');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'157', E'646. Kiertotien viitta');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'158', E'647. Kiertotien viitta');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'158', E'647. Kiertotien viitta');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'159', E'648. Paikalliskohteen viitta');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'159', E'648. Paikalliskohteen viitta');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'160', E'649. Moottori- ja moottoriliikennetien viitta');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'160', E'649. Moottori- ja moottoriliikennetien viitta');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'161', E'650. Liityntäpysäköintiviitta');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'161', E'650. Liityntäpysäköintiviitta');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'162', E'651. Umpitie');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'162', E'651. Umpitie');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'163', E'652. Umpitie');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'163', E'652. Umpitie');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'164', E'653. Enimmäisnopeussuositus');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'164', E'653. Enimmäisnopeussuositus');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'165', E'661. Etäisyystaulu');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'165', E'661. Etäisyystaulu');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'166', E'662. Paikannimi');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'166', E'662. Paikannimi');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'167', E'663. Kansainvälisen pääliikenneväylän numero');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'167', E'663. Kansainvälisen pääliikenneväylän numero');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'168', E'664. Valtatien numero');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'168', E'664. Valtatien numero');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'169', E'665. Kantatien numero');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'169', E'665. Kantatien numero');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'170', E'665 a. Seututien numero');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'170', E'665 a. Seututien numero');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'171', E'666. Muun yleisen tien numero');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'171', E'666. Muun yleisen tien numero');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'172', E'667. Opastus numeron tarkoittamalle tielle');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'172', E'667. Opastus numeron tarkoittamalle tielle');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'173', E'671. Moottoritien tunnus');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'173', E'671. Moottoritien tunnus');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'174', E'672. Moottoriliikennetien tunnus');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'174', E'672. Moottoriliikennetien tunnus');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'175', E'673. Lentoasema');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'175', E'673. Lentoasema');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'176', E'674. Autolautta');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'176', E'674. Autolautta');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'177', E'675. Tavarasatama');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'177', E'675. Tavarasatama');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'178', E'676. Teollisuusalue');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'178', E'676. Teollisuusalue');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'179', E'677. Pysäköinti');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'179', E'677. Pysäköinti');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'180', E'677 a. Katettu pysäköinti');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'180', E'677 a. Katettu pysäköinti');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'181', E'678. Rautatieasema');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'181', E'678. Rautatieasema');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'182', E'679. Linja-autoasema');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'182', E'679. Linja-autoasema');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'183', E'681. Tietyille ajoneuvoille tai ajoneuvoyhdistelmille tarkoitettu reitti');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'183', E'681. Tietyille ajoneuvoille tai ajoneuvoyhdistelmille tarkoitettu reitti');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'184', E'682. Jalankulkijoille tarkoitettu reitti');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'184', E'682. Jalankulkijoille tarkoitettu reitti');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'185', E'683. Vammaisille tarkoitettu reitti');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'185', E'683. Vammaisille tarkoitettu reitti');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'186', E'684. Vaarallisten aineiden kuljetuksille tarkoitettu reitti');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'186', E'684. Vaarallisten aineiden kuljetuksille tarkoitettu reitti');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'187', E'685. Reitti, jolla on portaat');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'187', E'685. Reitti, jolla on portaat');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'188', E'686. Reitti ilman portaita');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'188', E'686. Reitti ilman portaita');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'189', E'690. Hätäuloskäynti');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'189', E'690. Hätäuloskäynti');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'190', E'691. Poistumisreitti');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'190', E'691. Poistumisreitti');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'191', E'701. Palvelukohteen opastustaulu');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'191', E'701. Palvelukohteen opastustaulu');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'192', E'702. Palvelukohteen opastustaulu');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'192', E'702. Palvelukohteen opastustaulu');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'193', E'703. Palvelukohteen erkanemisviitta');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'193', E'703. Palvelukohteen erkanemisviitta');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'194', E'704. Palvelukohteen osoiteviitta');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'194', E'704. Palvelukohteen osoiteviitta');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'195', E'704 a. Palvelukohteen osoiteviittan ennakkomerkki');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'195', E'704 a. Palvelukohteen osoiteviittan ennakkomerkki');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'196', E'710. Radioaseman taajuus');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'196', E'710. Radioaseman taajuus');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'197', E'711. Opastuspiste');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'197', E'711. Opastuspiste');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'198', E'712. Opastustoimisto');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'198', E'712. Opastustoimisto');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'199', E'715. Ensiapu');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'199', E'715. Ensiapu');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'200', E'721. Autokorjaamo');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'200', E'721. Autokorjaamo');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'201', E'722. Huoltoasema');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'201', E'722. Huoltoasema');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'202', E'723. Hotelli tai motelli');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'202', E'723. Hotelli tai motelli');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'203', E'724. Ruokailupaikka');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'203', E'724. Ruokailupaikka');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'204', E'725. Kahvila tai pikaruokapaikka');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'204', E'725. Kahvila tai pikaruokapaikka');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'205', E'726. Käymälä');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'205', E'726. Käymälä');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'206', E'731. Retkeilymaja');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'206', E'731. Retkeilymaja');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'207', E'733. Leirintäalue');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'207', E'733. Leirintäalue');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'208', E'734. Matkailuajoneuvoalue');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'208', E'734. Matkailuajoneuvoalue');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'209', E'741. Levähdysalue');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'209', E'741. Levähdysalue');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'210', E'742. Ulkoilualue');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'210', E'742. Ulkoilualue');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'211', E'791. Hätäpuhelin');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'211', E'791. Hätäpuhelin');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'212', E'792. Sammutin');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'212', E'792. Sammutin');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'213', E'771 a. Matkailutie');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'213', E'771 a. Matkailutie');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'214', E'771 b. Matkailutie');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'214', E'771 b. Matkailutie');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'215', E'772 a. Museo tai historiallinen rakennus');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'215', E'772 a. Museo tai historiallinen rakennus');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'216', E'772 b. Maailmanperintökohde');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'216', E'772 b. Maailmanperintökohde');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'217', E'772 c. Luontokohde');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'217', E'772 c. Luontokohde');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'218', E'772 d. Näköalapaikka');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'218', E'772 d. Näköalapaikka');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'219', E'772 e. Eläintarha tai -puisto');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'219', E'772 e. Eläintarha tai -puisto');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'220', E'772 f. Muu nähtävyys');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'220', E'772 f. Muu nähtävyys');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'221', E'773 a. Uintipaikka');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'221', E'773 a. Uintipaikka');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'222', E'773 b. Kalastuspaikka');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'222', E'773 b. Kalastuspaikka');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'223', E'773 c. Hiihtohissi');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'223', E'773 c. Hiihtohissi');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'224', E'773 d. Golfkenttä');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'224', E'773 d. Golfkenttä');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'225', E'773 e. Huvi- tai teemapuisto');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'225', E'773 e. Huvi- tai teemapuisto');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'226', E'774 a. Mökkimajoitus');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'226', E'774 a. Mökkimajoitus');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'227', E'774 b. Aamiaismajoitus');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'227', E'774 b. Aamiaismajoitus');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'228', E'774 c. Suoramyyntipaikka');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'228', E'774 c. Suoramyyntipaikka');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'229', E'774 d. Käsityöpaja');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'229', E'774 d. Käsityöpaja');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'230', E'774 e. Kotieläinpiha');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'230', E'774 e. Kotieläinpiha');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'231', E'774 f. Ratsastuspaikka');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'231', E'774 f. Ratsastuspaikka');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'232', E'811. Kohde risteävällä tiellä');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'232', E'811. Kohde risteävällä tiellä');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'233', E'812. Kohde nuolen suunnassa');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'233', E'812. Kohde nuolen suunnassa');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'234', E'813. Kohde nuolen suunnassa');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'234', E'813. Kohde nuolen suunnassa');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'235', E'814. Vaikutusalueen pituus');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'235', E'814. Vaikutusalueen pituus');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'236', E'815. Etäisyys kohteeseen');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'236', E'815. Etäisyys kohteeseen');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'237', E'816. Etäisyys pakolliseen pysäyttämiseen');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'237', E'816. Etäisyys pakolliseen pysäyttämiseen');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'238', E'821. Vapaa leveys');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'238', E'821. Vapaa leveys');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'239', E'822. Vapaa korkeus');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'239', E'822. Vapaa korkeus');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'240', E'823. Sähköjohdon korkeus');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'240', E'823. Sähköjohdon korkeus');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'241', E'824. Vaikutusalue molempiin suuntiin');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'241', E'824. Vaikutusalue molempiin suuntiin');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'242', E'825. Vaikutusalue molempiin suuntiin');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'242', E'825. Vaikutusalue molempiin suuntiin');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'243', E'826. Vaikutusalue nuolen suuntaan');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'243', E'826. Vaikutusalue nuolen suuntaan');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'244', E'827. Vaikutusalue alkaa');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'244', E'827. Vaikutusalue alkaa');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'245', E'828. Vaikutusalue päättyy');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'245', E'828. Vaikutusalue päättyy');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'246', E'831. Henkilöauto');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'246', E'831. Henkilöauto');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'247', E'832. Linja-auto');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'247', E'832. Linja-auto');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'248', E'833. Kuorma-auto');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'248', E'833. Kuorma-auto');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'249', E'834. Pakettiauto');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'249', E'834. Pakettiauto');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'250', E'835. Matkailuajoneuvo');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'250', E'835. Matkailuajoneuvo');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'251', E'836. Invalidin ajoneuvo');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'251', E'836. Invalidin ajoneuvo');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'252', E'841. Moottoripyörä');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'252', E'841. Moottoripyörä');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'253', E'842. Mopo');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'253', E'842. Mopo');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'254', E'843. Polkupyörä');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'254', E'843. Polkupyörä');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'255', E'844. Pysäköintitapa');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'255', E'844. Pysäköintitapa');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'256', E'845. Pysäköintitapa');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'256', E'845. Pysäköintitapa');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'257', E'848. Kielto ryhmän A vaarallisten aineiden kuljetukselle');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'257', E'848. Kielto ryhmän A vaarallisten aineiden kuljetukselle');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'258', E'849. Läpiajokielto ryhmän B vaarallisten aineiden kuljetukselle');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'258', E'849. Läpiajokielto ryhmän B vaarallisten aineiden kuljetukselle');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'259', E'851. Voimassaoloaika');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'259', E'851. Voimassaoloaika');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'260', E'852. Voimassaoloaika');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'260', E'852. Voimassaoloaika');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'261', E'853. Voimassaoloaika');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'261', E'853. Voimassaoloaika');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'262', E'854. Aikarajoitus');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'262', E'854. Aikarajoitus');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'263', E'855 a. Maksullinen pysäköinti');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'263', E'855 a. Maksullinen pysäköinti');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'264', E'855 b. Maksullinen pysäköinti');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'264', E'855 b. Maksullinen pysäköinti');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'265', E'856 a. Pysäköintikiekon käyttövelvollisuus');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'265', E'856 a. Pysäköintikiekon käyttövelvollisuus');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'266', E'856 b. Pysäköintikiekon käyttövelvollisuus');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'266', E'856 b. Pysäköintikiekon käyttövelvollisuus');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'267', E'861 a. Etuajo-oikeutetun liikenteen suunta');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'267', E'861 a. Etuajo-oikeutetun liikenteen suunta');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'268', E'861 b. Etuajo-oikeutetun liikenteen suunta');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'268', E'861 b. Etuajo-oikeutetun liikenteen suunta');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'269', E'862. Tukkitie');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'269', E'862. Tukkitie');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'270', E'863. Kaksisuuntainen pyörätie');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'270', E'863. Kaksisuuntainen pyörätie');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'271', E'871. Tekstillinen lisäkilpi');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'271', E'871. Tekstillinen lisäkilpi');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'272', E'872. Tekstillinen lisäkilpi Huoltoajo sallittu');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'272', E'872. Tekstillinen lisäkilpi Huoltoajo sallittu');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi (id, selite) VALUES (E'273', E'880. Hätäpuhelin ja sammutin');
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'273', E'880. Hätäpuhelin ja sammutin');
 -- ddl-end --
 
 -- object: koodistot.liikennemerkkityyppi2020 | type: TABLE --
 -- DROP TABLE IF EXISTS koodistot.liikennemerkkityyppi2020 CASCADE;
 CREATE TABLE koodistot.liikennemerkkityyppi2020 (
-	id serial NOT NULL,
+	cid integer NOT NULL,
 	selite text,
-	CONSTRAINT liikennemerkkityyppi2020_pk PRIMARY KEY (id)
+	CONSTRAINT liikennemerkkityyppi2020_pk PRIMARY KEY (cid)
 );
 -- ddl-end --
 ALTER TABLE koodistot.liikennemerkkityyppi2020 OWNER TO infrao_admin;
 -- ddl-end --
 
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'1', E'113. Mutkia');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'1', E'113. Mutkia');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'2', E'114. Mutkia');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'2', E'114. Mutkia');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'3', E'132. Lautta');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'3', E'132. Lautta');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'4', E'172. Rautatien tasoristeys');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'4', E'172. Rautatien tasoristeys');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'5', E'685. Reitti');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'5', E'685. Reitti');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'6', E'A1.1. Mutka');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'6', E'A1.1. Mutka');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'7', E'A27. Rautatien tasoristeys');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'7', E'A27. Rautatien tasoristeys');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'8', E'A7. Lautta');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'8', E'A7. Lautta');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'9', E'C36. Ajokaistakohtainen kielto');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'9', E'C36. Ajokaistakohtainen kielto');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'10', E'F54. Reitti');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'10', E'F54. Reitti');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'11', E'joista ensimmäinen oikealle');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'11', E'joista ensimmäinen oikealle');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'12', E'joista ensimmäinen vasemmalle');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'12', E'joista ensimmäinen vasemmalle');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'13', E'jolla on portaat');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'13', E'jolla on portaat');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'14', E'jolla on portaat');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'14', E'jolla on portaat');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'15', E'jossa on puomit');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'15', E'jossa on puomit');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'16', E'laituri tai ranta');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'16', E'laituri tai ranta');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'17', E'rajoitus tai määräys');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'17', E'rajoitus tai määräys');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'18', E'A1.2. Mutka');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'18', E'A1.2. Mutka');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'19', E'A2.1. Mutkia');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'19', E'A2.1. Mutkia');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'20', E'A2.2. Mutkia');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'20', E'A2.2. Mutkia');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'21', E'A3.1. Jyrkkä mäki');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'21', E'A3.1. Jyrkkä mäki');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'22', E'A3.2. Jyrkkä mäki');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'22', E'A3.2. Jyrkkä mäki');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'23', E'A4. Kapeneva tie');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'23', E'A4. Kapeneva tie');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'24', E'A5. Kaksisuuntainen liikenne');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'24', E'A5. Kaksisuuntainen liikenne');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'25', E'A6. Avattava silta');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'25', E'A6. Avattava silta');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'26', E'A8. Liikenneruuhka');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'26', E'A8. Liikenneruuhka');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'27', E'A9. Epätasainen tie');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'27', E'A9. Epätasainen tie');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'28', E'A10. Töyssyjä');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'28', E'A10. Töyssyjä');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'29', E'A11. Tietyö');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'29', E'A11. Tietyö');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'30', E'A12. Irtokiviä');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'30', E'A12. Irtokiviä');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'31', E'A13. Liukas ajorata');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'31', E'A13. Liukas ajorata');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'32', E'A14. Vaarallinen tienreuna');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'32', E'A14. Vaarallinen tienreuna');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'33', E'A15. Suojatien ennakkovaroitus');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'33', E'A15. Suojatien ennakkovaroitus');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'34', E'A16. Jalankulkijoita');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'34', E'A16. Jalankulkijoita');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'35', E'A17. Lapsia');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'35', E'A17. Lapsia');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'36', E'A18. Pyöräilijöitä');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'36', E'A18. Pyöräilijöitä');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'37', E'A19. Hiihtolatu');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'37', E'A19. Hiihtolatu');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'38', E'A20.1. Hirvi');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'38', E'A20.1. Hirvi');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'39', E'A20.2. Poro');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'39', E'A20.2. Poro');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'40', E'A20.3. Kauriseläin');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'40', E'A20.3. Kauriseläin');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'41', E'A21. Tienristeys');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'41', E'A21. Tienristeys');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'42', E'A22.1. Sivutien risteys');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'42', E'A22.1. Sivutien risteys');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'43', E'A22.2. Sivutien risteys');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'43', E'A22.2. Sivutien risteys');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'44', E'A22.3. Sivutien risteys');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'44', E'A22.3. Sivutien risteys');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'45', E'A22.4. Sivutien risteys');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'45', E'A22.4. Sivutien risteys');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'46', E'A23. Liikennevalot');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'46', E'A23. Liikennevalot');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'47', E'A24. Liikenneympyrä');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'47', E'A24. Liikenneympyrä');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'48', E'A25. Raitiovaunu');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'48', E'A25. Raitiovaunu');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'49', E'A26. Rautatien tasoristeys ilman puomeja');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'49', E'A26. Rautatien tasoristeys ilman puomeja');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'50', E'A28.1–A28.3. Rautatien tasoristeyksen lähestymismerkit');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'50', E'A28.1–A28.3. Rautatien tasoristeyksen lähestymismerkit');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'51', E'A29.1. Tasoristeys');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'51', E'A29.1. Tasoristeys');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'52', E'A29.2. Tasoristeys');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'52', E'A29.2. Tasoristeys');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'53', E'A30. Putoavia kiviä');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'53', E'A30. Putoavia kiviä');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'54', E'A31. Matalalla lentäviä lentokoneita');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'54', E'A31. Matalalla lentäviä lentokoneita');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'55', E'A32. Sivutuuli');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'55', E'A32. Sivutuuli');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'56', E'A33. Muu vaara');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'56', E'A33. Muu vaara');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'57', E'B1. Etuajo-oikeutettu tie');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'57', E'B1. Etuajo-oikeutettu tie');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'58', E'B2. Etuajo-oikeuden päättyminen');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'58', E'B2. Etuajo-oikeuden päättyminen');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'59', E'B3. Etuajo-oikeus kohdattaessa');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'59', E'B3. Etuajo-oikeus kohdattaessa');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'60', E'B4. Väistämisvelvollisuus kohdattaessa');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'60', E'B4. Väistämisvelvollisuus kohdattaessa');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'61', E'B5. Väistämisvelvollisuus risteyksessä');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'61', E'B5. Väistämisvelvollisuus risteyksessä');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'62', E'B6. Pakollinen pysäyttäminen');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'62', E'B6. Pakollinen pysäyttäminen');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'63', E'B6. Pakollinen pysäyttäminen');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'63', E'B6. Pakollinen pysäyttäminen');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'64', E'B7. Väistämisvelvollisuus pyöräilijän tienylityspaikassa');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'64', E'B7. Väistämisvelvollisuus pyöräilijän tienylityspaikassa');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'65', E'C1. Ajoneuvolla ajo kielletty');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'65', E'C1. Ajoneuvolla ajo kielletty');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'66', E'C2. Moottorikäyttöisellä ajoneuvolla ajo kielletty');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'66', E'C2. Moottorikäyttöisellä ajoneuvolla ajo kielletty');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'67', E'C3. Kuorma- ja pakettiautolla ajo kielletty');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'67', E'C3. Kuorma- ja pakettiautolla ajo kielletty');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'68', E'C4. Ajoneuvoyhdistelmällä ajo kielletty');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'68', E'C4. Ajoneuvoyhdistelmällä ajo kielletty');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'69', E'C5. Traktorilla ajo kielletty');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'69', E'C5. Traktorilla ajo kielletty');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'70', E'C6. Moottoripyörällä ajo kielletty');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'70', E'C6. Moottoripyörällä ajo kielletty');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'71', E'C7. Moottorikelkalla ajo kielletty');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'71', E'C7. Moottorikelkalla ajo kielletty');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'72', E'C8. Vaarallisten aineiden kuljetus kielletty');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'72', E'C8. Vaarallisten aineiden kuljetus kielletty');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'73', E'C9. Linja-autolla ajo kielletty');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'73', E'C9. Linja-autolla ajo kielletty');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'74', E'C10. Mopolla ajo kielletty');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'74', E'C10. Mopolla ajo kielletty');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'75', E'C11. Polkupyörällä ajo kielletty');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'75', E'C11. Polkupyörällä ajo kielletty');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'76', E'C12. Polkupyörällä ja mopolla ajo kielletty');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'76', E'C12. Polkupyörällä ja mopolla ajo kielletty');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'77', E'C13. Jalankulku kielletty');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'77', E'C13. Jalankulku kielletty');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'78', E'C14. Jalankulku ja polkupyörällä ajo kielletty');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'78', E'C14. Jalankulku ja polkupyörällä ajo kielletty');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'79', E'C15. Jalankulku ja polkupyörällä ja mopolla ajo kielletty');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'79', E'C15. Jalankulku ja polkupyörällä ja mopolla ajo kielletty');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'80', E'C16. Ratsastus kielletty');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'80', E'C16. Ratsastus kielletty');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'81', E'C17. Kielletty ajosuunta');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'81', E'C17. Kielletty ajosuunta');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'82', E'C18. Vasemmalle kääntyminen kielletty');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'82', E'C18. Vasemmalle kääntyminen kielletty');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'83', E'C19. Oikealle kääntyminen kielletty');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'83', E'C19. Oikealle kääntyminen kielletty');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'84', E'C20. U-käännös kielletty');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'84', E'C20. U-käännös kielletty');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'85', E'C21. Ajoneuvon suurin sallittu leveys');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'85', E'C21. Ajoneuvon suurin sallittu leveys');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'86', E'C22. Ajoneuvon suurin sallittu korkeus');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'86', E'C22. Ajoneuvon suurin sallittu korkeus');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'87', E'C23. Ajoneuvon tai ajoneuvoyhdistelmän suurin sallittu pituus');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'87', E'C23. Ajoneuvon tai ajoneuvoyhdistelmän suurin sallittu pituus');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'88', E'C24. Ajoneuvon suurin sallittu massa');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'88', E'C24. Ajoneuvon suurin sallittu massa');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'89', E'C25. Ajoneuvoyhdistelmän suurin sallittu massa');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'89', E'C25. Ajoneuvoyhdistelmän suurin sallittu massa');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'90', E'C26. Ajoneuvon suurin sallittu akselille kohdistuva massa');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'90', E'C26. Ajoneuvon suurin sallittu akselille kohdistuva massa');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'91', E'C27. Ajoneuvon suurin sallittu telille kohdistuva massa');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'91', E'C27. Ajoneuvon suurin sallittu telille kohdistuva massa');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'92', E'C28. Ohituskielto');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'92', E'C28. Ohituskielto');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'93', E'C29. Ohituskielto päättyy');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'93', E'C29. Ohituskielto päättyy');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'94', E'C30. Ohituskielto kuorma-autolla');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'94', E'C30. Ohituskielto kuorma-autolla');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'95', E'C31. Ohituskielto kuorma-autolla päättyy');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'95', E'C31. Ohituskielto kuorma-autolla päättyy');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'96', E'C32. Nopeusrajoitus');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'96', E'C32. Nopeusrajoitus');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'97', E'C33. Nopeusrajoitus päättyy');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'97', E'C33. Nopeusrajoitus päättyy');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'98', E'C34. Nopeusrajoitusalue');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'98', E'C34. Nopeusrajoitusalue');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'99', E'C35. Nopeusrajoitusalue päättyy');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'99', E'C35. Nopeusrajoitusalue päättyy');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'100', E'C37. Pysäyttäminen kielletty');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'100', E'C37. Pysäyttäminen kielletty');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'101', E'C38. Pysäköinti kielletty');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'101', E'C38. Pysäköinti kielletty');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'102', E'C39. Pysäköintikieltoalue');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'102', E'C39. Pysäköintikieltoalue');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'103', E'C40. Pysäköintikieltoalue päättyy');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'103', E'C40. Pysäköintikieltoalue päättyy');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'104', E'C41. Taksiasema-alue');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'104', E'C41. Taksiasema-alue');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'105', E'C42. Taksin pysäyttämispaikka');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'105', E'C42. Taksin pysäyttämispaikka');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'106', E'C43. Kuormauspaikka');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'106', E'C43. Kuormauspaikka');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'107', E'C44.1. Vuoropysäköinti');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'107', E'C44.1. Vuoropysäköinti');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'108', E'C44.2. Vuoropysäköinti');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'108', E'C44.2. Vuoropysäköinti');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'109', E'C45. Pakollinen pysäyttäminen tullitarkastusta varten');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'109', E'C45. Pakollinen pysäyttäminen tullitarkastusta varten');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'110', E'C46. Pakollinen pysäyttäminen tarkastusta varten');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'110', E'C46. Pakollinen pysäyttäminen tarkastusta varten');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'111', E'C47. Moottorikäyttöisten ajoneuvojen vähimmäisetäisyys');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'111', E'C47. Moottorikäyttöisten ajoneuvojen vähimmäisetäisyys');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'112', E'C48. Nastarenkailla varustetulla moottorikäyttöisellä ajoneuvolla ajo kielletty');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'112', E'C48. Nastarenkailla varustetulla moottorikäyttöisellä ajoneuvolla ajo kielletty');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'113', E'D1.1. Pakollinen ajosuunta');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'113', E'D1.1. Pakollinen ajosuunta');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'114', E'D1.2. Pakollinen ajosuunta');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'114', E'D1.2. Pakollinen ajosuunta');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'115', E'D1.3. Pakollinen ajosuunta');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'115', E'D1.3. Pakollinen ajosuunta');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'116', E'D1.4. Pakollinen ajosuunta');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'116', E'D1.4. Pakollinen ajosuunta');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'117', E'D1.5. Pakollinen ajosuunta');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'117', E'D1.5. Pakollinen ajosuunta');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'118', E'D1.6. Pakollinen ajosuunta');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'118', E'D1.6. Pakollinen ajosuunta');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'119', E'D1.7. Pakollinen ajosuunta');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'119', E'D1.7. Pakollinen ajosuunta');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'120', E'D1.8. Pakollinen ajosuunta');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'120', E'D1.8. Pakollinen ajosuunta');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'121', E'D1.9. Pakollinen ajosuunta');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'121', E'D1.9. Pakollinen ajosuunta');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'122', E'D2. Pakollinen kiertosuunta');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'122', E'D2. Pakollinen kiertosuunta');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'123', E'D3.1. Liikenteenjakaja');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'123', E'D3.1. Liikenteenjakaja');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'124', E'D3.2. Liikenteenjakaja');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'124', E'D3.2. Liikenteenjakaja');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'125', E'D3.3. Liikenteenjakaja');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'125', E'D3.3. Liikenteenjakaja');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'126', E'D4. Jalkakäytävä');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'126', E'D4. Jalkakäytävä');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'127', E'D5. Pyörätie');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'127', E'D5. Pyörätie');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'128', E'D6. Yhdistetty pyörätie ja jalkakäytävä');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'128', E'D6. Yhdistetty pyörätie ja jalkakäytävä');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'129', E'D7.1. Pyörätie ja jalkakäytävä rinnakkain');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'129', E'D7.1. Pyörätie ja jalkakäytävä rinnakkain');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'130', E'D7.2. Pyörätie ja jalkakäytävä rinnakkain');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'130', E'D7.2. Pyörätie ja jalkakäytävä rinnakkain');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'131', E'D8. Moottorikelkkailureitti');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'131', E'D8. Moottorikelkkailureitti');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'132', E'D9. Ratsastustie');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'132', E'D9. Ratsastustie');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'133', E'D10. Vähimmäisnopeus');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'133', E'D10. Vähimmäisnopeus');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'134', E'D11. Vähimmäisnopeus päättyy');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'134', E'D11. Vähimmäisnopeus päättyy');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'135', E'E1. Suojatie');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'135', E'E1. Suojatie');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'136', E'E2. Pysäköintipaikka');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'136', E'E2. Pysäköintipaikka');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'137', E'E3.1. Liityntäpysäköintipaikka');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'137', E'E3.1. Liityntäpysäköintipaikka');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'138', E'E3.2. Liityntäpysäköintipaikka');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'138', E'E3.2. Liityntäpysäköintipaikka');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'139', E'E3.3. Liityntäpysäköintipaikka');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'139', E'E3.3. Liityntäpysäköintipaikka');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'140', E'E3.4. Liityntäpysäköintipaikka');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'140', E'E3.4. Liityntäpysäköintipaikka');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'141', E'E3.5. Liityntäpysäköintipaikka');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'141', E'E3.5. Liityntäpysäköintipaikka');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'142', E'E4.1. Ajoneuvojen sijoitus pysäköintipaikalla');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'142', E'E4.1. Ajoneuvojen sijoitus pysäköintipaikalla');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'143', E'E4.2. Ajoneuvojen sijoitus pysäköintipaikalla');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'143', E'E4.2. Ajoneuvojen sijoitus pysäköintipaikalla');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'144', E'E4.3. Ajoneuvojen sijoitus pysäköintipaikalla');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'144', E'E4.3. Ajoneuvojen sijoitus pysäköintipaikalla');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'145', E'E5. Kohtaamispaikka');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'145', E'E5. Kohtaamispaikka');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'146', E'E6. Linja-autopysäkki');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'146', E'E6. Linja-autopysäkki');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'147', E'E7. Raitiovaunupysäkki');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'147', E'E7. Raitiovaunupysäkki');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'148', E'E8. Taksiasema');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'148', E'E8. Taksiasema');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'149', E'E9.1. Linja-autokaista');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'149', E'E9.1. Linja-autokaista');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'150', E'E9.2. Linja-autokaista');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'150', E'E9.2. Linja-autokaista');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'151', E'E10.1. Linja-autokaista päättyy');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'151', E'E10.1. Linja-autokaista päättyy');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'152', E'E10.2. Linja-autokaista päättyy');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'152', E'E10.2. Linja-autokaista päättyy');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'153', E'E11.1. Raitiovaunukaista');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'153', E'E11.1. Raitiovaunukaista');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'154', E'E11.2. Raitiovaunukaista');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'154', E'E11.2. Raitiovaunukaista');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'155', E'E12.1. Raitiovaunukaista päättyy');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'155', E'E12.1. Raitiovaunukaista päättyy');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'156', E'E12.2. Raitiovaunukaista päättyy');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'156', E'E12.2. Raitiovaunukaista päättyy');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'157', E'E13.1. Pyöräkaista');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'157', E'E13.1. Pyöräkaista');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'158', E'E13.2. Pyöräkaista');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'158', E'E13.2. Pyöräkaista');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'159', E'E14.1. Yksisuuntainen tie');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'159', E'E14.1. Yksisuuntainen tie');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'160', E'E14.2. Yksisuuntainen tie');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'160', E'E14.2. Yksisuuntainen tie');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'161', E'E15. Moottoritie');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'161', E'E15. Moottoritie');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'162', E'E16. Moottoritie päättyy');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'162', E'E16. Moottoritie päättyy');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'163', E'E17. Moottoriliikennetie');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'163', E'E17. Moottoriliikennetie');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'164', E'E18. Moottoriliikennetie päättyy');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'164', E'E18. Moottoriliikennetie päättyy');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'165', E'E19. Tunneli');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'165', E'E19. Tunneli');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'166', E'E20. Tunneli päättyy');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'166', E'E20. Tunneli päättyy');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'167', E'E21. Hätäpysäyttämispaikka');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'167', E'E21. Hätäpysäyttämispaikka');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'168', E'E22. Taajama');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'168', E'E22. Taajama');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'169', E'E23. Taajama päättyy');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'169', E'E23. Taajama päättyy');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'170', E'E24. Pihakatu');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'170', E'E24. Pihakatu');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'171', E'E25. Pihakatu päättyy');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'171', E'E25. Pihakatu päättyy');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'172', E'E26. Kävelykatu');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'172', E'E26. Kävelykatu');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'173', E'E27. Kävelykatu päättyy');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'173', E'E27. Kävelykatu päättyy');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'174', E'E28. Pyöräkatu');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'174', E'E28. Pyöräkatu');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'175', E'E29. Pyöräkatu päättyy');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'175', E'E29. Pyöräkatu päättyy');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'176', E'E30. Ajokaistojen yhdistyminen');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'176', E'E30. Ajokaistojen yhdistyminen');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'177', E'F1.1. Suunnistustaulu');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'177', E'F1.1. Suunnistustaulu');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'178', E'F1.2. Suunnistustaulu');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'178', E'F1.2. Suunnistustaulu');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'179', E'F1.3. Suunnistustaulu');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'179', E'F1.3. Suunnistustaulu');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'180', E'F2.1. Suunnistustaulu');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'180', E'F2.1. Suunnistustaulu');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'181', E'F2.2. Suunnistustaulu');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'181', E'F2.2. Suunnistustaulu');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'182', E'F2.3. Suunnistustaulu');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'182', E'F2.3. Suunnistustaulu');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'183', E'F3. Ajokaistakohtainen suunnistustaulu');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'183', E'F3. Ajokaistakohtainen suunnistustaulu');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'184', E'F4.1. Kiertotien suunnistustaulu');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'184', E'F4.1. Kiertotien suunnistustaulu');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'185', E'F4.2. Kiertotien suunnistustaulu');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'185', E'F4.2. Kiertotien suunnistustaulu');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'186', E'F5. Kiertotieopastus');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'186', E'F5. Kiertotieopastus');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'187', E'F6. Ajoreittiopastus');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'187', E'F6. Ajoreittiopastus');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'188', E'F7.1. Ajokaistaopastus');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'188', E'F7.1. Ajokaistaopastus');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'189', E'F7.2. Ajokaistaopastus');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'189', E'F7.2. Ajokaistaopastus');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'190', E'F7.3. Ajokaistaopastus');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'190', E'F7.3. Ajokaistaopastus');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'191', E'F7.4. Ajokaistaopastus');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'191', E'F7.4. Ajokaistaopastus');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'192', E'F7.5. Ajokaistaopastus');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'192', E'F7.5. Ajokaistaopastus');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'193', E'F7.6. Ajokaistaopastus');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'193', E'F7.6. Ajokaistaopastus');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'194', E'F8.1. Ajokaistan päättyminen');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'194', E'F8.1. Ajokaistan päättyminen');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'195', E'F8.2. Ajokaistan päättyminen');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'195', E'F8.2. Ajokaistan päättyminen');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'196', E'F9. Viitoituksen koontimerkki');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'196', E'F9. Viitoituksen koontimerkki');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'197', E'F10. Ajokaistan yläpuolinen viitta');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'197', E'F10. Ajokaistan yläpuolinen viitta');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'198', E'F11. Ajokaistan yläpuolinen viitta');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'198', E'F11. Ajokaistan yläpuolinen viitta');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'199', E'F12. Ajokaistan yläpuolinen erkanemisviitta');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'199', E'F12. Ajokaistan yläpuolinen erkanemisviitta');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'200', E'F13. Tienviitta');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'200', E'F13. Tienviitta');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'201', E'F14. Erkanemisviitta');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'201', E'F14. Erkanemisviitta');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'202', E'F15. Kiertotien viitta');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'202', E'F15. Kiertotien viitta');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'203', E'F16. Osoiteviitta');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'203', E'F16. Osoiteviitta');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'204', E'F17. Osoiteviitan ennakkomerkki');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'204', E'F17. Osoiteviitan ennakkomerkki');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'205', E'F18. Liityntäpysäköintiviitta');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'205', E'F18. Liityntäpysäköintiviitta');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'206', E'F19. Jalankulun viitta');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'206', E'F19. Jalankulun viitta');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'207', E'F20.1. Pyöräilyn viitta');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'207', E'F20.1. Pyöräilyn viitta');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'208', E'F20.2. Pyöräilyn viitta');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'208', E'F20.2. Pyöräilyn viitta');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'209', E'F21.1. Pyöräilyn suunnistustaulu');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'209', E'F21.1. Pyöräilyn suunnistustaulu');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'210', E'F21.2. Pyöräilyn suunnistustaulu');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'210', E'F21.2. Pyöräilyn suunnistustaulu');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'211', E'F22. Pyöräilyn etäisyystaulu');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'211', E'F22. Pyöräilyn etäisyystaulu');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'212', E'F23. Pyöräilyn paikannimi');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'212', E'F23. Pyöräilyn paikannimi');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'213', E'F24.1. Umpitie');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'213', E'F24.1. Umpitie');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'214', E'F24.2. Umpitie');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'214', E'F24.2. Umpitie');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'215', E'F25. Enimmäisnopeussuositus');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'215', E'F25. Enimmäisnopeussuositus');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'216', E'F26. Etäisyystaulu');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'216', E'F26. Etäisyystaulu');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'217', E'F27.1. Paikannimi');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'217', E'F27.1. Paikannimi');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'218', E'F27.2. Paikannimi');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'218', E'F27.2. Paikannimi');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'219', E'F28. Kansainvälisen pääliikenneväylän numero');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'219', E'F28. Kansainvälisen pääliikenneväylän numero');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'220', E'F29. Valtatien numero');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'220', E'F29. Valtatien numero');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'221', E'F30. Kantatien numero');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'221', E'F30. Kantatien numero');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'222', E'F31. Seututien numero');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'222', E'F31. Seututien numero');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'223', E'F32. Muun maantien numero');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'223', E'F32. Muun maantien numero');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'224', E'F33. Kehätien numero');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'224', E'F33. Kehätien numero');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'225', E'F34. Eritasoliittymän numero');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'225', E'F34. Eritasoliittymän numero');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'226', E'F35. Opastus merkin tarkoittamalle tielle');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'226', E'F35. Opastus merkin tarkoittamalle tielle');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'227', E'F35. Opastus merkin tarkoittamalle tielle');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'227', E'F35. Opastus merkin tarkoittamalle tielle');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'228', E'F37. Moottoritien tunnus');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'228', E'F37. Moottoritien tunnus');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'229', E'F38. Moottoriliikennetien tunnus');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'229', E'F38. Moottoriliikennetien tunnus');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'230', E'F39. Lentoasema');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'230', E'F39. Lentoasema');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'231', E'F40. Autolautta');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'231', E'F40. Autolautta');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'232', E'F41. Matkustajasatama');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'232', E'F41. Matkustajasatama');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'233', E'F42. Tavarasatama');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'233', E'F42. Tavarasatama');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'234', E'F43. Tavaraterminaali');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'234', E'F43. Tavaraterminaali');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'235', E'F44. Teollisuusalue tai yritysalue');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'235', E'F44. Teollisuusalue tai yritysalue');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'236', E'F45. Vähittäiskaupan suuryksikkö');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'236', E'F45. Vähittäiskaupan suuryksikkö');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'237', E'F46.1. Pysäköinti');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'237', E'F46.1. Pysäköinti');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'238', E'F46.2. Pysäköinti');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'238', E'F46.2. Pysäköinti');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'239', E'F47. Rautatieasema');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'239', E'F47. Rautatieasema');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'240', E'F48. Linja-autoasema');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'240', E'F48. Linja-autoasema');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'241', E'F49. Keskusta');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'241', E'F49. Keskusta');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'242', E'F50. Tietylle ajoneuvolle tarkoitettu reitti');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'242', E'F50. Tietylle ajoneuvolle tarkoitettu reitti');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'243', E'F51. Vaarallisten aineiden kuljetukselle tarkoitettu reitti');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'243', E'F51. Vaarallisten aineiden kuljetukselle tarkoitettu reitti');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'244', E'F52. Jalankulkijalle tarkoitettu reitti');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'244', E'F52. Jalankulkijalle tarkoitettu reitti');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'245', E'F53. Esteetön reitti');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'245', E'F53. Esteetön reitti');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'246', E'F55. Reitti ilman portaita');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'246', E'F55. Reitti ilman portaita');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'247', E'F56. Hätäuloskäynti');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'247', E'F56. Hätäuloskäynti');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'248', E'F57. Poistumisreitti');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'248', E'F57. Poistumisreitti');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'249', E'G1. Palvelukohteen opastustaulu');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'249', E'G1. Palvelukohteen opastustaulu');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'250', E'G2. Palvelukohteen opastustaulu');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'250', E'G2. Palvelukohteen opastustaulu');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'251', E'G3. Palvelukohteen erkanemisviitta');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'251', E'G3. Palvelukohteen erkanemisviitta');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'252', E'G4. Palvelukohteen osoiteviitta');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'252', E'G4. Palvelukohteen osoiteviitta');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'253', E'G5. Palvelukohteen osoiteviitan ennakkomerkki');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'253', E'G5. Palvelukohteen osoiteviitan ennakkomerkki');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'254', E'G6. Radioaseman taajuus');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'254', E'G6. Radioaseman taajuus');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'255', E'G7. Opastuspiste');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'255', E'G7. Opastuspiste');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'256', E'G8. Opastustoimisto');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'256', E'G8. Opastustoimisto');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'257', E'G9. Ensiapu');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'257', E'G9. Ensiapu');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'258', E'G10. Autokorjaamo');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'258', E'G10. Autokorjaamo');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'259', E'G11.1. Polttoaineen jakelu');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'259', E'G11.1. Polttoaineen jakelu');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'260', E'G11.2. Polttoaineen jakelu');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'260', E'G11.2. Polttoaineen jakelu');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'261', E'G11.3. Polttoaineen jakelu');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'261', E'G11.3. Polttoaineen jakelu');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'262', E'G11.4. Polttoaineen jakelu');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'262', E'G11.4. Polttoaineen jakelu');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'263', E'G12. Hotelli tai motelli');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'263', E'G12. Hotelli tai motelli');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'264', E'G13. Ruokailupaikka');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'264', E'G13. Ruokailupaikka');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'265', E'G14. Kahvila tai pikaruokapaikka');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'265', E'G14. Kahvila tai pikaruokapaikka');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'266', E'G15. Käymälä');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'266', E'G15. Käymälä');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'267', E'G16. Retkeilymaja');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'267', E'G16. Retkeilymaja');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'268', E'G17. Leirintäalue');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'268', E'G17. Leirintäalue');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'269', E'G18. Matkailuajoneuvoalue');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'269', E'G18. Matkailuajoneuvoalue');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'270', E'G19. Levähdysalue');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'270', E'G19. Levähdysalue');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'271', E'G20. Ulkoilualue');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'271', E'G20. Ulkoilualue');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'272', E'G21. Hätäpuhelin');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'272', E'G21. Hätäpuhelin');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'273', E'G22. Sammutin');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'273', E'G22. Sammutin');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'274', E'G23. Museo tai historiallinen rakennus');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'274', E'G23. Museo tai historiallinen rakennus');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'275', E'G24. Maailmanperintökohde');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'275', E'G24. Maailmanperintökohde');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'276', E'G25. Luontokohde');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'276', E'G25. Luontokohde');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'277', E'G26. Näköalapaikka');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'277', E'G26. Näköalapaikka');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'278', E'G27. Eläintarha tai -puisto');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'278', E'G27. Eläintarha tai -puisto');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'279', E'G28. Muu nähtävyys');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'279', E'G28. Muu nähtävyys');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'280', E'G29. Uintipaikka');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'280', E'G29. Uintipaikka');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'281', E'G30. Kalastuspaikka');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'281', E'G30. Kalastuspaikka');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'282', E'G31. Hiihtohissi');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'282', E'G31. Hiihtohissi');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'283', E'G32. Maastohiihtokeskus');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'283', E'G32. Maastohiihtokeskus');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'284', E'G33. Golfkenttä');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'284', E'G33. Golfkenttä');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'285', E'G34. Huvi- ja teemapuisto');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'285', E'G34. Huvi- ja teemapuisto');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'286', E'G35. Mökkimajoitus');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'286', E'G35. Mökkimajoitus');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'287', E'G36. Aamiaismajoitus');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'287', E'G36. Aamiaismajoitus');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'288', E'G37. Suoramyyntipaikka');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'288', E'G37. Suoramyyntipaikka');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'289', E'G38. Käsityöpaja');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'289', E'G38. Käsityöpaja');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'290', E'G39. Kotieläinpiha');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'290', E'G39. Kotieläinpiha');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'291', E'G40. Ratsastuspaikka');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'291', E'G40. Ratsastuspaikka');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'292', E'G41.1. Matkailutie');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'292', E'G41.1. Matkailutie');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'293', E'G41.2. Matkailutie');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'293', E'G41.2. Matkailutie');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'294', E'H1. Kohde risteävässä suunnassa');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'294', E'H1. Kohde risteävässä suunnassa');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'295', E'H2.1. Kohde nuolen suunnassa');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'295', E'H2.1. Kohde nuolen suunnassa');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'296', E'H2.2. Kohde nuolen suunnassa');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'296', E'H2.2. Kohde nuolen suunnassa');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'297', E'H2.3. Kohde nuolen suunnassa');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'297', E'H2.3. Kohde nuolen suunnassa');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'298', E'H3. Vaikutusalueen pituus');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'298', E'H3. Vaikutusalueen pituus');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'299', E'H4. Etäisyys kohteeseen');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'299', E'H4. Etäisyys kohteeseen');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'300', E'H5. Etäisyys pakolliseen pysäyttämiseen');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'300', E'H5. Etäisyys pakolliseen pysäyttämiseen');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'301', E'H6. Vapaa leveys');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'301', E'H6. Vapaa leveys');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'302', E'H7. Vapaa korkeus');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'302', E'H7. Vapaa korkeus');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'303', E'H8. Sähköjohdon korkeus');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'303', E'H8. Sähköjohdon korkeus');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'304', E'H9.1. Vaikutusalue molempiin suuntiin');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'304', E'H9.1. Vaikutusalue molempiin suuntiin');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'305', E'H9.2. Vaikutusalue molempiin suuntiin');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'305', E'H9.2. Vaikutusalue molempiin suuntiin');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'306', E'H10. Vaikutusalue nuolen suuntaan');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'306', E'H10. Vaikutusalue nuolen suuntaan');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'307', E'H11. Vaikutusalue päättyy');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'307', E'H11. Vaikutusalue päättyy');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'308', E'H12.1. Henkilöauto');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'308', E'H12.1. Henkilöauto');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'309', E'H12.2. Linja-auto');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'309', E'H12.2. Linja-auto');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'310', E'H12.3. Kuorma-auto');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'310', E'H12.3. Kuorma-auto');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'311', E'H12.4. Pakettiauto');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'311', E'H12.4. Pakettiauto');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'312', E'H12.5. Matkailuperävaunu');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'312', E'H12.5. Matkailuperävaunu');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'313', E'H12.6. Matkailuauto');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'313', E'H12.6. Matkailuauto');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'314', E'H12.7. Invalidin ajoneuvo');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'314', E'H12.7. Invalidin ajoneuvo');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'315', E'H12.8. Moottoripyörä');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'315', E'H12.8. Moottoripyörä');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'316', E'H12.9. Mopo');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'316', E'H12.9. Mopo');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'317', E'H12.10. Polkupyörä');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'317', E'H12.10. Polkupyörä');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'318', E'H12.11. Moottorikelkka');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'318', E'H12.11. Moottorikelkka');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'319', E'H12.12. Traktori');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'319', E'H12.12. Traktori');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'320', E'H12.13. Vähäpäästöinen ajoneuvo');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'320', E'H12.13. Vähäpäästöinen ajoneuvo');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'321', E'H13.1. Pysäköintitapa');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'321', E'H13.1. Pysäköintitapa');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'322', E'H13.2. Pysäköintitapa');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'322', E'H13.2. Pysäköintitapa');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'323', E'H14. Kielto ryhmän A vaarallisten aineiden kuljetukselle');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'323', E'H14. Kielto ryhmän A vaarallisten aineiden kuljetukselle');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'324', E'H15. Läpiajokielto ryhmän B vaarallisten aineiden kuljetukselle');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'324', E'H15. Läpiajokielto ryhmän B vaarallisten aineiden kuljetukselle');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'325', E'H16. Tunneliluokka');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'325', E'H16. Tunneliluokka');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'326', E'H17.1. Voimassaoloaika arkisin');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'326', E'H17.1. Voimassaoloaika arkisin');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'327', E'H17.2. Voimassaoloaika lauantaisin');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'327', E'H17.2. Voimassaoloaika lauantaisin');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'328', E'H17.3. Voimassaoloaika sunnuntaisin ja pyhinä');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'328', E'H17.3. Voimassaoloaika sunnuntaisin ja pyhinä');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'329', E'H18. Aikarajoitus');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'329', E'H18. Aikarajoitus');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'330', E'H19.1. Pysäköintiajan alkamisen osoittamisvelvollisuus');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'330', E'H19.1. Pysäköintiajan alkamisen osoittamisvelvollisuus');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'331', E'H19.2. Pysäköintiajan alkamisen osoittamisvelvollisuus');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'331', E'H19.2. Pysäköintiajan alkamisen osoittamisvelvollisuus');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'332', E'H20. Maksullinen pysäköinti');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'332', E'H20. Maksullinen pysäköinti');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'333', E'H21. Latauspaikka');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'333', E'H21. Latauspaikka');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'334', E'H22.1. Etuajo-oikeutetun liikenteen suunta');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'334', E'H22.1. Etuajo-oikeutetun liikenteen suunta');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'335', E'H22.2. Etuajo-oikeutetun liikenteen suunta');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'335', E'H22.2. Etuajo-oikeutetun liikenteen suunta');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'336', E'H23.1. Kaksisuuntainen pyörätie');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'336', E'H23.1. Kaksisuuntainen pyörätie');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'337', E'H23.2. Kaksisuuntainen pyörätie');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'337', E'H23.2. Kaksisuuntainen pyörätie');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'338', E'H24. Tekstillinen lisäkilpi');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'338', E'H24. Tekstillinen lisäkilpi');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'339', E'H25. Huoltoajo sallittu');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'339', E'H25. Huoltoajo sallittu');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'340', E'H26. Hätäpuhelin ja sammutin');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'340', E'H26. Hätäpuhelin ja sammutin');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'341', E'Aiemman tieliikennelain mukaiset liikennemerkit[muokkaa | muokkaa wikitekstiä]');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'341', E'Aiemman tieliikennelain mukaiset liikennemerkit[muokkaa | muokkaa wikitekstiä]');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'342', E'111. Mutka oikealle');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'342', E'111. Mutka oikealle');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'343', E'112. Mutka vasemmalle');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'343', E'112. Mutka vasemmalle');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'344', E'115. Jyrkkä alamäki');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'344', E'115. Jyrkkä alamäki');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'345', E'116. Jyrkkä ylämäki');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'345', E'116. Jyrkkä ylämäki');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'346', E'121. Kapeneva tie');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'346', E'121. Kapeneva tie');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'347', E'122. Kaksisuuntainen liikenne');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'347', E'122. Kaksisuuntainen liikenne');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'348', E'131. Avattava silta');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'348', E'131. Avattava silta');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'349', E'133. Liikenneruuhka');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'349', E'133. Liikenneruuhka');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'350', E'141. Epätasainen tie');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'350', E'141. Epätasainen tie');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'351', E'141a. Töyssyjä');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'351', E'141a. Töyssyjä');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'352', E'142. Tietyö');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'352', E'142. Tietyö');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'353', E'143. Irtokiviä');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'353', E'143. Irtokiviä');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'354', E'144. Liukas ajorata');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'354', E'144. Liukas ajorata');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'355', E'147. Vaarallinen tien reuna');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'355', E'147. Vaarallinen tien reuna');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'356', E'151. Suojatien ennakkovaroitus');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'356', E'151. Suojatien ennakkovaroitus');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'357', E'152. Lapsia');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'357', E'152. Lapsia');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'358', E'153. Pyöräilijöitä');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'358', E'153. Pyöräilijöitä');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'359', E'154. Hiihtolatu');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'359', E'154. Hiihtolatu');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'360', E'155. Hirvieläimiä');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'360', E'155. Hirvieläimiä');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'361', E'156. Poroja');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'361', E'156. Poroja');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'362', E'161. Tienristeys');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'362', E'161. Tienristeys');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'363', E'162. Sivutien risteys');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'363', E'162. Sivutien risteys');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'364', E'163. Sivutien risteys');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'364', E'163. Sivutien risteys');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'365', E'164. Sivutien risteys');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'365', E'164. Sivutien risteys');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'366', E'165. Liikennevalot');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'366', E'165. Liikennevalot');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'367', E'166. Liikenneympyrä');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'367', E'166. Liikenneympyrä');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'368', E'167. Raitiotie');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'368', E'167. Raitiotie');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'369', E'171. Rautatien tasoristeys ilman puomeja');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'369', E'171. Rautatien tasoristeys ilman puomeja');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'370', E'173–175. Rautatien tasoristeyksen lähestymismerkit');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'370', E'173–175. Rautatien tasoristeyksen lähestymismerkit');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'371', E'176. Yksiraiteisen rautatien tasoristeys');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'371', E'176. Yksiraiteisen rautatien tasoristeys');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'372', E'177. Kaksi- tai useampiraiteisen rautatien tasoristeys');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'372', E'177. Kaksi- tai useampiraiteisen rautatien tasoristeys');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'373', E'181. Putoavia kiviä');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'373', E'181. Putoavia kiviä');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'374', E'182. Matalalla lentäviä lentokoneita');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'374', E'182. Matalalla lentäviä lentokoneita');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'375', E'183. Sivutuuli');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'375', E'183. Sivutuuli');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'376', E'189. Muu vaara');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'376', E'189. Muu vaara');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'377', E'211. Etuajo-oikeutettu tie');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'377', E'211. Etuajo-oikeutettu tie');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'378', E'212. Etuajo-oikeuden päättyminen');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'378', E'212. Etuajo-oikeuden päättyminen');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'379', E'221. Etuajo-oikeus kohdattaessa');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'379', E'221. Etuajo-oikeus kohdattaessa');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'380', E'222. Väistämisvelvollisuus kohdattaessa');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'380', E'222. Väistämisvelvollisuus kohdattaessa');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'381', E'231. Väistämisvelvollisuus risteyksessä');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'381', E'231. Väistämisvelvollisuus risteyksessä');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'382', E'232. Pakollinen pysäyttäminen');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'382', E'232. Pakollinen pysäyttäminen');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'383', E'311. Ajoneuvolla ajo kielletty');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'383', E'311. Ajoneuvolla ajo kielletty');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'384', E'312. Moottorikäyttöisellä ajoneuvolla ajo kielletty');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'384', E'312. Moottorikäyttöisellä ajoneuvolla ajo kielletty');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'385', E'313. Kuorma- ja pakettiautolla ajo kielletty');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'385', E'313. Kuorma- ja pakettiautolla ajo kielletty');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'386', E'314. Ajoneuvoyhdistelmällä ajo kielletty');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'386', E'314. Ajoneuvoyhdistelmällä ajo kielletty');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'387', E'315. Traktorilla ajo kielletty');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'387', E'315. Traktorilla ajo kielletty');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'388', E'316. Moottoripyörällä ajo kielletty');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'388', E'316. Moottoripyörällä ajo kielletty');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'389', E'317. Moottorikelkalla ajo kielletty');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'389', E'317. Moottorikelkalla ajo kielletty');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'390', E'318. Vaarallisten aineiden kuljetus kielletty');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'390', E'318. Vaarallisten aineiden kuljetus kielletty');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'391', E'319. Linja-autolla ajo kielletty');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'391', E'319. Linja-autolla ajo kielletty');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'392', E'321. Mopolla ajo kielletty');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'392', E'321. Mopolla ajo kielletty');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'393', E'322. Polkupyörällä ja mopolla ajo kielletty');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'393', E'322. Polkupyörällä ja mopolla ajo kielletty');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'394', E'323. Jalankulku kielletty');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'394', E'323. Jalankulku kielletty');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'395', E'324. Jalankulku sekä polkupyörällä ja mopolla ajo kielletty');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'395', E'324. Jalankulku sekä polkupyörällä ja mopolla ajo kielletty');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'396', E'325. Ratsastus kielletty');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'396', E'325. Ratsastus kielletty');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'397', E'331. Kielletty ajosuunta');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'397', E'331. Kielletty ajosuunta');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'398', E'332. Vasemmalle kääntyminen kielletty');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'398', E'332. Vasemmalle kääntyminen kielletty');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'399', E'333. Oikealle kääntyminen kielletty');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'399', E'333. Oikealle kääntyminen kielletty');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'400', E'334. U-käännös kielletty');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'400', E'334. U-käännös kielletty');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'401', E'341. Ajoneuvon suurin sallittu leveys');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'401', E'341. Ajoneuvon suurin sallittu leveys');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'402', E'342. Ajoneuvon suurin sallittu korkeus');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'402', E'342. Ajoneuvon suurin sallittu korkeus');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'403', E'343. Ajoneuvon tai ajoneuvoyhdistelmän suurin sallittu pituus');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'403', E'343. Ajoneuvon tai ajoneuvoyhdistelmän suurin sallittu pituus');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'404', E'344. Ajoneuvon suurin sallittu massa');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'404', E'344. Ajoneuvon suurin sallittu massa');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'405', E'345. Ajoneuvoyhdistelmän suurin sallittu massa');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'405', E'345. Ajoneuvoyhdistelmän suurin sallittu massa');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'406', E'346. Ajoneuvon suurin sallittu akselille kohdistuva massa');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'406', E'346. Ajoneuvon suurin sallittu akselille kohdistuva massa');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'407', E'347. Ajoneuvon suurin sallittu telille kohdistuva massa');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'407', E'347. Ajoneuvon suurin sallittu telille kohdistuva massa');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'408', E'351. Ohituskielto');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'408', E'351. Ohituskielto');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'409', E'352. Ohituskielto päättyy');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'409', E'352. Ohituskielto päättyy');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'410', E'353. Ohituskielto kuorma-autolla');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'410', E'353. Ohituskielto kuorma-autolla');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'411', E'354. Ohituskielto kuorma-autolla päättyy');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'411', E'354. Ohituskielto kuorma-autolla päättyy');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'412', E'361. Nopeusrajoitus');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'412', E'361. Nopeusrajoitus');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'413', E'362. Nopeusrajoitus päättyy');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'413', E'362. Nopeusrajoitus päättyy');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'414', E'363. Nopeusrajoitusalue');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'414', E'363. Nopeusrajoitusalue');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'415', E'364. Nopeusrajoitusalue päättyy');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'415', E'364. Nopeusrajoitusalue päättyy');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'416', E'365. Ajokaistakohtainen kielto tai rajoitus');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'416', E'365. Ajokaistakohtainen kielto tai rajoitus');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'417', E'371. Pysäyttäminen kielletty');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'417', E'371. Pysäyttäminen kielletty');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'418', E'372. Pysäköinti kielletty');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'418', E'372. Pysäköinti kielletty');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'419', E'373. Pysäköintikieltoalue');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'419', E'373. Pysäköintikieltoalue');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'420', E'374. Pysäköintikieltoalue päättyy');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'420', E'374. Pysäköintikieltoalue päättyy');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'421', E'375. Taksiasema-alue');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'421', E'375. Taksiasema-alue');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'422', E'376. Taksin pysäyttämispaikka');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'422', E'376. Taksin pysäyttämispaikka');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'423', E'381. Vuoropysäköinti');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'423', E'381. Vuoropysäköinti');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'424', E'382. Vuoropysäköinti');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'424', E'382. Vuoropysäköinti');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'425', E'391. Pakollinen pysäyttäminen tullitarkastusta varten');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'425', E'391. Pakollinen pysäyttäminen tullitarkastusta varten');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'426', E'392. Pakollinen pysäyttäminen tarkastusta varten');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'426', E'392. Pakollinen pysäyttäminen tarkastusta varten');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'427', E'393. Moottorikäyttöisten ajoneuvojen vähimmäisetäisyys');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'427', E'393. Moottorikäyttöisten ajoneuvojen vähimmäisetäisyys');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'428', E'411. Pakollinen ajosuunta');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'428', E'411. Pakollinen ajosuunta');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'429', E'412. Pakollinen ajosuunta');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'429', E'412. Pakollinen ajosuunta');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'430', E'413. Pakollinen ajosuunta');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'430', E'413. Pakollinen ajosuunta');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'431', E'414. Pakollinen ajosuunta');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'431', E'414. Pakollinen ajosuunta');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'432', E'415. Pakollinen ajosuunta');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'432', E'415. Pakollinen ajosuunta');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'433', E'416. Pakollinen kiertosuunta');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'433', E'416. Pakollinen kiertosuunta');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'434', E'417. Liikenteen jakaja');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'434', E'417. Liikenteen jakaja');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'435', E'418. Liikenteen jakaja');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'435', E'418. Liikenteen jakaja');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'436', E'421. Jalkakäytävä');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'436', E'421. Jalkakäytävä');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'437', E'422. Pyörätie');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'437', E'422. Pyörätie');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'438', E'423. Yhdistetty pyörätie ja jalkakäytävä');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'438', E'423. Yhdistetty pyörätie ja jalkakäytävä');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'439', E'424. Pyörätie ja jalkakäytävä rinnakkain');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'439', E'424. Pyörätie ja jalkakäytävä rinnakkain');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'440', E'425. Pyörätie ja jalkakäytävä rinnakkain');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'440', E'425. Pyörätie ja jalkakäytävä rinnakkain');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'441', E'426. Moottorikelkkailureitti');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'441', E'426. Moottorikelkkailureitti');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'442', E'427. Ratsastustie');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'442', E'427. Ratsastustie');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'443', E'511. Suojatie');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'443', E'511. Suojatie');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'444', E'520a. Liityntäpysäköintipaikka');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'444', E'520a. Liityntäpysäköintipaikka');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'445', E'520b. Liityntäpysäköintipaikka');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'445', E'520b. Liityntäpysäköintipaikka');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'446', E'521. Pysäköintipaikka');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'446', E'521. Pysäköintipaikka');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'447', E'521a. Ajoneuvojen sijoitus pysäköintipaikalla');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'447', E'521a. Ajoneuvojen sijoitus pysäköintipaikalla');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'448', E'521b. Ajoneuvojen sijoitus pysäköintipaikalla');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'448', E'521b. Ajoneuvojen sijoitus pysäköintipaikalla');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'449', E'521c. Ajoneuvojen sijoitus pysäköintipaikalla');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'449', E'521c. Ajoneuvojen sijoitus pysäköintipaikalla');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'450', E'522. Kohtaamispaikka');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'450', E'522. Kohtaamispaikka');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'451', E'531. Paikallisliikenteen linja-auton pysäkki');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'451', E'531. Paikallisliikenteen linja-auton pysäkki');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'452', E'532. Kaukoliikenteen linja-auton pysäkki');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'452', E'532. Kaukoliikenteen linja-auton pysäkki');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'453', E'533. Raitiovaunun pysäkki');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'453', E'533. Raitiovaunun pysäkki');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'454', E'534. Taksiasema');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'454', E'534. Taksiasema');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'455', E'541a. Linja-autokaista');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'455', E'541a. Linja-autokaista');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'456', E'541b. Linja-auto- ja taksikaista');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'456', E'541b. Linja-auto- ja taksikaista');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'457', E'542a. Linja-autokaista päättyy');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'457', E'542a. Linja-autokaista päättyy');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'458', E'542b. Linja-auto- ja taksikaista päättyy');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'458', E'542b. Linja-auto- ja taksikaista päättyy');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'459', E'543a. Raitiovaunukaista');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'459', E'543a. Raitiovaunukaista');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'460', E'543b. Raitiovaunu- ja taksikaista');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'460', E'543b. Raitiovaunu- ja taksikaista');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'461', E'544a. Raitiovaunukaista päättyy');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'461', E'544a. Raitiovaunukaista päättyy');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'462', E'544b. Raitiovaunu- ja taksikaista päättyy');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'462', E'544b. Raitiovaunu- ja taksikaista päättyy');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'463', E'551. Yksisuuntainen tie');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'463', E'551. Yksisuuntainen tie');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'464', E'561. Moottoritie');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'464', E'561. Moottoritie');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'465', E'562. Moottoritie päättyy');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'465', E'562. Moottoritie päättyy');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'466', E'563. Moottoriliikennetie');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'466', E'563. Moottoriliikennetie');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'467', E'564. Moottoriliikennetie päättyy');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'467', E'564. Moottoriliikennetie päättyy');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'468', E'565. Tunneli');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'468', E'565. Tunneli');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'469', E'566. Tunneli päättyy');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'469', E'566. Tunneli päättyy');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'470', E'567. Hätäpysäyttämispaikka');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'470', E'567. Hätäpysäyttämispaikka');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'471', E'571. Taajama');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'471', E'571. Taajama');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'472', E'572. Taajama päättyy');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'472', E'572. Taajama päättyy');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'473', E'573. Pihakatu');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'473', E'573. Pihakatu');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'474', E'574. Pihakatu päättyy');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'474', E'574. Pihakatu päättyy');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'475', E'575. Kävelykatu');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'475', E'575. Kävelykatu');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'476', E'576. Kävelykatu päättyy');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'476', E'576. Kävelykatu päättyy');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'477', E'611. Suunnistustaulu');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'477', E'611. Suunnistustaulu');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'478', E'612. Suunnistustaulu');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'478', E'612. Suunnistustaulu');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'479', E'613. Kiertotien suunnistustaulu');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'479', E'613. Kiertotien suunnistustaulu');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'480', E'614. Kiertotien suunnistustaulu');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'480', E'614. Kiertotien suunnistustaulu');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'481', E'615. Kiertotieopastus');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'481', E'615. Kiertotieopastus');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'482', E'616. Ajoreittiopastus');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'482', E'616. Ajoreittiopastus');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'483', E'621. Ajokaistaopastus');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'483', E'621. Ajokaistaopastus');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'484', E'622. Ajokaistaopastus');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'484', E'622. Ajokaistaopastus');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'485', E'623. Ajokaistan päättyminen');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'485', E'623. Ajokaistan päättyminen');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'486', E'631. Ajokaistan yläpuolinen viitta');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'486', E'631. Ajokaistan yläpuolinen viitta');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'487', E'632. Ajokaistan yläpuolinen viitta');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'487', E'632. Ajokaistan yläpuolinen viitta');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'488', E'633. Ajokaistan yläpuolinen erkanemisviitta');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'488', E'633. Ajokaistan yläpuolinen erkanemisviitta');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'489', E'641. Tienviitta');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'489', E'641. Tienviitta');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'490', E'642. Erkanemisviitta');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'490', E'642. Erkanemisviitta');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'491', E'643. Yksityisen tien viitta');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'491', E'643. Yksityisen tien viitta');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'492', E'643. Yksityisen tien viitta');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'492', E'643. Yksityisen tien viitta');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'493', E'644. Osoiteviitta');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'493', E'644. Osoiteviitta');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'494', E'644 a. Osoiteviitan ennakkomerkki');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'494', E'644 a. Osoiteviitan ennakkomerkki');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'495', E'645. Kevyen liikenteen viitta');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'495', E'645. Kevyen liikenteen viitta');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'496', E'645. Kevyen liikenteen viitta');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'496', E'645. Kevyen liikenteen viitta');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'497', E'646. Kiertotien viitta');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'497', E'646. Kiertotien viitta');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'498', E'647. Kiertotien viitta');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'498', E'647. Kiertotien viitta');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'499', E'648. Paikalliskohteen viitta');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'499', E'648. Paikalliskohteen viitta');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'500', E'649. Moottori- ja moottoriliikennetien viitta');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'500', E'649. Moottori- ja moottoriliikennetien viitta');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'501', E'650. Liityntäpysäköintiviitta');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'501', E'650. Liityntäpysäköintiviitta');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'502', E'651. Umpitie');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'502', E'651. Umpitie');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'503', E'651a. Umpitie');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'503', E'651a. Umpitie');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'504', E'652. Umpitie');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'504', E'652. Umpitie');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'505', E'653. Enimmäisnopeussuositus');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'505', E'653. Enimmäisnopeussuositus');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'506', E'661. Etäisyystaulu');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'506', E'661. Etäisyystaulu');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'507', E'662. Paikannimi');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'507', E'662. Paikannimi');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'508', E'663. Kansainvälisen pääliikenneväylän numero');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'508', E'663. Kansainvälisen pääliikenneväylän numero');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'509', E'663. Kansainvälisen pääliikenneväylän numero');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'509', E'663. Kansainvälisen pääliikenneväylän numero');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'510', E'664. Valtatien numero');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'510', E'664. Valtatien numero');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'511', E'665. Kantatien numero');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'511', E'665. Kantatien numero');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'512', E'665a. Seututien numero');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'512', E'665a. Seututien numero');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'513', E'666. Muun yleisen tien numero');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'513', E'666. Muun yleisen tien numero');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'514', E'666. Muun yleisen tien numero');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'514', E'666. Muun yleisen tien numero');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'515', E'667. Opastus numeron tarkoittamalle tielle');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'515', E'667. Opastus numeron tarkoittamalle tielle');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'516', E'667. Opastus numeron tarkoittamalle tielle');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'516', E'667. Opastus numeron tarkoittamalle tielle');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'517', E'671. Moottoritien tunnus');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'517', E'671. Moottoritien tunnus');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'518', E'672. Moottoriliikennetien tunnus');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'518', E'672. Moottoriliikennetien tunnus');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'519', E'673. Lentoasema');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'519', E'673. Lentoasema');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'520', E'674. Autolautta');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'520', E'674. Autolautta');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'521', E'675. Tavarasatama');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'521', E'675. Tavarasatama');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'522', E'676. Teollisuusalue');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'522', E'676. Teollisuusalue');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'523', E'677. Pysäköinti');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'523', E'677. Pysäköinti');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'524', E'677a. Katettu pysäköinti');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'524', E'677a. Katettu pysäköinti');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'525', E'678. Rautatieasema');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'525', E'678. Rautatieasema');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'526', E'679. Linja-autoasema');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'526', E'679. Linja-autoasema');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'527', E'681. Tietyille ajoneuvoille tai ajoneuvoyhdistelmille tarkoitettu reitti');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'527', E'681. Tietyille ajoneuvoille tai ajoneuvoyhdistelmille tarkoitettu reitti');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'528', E'681. Tietyille ajoneuvoille tai ajoneuvoyhdistelmille tarkoitettu reitti');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'528', E'681. Tietyille ajoneuvoille tai ajoneuvoyhdistelmille tarkoitettu reitti');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'529', E'682. Jalankulkijoille tarkoitettu reitti');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'529', E'682. Jalankulkijoille tarkoitettu reitti');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'530', E'682. Jalankulkijoille tarkoitettu reitti');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'530', E'682. Jalankulkijoille tarkoitettu reitti');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'531', E'683. Vammaisille tarkoitettu reitti');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'531', E'683. Vammaisille tarkoitettu reitti');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'532', E'683. Vammaisille tarkoitettu reitti');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'532', E'683. Vammaisille tarkoitettu reitti');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'533', E'684. Vaarallisten aineiden kuljetuksille tarkoitettu reitti');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'533', E'684. Vaarallisten aineiden kuljetuksille tarkoitettu reitti');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'534', E'686. Reitti ilman portaita');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'534', E'686. Reitti ilman portaita');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'535', E'690. Hätäuloskäynti');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'535', E'690. Hätäuloskäynti');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'536', E'691. Poistumisreitti');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'536', E'691. Poistumisreitti');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'537', E'701. Palvelukohteen opastustaulu');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'537', E'701. Palvelukohteen opastustaulu');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'538', E'702. Palvelukohteen opastustaulu');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'538', E'702. Palvelukohteen opastustaulu');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'539', E'703. Palvelukohteen erkanemisviitta');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'539', E'703. Palvelukohteen erkanemisviitta');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'540', E'704. Palvelukohteen osoiteviitta');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'540', E'704. Palvelukohteen osoiteviitta');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'541', E'704 a. Palvelukohteen osoiteviitan ennakkomerkki');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'541', E'704 a. Palvelukohteen osoiteviitan ennakkomerkki');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'542', E'710. Radioaseman taajuus');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'542', E'710. Radioaseman taajuus');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'543', E'711. Opastuspiste');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'543', E'711. Opastuspiste');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'544', E'712. Opastustoimisto');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'544', E'712. Opastustoimisto');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'545', E'715. Ensiapu');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'545', E'715. Ensiapu');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'546', E'721. Autokorjaamo');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'546', E'721. Autokorjaamo');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'547', E'722. Huoltoasema');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'547', E'722. Huoltoasema');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'548', E'723. Hotelli tai motelli');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'548', E'723. Hotelli tai motelli');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'549', E'724. Ruokailupaikka');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'549', E'724. Ruokailupaikka');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'550', E'725. Kahvila tai pikaruokapaikka');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'550', E'725. Kahvila tai pikaruokapaikka');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'551', E'726. Käymälä');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'551', E'726. Käymälä');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'552', E'731. Retkeilymaja');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'552', E'731. Retkeilymaja');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'553', E'732. Mökkimajoitus');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'553', E'732. Mökkimajoitus');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'554', E'733. Leirintäalue');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'554', E'733. Leirintäalue');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'555', E'734. Matkailuajoneuvoalue');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'555', E'734. Matkailuajoneuvoalue');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'556', E'741. Levähdysalue');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'556', E'741. Levähdysalue');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'557', E'742. Ulkoilualue');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'557', E'742. Ulkoilualue');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'558', E'771 a. Matkailutie');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'558', E'771 a. Matkailutie');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'559', E'771 a. Matkailutie');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'559', E'771 a. Matkailutie');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'560', E'771 b. Matkailutie');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'560', E'771 b. Matkailutie');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'561', E'772 a. Museo tai historiallinen rakennus');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'561', E'772 a. Museo tai historiallinen rakennus');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'562', E'772 b. Maailmanperintökohde');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'562', E'772 b. Maailmanperintökohde');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'563', E'772 c. Luontokohde');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'563', E'772 c. Luontokohde');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'564', E'772 d. Näköalapaikka');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'564', E'772 d. Näköalapaikka');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'565', E'772 e. Eläintarha tai -puisto');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'565', E'772 e. Eläintarha tai -puisto');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'566', E'772 f. Muu nähtävyys');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'566', E'772 f. Muu nähtävyys');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'567', E'773 a. Uintipaikka');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'567', E'773 a. Uintipaikka');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'568', E'773 b. Kalastuspaikka');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'568', E'773 b. Kalastuspaikka');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'569', E'773 c. Hiihtohissi');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'569', E'773 c. Hiihtohissi');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'570', E'773 d. Golfkenttä');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'570', E'773 d. Golfkenttä');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'571', E'773 e. Huvi- tai teemapuisto');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'571', E'773 e. Huvi- tai teemapuisto');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'572', E'774 a. Mökkimajoitus');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'572', E'774 a. Mökkimajoitus');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'573', E'774 b. Aamiaismajoitus');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'573', E'774 b. Aamiaismajoitus');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'574', E'774 c. Suoramyyntipaikka');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'574', E'774 c. Suoramyyntipaikka');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'575', E'774 d. Käsityöpaja');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'575', E'774 d. Käsityöpaja');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'576', E'774 e. Kotieläinpiha');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'576', E'774 e. Kotieläinpiha');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'577', E'774 f. Ratsastuspaikka');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'577', E'774 f. Ratsastuspaikka');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'578', E'791. Hätäpuhelin');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'578', E'791. Hätäpuhelin');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'579', E'792. Sammutin');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'579', E'792. Sammutin');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'580', E'811. Kohde risteävällä tiellä');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'580', E'811. Kohde risteävällä tiellä');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'581', E'812. Kohde nuolen suunnassa');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'581', E'812. Kohde nuolen suunnassa');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'582', E'813. Kohde nuolen suunnassa');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'582', E'813. Kohde nuolen suunnassa');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'583', E'814. Vaikutusalueen pituus');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'583', E'814. Vaikutusalueen pituus');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'584', E'815. Etäisyys kohteeseen');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'584', E'815. Etäisyys kohteeseen');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'585', E'816. Etäisyys pakolliseen pysäyttämiseen');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'585', E'816. Etäisyys pakolliseen pysäyttämiseen');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'586', E'821. Vapaa leveys');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'586', E'821. Vapaa leveys');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'587', E'822. Vapaa korkeus');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'587', E'822. Vapaa korkeus');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'588', E'823. Sähköjohdon korkeus');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'588', E'823. Sähköjohdon korkeus');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'589', E'824. Vaikutusalue molempiin suuntiin');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'589', E'824. Vaikutusalue molempiin suuntiin');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'590', E'825. Vaikutusalue molempiin suuntiin');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'590', E'825. Vaikutusalue molempiin suuntiin');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'591', E'826. Vaikutusalue nuolen suuntaan');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'591', E'826. Vaikutusalue nuolen suuntaan');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'592', E'827. Vaikutusalue alkaa');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'592', E'827. Vaikutusalue alkaa');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'593', E'828. Vaikutusalue päättyy');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'593', E'828. Vaikutusalue päättyy');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'594', E'831. Henkilöauto');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'594', E'831. Henkilöauto');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'595', E'832. Linja-auto');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'595', E'832. Linja-auto');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'596', E'833. Kuorma-auto');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'596', E'833. Kuorma-auto');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'597', E'833.2. Ajoneuvoyhdistelmä');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'597', E'833.2. Ajoneuvoyhdistelmä');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'598', E'834. Pakettiauto');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'598', E'834. Pakettiauto');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'599', E'835. Matkailuajoneuvo');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'599', E'835. Matkailuajoneuvo');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'600', E'836. Invalidin ajoneuvo');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'600', E'836. Invalidin ajoneuvo');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'601', E'841. Moottoripyörä');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'601', E'841. Moottoripyörä');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'602', E'842. Mopo');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'602', E'842. Mopo');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'603', E'843. Polkupyörä');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'603', E'843. Polkupyörä');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'604', E'844. Pysäköintitapa');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'604', E'844. Pysäköintitapa');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'605', E'845. Pysäköintitapa');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'605', E'845. Pysäköintitapa');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'606', E'848. Kielto ryhmän A vaarallisten aineiden kuljetukselle');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'606', E'848. Kielto ryhmän A vaarallisten aineiden kuljetukselle');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'607', E'849. Läpiajokielto ryhmän B vaarallisten aineiden kuljetukselle');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'607', E'849. Läpiajokielto ryhmän B vaarallisten aineiden kuljetukselle');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'608', E'851. Voimassaoloaika arkisin');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'608', E'851. Voimassaoloaika arkisin');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'609', E'852. Voimassaoloaika lauantaisin');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'609', E'852. Voimassaoloaika lauantaisin');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'610', E'853. Voimassaoloaika sunnuntaisin ja pyhinä');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'610', E'853. Voimassaoloaika sunnuntaisin ja pyhinä');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'611', E'854. Aikarajoitus');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'611', E'854. Aikarajoitus');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'612', E'855a. Maksullinen pysäköinti');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'612', E'855a. Maksullinen pysäköinti');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'613', E'855b. Maksullinen pysäköinti');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'613', E'855b. Maksullinen pysäköinti');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'614', E'856a. Pysäköintikiekon käyttövelvollisuus');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'614', E'856a. Pysäköintikiekon käyttövelvollisuus');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'615', E'856b. Pysäköintikiekon käyttövelvollisuus');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'615', E'856b. Pysäköintikiekon käyttövelvollisuus');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'616', E'861a. Etuajo-oikeutetun liikenteen suunta');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'616', E'861a. Etuajo-oikeutetun liikenteen suunta');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'617', E'861b. Etuajo-oikeutetun liikenteen suunta');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'617', E'861b. Etuajo-oikeutetun liikenteen suunta');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'618', E'862. Tukkitie');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'618', E'862. Tukkitie');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'619', E'863. Kaksisuuntainen pyörätie');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'619', E'863. Kaksisuuntainen pyörätie');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'620', E'871. Tekstillinen lisäkilpi');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'620', E'871. Tekstillinen lisäkilpi');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'621', E'872. Tekstillinen lisäkilpi Huoltoajo sallittu');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'621', E'872. Tekstillinen lisäkilpi Huoltoajo sallittu');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (id, selite) VALUES (E'622', E'880. Hätäpuhelin ja sammutin');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'622', E'880. Hätäpuhelin ja sammutin');
 -- ddl-end --
 
 -- object: koodistot.muutoshoitoluokkatyyppi | type: TABLE --
 -- DROP TABLE IF EXISTS koodistot.muutoshoitoluokkatyyppi CASCADE;
 CREATE TABLE koodistot.muutoshoitoluokkatyyppi (
-	id serial NOT NULL,
+	cid integer NOT NULL,
 	selite text,
-	CONSTRAINT muutoshoitoluokkatyyppi_pk PRIMARY KEY (id)
+	CONSTRAINT muutoshoitoluokkatyyppi_pk PRIMARY KEY (cid)
 );
 -- ddl-end --
 ALTER TABLE koodistot.muutoshoitoluokkatyyppi OWNER TO infrao_admin;
 -- ddl-end --
 
-INSERT INTO koodistot.muutoshoitoluokkatyyppi (id, selite) VALUES (E'1', E'R1 Rakennettu arvoviheralue');
+INSERT INTO koodistot.muutoshoitoluokkatyyppi (cid, selite) VALUES (E'1', E'R1 Rakennettu arvoviheralue');
 -- ddl-end --
-INSERT INTO koodistot.muutoshoitoluokkatyyppi (id, selite) VALUES (E'2', E'R2 Toimintaviheralue');
+INSERT INTO koodistot.muutoshoitoluokkatyyppi (cid, selite) VALUES (E'2', E'R2 Toimintaviheralue');
 -- ddl-end --
-INSERT INTO koodistot.muutoshoitoluokkatyyppi (id, selite) VALUES (E'3', E'R3 Käyttöviheralue');
+INSERT INTO koodistot.muutoshoitoluokkatyyppi (cid, selite) VALUES (E'3', E'R3 Käyttöviheralue');
 -- ddl-end --
-INSERT INTO koodistot.muutoshoitoluokkatyyppi (id, selite) VALUES (E'4', E'R4 Suoja- ja vaihettumisviheralue');
+INSERT INTO koodistot.muutoshoitoluokkatyyppi (cid, selite) VALUES (E'4', E'R4 Suoja- ja vaihettumisviheralue');
 -- ddl-end --
-INSERT INTO koodistot.muutoshoitoluokkatyyppi (id, selite) VALUES (E'5', E'A1 Arvoniitty');
+INSERT INTO koodistot.muutoshoitoluokkatyyppi (cid, selite) VALUES (E'5', E'A1 Arvoniitty');
 -- ddl-end --
-INSERT INTO koodistot.muutoshoitoluokkatyyppi (id, selite) VALUES (E'6', E'A2 Käyttöniitty');
+INSERT INTO koodistot.muutoshoitoluokkatyyppi (cid, selite) VALUES (E'6', E'A2 Käyttöniitty');
 -- ddl-end --
-INSERT INTO koodistot.muutoshoitoluokkatyyppi (id, selite) VALUES (E'7', E'A3 Maisemaniitty');
+INSERT INTO koodistot.muutoshoitoluokkatyyppi (cid, selite) VALUES (E'7', E'A3 Maisemaniitty');
 -- ddl-end --
-INSERT INTO koodistot.muutoshoitoluokkatyyppi (id, selite) VALUES (E'8', E'A4 Avoin alue');
+INSERT INTO koodistot.muutoshoitoluokkatyyppi (cid, selite) VALUES (E'8', E'A4 Avoin alue');
 -- ddl-end --
-INSERT INTO koodistot.muutoshoitoluokkatyyppi (id, selite) VALUES (E'9', E'A5 Maisemapelto');
+INSERT INTO koodistot.muutoshoitoluokkatyyppi (cid, selite) VALUES (E'9', E'A5 Maisemapelto');
 -- ddl-end --
-INSERT INTO koodistot.muutoshoitoluokkatyyppi (id, selite) VALUES (E'10', E'M1 Arvometsä');
+INSERT INTO koodistot.muutoshoitoluokkatyyppi (cid, selite) VALUES (E'10', E'M1 Arvometsä');
 -- ddl-end --
-INSERT INTO koodistot.muutoshoitoluokkatyyppi (id, selite) VALUES (E'11', E'M2 Lähimetsä');
+INSERT INTO koodistot.muutoshoitoluokkatyyppi (cid, selite) VALUES (E'11', E'M2 Lähimetsä');
 -- ddl-end --
-INSERT INTO koodistot.muutoshoitoluokkatyyppi (id, selite) VALUES (E'12', E'M3 Ulkoilu- ja virkistysmetsä');
+INSERT INTO koodistot.muutoshoitoluokkatyyppi (cid, selite) VALUES (E'12', E'M3 Ulkoilu- ja virkistysmetsä');
 -- ddl-end --
-INSERT INTO koodistot.muutoshoitoluokkatyyppi (id, selite) VALUES (E'13', E'M4 Suojametsä');
+INSERT INTO koodistot.muutoshoitoluokkatyyppi (cid, selite) VALUES (E'13', E'M4 Suojametsä');
 -- ddl-end --
-INSERT INTO koodistot.muutoshoitoluokkatyyppi (id, selite) VALUES (E'14', E'M5 Talousmetsä');
+INSERT INTO koodistot.muutoshoitoluokkatyyppi (cid, selite) VALUES (E'14', E'M5 Talousmetsä');
 -- ddl-end --
 
 -- object: koodistot.muuvarustetyyppi | type: TABLE --
 -- DROP TABLE IF EXISTS koodistot.muuvarustetyyppi CASCADE;
 CREATE TABLE koodistot.muuvarustetyyppi (
-	id serial NOT NULL,
+	cid integer NOT NULL,
 	selite text,
-	CONSTRAINT muuvarustetyyppi_pk PRIMARY KEY (id)
+	CONSTRAINT muuvarustetyyppi_pk PRIMARY KEY (cid)
 );
 -- ddl-end --
 ALTER TABLE koodistot.muuvarustetyyppi OWNER TO infrao_admin;
 -- ddl-end --
 
-INSERT INTO koodistot.muuvarustetyyppi (id, selite) VALUES (E'1', E'irtovaruste');
+INSERT INTO koodistot.muuvarustetyyppi (cid, selite) VALUES (E'1', E'irtovaruste');
 -- ddl-end --
-INSERT INTO koodistot.muuvarustetyyppi (id, selite) VALUES (E'2', E'jakokaappi');
+INSERT INTO koodistot.muuvarustetyyppi (cid, selite) VALUES (E'2', E'jakokaappi');
 -- ddl-end --
-INSERT INTO koodistot.muuvarustetyyppi (id, selite) VALUES (E'3', E'kastelulaite');
+INSERT INTO koodistot.muuvarustetyyppi (cid, selite) VALUES (E'3', E'kastelulaite');
 -- ddl-end --
-INSERT INTO koodistot.muuvarustetyyppi (id, selite) VALUES (E'4', E'kelkkamäki');
+INSERT INTO koodistot.muuvarustetyyppi (cid, selite) VALUES (E'4', E'kelkkamäki');
 -- ddl-end --
-INSERT INTO koodistot.muuvarustetyyppi (id, selite) VALUES (E'5', E'kuivikeastia');
+INSERT INTO koodistot.muuvarustetyyppi (cid, selite) VALUES (E'5', E'kuivikeastia');
 -- ddl-end --
-INSERT INTO koodistot.muuvarustetyyppi (id, selite) VALUES (E'6', E'pelastusväline');
+INSERT INTO koodistot.muuvarustetyyppi (cid, selite) VALUES (E'6', E'pelastusväline');
 -- ddl-end --
-INSERT INTO koodistot.muuvarustetyyppi (id, selite) VALUES (E'7', E'rungonsuojus');
+INSERT INTO koodistot.muuvarustetyyppi (cid, selite) VALUES (E'7', E'rungonsuojus');
 -- ddl-end --
-INSERT INTO koodistot.muuvarustetyyppi (id, selite) VALUES (E'8', E'suihku');
+INSERT INTO koodistot.muuvarustetyyppi (cid, selite) VALUES (E'8', E'suihku');
 -- ddl-end --
-INSERT INTO koodistot.muuvarustetyyppi (id, selite) VALUES (E'9', E'sähköauton latauspiste');
+INSERT INTO koodistot.muuvarustetyyppi (cid, selite) VALUES (E'9', E'sähköauton latauspiste');
 -- ddl-end --
-INSERT INTO koodistot.muuvarustetyyppi (id, selite) VALUES (E'10', E'sähkökaapeli');
+INSERT INTO koodistot.muuvarustetyyppi (cid, selite) VALUES (E'10', E'sähkökaapeli');
 -- ddl-end --
-INSERT INTO koodistot.muuvarustetyyppi (id, selite) VALUES (E'11', E'valaisin');
+INSERT INTO koodistot.muuvarustetyyppi (cid, selite) VALUES (E'11', E'valaisin');
 -- ddl-end --
-INSERT INTO koodistot.muuvarustetyyppi (id, selite) VALUES (E'12', E'verkkoaita');
+INSERT INTO koodistot.muuvarustetyyppi (cid, selite) VALUES (E'12', E'verkkoaita');
 -- ddl-end --
-INSERT INTO koodistot.muuvarustetyyppi (id, selite) VALUES (E'13', E'vesijohto');
+INSERT INTO koodistot.muuvarustetyyppi (cid, selite) VALUES (E'13', E'vesijohto');
 -- ddl-end --
-INSERT INTO koodistot.muuvarustetyyppi (id, selite) VALUES (E'14', E'vesipiste');
+INSERT INTO koodistot.muuvarustetyyppi (cid, selite) VALUES (E'14', E'vesipiste');
 -- ddl-end --
-INSERT INTO koodistot.muuvarustetyyppi (id, selite) VALUES (E'15', E'WC');
+INSERT INTO koodistot.muuvarustetyyppi (cid, selite) VALUES (E'15', E'WC');
 -- ddl-end --
-INSERT INTO koodistot.muuvarustetyyppi (id, selite) VALUES (E'16', E'muu');
+INSERT INTO koodistot.muuvarustetyyppi (cid, selite) VALUES (E'16', E'muu');
 -- ddl-end --
-INSERT INTO koodistot.muuvarustetyyppi (id, selite) VALUES (E'17', E'ei tiedossa');
+INSERT INTO koodistot.muuvarustetyyppi (cid, selite) VALUES (E'17', E'ei tiedossa');
 -- ddl-end --
 
 -- object: koodistot.toiminnallinenluokka | type: TABLE --
 -- DROP TABLE IF EXISTS koodistot.toiminnallinenluokka CASCADE;
 CREATE TABLE koodistot.toiminnallinenluokka (
-	id serial NOT NULL,
+	cid integer NOT NULL,
 	selite text,
-	CONSTRAINT toiminnallinenluokka_pk PRIMARY KEY (id)
+	CONSTRAINT toiminnallinenluokka_pk PRIMARY KEY (cid)
 );
 -- ddl-end --
 ALTER TABLE koodistot.toiminnallinenluokka OWNER TO infrao_admin;
 -- ddl-end --
 
-INSERT INTO koodistot.toiminnallinenluokka (id, selite) VALUES (E'1', E'aukio');
+INSERT INTO koodistot.toiminnallinenluokka (cid, selite) VALUES (E'1', E'aukio');
 -- ddl-end --
-INSERT INTO koodistot.toiminnallinenluokka (id, selite) VALUES (E'2', E'asuntokatu');
+INSERT INTO koodistot.toiminnallinenluokka (cid, selite) VALUES (E'2', E'asuntokatu');
 -- ddl-end --
-INSERT INTO koodistot.toiminnallinenluokka (id, selite) VALUES (E'3', E'hidaskatu');
+INSERT INTO koodistot.toiminnallinenluokka (cid, selite) VALUES (E'3', E'hidaskatu');
 -- ddl-end --
-INSERT INTO koodistot.toiminnallinenluokka (id, selite) VALUES (E'4', E'kevyen liikenteen väylä');
+INSERT INTO koodistot.toiminnallinenluokka (cid, selite) VALUES (E'4', E'kevyen liikenteen väylä');
 -- ddl-end --
-INSERT INTO koodistot.toiminnallinenluokka (id, selite) VALUES (E'5', E'kokoojakatu');
+INSERT INTO koodistot.toiminnallinenluokka (cid, selite) VALUES (E'5', E'kokoojakatu');
 -- ddl-end --
-INSERT INTO koodistot.toiminnallinenluokka (id, selite) VALUES (E'6', E'kävelykatu');
+INSERT INTO koodistot.toiminnallinenluokka (cid, selite) VALUES (E'6', E'kävelykatu');
 -- ddl-end --
-INSERT INTO koodistot.toiminnallinenluokka (id, selite) VALUES (E'7', E'pihakatu');
+INSERT INTO koodistot.toiminnallinenluokka (cid, selite) VALUES (E'7', E'pihakatu');
 -- ddl-end --
-INSERT INTO koodistot.toiminnallinenluokka (id, selite) VALUES (E'8', E'pysäköintialue');
+INSERT INTO koodistot.toiminnallinenluokka (cid, selite) VALUES (E'8', E'pysäköintialue');
 -- ddl-end --
-INSERT INTO koodistot.toiminnallinenluokka (id, selite) VALUES (E'9', E'pääkatu');
+INSERT INTO koodistot.toiminnallinenluokka (cid, selite) VALUES (E'9', E'pääkatu');
 -- ddl-end --
-INSERT INTO koodistot.toiminnallinenluokka (id, selite) VALUES (E'10', E'tori');
+INSERT INTO koodistot.toiminnallinenluokka (cid, selite) VALUES (E'10', E'tori');
 -- ddl-end --
-INSERT INTO koodistot.toiminnallinenluokka (id, selite) VALUES (E'11', E'yksityistie');
+INSERT INTO koodistot.toiminnallinenluokka (cid, selite) VALUES (E'11', E'yksityistie');
 -- ddl-end --
-INSERT INTO koodistot.toiminnallinenluokka (id, selite) VALUES (E'12', E'muu');
+INSERT INTO koodistot.toiminnallinenluokka (cid, selite) VALUES (E'12', E'muu');
 -- ddl-end --
-INSERT INTO koodistot.toiminnallinenluokka (id, selite) VALUES (E'13', E'ei tiedossa');
--- ddl-end --
-
--- object: kohteet.hulevesi | type: TABLE --
--- DROP TABLE IF EXISTS kohteet.hulevesi CASCADE;
-CREATE TABLE kohteet.hulevesi (
-	id serial NOT NULL,
-	hulevesityyppi_id integer,
--- 	malli text,
--- 	perusparannusvuosi smallint,
--- 	suunta text,
--- 	valmistaja text,
--- 	valmistumisvuosi smallint,
--- 	kuuluuviheralueenosaan integer,
--- 	kuuluukatualueenosaan integer,
--- 	materiaali_id integer,
--- 	suunnitelmalinkkitieto integer,
--- 	geom_poly geometry(POLYGON, 3067),
--- 	geom_piste geometry(POINT, 3067),
--- 	geom_line geometry(LINESTRING, 3067),
-	CONSTRAINT hulevesi_pk PRIMARY KEY (id)
-)
- INHERITS(abstraktit.abstractvaruste);
--- ddl-end --
-ALTER TABLE kohteet.hulevesi OWNER TO infrao_admin;
--- ddl-end --
-
--- object: kohteet.ajoratamerkinta | type: TABLE --
--- DROP TABLE IF EXISTS kohteet.ajoratamerkinta CASCADE;
-CREATE TABLE kohteet.ajoratamerkinta (
-	id serial NOT NULL,
-	ajoratamerkintatyyppi_id integer,
-	jyrsittypintakytkin boolean,
--- 	malli text,
--- 	perusparannusvuosi smallint,
--- 	suunta text,
--- 	valmistaja text,
--- 	valmistumisvuosi smallint,
--- 	kuuluuviheralueenosaan integer,
--- 	kuuluukatualueenosaan integer,
--- 	materiaali_id integer,
--- 	suunnitelmalinkkitieto integer,
--- 	geom_poly geometry(POLYGON, 3067),
--- 	geom_piste geometry(POINT, 3067),
--- 	geom_line geometry(LINESTRING, 3067),
-	CONSTRAINT ajoratamerkinta_pk PRIMARY KEY (id)
-)
- INHERITS(abstraktit.abstractvaruste);
--- ddl-end --
-ALTER TABLE kohteet.ajoratamerkinta OWNER TO infrao_admin;
--- ddl-end --
-
--- object: kohteet.ymparistotaide | type: TABLE --
--- DROP TABLE IF EXISTS kohteet.ymparistotaide CASCADE;
-CREATE TABLE kohteet.ymparistotaide (
-	id serial NOT NULL,
-	ymparistotaidetyyppi_id integer,
--- 	malli text,
--- 	perusparannusvuosi smallint,
--- 	suunta text,
--- 	valmistaja text,
--- 	valmistumisvuosi smallint,
--- 	kuuluuviheralueenosaan integer,
--- 	kuuluukatualueenosaan integer,
--- 	materiaali_id integer,
--- 	suunnitelmalinkkitieto integer,
--- 	geom_poly geometry(POLYGON, 3067),
--- 	geom_piste geometry(POINT, 3067),
--- 	geom_line geometry(LINESTRING, 3067),
-	CONSTRAINT ymparistotaide_pk PRIMARY KEY (id)
-)
- INHERITS(abstraktit.abstractvaruste);
--- ddl-end --
-ALTER TABLE kohteet.ymparistotaide OWNER TO infrao_admin;
+INSERT INTO koodistot.toiminnallinenluokka (cid, selite) VALUES (E'13', E'ei tiedossa');
 -- ddl-end --
 
 -- object: meta.aineistotoimituksentiedot | type: TABLE --
@@ -7853,21 +8810,21 @@ ALTER TABLE meta.aineistotoimituksentiedot OWNER TO infrao_admin;
 -- object: koodistot.aineistotilatype | type: TABLE --
 -- DROP TABLE IF EXISTS koodistot.aineistotilatype CASCADE;
 CREATE TABLE koodistot.aineistotilatype (
-	id serial NOT NULL,
+	cid integer NOT NULL,
 	selite text,
-	CONSTRAINT aineistotilatype_pk PRIMARY KEY (id)
+	CONSTRAINT aineistotilatype_pk PRIMARY KEY (cid)
 );
 -- ddl-end --
 ALTER TABLE koodistot.aineistotilatype OWNER TO infrao_admin;
 -- ddl-end --
 
-INSERT INTO koodistot.aineistotilatype (id, selite) VALUES (E'1', E'valmis');
+INSERT INTO koodistot.aineistotilatype (cid, selite) VALUES (E'1', E'valmis');
 -- ddl-end --
-INSERT INTO koodistot.aineistotilatype (id, selite) VALUES (E'2', E'keskeneräinen');
+INSERT INTO koodistot.aineistotilatype (cid, selite) VALUES (E'2', E'keskeneräinen');
 -- ddl-end --
-INSERT INTO koodistot.aineistotilatype (id, selite) VALUES (E'3', E'muu');
+INSERT INTO koodistot.aineistotilatype (cid, selite) VALUES (E'3', E'muu');
 -- ddl-end --
-INSERT INTO koodistot.aineistotilatype (id, selite) VALUES (E'4', E'ei tiedossa');
+INSERT INTO koodistot.aineistotilatype (cid, selite) VALUES (E'4', E'ei tiedossa');
 -- ddl-end --
 
 -- object: meta.infraokohteet | type: TABLE --
@@ -7922,9 +8879,9 @@ COMMENT ON TABLE abstraktit.nimi IS E'Voidaan käyttää esim. nimistö tai osoi
 ALTER TABLE abstraktit.nimi OWNER TO infrao_admin;
 -- ddl-end --
 
--- object: abstraktit.osoite | type: TABLE --
--- DROP TABLE IF EXISTS abstraktit.osoite CASCADE;
-CREATE TABLE abstraktit.osoite (
+-- object: osoite.osoite | type: TABLE --
+-- DROP TABLE IF EXISTS osoite.osoite CASCADE;
+CREATE TABLE osoite.osoite (
 	id integer NOT NULL,
 	kunta varchar(255),
 	osoitenumero integer,
@@ -7943,270 +8900,247 @@ CREATE TABLE abstraktit.osoite (
 	CONSTRAINT osoite_pk PRIMARY KEY (id)
 );
 -- ddl-end --
-COMMENT ON COLUMN abstraktit.osoite.osoitenumero IS E'Yksi osoitenumero esim. "24"';
+COMMENT ON TABLE osoite.osoite IS E'Viitesijaintialue: oma taulu, jossa suuralueet tms.?';
 -- ddl-end --
-COMMENT ON COLUMN abstraktit.osoite.osoitenumero2 IS E'Osoitenumeroväli esimerkiksi 35-37 jälikimmäinen numero';
+COMMENT ON COLUMN osoite.osoite.osoitenumero IS E'Yksi osoitenumero esim. "24"';
 -- ddl-end --
-COMMENT ON COLUMN abstraktit.osoite.jakokirjain IS E'numeron perään tuleva pieni kirjain';
+COMMENT ON COLUMN osoite.osoite.osoitenumero2 IS E'Osoitenumeroväli esimerkiksi 35-37 jälikimmäinen numero';
 -- ddl-end --
-COMMENT ON COLUMN abstraktit.osoite.jakokirjain2 IS E'Jakokirjainvälin jälkimmäinen osa';
+COMMENT ON COLUMN osoite.osoite.jakokirjain IS E'numeron perään tuleva pieni kirjain';
 -- ddl-end --
-COMMENT ON COLUMN abstraktit.osoite.huoneistojakokirjain IS E'Huoneistonumeron perään tuleva pieni kirjain';
+COMMENT ON COLUMN osoite.osoite.jakokirjain2 IS E'Jakokirjainvälin jälkimmäinen osa';
 -- ddl-end --
-COMMENT ON COLUMN abstraktit.osoite.viitesijaintialue IS E'Esim. Korso, Tikkurila';
+COMMENT ON COLUMN osoite.osoite.huoneistojakokirjain IS E'Huoneistonumeron perään tuleva pieni kirjain';
 -- ddl-end --
-ALTER TABLE abstraktit.osoite OWNER TO infrao_admin;
--- ddl-end --
-
--- object: kohteet.pysakointiruutu | type: TABLE --
--- DROP TABLE IF EXISTS kohteet.pysakointiruutu CASCADE;
-CREATE TABLE kohteet.pysakointiruutu (
-	id serial NOT NULL,
-	latauspistekytkin boolean,
--- 	malli text,
--- 	perusparannusvuosi smallint,
--- 	suunta text,
--- 	valmistaja text,
--- 	valmistumisvuosi smallint,
--- 	kuuluuviheralueenosaan integer,
--- 	kuuluukatualueenosaan integer,
--- 	materiaali_id integer,
--- 	suunnitelmalinkkitieto integer,
--- 	geom_poly geometry(POLYGON, 3067),
--- 	geom_piste geometry(POINT, 3067),
--- 	geom_line geometry(LINESTRING, 3067),
-	CONSTRAINT pysakointiruutu_pk PRIMARY KEY (id)
-)
- INHERITS(abstraktit.abstractvaruste);
--- ddl-end --
-ALTER TABLE kohteet.pysakointiruutu OWNER TO infrao_admin;
+COMMENT ON COLUMN osoite.osoite.viitesijaintialue IS E'Esim. Korso, Tikkurila';
 -- ddl-end --
 
 -- object: koodistot.rakennetyyppi | type: TABLE --
 -- DROP TABLE IF EXISTS koodistot.rakennetyyppi CASCADE;
 CREATE TABLE koodistot.rakennetyyppi (
-	id serial NOT NULL,
-	CONSTRAINT rakennetyyppi_pk PRIMARY KEY (id)
+	cid integer NOT NULL,
+	selite text NOT NULL,
+	CONSTRAINT rakennetyyppi_pk PRIMARY KEY (cid)
 );
 -- ddl-end --
 ALTER TABLE koodistot.rakennetyyppi OWNER TO infrao_admin;
 -- ddl-end --
 
-INSERT INTO koodistot.rakennetyyppi (id) VALUES (E'1');
+INSERT INTO koodistot.rakennetyyppi (cid, selite) VALUES (E'1', E'aita');
 -- ddl-end --
-INSERT INTO koodistot.rakennetyyppi (id) VALUES (E'2');
+INSERT INTO koodistot.rakennetyyppi (cid, selite) VALUES (E'2', E'esteettömyysramppi');
 -- ddl-end --
-INSERT INTO koodistot.rakennetyyppi (id) VALUES (E'3');
+INSERT INTO koodistot.rakennetyyppi (cid, selite) VALUES (E'3', E'istutuslaatikko');
 -- ddl-end --
-INSERT INTO koodistot.rakennetyyppi (id) VALUES (E'4');
+INSERT INTO koodistot.rakennetyyppi (cid, selite) VALUES (E'4', E'kaide');
 -- ddl-end --
-INSERT INTO koodistot.rakennetyyppi (id) VALUES (E'5');
+INSERT INTO koodistot.rakennetyyppi (cid, selite) VALUES (E'5', E'katos');
 -- ddl-end --
-INSERT INTO koodistot.rakennetyyppi (id) VALUES (E'6');
+INSERT INTO koodistot.rakennetyyppi (cid, selite) VALUES (E'6', E'kahluuallas');
 -- ddl-end --
-INSERT INTO koodistot.rakennetyyppi (id) VALUES (E'7');
+INSERT INTO koodistot.rakennetyyppi (cid, selite) VALUES (E'7', E'katsomo ja lava');
 -- ddl-end --
-INSERT INTO koodistot.rakennetyyppi (id) VALUES (E'8');
+INSERT INTO koodistot.rakennetyyppi (cid, selite) VALUES (E'8', E'kesäkukkalaatikko');
 -- ddl-end --
-INSERT INTO koodistot.rakennetyyppi (id) VALUES (E'9');
+INSERT INTO koodistot.rakennetyyppi (cid, selite) VALUES (E'9', E'kivijalka');
 -- ddl-end --
-INSERT INTO koodistot.rakennetyyppi (id) VALUES (E'10');
+INSERT INTO koodistot.rakennetyyppi (cid, selite) VALUES (E'10', E'koristeallas');
 -- ddl-end --
-INSERT INTO koodistot.rakennetyyppi (id) VALUES (E'11');
+INSERT INTO koodistot.rakennetyyppi (cid, selite) VALUES (E'11', E'koristemuuri');
 -- ddl-end --
-INSERT INTO koodistot.rakennetyyppi (id) VALUES (E'12');
+INSERT INTO koodistot.rakennetyyppi (cid, selite) VALUES (E'12', E'kulkuesteet (pollarit, puomit)');
 -- ddl-end --
-INSERT INTO koodistot.rakennetyyppi (id) VALUES (E'13');
+INSERT INTO koodistot.rakennetyyppi (cid, selite) VALUES (E'13', E'laituri, aallonmurtaja');
 -- ddl-end --
-INSERT INTO koodistot.rakennetyyppi (id) VALUES (E'14');
+INSERT INTO koodistot.rakennetyyppi (cid, selite) VALUES (E'14', E'lintu- ja näköalatorni');
 -- ddl-end --
-INSERT INTO koodistot.rakennetyyppi (id) VALUES (E'15');
+INSERT INTO koodistot.rakennetyyppi (cid, selite) VALUES (E'15', E'lipputanko');
 -- ddl-end --
-INSERT INTO koodistot.rakennetyyppi (id) VALUES (E'16');
+INSERT INTO koodistot.rakennetyyppi (cid, selite) VALUES (E'16', E'luistinkoppi');
 -- ddl-end --
-INSERT INTO koodistot.rakennetyyppi (id) VALUES (E'17');
+INSERT INTO koodistot.rakennetyyppi (cid, selite) VALUES (E'17', E'mankeli');
 -- ddl-end --
-INSERT INTO koodistot.rakennetyyppi (id) VALUES (E'18');
+INSERT INTO koodistot.rakennetyyppi (cid, selite) VALUES (E'18', E'matonpesuallas');
 -- ddl-end --
-INSERT INTO koodistot.rakennetyyppi (id) VALUES (E'19');
+INSERT INTO koodistot.rakennetyyppi (cid, selite) VALUES (E'19', E'muovireunus');
 -- ddl-end --
-INSERT INTO koodistot.rakennetyyppi (id) VALUES (E'20');
+INSERT INTO koodistot.rakennetyyppi (cid, selite) VALUES (E'20', E'muuri');
 -- ddl-end --
-INSERT INTO koodistot.rakennetyyppi (id) VALUES (E'21');
+INSERT INTO koodistot.rakennetyyppi (cid, selite) VALUES (E'21', E'pergola, huvimaja');
 -- ddl-end --
-INSERT INTO koodistot.rakennetyyppi (id) VALUES (E'22');
+INSERT INTO koodistot.rakennetyyppi (cid, selite) VALUES (E'22', E'pitkospuut');
 -- ddl-end --
-INSERT INTO koodistot.rakennetyyppi (id) VALUES (E'23');
+INSERT INTO koodistot.rakennetyyppi (cid, selite) VALUES (E'23', E'pollari');
 -- ddl-end --
-INSERT INTO koodistot.rakennetyyppi (id) VALUES (E'24');
+INSERT INTO koodistot.rakennetyyppi (cid, selite) VALUES (E'24', E'portti');
 -- ddl-end --
-INSERT INTO koodistot.rakennetyyppi (id) VALUES (E'25');
+INSERT INTO koodistot.rakennetyyppi (cid, selite) VALUES (E'25', E'puureunukset');
 -- ddl-end --
-INSERT INTO koodistot.rakennetyyppi (id) VALUES (E'26');
+INSERT INTO koodistot.rakennetyyppi (cid, selite) VALUES (E'26', E'pysäkki ilman katosta');
 -- ddl-end --
-INSERT INTO koodistot.rakennetyyppi (id) VALUES (E'27');
+INSERT INTO koodistot.rakennetyyppi (cid, selite) VALUES (E'27', E'pysäkkikatos');
 -- ddl-end --
-INSERT INTO koodistot.rakennetyyppi (id) VALUES (E'28');
+INSERT INTO koodistot.rakennetyyppi (cid, selite) VALUES (E'28', E'pysäköintilippuautomaatti');
 -- ddl-end --
-INSERT INTO koodistot.rakennetyyppi (id) VALUES (E'29');
+INSERT INTO koodistot.rakennetyyppi (cid, selite) VALUES (E'29', E'pyöräteline');
 -- ddl-end --
-INSERT INTO koodistot.rakennetyyppi (id) VALUES (E'30');
+INSERT INTO koodistot.rakennetyyppi (cid, selite) VALUES (E'30', E'rantamuuri');
 -- ddl-end --
-INSERT INTO koodistot.rakennetyyppi (id) VALUES (E'31');
+INSERT INTO koodistot.rakennetyyppi (cid, selite) VALUES (E'31', E'reunatuki');
 -- ddl-end --
-INSERT INTO koodistot.rakennetyyppi (id) VALUES (E'32');
+INSERT INTO koodistot.rakennetyyppi (cid, selite) VALUES (E'32', E'silta');
 -- ddl-end --
-INSERT INTO koodistot.rakennetyyppi (id) VALUES (E'33');
+INSERT INTO koodistot.rakennetyyppi (cid, selite) VALUES (E'33', E'skeittiramppi');
 -- ddl-end --
-INSERT INTO koodistot.rakennetyyppi (id) VALUES (E'34');
+INSERT INTO koodistot.rakennetyyppi (cid, selite) VALUES (E'34', E'sosiaalitila');
 -- ddl-end --
-INSERT INTO koodistot.rakennetyyppi (id) VALUES (E'35');
+INSERT INTO koodistot.rakennetyyppi (cid, selite) VALUES (E'35', E'suihkulähde');
 -- ddl-end --
-INSERT INTO koodistot.rakennetyyppi (id) VALUES (E'36');
+INSERT INTO koodistot.rakennetyyppi (cid, selite) VALUES (E'36', E'terassi');
 -- ddl-end --
-INSERT INTO koodistot.rakennetyyppi (id) VALUES (E'37');
+INSERT INTO koodistot.rakennetyyppi (cid, selite) VALUES (E'37', E'tukimuuri');
 -- ddl-end --
-INSERT INTO koodistot.rakennetyyppi (id) VALUES (E'38');
+INSERT INTO koodistot.rakennetyyppi (cid, selite) VALUES (E'38', E'uima-allas');
 -- ddl-end --
-INSERT INTO koodistot.rakennetyyppi (id) VALUES (E'39');
+INSERT INTO koodistot.rakennetyyppi (cid, selite) VALUES (E'39', E'muu');
 -- ddl-end --
-INSERT INTO koodistot.rakennetyyppi (id) VALUES (E'40');
+INSERT INTO koodistot.rakennetyyppi (cid, selite) VALUES (E'40', E'ei tiedossa');
 -- ddl-end --
 
 -- object: koodistot.viherosanlajityyppi | type: TABLE --
 -- DROP TABLE IF EXISTS koodistot.viherosanlajityyppi CASCADE;
 CREATE TABLE koodistot.viherosanlajityyppi (
-	id serial NOT NULL,
+	cid integer NOT NULL,
 	selite text,
-	CONSTRAINT viherosanlajityyppi_pk PRIMARY KEY (id)
+	CONSTRAINT viherosanlajityyppi_pk PRIMARY KEY (cid)
 );
 -- ddl-end --
 ALTER TABLE koodistot.viherosanlajityyppi OWNER TO infrao_admin;
 -- ddl-end --
 
-INSERT INTO koodistot.viherosanlajityyppi (id, selite) VALUES (E'1', E'alikulkukäytävä');
+INSERT INTO koodistot.viherosanlajityyppi (cid, selite) VALUES (E'1', E'alikulkukäytävä');
 -- ddl-end --
-INSERT INTO koodistot.viherosanlajityyppi (id, selite) VALUES (E'2', E'beach volley -kenttä');
+INSERT INTO koodistot.viherosanlajityyppi (cid, selite) VALUES (E'2', E'beach volley -kenttä');
 -- ddl-end --
-INSERT INTO koodistot.viherosanlajityyppi (id, selite) VALUES (E'3', E'hautausmaa');
+INSERT INTO koodistot.viherosanlajityyppi (cid, selite) VALUES (E'3', E'hautausmaa');
 -- ddl-end --
-INSERT INTO koodistot.viherosanlajityyppi (id, selite) VALUES (E'4', E'istutusallas');
+INSERT INTO koodistot.viherosanlajityyppi (cid, selite) VALUES (E'4', E'istutusallas');
 -- ddl-end --
-INSERT INTO koodistot.viherosanlajityyppi (id, selite) VALUES (E'5', E'joki/puro');
+INSERT INTO koodistot.viherosanlajityyppi (cid, selite) VALUES (E'5', E'joki/puro');
 -- ddl-end --
-INSERT INTO koodistot.viherosanlajityyppi (id, selite) VALUES (E'6', E'joutomaa');
+INSERT INTO koodistot.viherosanlajityyppi (cid, selite) VALUES (E'6', E'joutomaa');
 -- ddl-end --
-INSERT INTO koodistot.viherosanlajityyppi (id, selite) VALUES (E'7', E'juoksurata');
+INSERT INTO koodistot.viherosanlajityyppi (cid, selite) VALUES (E'7', E'juoksurata');
 -- ddl-end --
-INSERT INTO koodistot.viherosanlajityyppi (id, selite) VALUES (E'8', E'jättömaa');
+INSERT INTO koodistot.viherosanlajityyppi (cid, selite) VALUES (E'8', E'jättömaa');
 -- ddl-end --
-INSERT INTO koodistot.viherosanlajityyppi (id, selite) VALUES (E'9', E'kallio');
+INSERT INTO koodistot.viherosanlajityyppi (cid, selite) VALUES (E'9', E'kallio');
 -- ddl-end --
-INSERT INTO koodistot.viherosanlajityyppi (id, selite) VALUES (E'10', E'kanoottilaituri');
+INSERT INTO koodistot.viherosanlajityyppi (cid, selite) VALUES (E'10', E'kanoottilaituri');
 -- ddl-end --
-INSERT INTO koodistot.viherosanlajityyppi (id, selite) VALUES (E'11', E'katsomo');
+INSERT INTO koodistot.viherosanlajityyppi (cid, selite) VALUES (E'11', E'katsomo');
 -- ddl-end --
-INSERT INTO koodistot.viherosanlajityyppi (id, selite) VALUES (E'12', E'kenttä');
+INSERT INTO koodistot.viherosanlajityyppi (cid, selite) VALUES (E'12', E'kenttä');
 -- ddl-end --
-INSERT INTO koodistot.viherosanlajityyppi (id, selite) VALUES (E'13', E'kesäkukkamaa');
+INSERT INTO koodistot.viherosanlajityyppi (cid, selite) VALUES (E'13', E'kesäkukkamaa');
 -- ddl-end --
-INSERT INTO koodistot.viherosanlajityyppi (id, selite) VALUES (E'14', E'kesäteatteri');
+INSERT INTO koodistot.viherosanlajityyppi (cid, selite) VALUES (E'14', E'kesäteatteri');
 -- ddl-end --
-INSERT INTO koodistot.viherosanlajityyppi (id, selite) VALUES (E'15', E'kitumaa');
+INSERT INTO koodistot.viherosanlajityyppi (cid, selite) VALUES (E'15', E'kitumaa');
 -- ddl-end --
-INSERT INTO koodistot.viherosanlajityyppi (id, selite) VALUES (E'16', E'koira-aitaus');
+INSERT INTO koodistot.viherosanlajityyppi (cid, selite) VALUES (E'16', E'koira-aitaus');
 -- ddl-end --
-INSERT INTO koodistot.viherosanlajityyppi (id, selite) VALUES (E'17', E'koripallokenttä');
+INSERT INTO koodistot.viherosanlajityyppi (cid, selite) VALUES (E'17', E'koripallokenttä');
 -- ddl-end --
-INSERT INTO koodistot.viherosanlajityyppi (id, selite) VALUES (E'18', E'kosteikko');
+INSERT INTO koodistot.viherosanlajityyppi (cid, selite) VALUES (E'18', E'kosteikko');
 -- ddl-end --
-INSERT INTO koodistot.viherosanlajityyppi (id, selite) VALUES (E'19', E'kuntoilualue');
+INSERT INTO koodistot.viherosanlajityyppi (cid, selite) VALUES (E'19', E'kuntoilualue');
 -- ddl-end --
-INSERT INTO koodistot.viherosanlajityyppi (id, selite) VALUES (E'20', E'käytävä');
+INSERT INTO koodistot.viherosanlajityyppi (cid, selite) VALUES (E'20', E'käytävä');
 -- ddl-end --
-INSERT INTO koodistot.viherosanlajityyppi (id, selite) VALUES (E'21', E'laidun');
+INSERT INTO koodistot.viherosanlajityyppi (cid, selite) VALUES (E'21', E'laidun');
 -- ddl-end --
-INSERT INTO koodistot.viherosanlajityyppi (id, selite) VALUES (E'22', E'laituri');
+INSERT INTO koodistot.viherosanlajityyppi (cid, selite) VALUES (E'22', E'laituri');
 -- ddl-end --
-INSERT INTO koodistot.viherosanlajityyppi (id, selite) VALUES (E'23', E'lampi');
+INSERT INTO koodistot.viherosanlajityyppi (cid, selite) VALUES (E'23', E'lampi');
 -- ddl-end --
-INSERT INTO koodistot.viherosanlajityyppi (id, selite) VALUES (E'24', E'lastenallas');
+INSERT INTO koodistot.viherosanlajityyppi (cid, selite) VALUES (E'24', E'lastenallas');
 -- ddl-end --
-INSERT INTO koodistot.viherosanlajityyppi (id, selite) VALUES (E'25', E'leikkialue');
+INSERT INTO koodistot.viherosanlajityyppi (cid, selite) VALUES (E'25', E'leikkialue');
 -- ddl-end --
-INSERT INTO koodistot.viherosanlajityyppi (id, selite) VALUES (E'26', E'leikkikenttä');
+INSERT INTO koodistot.viherosanlajityyppi (cid, selite) VALUES (E'26', E'leikkikenttä');
 -- ddl-end --
-INSERT INTO koodistot.viherosanlajityyppi (id, selite) VALUES (E'27', E'luonnonsuojelualue');
+INSERT INTO koodistot.viherosanlajityyppi (cid, selite) VALUES (E'27', E'luonnonsuojelualue');
 -- ddl-end --
-INSERT INTO koodistot.viherosanlajityyppi (id, selite) VALUES (E'28', E'matonpesupaikka');
+INSERT INTO koodistot.viherosanlajityyppi (cid, selite) VALUES (E'28', E'matonpesupaikka');
 -- ddl-end --
-INSERT INTO koodistot.viherosanlajityyppi (id, selite) VALUES (E'29', E'metsitysalue');
+INSERT INTO koodistot.viherosanlajityyppi (cid, selite) VALUES (E'29', E'metsitysalue');
 -- ddl-end --
-INSERT INTO koodistot.viherosanlajityyppi (id, selite) VALUES (E'30', E'metsä');
+INSERT INTO koodistot.viherosanlajityyppi (cid, selite) VALUES (E'30', E'metsä');
 -- ddl-end --
-INSERT INTO koodistot.viherosanlajityyppi (id, selite) VALUES (E'31', E'monitoimikenttä');
+INSERT INTO koodistot.viherosanlajityyppi (cid, selite) VALUES (E'31', E'monitoimikenttä');
 -- ddl-end --
-INSERT INTO koodistot.viherosanlajityyppi (id, selite) VALUES (E'32', E'muu urheilukenttä');
+INSERT INTO koodistot.viherosanlajityyppi (cid, selite) VALUES (E'32', E'muu urheilukenttä');
 -- ddl-end --
-INSERT INTO koodistot.viherosanlajityyppi (id, selite) VALUES (E'33', E'niitty');
+INSERT INTO koodistot.viherosanlajityyppi (cid, selite) VALUES (E'33', E'niitty');
 -- ddl-end --
-INSERT INTO koodistot.viherosanlajityyppi (id, selite) VALUES (E'34', E'nurmikko');
+INSERT INTO koodistot.viherosanlajityyppi (cid, selite) VALUES (E'34', E'nurmikko');
 -- ddl-end --
-INSERT INTO koodistot.viherosanlajityyppi (id, selite) VALUES (E'35', E'oja');
+INSERT INTO koodistot.viherosanlajityyppi (cid, selite) VALUES (E'35', E'oja');
 -- ddl-end --
-INSERT INTO koodistot.viherosanlajityyppi (id, selite) VALUES (E'36', E'oleskelualue');
+INSERT INTO koodistot.viherosanlajityyppi (cid, selite) VALUES (E'36', E'oleskelualue');
 -- ddl-end --
-INSERT INTO koodistot.viherosanlajityyppi (id, selite) VALUES (E'37', E'paikoitusalue');
+INSERT INTO koodistot.viherosanlajityyppi (cid, selite) VALUES (E'37', E'paikoitusalue');
 -- ddl-end --
-INSERT INTO koodistot.viherosanlajityyppi (id, selite) VALUES (E'38', E'pallokenttä');
+INSERT INTO koodistot.viherosanlajityyppi (cid, selite) VALUES (E'38', E'pallokenttä');
 -- ddl-end --
-INSERT INTO koodistot.viherosanlajityyppi (id, selite) VALUES (E'39', E'pelikenttä');
+INSERT INTO koodistot.viherosanlajityyppi (cid, selite) VALUES (E'39', E'pelikenttä');
 -- ddl-end --
-INSERT INTO koodistot.viherosanlajityyppi (id, selite) VALUES (E'40', E'pelto');
+INSERT INTO koodistot.viherosanlajityyppi (cid, selite) VALUES (E'40', E'pelto');
 -- ddl-end --
-INSERT INTO koodistot.viherosanlajityyppi (id, selite) VALUES (E'41', E'perennamaa');
+INSERT INTO koodistot.viherosanlajityyppi (cid, selite) VALUES (E'41', E'perennamaa');
 -- ddl-end --
-INSERT INTO koodistot.viherosanlajityyppi (id, selite) VALUES (E'42', E'petankkikenttä');
+INSERT INTO koodistot.viherosanlajityyppi (cid, selite) VALUES (E'42', E'petankkikenttä');
 -- ddl-end --
-INSERT INTO koodistot.viherosanlajityyppi (id, selite) VALUES (E'43', E'portaat');
+INSERT INTO koodistot.viherosanlajityyppi (cid, selite) VALUES (E'43', E'portaat');
 -- ddl-end --
-INSERT INTO koodistot.viherosanlajityyppi (id, selite) VALUES (E'44', E'pukusuoja');
+INSERT INTO koodistot.viherosanlajityyppi (cid, selite) VALUES (E'44', E'pukusuoja');
 -- ddl-end --
-INSERT INTO koodistot.viherosanlajityyppi (id, selite) VALUES (E'45', E'pulkkamäki');
+INSERT INTO koodistot.viherosanlajityyppi (cid, selite) VALUES (E'45', E'pulkkamäki');
 -- ddl-end --
-INSERT INTO koodistot.viherosanlajityyppi (id, selite) VALUES (E'46', E'ranta');
+INSERT INTO koodistot.viherosanlajityyppi (cid, selite) VALUES (E'46', E'ranta');
 -- ddl-end --
-INSERT INTO koodistot.viherosanlajityyppi (id, selite) VALUES (E'47', E'ratsastuskenttä');
+INSERT INTO koodistot.viherosanlajityyppi (cid, selite) VALUES (E'47', E'ratsastuskenttä');
 -- ddl-end --
-INSERT INTO koodistot.viherosanlajityyppi (id, selite) VALUES (E'48', E'rullaluistelurata');
+INSERT INTO koodistot.viherosanlajityyppi (cid, selite) VALUES (E'48', E'rullaluistelurata');
 -- ddl-end --
-INSERT INTO koodistot.viherosanlajityyppi (id, selite) VALUES (E'49', E'silta');
+INSERT INTO koodistot.viherosanlajityyppi (cid, selite) VALUES (E'49', E'silta');
 -- ddl-end --
-INSERT INTO koodistot.viherosanlajityyppi (id, selite) VALUES (E'50', E'skeittikenttä');
+INSERT INTO koodistot.viherosanlajityyppi (cid, selite) VALUES (E'50', E'skeittikenttä');
 -- ddl-end --
-INSERT INTO koodistot.viherosanlajityyppi (id, selite) VALUES (E'51', E'suo');
+INSERT INTO koodistot.viherosanlajityyppi (cid, selite) VALUES (E'51', E'suo');
 -- ddl-end --
-INSERT INTO koodistot.viherosanlajityyppi (id, selite) VALUES (E'52', E'tenniskenttä');
+INSERT INTO koodistot.viherosanlajityyppi (cid, selite) VALUES (E'52', E'tenniskenttä');
 -- ddl-end --
-INSERT INTO koodistot.viherosanlajityyppi (id, selite) VALUES (E'53', E'uimala');
+INSERT INTO koodistot.viherosanlajityyppi (cid, selite) VALUES (E'53', E'uimala');
 -- ddl-end --
-INSERT INTO koodistot.viherosanlajityyppi (id, selite) VALUES (E'54', E'ulkoilureitti');
+INSERT INTO koodistot.viherosanlajityyppi (cid, selite) VALUES (E'54', E'ulkoilureitti');
 -- ddl-end --
-INSERT INTO koodistot.viherosanlajityyppi (id, selite) VALUES (E'55', E'ulkoliikunta-alue');
+INSERT INTO koodistot.viherosanlajityyppi (cid, selite) VALUES (E'55', E'ulkoliikunta-alue');
 -- ddl-end --
-INSERT INTO koodistot.viherosanlajityyppi (id, selite) VALUES (E'56', E'uimaranta');
+INSERT INTO koodistot.viherosanlajityyppi (cid, selite) VALUES (E'56', E'uimaranta');
 -- ddl-end --
-INSERT INTO koodistot.viherosanlajityyppi (id, selite) VALUES (E'57', E'venesatama');
+INSERT INTO koodistot.viherosanlajityyppi (cid, selite) VALUES (E'57', E'venesatama');
 -- ddl-end --
-INSERT INTO koodistot.viherosanlajityyppi (id, selite) VALUES (E'58', E'vesialue');
+INSERT INTO koodistot.viherosanlajityyppi (cid, selite) VALUES (E'58', E'vesialue');
 -- ddl-end --
-INSERT INTO koodistot.viherosanlajityyppi (id, selite) VALUES (E'59', E'viheralue');
+INSERT INTO koodistot.viherosanlajityyppi (cid, selite) VALUES (E'59', E'viheralue');
 -- ddl-end --
-INSERT INTO koodistot.viherosanlajityyppi (id, selite) VALUES (E'60', E'viljelyspalsta');
+INSERT INTO koodistot.viherosanlajityyppi (cid, selite) VALUES (E'60', E'viljelyspalsta');
 -- ddl-end --
-INSERT INTO koodistot.viherosanlajityyppi (id, selite) VALUES (E'61', E'muu');
+INSERT INTO koodistot.viherosanlajityyppi (cid, selite) VALUES (E'61', E'muu');
 -- ddl-end --
-INSERT INTO koodistot.viherosanlajityyppi (id, selite) VALUES (E'62', E'ei tiedossa');
+INSERT INTO koodistot.viherosanlajityyppi (cid, selite) VALUES (E'62', E'ei tiedossa');
 -- ddl-end --
 
 -- object: abstraktit.keskilinja | type: TABLE --
@@ -8236,88 +9170,73 @@ CREATE TABLE abstraktit.sijainti (
 	CONSTRAINT sijainti_pk PRIMARY KEY (id)
 );
 -- ddl-end --
+COMMENT ON TABLE abstraktit.sijainti IS E'TODO: tarvitaanko? Jos tarve on pelkästään tallentaa tietoa luontitavasta ja/tai sijaintiepävarmuudesta niin voisi olla kohteen metatiedoissa?';
+-- ddl-end --
 ALTER TABLE abstraktit.sijainti OWNER TO infrao_admin;
 -- ddl-end --
 
 -- object: koodistot.sijaintiepavarmuustyyppi | type: TABLE --
 -- DROP TABLE IF EXISTS koodistot.sijaintiepavarmuustyyppi CASCADE;
 CREATE TABLE koodistot.sijaintiepavarmuustyyppi (
-	id serial NOT NULL,
-	selite varchar(255),
-	CONSTRAINT sijaintiepavarmuustyyppi_pk PRIMARY KEY (id)
+	cid integer NOT NULL,
+	selite text,
+	CONSTRAINT sijaintiepavarmuustyyppi_pk PRIMARY KEY (cid)
 );
 -- ddl-end --
 ALTER TABLE koodistot.sijaintiepavarmuustyyppi OWNER TO infrao_admin;
 -- ddl-end --
 
-INSERT INTO koodistot.sijaintiepavarmuustyyppi (id, selite) VALUES (E'1', E'0.15');
+INSERT INTO koodistot.sijaintiepavarmuustyyppi (cid, selite) VALUES (E'1', E'0.15');
 -- ddl-end --
-INSERT INTO koodistot.sijaintiepavarmuustyyppi (id, selite) VALUES (E'2', E'0.2');
+INSERT INTO koodistot.sijaintiepavarmuustyyppi (cid, selite) VALUES (E'2', E'0.2');
 -- ddl-end --
-INSERT INTO koodistot.sijaintiepavarmuustyyppi (id, selite) VALUES (E'3', E'0.3');
+INSERT INTO koodistot.sijaintiepavarmuustyyppi (cid, selite) VALUES (E'3', E'0.3');
 -- ddl-end --
-INSERT INTO koodistot.sijaintiepavarmuustyyppi (id, selite) VALUES (E'4', E'0.5');
+INSERT INTO koodistot.sijaintiepavarmuustyyppi (cid, selite) VALUES (E'4', E'0.5');
 -- ddl-end --
-INSERT INTO koodistot.sijaintiepavarmuustyyppi (id, selite) VALUES (E'5', E'0.7');
+INSERT INTO koodistot.sijaintiepavarmuustyyppi (cid, selite) VALUES (E'5', E'0.7');
 -- ddl-end --
-INSERT INTO koodistot.sijaintiepavarmuustyyppi (id, selite) VALUES (E'6', E'1');
+INSERT INTO koodistot.sijaintiepavarmuustyyppi (cid, selite) VALUES (E'6', E'1');
 -- ddl-end --
-INSERT INTO koodistot.sijaintiepavarmuustyyppi (id, selite) VALUES (E'7', E'1.5');
+INSERT INTO koodistot.sijaintiepavarmuustyyppi (cid, selite) VALUES (E'7', E'1.5');
 -- ddl-end --
-INSERT INTO koodistot.sijaintiepavarmuustyyppi (id, selite) VALUES (E'8', E'2');
+INSERT INTO koodistot.sijaintiepavarmuustyyppi (cid, selite) VALUES (E'8', E'2');
 -- ddl-end --
-INSERT INTO koodistot.sijaintiepavarmuustyyppi (id, selite) VALUES (E'9', E'3');
+INSERT INTO koodistot.sijaintiepavarmuustyyppi (cid, selite) VALUES (E'9', E'3');
 -- ddl-end --
-INSERT INTO koodistot.sijaintiepavarmuustyyppi (id, selite) VALUES (E'10', E'5');
+INSERT INTO koodistot.sijaintiepavarmuustyyppi (cid, selite) VALUES (E'10', E'5');
 -- ddl-end --
-INSERT INTO koodistot.sijaintiepavarmuustyyppi (id, selite) VALUES (E'11', E'7.5');
+INSERT INTO koodistot.sijaintiepavarmuustyyppi (cid, selite) VALUES (E'11', E'7.5');
 -- ddl-end --
-INSERT INTO koodistot.sijaintiepavarmuustyyppi (id, selite) VALUES (E'12', E'10');
+INSERT INTO koodistot.sijaintiepavarmuustyyppi (cid, selite) VALUES (E'12', E'10');
 -- ddl-end --
-INSERT INTO koodistot.sijaintiepavarmuustyyppi (id, selite) VALUES (E'13', E'20');
--- ddl-end --
-
--- object: kohteet.erikoisrakennekerros | type: TABLE --
--- DROP TABLE IF EXISTS kohteet.erikoisrakennekerros CASCADE;
-CREATE TABLE kohteet.erikoisrakennekerros (
-	id serial NOT NULL,
-	erikoisrakennekerrosmateriaalityyppi_id integer,
-	omistaja varchar(255),
-	haltija varchar(255),
-	kunnossapitaja varchar(255),
-	selite varchar(255),
-	materiaali varchar(255),
-	geom geometry(POLYGON, 3067),
-	CONSTRAINT erikoisrakennekerros_pk PRIMARY KEY (id)
-);
--- ddl-end --
-COMMENT ON COLUMN kohteet.erikoisrakennekerros.geom IS E'sijainti';
--- ddl-end --
-ALTER TABLE kohteet.erikoisrakennekerros OWNER TO infrao_admin;
+INSERT INTO koodistot.sijaintiepavarmuustyyppi (cid, selite) VALUES (E'13', E'20');
 -- ddl-end --
 
 -- object: koodistot.erikoisrakennekerrosmateriaalityyppi | type: TABLE --
 -- DROP TABLE IF EXISTS koodistot.erikoisrakennekerrosmateriaalityyppi CASCADE;
 CREATE TABLE koodistot.erikoisrakennekerrosmateriaalityyppi (
-	id serial NOT NULL,
-	selite varchar(255),
-	CONSTRAINT erikoisrakennekerrosmateriaalityyppi_pk PRIMARY KEY (id)
+	cid integer NOT NULL,
+	selite text,
+	CONSTRAINT erikoisrakennekerrosmateriaalityyppi_pk PRIMARY KEY (cid)
 );
+-- ddl-end --
+COMMENT ON TABLE koodistot.erikoisrakennekerrosmateriaalityyppi IS E'TODO: id name as cid (codelist id) and move type integer. Change data: Selite is only text';
 -- ddl-end --
 ALTER TABLE koodistot.erikoisrakennekerrosmateriaalityyppi OWNER TO infrao_admin;
 -- ddl-end --
 
-INSERT INTO koodistot.erikoisrakennekerrosmateriaalityyppi (id, selite) VALUES (E'1', E'paalulaatat ja -hatut');
+INSERT INTO koodistot.erikoisrakennekerrosmateriaalityyppi (cid, selite) VALUES (E'1', E'paalulaatat ja -hatut');
 -- ddl-end --
-INSERT INTO koodistot.erikoisrakennekerrosmateriaalityyppi (id, selite) VALUES (E'2', E'vahvistetut maarakenteet');
+INSERT INTO koodistot.erikoisrakennekerrosmateriaalityyppi (cid, selite) VALUES (E'2', E'vahvistetut maarakenteet');
 -- ddl-end --
-INSERT INTO koodistot.erikoisrakennekerrosmateriaalityyppi (id, selite) VALUES (E'3', E'roudan- ja lämmöneristykset');
+INSERT INTO koodistot.erikoisrakennekerrosmateriaalityyppi (cid, selite) VALUES (E'3', E'roudan- ja lämmöneristykset');
 -- ddl-end --
-INSERT INTO koodistot.erikoisrakennekerrosmateriaalityyppi (id, selite) VALUES (E'4', E'kevennetyt penkereet');
+INSERT INTO koodistot.erikoisrakennekerrosmateriaalityyppi (cid, selite) VALUES (E'4', E'kevennetyt penkereet');
 -- ddl-end --
-INSERT INTO koodistot.erikoisrakennekerrosmateriaalityyppi (id, selite) VALUES (E'5', E'maapadot');
+INSERT INTO koodistot.erikoisrakennekerrosmateriaalityyppi (cid, selite) VALUES (E'5', E'maapadot');
 -- ddl-end --
-INSERT INTO koodistot.erikoisrakennekerrosmateriaalityyppi (id, selite) VALUES (E'6', E'kantava kasvualusta');
+INSERT INTO koodistot.erikoisrakennekerrosmateriaalityyppi (cid, selite) VALUES (E'6', E'kantava kasvualusta');
 -- ddl-end --
 
 -- object: abstraktit.suunnitelma | type: TABLE --
@@ -8361,27 +9280,27 @@ ALTER TABLE abstraktit.liitetieto OWNER TO infrao_admin;
 -- object: koodistot.puhtaanapitoluokkatyyppi | type: TABLE --
 -- DROP TABLE IF EXISTS koodistot.puhtaanapitoluokkatyyppi CASCADE;
 CREATE TABLE koodistot.puhtaanapitoluokkatyyppi (
-	id serial NOT NULL,
-	selite varchar(255),
-	CONSTRAINT puhtaanapitoluokkatyyppi_pk PRIMARY KEY (id)
+	cid integer NOT NULL,
+	selite text,
+	CONSTRAINT puhtaanapitoluokkatyyppi_pk PRIMARY KEY (cid)
 );
 -- ddl-end --
 ALTER TABLE koodistot.puhtaanapitoluokkatyyppi OWNER TO infrao_admin;
 -- ddl-end --
 
-INSERT INTO koodistot.puhtaanapitoluokkatyyppi (id, selite) VALUES (E'1', E'P1 Päivittäin (ma-la)');
+INSERT INTO koodistot.puhtaanapitoluokkatyyppi (cid, selite) VALUES (E'1', E'P1 Päivittäin (ma-la)');
 -- ddl-end --
-INSERT INTO koodistot.puhtaanapitoluokkatyyppi (id, selite) VALUES (E'2', E'P2 Työpäivinä (ma-pe)');
+INSERT INTO koodistot.puhtaanapitoluokkatyyppi (cid, selite) VALUES (E'2', E'P2 Työpäivinä (ma-pe)');
 -- ddl-end --
-INSERT INTO koodistot.puhtaanapitoluokkatyyppi (id, selite) VALUES (E'3', E'P3 Viikoittain (3 krt/vk)');
+INSERT INTO koodistot.puhtaanapitoluokkatyyppi (cid, selite) VALUES (E'3', E'P3 Viikoittain (3 krt/vk)');
 -- ddl-end --
-INSERT INTO koodistot.puhtaanapitoluokkatyyppi (id, selite) VALUES (E'4', E'P4 Viikoittain (2 krt/vk)');
+INSERT INTO koodistot.puhtaanapitoluokkatyyppi (cid, selite) VALUES (E'4', E'P4 Viikoittain (2 krt/vk)');
 -- ddl-end --
-INSERT INTO koodistot.puhtaanapitoluokkatyyppi (id, selite) VALUES (E'5', E'P5 Viikoittain (1 krt/vk)');
+INSERT INTO koodistot.puhtaanapitoluokkatyyppi (cid, selite) VALUES (E'5', E'P5 Viikoittain (1 krt/vk)');
 -- ddl-end --
-INSERT INTO koodistot.puhtaanapitoluokkatyyppi (id, selite) VALUES (E'6', E'P6 Kuukausittain');
+INSERT INTO koodistot.puhtaanapitoluokkatyyppi (cid, selite) VALUES (E'6', E'P6 Kuukausittain');
 -- ddl-end --
-INSERT INTO koodistot.puhtaanapitoluokkatyyppi (id, selite) VALUES (E'7', E'P7 Vuosittain');
+INSERT INTO koodistot.puhtaanapitoluokkatyyppi (cid, selite) VALUES (E'7', E'P7 Vuosittain');
 -- ddl-end --
 
 -- object: abstraktit.paatos | type: TABLE --
@@ -8399,311 +9318,1159 @@ COMMENT ON TABLE abstraktit.paatos IS E'Päätöksen tiedot';
 ALTER TABLE abstraktit.paatos OWNER TO infrao_admin;
 -- ddl-end --
 
+-- object: abstraktit.template_table | type: TABLE --
+-- DROP TABLE IF EXISTS abstraktit.template_table CASCADE;
+CREATE TABLE abstraktit.template_table (
+	fid bigint NOT NULL GENERATED ALWAYS AS IDENTITY ,
+	identifier uuid DEFAULT gen_random_uuid(),
+	nimi text,
+	valmistumisvuosi smallint,
+	perusparannusvuosi smallint,
+	alkuhetki timestamptz,
+	loppuhetki timestamptz,
+	malli text,
+	suunta float,
+	valmistaja text,
+	metatieto text,
+	geom_poly geometry(POLYGONZ, 3067),
+	geom_line geometry(LINESTRINGZ, 3067),
+	geom_point geometry(POINTZ, 3067),
+	CONSTRAINT template_table_pk PRIMARY KEY (fid)
+);
+-- ddl-end --
+COMMENT ON COLUMN abstraktit.template_table.alkuhetki IS E'Kohteen luontipäivämäärä';
+-- ddl-end --
+COMMENT ON COLUMN abstraktit.template_table.loppuhetki IS E'Milloin kohde on poistettu. Tämän avulla voidaan tunnistaa poistetut kohteet, jos järjestelmät tukevat historiatietojen tallentamista';
+-- ddl-end --
+
+-- object: viheralue_fk | type: CONSTRAINT --
+-- ALTER TABLE viheralue.viheralueenosa DROP CONSTRAINT IF EXISTS viheralue_fk CASCADE;
+ALTER TABLE viheralue.viheralueenosa ADD CONSTRAINT viheralue_fk FOREIGN KEY (fid_viheralue)
+REFERENCES viheralue.viheralue (fid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: kasvillisuus.puu | type: TABLE --
+-- DROP TABLE IF EXISTS kasvillisuus.puu CASCADE;
+CREATE TABLE kasvillisuus.puu (
+	fid bigint NOT NULL GENERATED ALWAYS AS IDENTITY ,
+	identifier uuid DEFAULT gen_random_uuid(),
+	nimi text,
+	valmistumisvuosi smallint,
+	perusparannusvuosi smallint,
+	alkuhetki timestamptz,
+	loppuhetki timestamptz,
+	kunnossapitaja text,
+	haltija text,
+	omistaja text,
+	metatieto text,
+	korkeus float,
+	ymparys float,
+	geom_point geometry(POINTZ, 3067),
+	geom_line geometry(LINESTRINGZ, 3067),
+	geom_poly geometry(POLYGONZ, 3067),
+	fid_katualueenosa bigint,
+	fid_viheralueenosa bigint,
+	cid_puutyyppi integer,
+	cid_puulaji integer,
+	CONSTRAINT puu_fid_pk PRIMARY KEY (fid)
+);
+-- ddl-end --
+COMMENT ON TABLE kasvillisuus.puu IS E'TODO: metatieto';
+-- ddl-end --
+COMMENT ON COLUMN kasvillisuus.puu.alkuhetki IS E'Kohteen luontipäivämäärä';
+-- ddl-end --
+COMMENT ON COLUMN kasvillisuus.puu.loppuhetki IS E'Milloin kohde on poistettu. Tämän avulla voidaan tunnistaa poistetut kohteet, jos järjestelmät tukevat historiatietojen tallentamista';
+-- ddl-end --
+COMMENT ON COLUMN kasvillisuus.puu.kunnossapitaja IS E'Kunnossapitäjä';
+-- ddl-end --
+COMMENT ON COLUMN kasvillisuus.puu.korkeus IS E'Puun korkeus metreinä';
+-- ddl-end --
+COMMENT ON COLUMN kasvillisuus.puu.ymparys IS E'Puun ympärysmitta metreissä';
+-- ddl-end --
+
+-- object: katualueenosa_fk | type: CONSTRAINT --
+-- ALTER TABLE kasvillisuus.puu DROP CONSTRAINT IF EXISTS katualueenosa_fk CASCADE;
+ALTER TABLE kasvillisuus.puu ADD CONSTRAINT katualueenosa_fk FOREIGN KEY (fid_katualueenosa)
+REFERENCES katualue.katualueenosa (fid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: viheralueenosa_fk | type: CONSTRAINT --
+-- ALTER TABLE kasvillisuus.puu DROP CONSTRAINT IF EXISTS viheralueenosa_fk CASCADE;
+ALTER TABLE kasvillisuus.puu ADD CONSTRAINT viheralueenosa_fk FOREIGN KEY (fid_viheralueenosa)
+REFERENCES viheralue.viheralueenosa (fid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: puutyyppi_fk | type: CONSTRAINT --
+-- ALTER TABLE kasvillisuus.puu DROP CONSTRAINT IF EXISTS puutyyppi_fk CASCADE;
+ALTER TABLE kasvillisuus.puu ADD CONSTRAINT puutyyppi_fk FOREIGN KEY (cid_puutyyppi)
+REFERENCES koodistot.puutyyppi (cid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: puulaji_fk | type: CONSTRAINT --
+-- ALTER TABLE kasvillisuus.puu DROP CONSTRAINT IF EXISTS puulaji_fk CASCADE;
+ALTER TABLE kasvillisuus.puu ADD CONSTRAINT puulaji_fk FOREIGN KEY (cid_puulaji)
+REFERENCES koodistot.puulaji (cid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: varusteet.jate | type: TABLE --
+-- DROP TABLE IF EXISTS varusteet.jate CASCADE;
+CREATE TABLE varusteet.jate (
+	fid bigint NOT NULL GENERATED ALWAYS AS IDENTITY ,
+	identifier uuid DEFAULT gen_random_uuid(),
+	nimi text,
+	valmistumisvuosi smallint,
+	perusparannusvuosi smallint,
+	alkuhetki timestamptz,
+	loppuhetki timestamptz,
+	malli text,
+	suunta float,
+	valmistaja text,
+	metatieto text,
+	omistaja text,
+	haltija text,
+	kunnossapitaja text,
+	koko text,
+	putkikeraysjarjestelman_kytkin boolean,
+	sijaintimaanpinnalla_kytkin boolean,
+	vaarallistenjateastia_kytkin boolean,
+	geom_point geometry(POINTZ, 3067),
+	geom_line geometry(LINESTRINGZ, 3067),
+	geom_poly geometry(POLYGONZ, 3067),
+	cid_jatetyyppi integer,
+	fid_viheralueenosa bigint,
+	fid_katualueenosa bigint,
+	cid_varustemateriaali integer,
+	CONSTRAINT jate_pk PRIMARY KEY (fid)
+);
+-- ddl-end --
+COMMENT ON TABLE varusteet.jate IS E'TODO:\n- tarkkaSijaintitieto\n- suunnitelmalinkkitieto\n- metatieto';
+-- ddl-end --
+COMMENT ON COLUMN varusteet.jate.alkuhetki IS E'Kohteen luontipäivämäärä';
+-- ddl-end --
+COMMENT ON COLUMN varusteet.jate.loppuhetki IS E'Milloin kohde on poistettu. Tämän avulla voidaan tunnistaa poistetut kohteet, jos järjestelmät tukevat historiatietojen tallentamista';
+-- ddl-end --
+
+-- object: jatetyyppi_fk | type: CONSTRAINT --
+-- ALTER TABLE varusteet.jate DROP CONSTRAINT IF EXISTS jatetyyppi_fk CASCADE;
+ALTER TABLE varusteet.jate ADD CONSTRAINT jatetyyppi_fk FOREIGN KEY (cid_jatetyyppi)
+REFERENCES koodistot.jatetyyppi (cid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: viheralueenosa_fk | type: CONSTRAINT --
+-- ALTER TABLE varusteet.jate DROP CONSTRAINT IF EXISTS viheralueenosa_fk CASCADE;
+ALTER TABLE varusteet.jate ADD CONSTRAINT viheralueenosa_fk FOREIGN KEY (fid_viheralueenosa)
+REFERENCES viheralue.viheralueenosa (fid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: katualueenosa_fk | type: CONSTRAINT --
+-- ALTER TABLE varusteet.jate DROP CONSTRAINT IF EXISTS katualueenosa_fk CASCADE;
+ALTER TABLE varusteet.jate ADD CONSTRAINT katualueenosa_fk FOREIGN KEY (fid_katualueenosa)
+REFERENCES katualue.katualueenosa (fid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: varustemateriaali_fk | type: CONSTRAINT --
+-- ALTER TABLE varusteet.jate DROP CONSTRAINT IF EXISTS varustemateriaali_fk CASCADE;
+ALTER TABLE varusteet.jate ADD CONSTRAINT varustemateriaali_fk FOREIGN KEY (cid_varustemateriaali)
+REFERENCES koodistot.varustemateriaali (cid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: varusteet.liikunta | type: TABLE --
+-- DROP TABLE IF EXISTS varusteet.liikunta CASCADE;
+CREATE TABLE varusteet.liikunta (
+	fid bigint NOT NULL GENERATED ALWAYS AS IDENTITY ,
+	identifier uuid DEFAULT gen_random_uuid(),
+	nimi text,
+	valmistumisvuosi smallint,
+	perusparannusvuosi smallint,
+	alkuhetki timestamptz,
+	loppuhetki timestamptz,
+	malli text,
+	suunta float,
+	valmistaja text,
+	metatieto text,
+	omistaja text,
+	haltija text,
+	kunnossapitaja text,
+	geom_poly geometry(POLYGONZ, 3067),
+	geom_line geometry(LINESTRINGZ, 3067),
+	geom_point geometry(POINTZ, 3067),
+	cid_varustemateriaali integer,
+	fid_viheralueenosa bigint,
+	fid_katualueenosa bigint,
+	cid_liikuntatyyppi integer,
+	CONSTRAINT liikunta_pk PRIMARY KEY (fid)
+);
+-- ddl-end --
+COMMENT ON TABLE varusteet.liikunta IS E'TODO:\n- tarkkaSijaintitieto\n- suunnitelmalinkkitieto\n- metatieto';
+-- ddl-end --
+COMMENT ON COLUMN varusteet.liikunta.alkuhetki IS E'Kohteen luontipäivämäärä';
+-- ddl-end --
+COMMENT ON COLUMN varusteet.liikunta.loppuhetki IS E'Milloin kohde on poistettu. Tämän avulla voidaan tunnistaa poistetut kohteet, jos järjestelmät tukevat historiatietojen tallentamista';
+-- ddl-end --
+
+-- object: varustemateriaali_fk | type: CONSTRAINT --
+-- ALTER TABLE varusteet.liikunta DROP CONSTRAINT IF EXISTS varustemateriaali_fk CASCADE;
+ALTER TABLE varusteet.liikunta ADD CONSTRAINT varustemateriaali_fk FOREIGN KEY (cid_varustemateriaali)
+REFERENCES koodistot.varustemateriaali (cid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: viheralueenosa_fk | type: CONSTRAINT --
+-- ALTER TABLE varusteet.liikunta DROP CONSTRAINT IF EXISTS viheralueenosa_fk CASCADE;
+ALTER TABLE varusteet.liikunta ADD CONSTRAINT viheralueenosa_fk FOREIGN KEY (fid_viheralueenosa)
+REFERENCES viheralue.viheralueenosa (fid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: katualueenosa_fk | type: CONSTRAINT --
+-- ALTER TABLE varusteet.liikunta DROP CONSTRAINT IF EXISTS katualueenosa_fk CASCADE;
+ALTER TABLE varusteet.liikunta ADD CONSTRAINT katualueenosa_fk FOREIGN KEY (fid_katualueenosa)
+REFERENCES katualue.katualueenosa (fid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: liikuntatyyppi_fk | type: CONSTRAINT --
+-- ALTER TABLE varusteet.liikunta DROP CONSTRAINT IF EXISTS liikuntatyyppi_fk CASCADE;
+ALTER TABLE varusteet.liikunta ADD CONSTRAINT liikuntatyyppi_fk FOREIGN KEY (cid_liikuntatyyppi)
+REFERENCES koodistot.liikuntatyyppi (cid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: varusteet.opaste | type: TABLE --
+-- DROP TABLE IF EXISTS varusteet.opaste CASCADE;
+CREATE TABLE varusteet.opaste (
+	fid bigint NOT NULL GENERATED ALWAYS AS IDENTITY ,
+	identifier uuid DEFAULT gen_random_uuid(),
+	nimi text,
+	valmistumisvuosi smallint,
+	perusparannusvuosi smallint,
+	alkuhetki timestamptz,
+	loppuhetki timestamptz,
+	malli text,
+	suunta float,
+	valmistaja text,
+	metatieto text,
+	omistaja text,
+	haltija text,
+	kunnossapitaja text,
+	geom_poly geometry(POLYGONZ, 3067),
+	geom_line geometry(LINESTRINGZ, 3067),
+	geom_point geometry(POINTZ, 3067),
+	cid_varustemateriaali integer,
+	fid_viheralueenosa bigint,
+	fid_katualueenosa bigint,
+	cid_opastetyyppi integer,
+	CONSTRAINT opaste_pk PRIMARY KEY (fid)
+);
+-- ddl-end --
+COMMENT ON TABLE varusteet.opaste IS E'TODO:\n- tarkkaSijaintitieto\n- suunnitelmalinkkitieto\n- metatieto';
+-- ddl-end --
+COMMENT ON COLUMN varusteet.opaste.alkuhetki IS E'Kohteen luontipäivämäärä';
+-- ddl-end --
+COMMENT ON COLUMN varusteet.opaste.loppuhetki IS E'Milloin kohde on poistettu. Tämän avulla voidaan tunnistaa poistetut kohteet, jos järjestelmät tukevat historiatietojen tallentamista';
+-- ddl-end --
+
+-- object: varustemateriaali_fk | type: CONSTRAINT --
+-- ALTER TABLE varusteet.opaste DROP CONSTRAINT IF EXISTS varustemateriaali_fk CASCADE;
+ALTER TABLE varusteet.opaste ADD CONSTRAINT varustemateriaali_fk FOREIGN KEY (cid_varustemateriaali)
+REFERENCES koodistot.varustemateriaali (cid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: viheralueenosa_fk | type: CONSTRAINT --
+-- ALTER TABLE varusteet.opaste DROP CONSTRAINT IF EXISTS viheralueenosa_fk CASCADE;
+ALTER TABLE varusteet.opaste ADD CONSTRAINT viheralueenosa_fk FOREIGN KEY (fid_viheralueenosa)
+REFERENCES viheralue.viheralueenosa (fid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: katualueenosa_fk | type: CONSTRAINT --
+-- ALTER TABLE varusteet.opaste DROP CONSTRAINT IF EXISTS katualueenosa_fk CASCADE;
+ALTER TABLE varusteet.opaste ADD CONSTRAINT katualueenosa_fk FOREIGN KEY (fid_katualueenosa)
+REFERENCES katualue.katualueenosa (fid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: opastetyyppi_fk | type: CONSTRAINT --
+-- ALTER TABLE varusteet.opaste DROP CONSTRAINT IF EXISTS opastetyyppi_fk CASCADE;
+ALTER TABLE varusteet.opaste ADD CONSTRAINT opastetyyppi_fk FOREIGN KEY (cid_opastetyyppi)
+REFERENCES koodistot.opastetyyppi (cid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: varusteet.melukohde | type: TABLE --
+-- DROP TABLE IF EXISTS varusteet.melukohde CASCADE;
+CREATE TABLE varusteet.melukohde (
+	fid bigint NOT NULL GENERATED ALWAYS AS IDENTITY ,
+	identifier uuid DEFAULT gen_random_uuid(),
+	nimi text,
+	valmistumisvuosi smallint,
+	perusparannusvuosi smallint,
+	alkuhetki timestamptz,
+	loppuhetki timestamptz,
+	malli text,
+	suunta float,
+	valmistaja text,
+	metatieto text,
+	omistaja text,
+	haltija text,
+	kunnossapitaja text,
+	geom_poly geometry(POLYGONZ, 3067),
+	geom_line geometry(LINESTRINGZ, 3067),
+	geom_point geometry(POINTZ, 3067),
+	cid_varustemateriaali integer,
+	fid_viheralueenosa bigint,
+	fid_katualueenosa bigint,
+	cid_melutyyppi integer,
+	CONSTRAINT melukohde_pk PRIMARY KEY (fid)
+);
+-- ddl-end --
+COMMENT ON TABLE varusteet.melukohde IS E'TODO:\n- tarkkaSijaintitieto\n- suunnitelmalinkkitieto\n- metatieto';
+-- ddl-end --
+COMMENT ON COLUMN varusteet.melukohde.alkuhetki IS E'Kohteen luontipäivämäärä';
+-- ddl-end --
+COMMENT ON COLUMN varusteet.melukohde.loppuhetki IS E'Milloin kohde on poistettu. Tämän avulla voidaan tunnistaa poistetut kohteet, jos järjestelmät tukevat historiatietojen tallentamista';
+-- ddl-end --
+
+-- object: varustemateriaali_fk | type: CONSTRAINT --
+-- ALTER TABLE varusteet.melukohde DROP CONSTRAINT IF EXISTS varustemateriaali_fk CASCADE;
+ALTER TABLE varusteet.melukohde ADD CONSTRAINT varustemateriaali_fk FOREIGN KEY (cid_varustemateriaali)
+REFERENCES koodistot.varustemateriaali (cid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: viheralueenosa_fk | type: CONSTRAINT --
+-- ALTER TABLE varusteet.melukohde DROP CONSTRAINT IF EXISTS viheralueenosa_fk CASCADE;
+ALTER TABLE varusteet.melukohde ADD CONSTRAINT viheralueenosa_fk FOREIGN KEY (fid_viheralueenosa)
+REFERENCES viheralue.viheralueenosa (fid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: katualueenosa_fk | type: CONSTRAINT --
+-- ALTER TABLE varusteet.melukohde DROP CONSTRAINT IF EXISTS katualueenosa_fk CASCADE;
+ALTER TABLE varusteet.melukohde ADD CONSTRAINT katualueenosa_fk FOREIGN KEY (fid_katualueenosa)
+REFERENCES katualue.katualueenosa (fid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: melutyyppi_fk | type: CONSTRAINT --
+-- ALTER TABLE varusteet.melukohde DROP CONSTRAINT IF EXISTS melutyyppi_fk CASCADE;
+ALTER TABLE varusteet.melukohde ADD CONSTRAINT melutyyppi_fk FOREIGN KEY (cid_melutyyppi)
+REFERENCES koodistot.melutyyppi (cid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: varusteet.kaluste | type: TABLE --
+-- DROP TABLE IF EXISTS varusteet.kaluste CASCADE;
+CREATE TABLE varusteet.kaluste (
+	fid bigint NOT NULL GENERATED ALWAYS AS IDENTITY ,
+	identifier uuid DEFAULT gen_random_uuid(),
+	nimi text,
+	valmistumisvuosi smallint,
+	perusparannusvuosi smallint,
+	alkuhetki timestamptz,
+	loppuhetki timestamptz,
+	malli text,
+	suunta float,
+	valmistaja text,
+	metatieto text,
+	omistaja text,
+	haltija text,
+	kunnossapitaja text,
+	geom_poly geometry(POLYGONZ, 3067),
+	geom_line geometry(LINESTRINGZ, 3067),
+	geom_point geometry(POINTZ, 3067),
+	cid_varustemateriaali integer,
+	fid_viheralueenosa bigint,
+	fid_katualueenosa bigint,
+	cid_kalustetyyppi integer,
+	CONSTRAINT kaluste_pk PRIMARY KEY (fid)
+);
+-- ddl-end --
+COMMENT ON TABLE varusteet.kaluste IS E'TODO:\n- tarkkaSijaintitieto\n- suunnitelmalinkkitieto\n- metatieto';
+-- ddl-end --
+COMMENT ON COLUMN varusteet.kaluste.alkuhetki IS E'Kohteen luontipäivämäärä';
+-- ddl-end --
+COMMENT ON COLUMN varusteet.kaluste.loppuhetki IS E'Milloin kohde on poistettu. Tämän avulla voidaan tunnistaa poistetut kohteet, jos järjestelmät tukevat historiatietojen tallentamista';
+-- ddl-end --
+
+-- object: varustemateriaali_fk | type: CONSTRAINT --
+-- ALTER TABLE varusteet.kaluste DROP CONSTRAINT IF EXISTS varustemateriaali_fk CASCADE;
+ALTER TABLE varusteet.kaluste ADD CONSTRAINT varustemateriaali_fk FOREIGN KEY (cid_varustemateriaali)
+REFERENCES koodistot.varustemateriaali (cid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: viheralueenosa_fk | type: CONSTRAINT --
+-- ALTER TABLE varusteet.kaluste DROP CONSTRAINT IF EXISTS viheralueenosa_fk CASCADE;
+ALTER TABLE varusteet.kaluste ADD CONSTRAINT viheralueenosa_fk FOREIGN KEY (fid_viheralueenosa)
+REFERENCES viheralue.viheralueenosa (fid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: katualueenosa_fk | type: CONSTRAINT --
+-- ALTER TABLE varusteet.kaluste DROP CONSTRAINT IF EXISTS katualueenosa_fk CASCADE;
+ALTER TABLE varusteet.kaluste ADD CONSTRAINT katualueenosa_fk FOREIGN KEY (fid_katualueenosa)
+REFERENCES katualue.katualueenosa (fid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: kalustetyyppi_fk | type: CONSTRAINT --
+-- ALTER TABLE varusteet.kaluste DROP CONSTRAINT IF EXISTS kalustetyyppi_fk CASCADE;
+ALTER TABLE varusteet.kaluste ADD CONSTRAINT kalustetyyppi_fk FOREIGN KEY (cid_kalustetyyppi)
+REFERENCES koodistot.kalustetyyppi (cid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: varusteet.muuvaruste | type: TABLE --
+-- DROP TABLE IF EXISTS varusteet.muuvaruste CASCADE;
+CREATE TABLE varusteet.muuvaruste (
+	fid bigint NOT NULL GENERATED ALWAYS AS IDENTITY ,
+	identifier uuid DEFAULT gen_random_uuid(),
+	nimi text,
+	valmistumisvuosi smallint,
+	perusparannusvuosi smallint,
+	alkuhetki timestamptz,
+	loppuhetki timestamptz,
+	malli text,
+	suunta float,
+	valmistaja text,
+	metatieto text,
+	omistaja text,
+	haltija text,
+	kunnossapitaja text,
+	geom_poly geometry(POLYGONZ, 3067),
+	geom_line geometry(LINESTRINGZ, 3067),
+	geom_point geometry(POINTZ, 3067),
+	cid_varustemateriaali integer,
+	fid_viheralueenosa bigint,
+	fid_katualueenosa bigint,
+	cid_muuvarustetyyppi integer,
+	CONSTRAINT muuvaruste_pk PRIMARY KEY (fid)
+);
+-- ddl-end --
+COMMENT ON TABLE varusteet.muuvaruste IS E'TODO:\n- tarkkaSijaintitieto\n- suunnitelmalinkkitieto\n- metatieto';
+-- ddl-end --
+COMMENT ON COLUMN varusteet.muuvaruste.alkuhetki IS E'Kohteen luontipäivämäärä';
+-- ddl-end --
+COMMENT ON COLUMN varusteet.muuvaruste.loppuhetki IS E'Milloin kohde on poistettu. Tämän avulla voidaan tunnistaa poistetut kohteet, jos järjestelmät tukevat historiatietojen tallentamista';
+-- ddl-end --
+
+-- object: varustemateriaali_fk | type: CONSTRAINT --
+-- ALTER TABLE varusteet.muuvaruste DROP CONSTRAINT IF EXISTS varustemateriaali_fk CASCADE;
+ALTER TABLE varusteet.muuvaruste ADD CONSTRAINT varustemateriaali_fk FOREIGN KEY (cid_varustemateriaali)
+REFERENCES koodistot.varustemateriaali (cid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: viheralueenosa_fk | type: CONSTRAINT --
+-- ALTER TABLE varusteet.muuvaruste DROP CONSTRAINT IF EXISTS viheralueenosa_fk CASCADE;
+ALTER TABLE varusteet.muuvaruste ADD CONSTRAINT viheralueenosa_fk FOREIGN KEY (fid_viheralueenosa)
+REFERENCES viheralue.viheralueenosa (fid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: katualueenosa_fk | type: CONSTRAINT --
+-- ALTER TABLE varusteet.muuvaruste DROP CONSTRAINT IF EXISTS katualueenosa_fk CASCADE;
+ALTER TABLE varusteet.muuvaruste ADD CONSTRAINT katualueenosa_fk FOREIGN KEY (fid_katualueenosa)
+REFERENCES katualue.katualueenosa (fid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: muuvarustetyyppi_fk | type: CONSTRAINT --
+-- ALTER TABLE varusteet.muuvaruste DROP CONSTRAINT IF EXISTS muuvarustetyyppi_fk CASCADE;
+ALTER TABLE varusteet.muuvaruste ADD CONSTRAINT muuvarustetyyppi_fk FOREIGN KEY (cid_muuvarustetyyppi)
+REFERENCES koodistot.muuvarustetyyppi (cid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: varusteet.leikkivaline | type: TABLE --
+-- DROP TABLE IF EXISTS varusteet.leikkivaline CASCADE;
+CREATE TABLE varusteet.leikkivaline (
+	fid bigint NOT NULL GENERATED ALWAYS AS IDENTITY ,
+	identifier uuid DEFAULT gen_random_uuid(),
+	nimi text,
+	valmistumisvuosi smallint,
+	perusparannusvuosi smallint,
+	alkuhetki timestamptz,
+	loppuhetki timestamptz,
+	malli text,
+	suunta float,
+	valmistaja text,
+	metatieto text,
+	omistaja text,
+	haltija text,
+	kunnossapitaja text,
+	toiminnallinentarkastus_pvm date,
+	vuositarkastus_pvm date,
+	geom_point geometry(POINTZ, 3067),
+	geom_line geometry(LINESTRINGZ, 3067),
+	geom_poly geometry(POLYGONZ, 3067),
+	cid_varustemateriaali integer,
+	fid_viheralueenosa bigint,
+	fid_katualueenosa bigint,
+	cid_leikkivalinetyyppi integer,
+	CONSTRAINT leikkivaline_pk PRIMARY KEY (fid)
+);
+-- ddl-end --
+COMMENT ON TABLE varusteet.leikkivaline IS E'TODO:\n- tarkkaSijaintitieto\n- suunnitelmalinkkitieto\n- metatieto\n- onko ''date'' oikea tietotyyppi?';
+-- ddl-end --
+COMMENT ON COLUMN varusteet.leikkivaline.alkuhetki IS E'Kohteen luontipäivämäärä';
+-- ddl-end --
+COMMENT ON COLUMN varusteet.leikkivaline.loppuhetki IS E'Milloin kohde on poistettu. Tämän avulla voidaan tunnistaa poistetut kohteet, jos järjestelmät tukevat historiatietojen tallentamista';
+-- ddl-end --
+
+-- object: varustemateriaali_fk | type: CONSTRAINT --
+-- ALTER TABLE varusteet.leikkivaline DROP CONSTRAINT IF EXISTS varustemateriaali_fk CASCADE;
+ALTER TABLE varusteet.leikkivaline ADD CONSTRAINT varustemateriaali_fk FOREIGN KEY (cid_varustemateriaali)
+REFERENCES koodistot.varustemateriaali (cid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: viheralueenosa_fk | type: CONSTRAINT --
+-- ALTER TABLE varusteet.leikkivaline DROP CONSTRAINT IF EXISTS viheralueenosa_fk CASCADE;
+ALTER TABLE varusteet.leikkivaline ADD CONSTRAINT viheralueenosa_fk FOREIGN KEY (fid_viheralueenosa)
+REFERENCES viheralue.viheralueenosa (fid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: katualueenosa_fk | type: CONSTRAINT --
+-- ALTER TABLE varusteet.leikkivaline DROP CONSTRAINT IF EXISTS katualueenosa_fk CASCADE;
+ALTER TABLE varusteet.leikkivaline ADD CONSTRAINT katualueenosa_fk FOREIGN KEY (fid_katualueenosa)
+REFERENCES katualue.katualueenosa (fid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: leikkivalinetyyppi_fk | type: CONSTRAINT --
+-- ALTER TABLE varusteet.leikkivaline DROP CONSTRAINT IF EXISTS leikkivalinetyyppi_fk CASCADE;
+ALTER TABLE varusteet.leikkivaline ADD CONSTRAINT leikkivalinetyyppi_fk FOREIGN KEY (cid_leikkivalinetyyppi)
+REFERENCES koodistot.leikkivalinetyyppi (cid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: varusteet.liikennemerkki | type: TABLE --
+-- DROP TABLE IF EXISTS varusteet.liikennemerkki CASCADE;
+CREATE TABLE varusteet.liikennemerkki (
+	fid bigint NOT NULL GENERATED ALWAYS AS IDENTITY ,
+	identifier uuid DEFAULT gen_random_uuid(),
+	nimi text,
+	valmistumisvuosi smallint,
+	perusparannusvuosi smallint,
+	alkuhetki timestamptz,
+	loppuhetki timestamptz,
+	malli text,
+	suunta float,
+	valmistaja text,
+	metatieto text,
+	omistaja text,
+	haltija text,
+	kunnossapitaja text,
+	teksti text,
+	geom_point geometry(POINTZ, 3067),
+	geom_poly geometry(POLYGONZ, 3067),
+	geom_line geometry(LINESTRINGZ, 3067),
+	cid_varustemateriaali integer,
+	fid_viheralueenosa bigint,
+	fid_katualueenosa bigint,
+	cid_liikennemerkkityyppi2020 integer,
+	cid_liikennemerkkityyppi integer,
+	CONSTRAINT liikennemerkki_pk PRIMARY KEY (fid)
+);
+-- ddl-end --
+COMMENT ON TABLE varusteet.liikennemerkki IS E'TODO:\n- tarkkaSijaintitieto\n- suunnitelmalinkkitieto\n- metatieto';
+-- ddl-end --
+COMMENT ON COLUMN varusteet.liikennemerkki.alkuhetki IS E'Kohteen luontipäivämäärä';
+-- ddl-end --
+COMMENT ON COLUMN varusteet.liikennemerkki.loppuhetki IS E'Milloin kohde on poistettu. Tämän avulla voidaan tunnistaa poistetut kohteet, jos järjestelmät tukevat historiatietojen tallentamista';
+-- ddl-end --
+
+-- object: varustemateriaali_fk | type: CONSTRAINT --
+-- ALTER TABLE varusteet.liikennemerkki DROP CONSTRAINT IF EXISTS varustemateriaali_fk CASCADE;
+ALTER TABLE varusteet.liikennemerkki ADD CONSTRAINT varustemateriaali_fk FOREIGN KEY (cid_varustemateriaali)
+REFERENCES koodistot.varustemateriaali (cid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: viheralueenosa_fk | type: CONSTRAINT --
+-- ALTER TABLE varusteet.liikennemerkki DROP CONSTRAINT IF EXISTS viheralueenosa_fk CASCADE;
+ALTER TABLE varusteet.liikennemerkki ADD CONSTRAINT viheralueenosa_fk FOREIGN KEY (fid_viheralueenosa)
+REFERENCES viheralue.viheralueenosa (fid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: katualueenosa_fk | type: CONSTRAINT --
+-- ALTER TABLE varusteet.liikennemerkki DROP CONSTRAINT IF EXISTS katualueenosa_fk CASCADE;
+ALTER TABLE varusteet.liikennemerkki ADD CONSTRAINT katualueenosa_fk FOREIGN KEY (fid_katualueenosa)
+REFERENCES katualue.katualueenosa (fid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: liikennemerkkityyppi2020_fk | type: CONSTRAINT --
+-- ALTER TABLE varusteet.liikennemerkki DROP CONSTRAINT IF EXISTS liikennemerkkityyppi2020_fk CASCADE;
+ALTER TABLE varusteet.liikennemerkki ADD CONSTRAINT liikennemerkkityyppi2020_fk FOREIGN KEY (cid_liikennemerkkityyppi2020)
+REFERENCES koodistot.liikennemerkkityyppi2020 (cid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: liikennemerkkityyppi_fk | type: CONSTRAINT --
+-- ALTER TABLE varusteet.liikennemerkki DROP CONSTRAINT IF EXISTS liikennemerkkityyppi_fk CASCADE;
+ALTER TABLE varusteet.liikennemerkki ADD CONSTRAINT liikennemerkkityyppi_fk FOREIGN KEY (cid_liikennemerkkityyppi)
+REFERENCES koodistot.liikennemerkkityyppi (cid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: kasvillisuus.muukasvi | type: TABLE --
+-- DROP TABLE IF EXISTS kasvillisuus.muukasvi CASCADE;
+CREATE TABLE kasvillisuus.muukasvi (
+	fid bigint NOT NULL GENERATED ALWAYS AS IDENTITY ,
+	identifier uuid DEFAULT gen_random_uuid(),
+	nimi text,
+	valmistumisvuosi smallint,
+	perusparannusvuosi smallint,
+	alkuhetki timestamptz,
+	loppuhetki timestamptz,
+	malli text,
+	suunta float,
+	valmistaja text,
+	metatieto text,
+	omistaja text,
+	haltija text,
+	kunnossapitaja text,
+	geom_poly geometry(POLYGONZ, 3067),
+	geom_line geometry(LINESTRINGZ, 3067),
+	geom_point geometry(POINTZ, 3067),
+	fid_viheralueenosa bigint,
+	fid_katualueenosa bigint,
+	cid_kasviryhmatyyppi integer,
+	cid_kasvilaji integer,
+	CONSTRAINT muukasvi_pk PRIMARY KEY (fid)
+);
+-- ddl-end --
+COMMENT ON TABLE kasvillisuus.muukasvi IS E'TODO: metatieto';
+-- ddl-end --
+COMMENT ON COLUMN kasvillisuus.muukasvi.alkuhetki IS E'Kohteen luontipäivämäärä';
+-- ddl-end --
+COMMENT ON COLUMN kasvillisuus.muukasvi.loppuhetki IS E'Milloin kohde on poistettu. Tämän avulla voidaan tunnistaa poistetut kohteet, jos järjestelmät tukevat historiatietojen tallentamista';
+-- ddl-end --
+
+-- object: viheralueenosa_fk | type: CONSTRAINT --
+-- ALTER TABLE kasvillisuus.muukasvi DROP CONSTRAINT IF EXISTS viheralueenosa_fk CASCADE;
+ALTER TABLE kasvillisuus.muukasvi ADD CONSTRAINT viheralueenosa_fk FOREIGN KEY (fid_viheralueenosa)
+REFERENCES viheralue.viheralueenosa (fid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: katualueenosa_fk | type: CONSTRAINT --
+-- ALTER TABLE kasvillisuus.muukasvi DROP CONSTRAINT IF EXISTS katualueenosa_fk CASCADE;
+ALTER TABLE kasvillisuus.muukasvi ADD CONSTRAINT katualueenosa_fk FOREIGN KEY (fid_katualueenosa)
+REFERENCES katualue.katualueenosa (fid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: kasviryhmatyyppi_fk | type: CONSTRAINT --
+-- ALTER TABLE kasvillisuus.muukasvi DROP CONSTRAINT IF EXISTS kasviryhmatyyppi_fk CASCADE;
+ALTER TABLE kasvillisuus.muukasvi ADD CONSTRAINT kasviryhmatyyppi_fk FOREIGN KEY (cid_kasviryhmatyyppi)
+REFERENCES koodistot.kasviryhmatyyppi (cid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: kasvilaji_fk | type: CONSTRAINT --
+-- ALTER TABLE kasvillisuus.muukasvi DROP CONSTRAINT IF EXISTS kasvilaji_fk CASCADE;
+ALTER TABLE kasvillisuus.muukasvi ADD CONSTRAINT kasvilaji_fk FOREIGN KEY (cid_kasvilaji)
+REFERENCES koodistot.kasvilaji (cid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: kohteet.pysakointiruutu | type: TABLE --
+-- DROP TABLE IF EXISTS kohteet.pysakointiruutu CASCADE;
+CREATE TABLE kohteet.pysakointiruutu (
+	fid bigint NOT NULL GENERATED ALWAYS AS IDENTITY ,
+	identifier uuid DEFAULT gen_random_uuid(),
+	nimi text,
+	valmistumisvuosi smallint,
+	perusparannusvuosi smallint,
+	alkuhetki timestamptz,
+	loppuhetki timestamptz,
+	malli text,
+	suunta float,
+	valmistaja text,
+	metatieto text,
+	omistaja text,
+	haltija text,
+	kunnossapitaja text,
+	latauspiste_kytkin boolean,
+	geom_poly geometry(POLYGONZ, 3067),
+	geom_line geometry(LINESTRINGZ, 3067),
+	geom_point geometry(POINTZ, 3067),
+	cid_varustemateriaali integer,
+	fid_viheralueenosa bigint,
+	fid_katualueenosa bigint,
+	CONSTRAINT pysakointiruutu_pk PRIMARY KEY (fid)
+);
+-- ddl-end --
+COMMENT ON TABLE kohteet.pysakointiruutu IS E'TODO:\n- tarkkaSijaintitieto\n- suunnitelmalinkkitieto\n- metatieto\n- skeema';
+-- ddl-end --
+COMMENT ON COLUMN kohteet.pysakointiruutu.alkuhetki IS E'Kohteen luontipäivämäärä';
+-- ddl-end --
+COMMENT ON COLUMN kohteet.pysakointiruutu.loppuhetki IS E'Milloin kohde on poistettu. Tämän avulla voidaan tunnistaa poistetut kohteet, jos järjestelmät tukevat historiatietojen tallentamista';
+-- ddl-end --
+
+-- object: varustemateriaali_fk | type: CONSTRAINT --
+-- ALTER TABLE kohteet.pysakointiruutu DROP CONSTRAINT IF EXISTS varustemateriaali_fk CASCADE;
+ALTER TABLE kohteet.pysakointiruutu ADD CONSTRAINT varustemateriaali_fk FOREIGN KEY (cid_varustemateriaali)
+REFERENCES koodistot.varustemateriaali (cid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: viheralueenosa_fk | type: CONSTRAINT --
+-- ALTER TABLE kohteet.pysakointiruutu DROP CONSTRAINT IF EXISTS viheralueenosa_fk CASCADE;
+ALTER TABLE kohteet.pysakointiruutu ADD CONSTRAINT viheralueenosa_fk FOREIGN KEY (fid_viheralueenosa)
+REFERENCES viheralue.viheralueenosa (fid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: katualueenosa_fk | type: CONSTRAINT --
+-- ALTER TABLE kohteet.pysakointiruutu DROP CONSTRAINT IF EXISTS katualueenosa_fk CASCADE;
+ALTER TABLE kohteet.pysakointiruutu ADD CONSTRAINT katualueenosa_fk FOREIGN KEY (fid_katualueenosa)
+REFERENCES katualue.katualueenosa (fid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: kohteet.erikoisrakennekerros | type: TABLE --
+-- DROP TABLE IF EXISTS kohteet.erikoisrakennekerros CASCADE;
+CREATE TABLE kohteet.erikoisrakennekerros (
+	fid bigint NOT NULL GENERATED ALWAYS AS IDENTITY ,
+	identifier uuid DEFAULT gen_random_uuid(),
+	nimi text,
+	valmistumisvuosi smallint,
+	perusparannusvuosi smallint,
+	alkuhetki timestamptz,
+	loppuhetki timestamptz,
+	malli text,
+	suunta float,
+	valmistaja text,
+	metatieto text,
+	omistaja text,
+	haltija text,
+	kunnossapitaja text,
+	selite text,
+	materiaali text,
+	geom_poly geometry(POLYGONZ, 3067),
+	geom_line geometry(LINESTRINGZ, 3067),
+	geom_point geometry(POINTZ, 3067),
+	cid_erikoisrakennekerrosmateriaalityyppi integer,
+	CONSTRAINT erikoisrakennekerros_pk PRIMARY KEY (fid)
+);
+-- ddl-end --
+COMMENT ON TABLE kohteet.erikoisrakennekerros IS E'TODO: \n- metatieto\n- skeema';
+-- ddl-end --
+COMMENT ON COLUMN kohteet.erikoisrakennekerros.alkuhetki IS E'Kohteen luontipäivämäärä';
+-- ddl-end --
+COMMENT ON COLUMN kohteet.erikoisrakennekerros.loppuhetki IS E'Milloin kohde on poistettu. Tämän avulla voidaan tunnistaa poistetut kohteet, jos järjestelmät tukevat historiatietojen tallentamista';
+-- ddl-end --
+
+-- object: erikoisrakennekerrosmateriaalityyppi_fk | type: CONSTRAINT --
+-- ALTER TABLE kohteet.erikoisrakennekerros DROP CONSTRAINT IF EXISTS erikoisrakennekerrosmateriaalityyppi_fk CASCADE;
+ALTER TABLE kohteet.erikoisrakennekerros ADD CONSTRAINT erikoisrakennekerrosmateriaalityyppi_fk FOREIGN KEY (cid_erikoisrakennekerrosmateriaalityyppi)
+REFERENCES koodistot.erikoisrakennekerrosmateriaalityyppi (cid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: kohteet.ymparistotaide | type: TABLE --
+-- DROP TABLE IF EXISTS kohteet.ymparistotaide CASCADE;
+CREATE TABLE kohteet.ymparistotaide (
+	fid bigint NOT NULL GENERATED ALWAYS AS IDENTITY ,
+	identifier uuid DEFAULT gen_random_uuid(),
+	nimi text,
+	valmistumisvuosi smallint,
+	perusparannusvuosi smallint,
+	alkuhetki timestamptz,
+	loppuhetki timestamptz,
+	malli text,
+	suunta float,
+	valmistaja text,
+	metatieto text,
+	omistaja text,
+	haltija text,
+	kunnossapitaja text,
+	geom_poly geometry(POLYGONZ, 3067),
+	geom_line geometry(LINESTRINGZ, 3067),
+	geom_point geometry(POINTZ, 3067),
+	cid_ymparistotaidetyyppi integer,
+	fid_viheralueenosa bigint,
+	fid_katualueenosa bigint,
+	cid_varustemateriaali integer,
+	CONSTRAINT ymparistotaide_pk PRIMARY KEY (fid)
+);
+-- ddl-end --
+COMMENT ON TABLE kohteet.ymparistotaide IS E'TODO:\n- tarkkaSijaintitieto\n- skeema\n- suunnitelmalinkkitieto\n- metatieto';
+-- ddl-end --
+COMMENT ON COLUMN kohteet.ymparistotaide.alkuhetki IS E'Kohteen luontipäivämäärä';
+-- ddl-end --
+COMMENT ON COLUMN kohteet.ymparistotaide.loppuhetki IS E'Milloin kohde on poistettu. Tämän avulla voidaan tunnistaa poistetut kohteet, jos järjestelmät tukevat historiatietojen tallentamista';
+-- ddl-end --
+
+-- object: ymparistotaidetyyppi_fk | type: CONSTRAINT --
+-- ALTER TABLE kohteet.ymparistotaide DROP CONSTRAINT IF EXISTS ymparistotaidetyyppi_fk CASCADE;
+ALTER TABLE kohteet.ymparistotaide ADD CONSTRAINT ymparistotaidetyyppi_fk FOREIGN KEY (cid_ymparistotaidetyyppi)
+REFERENCES koodistot.ymparistotaidetyyppi (cid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: viheralueenosa_fk | type: CONSTRAINT --
+-- ALTER TABLE kohteet.ymparistotaide DROP CONSTRAINT IF EXISTS viheralueenosa_fk CASCADE;
+ALTER TABLE kohteet.ymparistotaide ADD CONSTRAINT viheralueenosa_fk FOREIGN KEY (fid_viheralueenosa)
+REFERENCES viheralue.viheralueenosa (fid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: katualueenosa_fk | type: CONSTRAINT --
+-- ALTER TABLE kohteet.ymparistotaide DROP CONSTRAINT IF EXISTS katualueenosa_fk CASCADE;
+ALTER TABLE kohteet.ymparistotaide ADD CONSTRAINT katualueenosa_fk FOREIGN KEY (fid_katualueenosa)
+REFERENCES katualue.katualueenosa (fid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: varustemateriaali_fk | type: CONSTRAINT --
+-- ALTER TABLE kohteet.ymparistotaide DROP CONSTRAINT IF EXISTS varustemateriaali_fk CASCADE;
+ALTER TABLE kohteet.ymparistotaide ADD CONSTRAINT varustemateriaali_fk FOREIGN KEY (cid_varustemateriaali)
+REFERENCES koodistot.varustemateriaali (cid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: kohteet.rakenne | type: TABLE --
+-- DROP TABLE IF EXISTS kohteet.rakenne CASCADE;
+CREATE TABLE kohteet.rakenne (
+	fid bigint NOT NULL GENERATED ALWAYS AS IDENTITY ,
+	identifier uuid DEFAULT gen_random_uuid(),
+	nimi text,
+	valmistumisvuosi smallint,
+	perusparannusvuosi smallint,
+	alkuhetki timestamptz,
+	loppuhetki timestamptz,
+	malli text,
+	suunta float,
+	valmistaja text,
+	metatieto text,
+	omistaja text,
+	haltija text,
+	kunnossapitaja text,
+	geom_poly geometry(POLYGONZ, 3067),
+	geom_line geometry(LINESTRINGZ, 3067),
+	geom_point geometry(POINTZ, 3067),
+	cid_varustemateriaali integer,
+	fid_viheralueenosa bigint,
+	fid_katualueenosa bigint,
+	cid_rakennetyyppi integer,
+	CONSTRAINT rakenne_pk PRIMARY KEY (fid)
+);
+-- ddl-end --
+COMMENT ON TABLE kohteet.rakenne IS E'TODO:\n- tarkkaSijaintitieto\n- suunnitelmalinkkitieto\n- metatieto';
+-- ddl-end --
+COMMENT ON COLUMN kohteet.rakenne.alkuhetki IS E'Kohteen luontipäivämäärä';
+-- ddl-end --
+COMMENT ON COLUMN kohteet.rakenne.loppuhetki IS E'Milloin kohde on poistettu. Tämän avulla voidaan tunnistaa poistetut kohteet, jos järjestelmät tukevat historiatietojen tallentamista';
+-- ddl-end --
+
+-- object: varustemateriaali_fk | type: CONSTRAINT --
+-- ALTER TABLE kohteet.rakenne DROP CONSTRAINT IF EXISTS varustemateriaali_fk CASCADE;
+ALTER TABLE kohteet.rakenne ADD CONSTRAINT varustemateriaali_fk FOREIGN KEY (cid_varustemateriaali)
+REFERENCES koodistot.varustemateriaali (cid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: viheralueenosa_fk | type: CONSTRAINT --
+-- ALTER TABLE kohteet.rakenne DROP CONSTRAINT IF EXISTS viheralueenosa_fk CASCADE;
+ALTER TABLE kohteet.rakenne ADD CONSTRAINT viheralueenosa_fk FOREIGN KEY (fid_viheralueenosa)
+REFERENCES viheralue.viheralueenosa (fid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: katualueenosa_fk | type: CONSTRAINT --
+-- ALTER TABLE kohteet.rakenne DROP CONSTRAINT IF EXISTS katualueenosa_fk CASCADE;
+ALTER TABLE kohteet.rakenne ADD CONSTRAINT katualueenosa_fk FOREIGN KEY (fid_katualueenosa)
+REFERENCES katualue.katualueenosa (fid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: rakennetyyppi_fk | type: CONSTRAINT --
+-- ALTER TABLE kohteet.rakenne DROP CONSTRAINT IF EXISTS rakennetyyppi_fk CASCADE;
+ALTER TABLE kohteet.rakenne ADD CONSTRAINT rakennetyyppi_fk FOREIGN KEY (cid_rakennetyyppi)
+REFERENCES koodistot.rakennetyyppi (cid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: kohteet.hulevesi | type: TABLE --
+-- DROP TABLE IF EXISTS kohteet.hulevesi CASCADE;
+CREATE TABLE kohteet.hulevesi (
+	fid bigint NOT NULL GENERATED ALWAYS AS IDENTITY ,
+	identifier uuid DEFAULT gen_random_uuid(),
+	nimi text,
+	valmistumisvuosi smallint,
+	perusparannusvuosi smallint,
+	alkuhetki timestamptz,
+	loppuhetki timestamptz,
+	malli text,
+	suunta float,
+	valmistaja text,
+	metatieto text,
+	omistaja text,
+	haltija text,
+	kunnossapitaja text,
+	geom_poly geometry(POLYGONZ, 3067),
+	geom_line geometry(LINESTRINGZ, 3067),
+	geom_point geometry(POINTZ, 3067),
+	cid_varustemateriaali integer,
+	fid_viheralueenosa bigint,
+	fid_katualueenosa bigint,
+	cid_hulevesityyppi integer,
+	CONSTRAINT hulevesi_pk PRIMARY KEY (fid)
+);
+-- ddl-end --
+COMMENT ON TABLE kohteet.hulevesi IS E'TODO:\n- tarkkaSijaintitieto\n- suunnitelmalinkkitieto\n- metatieto';
+-- ddl-end --
+COMMENT ON COLUMN kohteet.hulevesi.alkuhetki IS E'Kohteen luontipäivämäärä';
+-- ddl-end --
+COMMENT ON COLUMN kohteet.hulevesi.loppuhetki IS E'Milloin kohde on poistettu. Tämän avulla voidaan tunnistaa poistetut kohteet, jos järjestelmät tukevat historiatietojen tallentamista';
+-- ddl-end --
+
+-- object: varustemateriaali_fk | type: CONSTRAINT --
+-- ALTER TABLE kohteet.hulevesi DROP CONSTRAINT IF EXISTS varustemateriaali_fk CASCADE;
+ALTER TABLE kohteet.hulevesi ADD CONSTRAINT varustemateriaali_fk FOREIGN KEY (cid_varustemateriaali)
+REFERENCES koodistot.varustemateriaali (cid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: viheralueenosa_fk | type: CONSTRAINT --
+-- ALTER TABLE kohteet.hulevesi DROP CONSTRAINT IF EXISTS viheralueenosa_fk CASCADE;
+ALTER TABLE kohteet.hulevesi ADD CONSTRAINT viheralueenosa_fk FOREIGN KEY (fid_viheralueenosa)
+REFERENCES viheralue.viheralueenosa (fid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: katualueenosa_fk | type: CONSTRAINT --
+-- ALTER TABLE kohteet.hulevesi DROP CONSTRAINT IF EXISTS katualueenosa_fk CASCADE;
+ALTER TABLE kohteet.hulevesi ADD CONSTRAINT katualueenosa_fk FOREIGN KEY (fid_katualueenosa)
+REFERENCES katualue.katualueenosa (fid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: hulevesityyppi_fk | type: CONSTRAINT --
+-- ALTER TABLE kohteet.hulevesi DROP CONSTRAINT IF EXISTS hulevesityyppi_fk CASCADE;
+ALTER TABLE kohteet.hulevesi ADD CONSTRAINT hulevesityyppi_fk FOREIGN KEY (cid_hulevesityyppi)
+REFERENCES koodistot.hulevesityyppi (cid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: katualue.ajoratamerkinta | type: TABLE --
+-- DROP TABLE IF EXISTS katualue.ajoratamerkinta CASCADE;
+CREATE TABLE katualue.ajoratamerkinta (
+	fid bigint NOT NULL GENERATED ALWAYS AS IDENTITY ,
+	identifier uuid DEFAULT gen_random_uuid(),
+	nimi text,
+	valmistumisvuosi smallint,
+	perusparannusvuosi smallint,
+	alkuhetki timestamptz,
+	loppuhetki timestamptz,
+	malli text,
+	suunta float,
+	valmistaja text,
+	metatieto text,
+	omistaja text,
+	haltija text,
+	kunnossapitaja text,
+	geom_poly geometry(POLYGONZ, 3067),
+	geom_line geometry(LINESTRINGZ, 3067),
+	geom_point geometry(POINTZ, 3067),
+	jyrsittypinta_kytkin boolean,
+	cid_varustemateriaali integer,
+	fid_viheralueenosa bigint,
+	fid_katualueenosa bigint,
+	cid_ajoratamerkintatyyppi integer,
+	CONSTRAINT ajoratamerkinta_pk PRIMARY KEY (fid)
+);
+-- ddl-end --
+COMMENT ON TABLE katualue.ajoratamerkinta IS E'TODO:\n- tarkkaSijaintitieto\n- skeema?\n- metatieto\n- suunnitelmalinkkitieto';
+-- ddl-end --
+COMMENT ON COLUMN katualue.ajoratamerkinta.alkuhetki IS E'Kohteen luontipäivämäärä';
+-- ddl-end --
+COMMENT ON COLUMN katualue.ajoratamerkinta.loppuhetki IS E'Milloin kohde on poistettu. Tämän avulla voidaan tunnistaa poistetut kohteet, jos järjestelmät tukevat historiatietojen tallentamista';
+-- ddl-end --
+
+-- object: varustemateriaali_fk | type: CONSTRAINT --
+-- ALTER TABLE katualue.ajoratamerkinta DROP CONSTRAINT IF EXISTS varustemateriaali_fk CASCADE;
+ALTER TABLE katualue.ajoratamerkinta ADD CONSTRAINT varustemateriaali_fk FOREIGN KEY (cid_varustemateriaali)
+REFERENCES koodistot.varustemateriaali (cid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: viheralueenosa_fk | type: CONSTRAINT --
+-- ALTER TABLE katualue.ajoratamerkinta DROP CONSTRAINT IF EXISTS viheralueenosa_fk CASCADE;
+ALTER TABLE katualue.ajoratamerkinta ADD CONSTRAINT viheralueenosa_fk FOREIGN KEY (fid_viheralueenosa)
+REFERENCES viheralue.viheralueenosa (fid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: katualueenosa_fk | type: CONSTRAINT --
+-- ALTER TABLE katualue.ajoratamerkinta DROP CONSTRAINT IF EXISTS katualueenosa_fk CASCADE;
+ALTER TABLE katualue.ajoratamerkinta ADD CONSTRAINT katualueenosa_fk FOREIGN KEY (fid_katualueenosa)
+REFERENCES katualue.katualueenosa (fid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: ajoratamerkintatyyppi_fk | type: CONSTRAINT --
+-- ALTER TABLE katualue.ajoratamerkinta DROP CONSTRAINT IF EXISTS ajoratamerkintatyyppi_fk CASCADE;
+ALTER TABLE katualue.ajoratamerkinta ADD CONSTRAINT ajoratamerkintatyyppi_fk FOREIGN KEY (cid_ajoratamerkintatyyppi)
+REFERENCES koodistot.ajoratamerkintatyyppi (cid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: katualue_fk | type: CONSTRAINT --
+-- ALTER TABLE katualue.katualueenosa DROP CONSTRAINT IF EXISTS katualue_fk CASCADE;
+ALTER TABLE katualue.katualueenosa ADD CONSTRAINT katualue_fk FOREIGN KEY (fid_katualue)
+REFERENCES katualue.katualue (fid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
 -- object: talvihoidonluokka_fk | type: CONSTRAINT --
--- ALTER TABLE kohteet.viheralueenosa DROP CONSTRAINT IF EXISTS talvihoidonluokka_fk CASCADE;
-ALTER TABLE kohteet.viheralueenosa ADD CONSTRAINT talvihoidonluokka_fk FOREIGN KEY (talvihoidonluokka_id)
-REFERENCES koodistot.talvihoidonluokka (id) MATCH SIMPLE
+-- ALTER TABLE viheralue.viheralueenosa DROP CONSTRAINT IF EXISTS talvihoidonluokka_fk CASCADE;
+ALTER TABLE viheralue.viheralueenosa ADD CONSTRAINT talvihoidonluokka_fk FOREIGN KEY (talvihoidonluokka_id)
+REFERENCES koodistot.talvihoidonluokka (cid) MATCH SIMPLE
 ON DELETE NO ACTION ON UPDATE NO ACTION;
 -- ddl-end --
 
 -- object: hoitoluokka_fk | type: CONSTRAINT --
--- ALTER TABLE kohteet.viheralueenosa DROP CONSTRAINT IF EXISTS hoitoluokka_fk CASCADE;
-ALTER TABLE kohteet.viheralueenosa ADD CONSTRAINT hoitoluokka_fk FOREIGN KEY (hoitoluokka_id)
-REFERENCES koodistot.hoitoluokkatyyppi (id) MATCH FULL
+-- ALTER TABLE viheralue.viheralueenosa DROP CONSTRAINT IF EXISTS hoitoluokka_fk CASCADE;
+ALTER TABLE viheralue.viheralueenosa ADD CONSTRAINT hoitoluokka_fk FOREIGN KEY (hoitoluokka_id)
+REFERENCES koodistot.hoitoluokkatyyppi (cid) MATCH FULL
 ON DELETE SET NULL ON UPDATE CASCADE;
 -- ddl-end --
 
 -- object: kayttotarkoitus_fk | type: CONSTRAINT --
--- ALTER TABLE kohteet.viheralueenosa DROP CONSTRAINT IF EXISTS kayttotarkoitus_fk CASCADE;
-ALTER TABLE kohteet.viheralueenosa ADD CONSTRAINT kayttotarkoitus_fk FOREIGN KEY (kayttotarkoitus_id)
-REFERENCES koodistot.viheralueenkayttotarkoitus (id) MATCH FULL
+-- ALTER TABLE viheralue.viheralueenosa DROP CONSTRAINT IF EXISTS kayttotarkoitus_fk CASCADE;
+ALTER TABLE viheralue.viheralueenosa ADD CONSTRAINT kayttotarkoitus_fk FOREIGN KEY (kayttotarkoitus_id)
+REFERENCES koodistot.viheralueenkayttotarkoitus (cid) MATCH FULL
 ON DELETE CASCADE ON UPDATE CASCADE;
 -- ddl-end --
 
 -- object: laji_fk | type: CONSTRAINT --
--- ALTER TABLE kohteet.viheralueenosa DROP CONSTRAINT IF EXISTS laji_fk CASCADE;
-ALTER TABLE kohteet.viheralueenosa ADD CONSTRAINT laji_fk FOREIGN KEY (laji_id)
-REFERENCES koodistot.viherosanlajityyppi (id) MATCH FULL
+-- ALTER TABLE viheralue.viheralueenosa DROP CONSTRAINT IF EXISTS laji_fk CASCADE;
+ALTER TABLE viheralue.viheralueenosa ADD CONSTRAINT laji_fk FOREIGN KEY (laji_id)
+REFERENCES koodistot.viherosanlajityyppi (cid) MATCH FULL
 ON DELETE CASCADE ON UPDATE CASCADE;
 -- ddl-end --
 
 -- object: katualueenlaji_fk | type: CONSTRAINT --
--- ALTER TABLE kohteet.viheralueenosa DROP CONSTRAINT IF EXISTS katualueenlaji_fk CASCADE;
-ALTER TABLE kohteet.viheralueenosa ADD CONSTRAINT katualueenlaji_fk FOREIGN KEY (katualueenlaji_id)
-REFERENCES koodistot.katuosanlaji (id) MATCH FULL
+-- ALTER TABLE viheralue.viheralueenosa DROP CONSTRAINT IF EXISTS katualueenlaji_fk CASCADE;
+ALTER TABLE viheralue.viheralueenosa ADD CONSTRAINT katualueenlaji_fk FOREIGN KEY (katualueenlaji_id)
+REFERENCES koodistot.katuosanlaji (cid) MATCH FULL
 ON DELETE CASCADE ON UPDATE CASCADE;
 -- ddl-end --
 
 -- object: suunnitelmalinkkitieto_fk | type: CONSTRAINT --
--- ALTER TABLE kohteet.viheralueenosa DROP CONSTRAINT IF EXISTS suunnitelmalinkkitieto_fk CASCADE;
-ALTER TABLE kohteet.viheralueenosa ADD CONSTRAINT suunnitelmalinkkitieto_fk FOREIGN KEY (suunnitelmalinkkitieto_id)
+-- ALTER TABLE viheralue.viheralueenosa DROP CONSTRAINT IF EXISTS suunnitelmalinkkitieto_fk CASCADE;
+ALTER TABLE viheralue.viheralueenosa ADD CONSTRAINT suunnitelmalinkkitieto_fk FOREIGN KEY (suunnitelmalinkkitieto_id)
 REFERENCES abstraktit.suunnitelmalinkki (id) MATCH FULL
 ON DELETE CASCADE ON UPDATE CASCADE;
 -- ddl-end --
 
 -- object: puhtaanapitoluokkatyyppi_fk | type: CONSTRAINT --
--- ALTER TABLE kohteet.viheralueenosa DROP CONSTRAINT IF EXISTS puhtaanapitoluokkatyyppi_fk CASCADE;
-ALTER TABLE kohteet.viheralueenosa ADD CONSTRAINT puhtaanapitoluokkatyyppi_fk FOREIGN KEY (puhtaanapitoluokka_id)
-REFERENCES koodistot.puhtaanapitoluokkatyyppi (id) MATCH FULL
+-- ALTER TABLE viheralue.viheralueenosa DROP CONSTRAINT IF EXISTS puhtaanapitoluokkatyyppi_fk CASCADE;
+ALTER TABLE viheralue.viheralueenosa ADD CONSTRAINT puhtaanapitoluokkatyyppi_fk FOREIGN KEY (puhtaanapitoluokka_id)
+REFERENCES koodistot.puhtaanapitoluokkatyyppi (cid) MATCH FULL
 ON DELETE CASCADE ON UPDATE CASCADE;
 -- ddl-end --
 
 -- object: muutoshoitoluokka_fk | type: CONSTRAINT --
--- ALTER TABLE kohteet.viheralueenosa DROP CONSTRAINT IF EXISTS muutoshoitoluokka_fk CASCADE;
-ALTER TABLE kohteet.viheralueenosa ADD CONSTRAINT muutoshoitoluokka_fk FOREIGN KEY (muutoshoitoluokka_id)
-REFERENCES koodistot.muutoshoitoluokkatyyppi (id) MATCH FULL
+-- ALTER TABLE viheralue.viheralueenosa DROP CONSTRAINT IF EXISTS muutoshoitoluokka_fk CASCADE;
+ALTER TABLE viheralue.viheralueenosa ADD CONSTRAINT muutoshoitoluokka_fk FOREIGN KEY (muutoshoitoluokka_id)
+REFERENCES koodistot.muutoshoitoluokkatyyppi (cid) MATCH FULL
 ON DELETE CASCADE ON UPDATE CASCADE;
 -- ddl-end --
 
 -- object: materiaali_fk | type: CONSTRAINT --
 -- ALTER TABLE abstraktit.abstractvaruste DROP CONSTRAINT IF EXISTS materiaali_fk CASCADE;
 ALTER TABLE abstraktit.abstractvaruste ADD CONSTRAINT materiaali_fk FOREIGN KEY (materiaali_id)
-REFERENCES koodistot.varustemateriaali (id) MATCH FULL
+REFERENCES koodistot.varustemateriaali (cid) MATCH FULL
 ON DELETE CASCADE ON UPDATE CASCADE;
 -- ddl-end --
 
 -- object: kunnossapitoluokka_fk | type: CONSTRAINT --
--- ALTER TABLE kohteet.katualueenosa DROP CONSTRAINT IF EXISTS kunnossapitoluokka_fk CASCADE;
-ALTER TABLE kohteet.katualueenosa ADD CONSTRAINT kunnossapitoluokka_fk FOREIGN KEY (kunnossapitoluokka_id)
-REFERENCES koodistot.kunnossapitoluokka (id) MATCH FULL
+-- ALTER TABLE katualue.katualueenosa DROP CONSTRAINT IF EXISTS kunnossapitoluokka_fk CASCADE;
+ALTER TABLE katualue.katualueenosa ADD CONSTRAINT kunnossapitoluokka_fk FOREIGN KEY (kunnossapitoluokka_id)
+REFERENCES koodistot.kunnossapitoluokka (cid) MATCH FULL
 ON DELETE SET NULL ON UPDATE CASCADE;
 -- ddl-end --
 
 -- object: katuosanlaji_fk | type: CONSTRAINT --
--- ALTER TABLE kohteet.katualueenosa DROP CONSTRAINT IF EXISTS katuosanlaji_fk CASCADE;
-ALTER TABLE kohteet.katualueenosa ADD CONSTRAINT katuosanlaji_fk FOREIGN KEY (katuosanlaji_id)
-REFERENCES koodistot.katuosanlaji (id) MATCH FULL
+-- ALTER TABLE katualue.katualueenosa DROP CONSTRAINT IF EXISTS katuosanlaji_fk CASCADE;
+ALTER TABLE katualue.katualueenosa ADD CONSTRAINT katuosanlaji_fk FOREIGN KEY (katuosanlaji_id)
+REFERENCES koodistot.katuosanlaji (cid) MATCH FULL
 ON DELETE SET NULL ON UPDATE CASCADE;
 -- ddl-end --
 
 -- object: talvihoidonluokka_fk | type: CONSTRAINT --
--- ALTER TABLE kohteet.katualueenosa DROP CONSTRAINT IF EXISTS talvihoidonluokka_fk CASCADE;
-ALTER TABLE kohteet.katualueenosa ADD CONSTRAINT talvihoidonluokka_fk FOREIGN KEY (talvihoidonluokka_id)
-REFERENCES koodistot.talvihoidonluokka (id) MATCH FULL
+-- ALTER TABLE katualue.katualueenosa DROP CONSTRAINT IF EXISTS talvihoidonluokka_fk CASCADE;
+ALTER TABLE katualue.katualueenosa ADD CONSTRAINT talvihoidonluokka_fk FOREIGN KEY (talvihoidonluokka_id)
+REFERENCES koodistot.talvihoidonluokka (cid) MATCH FULL
 ON DELETE SET NULL ON UPDATE CASCADE;
 -- ddl-end --
 
 -- object: pintamateriaali_fk | type: CONSTRAINT --
--- ALTER TABLE kohteet.katualueenosa DROP CONSTRAINT IF EXISTS pintamateriaali_fk CASCADE;
-ALTER TABLE kohteet.katualueenosa ADD CONSTRAINT pintamateriaali_fk FOREIGN KEY (pintamateriaali_id)
-REFERENCES koodistot.pintamateriaali (id) MATCH FULL
+-- ALTER TABLE katualue.katualueenosa DROP CONSTRAINT IF EXISTS pintamateriaali_fk CASCADE;
+ALTER TABLE katualue.katualueenosa ADD CONSTRAINT pintamateriaali_fk FOREIGN KEY (pintamateriaali_id)
+REFERENCES koodistot.pintamateriaali (cid) MATCH FULL
 ON DELETE SET NULL ON UPDATE CASCADE;
 -- ddl-end --
 
 -- object: toiminnallinenluokka_fk | type: CONSTRAINT --
--- ALTER TABLE kohteet.katualueenosa DROP CONSTRAINT IF EXISTS toiminnallinenluokka_fk CASCADE;
-ALTER TABLE kohteet.katualueenosa ADD CONSTRAINT toiminnallinenluokka_fk FOREIGN KEY (luokka_id)
-REFERENCES koodistot.toiminnallinenluokka (id) MATCH FULL
+-- ALTER TABLE katualue.katualueenosa DROP CONSTRAINT IF EXISTS toiminnallinenluokka_fk CASCADE;
+ALTER TABLE katualue.katualueenosa ADD CONSTRAINT toiminnallinenluokka_fk FOREIGN KEY (luokka_id)
+REFERENCES koodistot.toiminnallinenluokka (cid) MATCH FULL
 ON DELETE CASCADE ON UPDATE CASCADE;
 -- ddl-end --
 
 -- object: viherosanlajityyppi_fk | type: CONSTRAINT --
--- ALTER TABLE kohteet.katualueenosa DROP CONSTRAINT IF EXISTS viherosanlajityyppi_fk CASCADE;
-ALTER TABLE kohteet.katualueenosa ADD CONSTRAINT viherosanlajityyppi_fk FOREIGN KEY (viherosanlajityypi_id)
-REFERENCES koodistot.viherosanlajityyppi (id) MATCH FULL
+-- ALTER TABLE katualue.katualueenosa DROP CONSTRAINT IF EXISTS viherosanlajityyppi_fk CASCADE;
+ALTER TABLE katualue.katualueenosa ADD CONSTRAINT viherosanlajityyppi_fk FOREIGN KEY (viherosanlajityypi_id)
+REFERENCES koodistot.viherosanlajityyppi (cid) MATCH FULL
 ON DELETE CASCADE ON UPDATE CASCADE;
 -- ddl-end --
 
 -- object: paatostieto_id | type: CONSTRAINT --
--- ALTER TABLE kohteet.katualueenosa DROP CONSTRAINT IF EXISTS paatostieto_id CASCADE;
-ALTER TABLE kohteet.katualueenosa ADD CONSTRAINT paatostieto_id FOREIGN KEY (paatostieto_id)
+-- ALTER TABLE katualue.katualueenosa DROP CONSTRAINT IF EXISTS paatostieto_id CASCADE;
+ALTER TABLE katualue.katualueenosa ADD CONSTRAINT paatostieto_id FOREIGN KEY (paatostieto_id)
 REFERENCES abstraktit.paatos (id) MATCH FULL
 ON DELETE CASCADE ON UPDATE CASCADE;
 -- ddl-end --
 
 -- object: suunnitelmalinkkitieto_fk | type: CONSTRAINT --
--- ALTER TABLE kohteet.katualueenosa DROP CONSTRAINT IF EXISTS suunnitelmalinkkitieto_fk CASCADE;
-ALTER TABLE kohteet.katualueenosa ADD CONSTRAINT suunnitelmalinkkitieto_fk FOREIGN KEY (suunnitelmalinkkitieto_id)
+-- ALTER TABLE katualue.katualueenosa DROP CONSTRAINT IF EXISTS suunnitelmalinkkitieto_fk CASCADE;
+ALTER TABLE katualue.katualueenosa ADD CONSTRAINT suunnitelmalinkkitieto_fk FOREIGN KEY (suunnitelmalinkkitieto_id)
 REFERENCES abstraktit.suunnitelmalinkki (id) MATCH FULL
 ON DELETE CASCADE ON UPDATE CASCADE;
--- ddl-end --
-
--- object: melutyyppi_fk | type: CONSTRAINT --
--- ALTER TABLE kohteet.melu DROP CONSTRAINT IF EXISTS melutyyppi_fk CASCADE;
-ALTER TABLE kohteet.melu ADD CONSTRAINT melutyyppi_fk FOREIGN KEY (melutyyppi_id)
-REFERENCES koodistot.melutyyppi (id) MATCH FULL
-ON DELETE CASCADE ON UPDATE CASCADE;
--- ddl-end --
-
--- object: varustemateriaali_fk | type: CONSTRAINT --
--- ALTER TABLE kohteet.melu DROP CONSTRAINT IF EXISTS varustemateriaali_fk CASCADE;
-ALTER TABLE kohteet.melu ADD CONSTRAINT varustemateriaali_fk FOREIGN KEY (materiaali_id)
-REFERENCES koodistot.melutyyppi (id) MATCH FULL
-ON DELETE CASCADE ON UPDATE CASCADE;
--- ddl-end --
-
--- object: liikuntatyyppi_fk | type: CONSTRAINT --
--- ALTER TABLE kohteet.liikunta DROP CONSTRAINT IF EXISTS liikuntatyyppi_fk CASCADE;
-ALTER TABLE kohteet.liikunta ADD CONSTRAINT liikuntatyyppi_fk FOREIGN KEY (liikuntatyyppi_id)
-REFERENCES koodistot.liikuntatyyppi (id) MATCH FULL
-ON DELETE CASCADE ON UPDATE CASCADE;
--- ddl-end --
-
--- object: varustemateriaali_fk | type: CONSTRAINT --
--- ALTER TABLE kohteet.liikunta DROP CONSTRAINT IF EXISTS varustemateriaali_fk CASCADE;
-ALTER TABLE kohteet.liikunta ADD CONSTRAINT varustemateriaali_fk FOREIGN KEY (materiaali_id)
-REFERENCES koodistot.varustemateriaali (id) MATCH FULL
-ON DELETE CASCADE ON UPDATE CASCADE;
--- ddl-end --
-
--- object: jatetyyppi_fk | type: CONSTRAINT --
--- ALTER TABLE kohteet.jate DROP CONSTRAINT IF EXISTS jatetyyppi_fk CASCADE;
-ALTER TABLE kohteet.jate ADD CONSTRAINT jatetyyppi_fk FOREIGN KEY (jatetyyppi_id)
-REFERENCES koodistot.jatetyyppi (id) MATCH FULL
-ON DELETE SET NULL ON UPDATE CASCADE;
--- ddl-end --
-
--- object: varustemateriaali_fk | type: CONSTRAINT --
--- ALTER TABLE kohteet.jate DROP CONSTRAINT IF EXISTS varustemateriaali_fk CASCADE;
-ALTER TABLE kohteet.jate ADD CONSTRAINT varustemateriaali_fk FOREIGN KEY (id)
-REFERENCES koodistot.varustemateriaali (id) MATCH FULL
-ON DELETE CASCADE ON UPDATE CASCADE;
--- ddl-end --
-
--- object: opastetyyppi_fk | type: CONSTRAINT --
--- ALTER TABLE kohteet.opaste DROP CONSTRAINT IF EXISTS opastetyyppi_fk CASCADE;
-ALTER TABLE kohteet.opaste ADD CONSTRAINT opastetyyppi_fk FOREIGN KEY (opastetyyppi_id)
-REFERENCES koodistot.opastetyyppi (id) MATCH FULL
-ON DELETE CASCADE ON UPDATE CASCADE;
--- ddl-end --
-
--- object: varustemateriaali_fk | type: CONSTRAINT --
--- ALTER TABLE kohteet.opaste DROP CONSTRAINT IF EXISTS varustemateriaali_fk CASCADE;
-ALTER TABLE kohteet.opaste ADD CONSTRAINT varustemateriaali_fk FOREIGN KEY (materiaali_id)
-REFERENCES koodistot.varustemateriaali (id) MATCH FULL
-ON DELETE CASCADE ON UPDATE CASCADE;
--- ddl-end --
-
--- object: rakennetyyppi_fk | type: CONSTRAINT --
--- ALTER TABLE kohteet.rakenne DROP CONSTRAINT IF EXISTS rakennetyyppi_fk CASCADE;
-ALTER TABLE kohteet.rakenne ADD CONSTRAINT rakennetyyppi_fk FOREIGN KEY (rakennetyyyppi_id)
-REFERENCES koodistot.rakennetyyppi (id) MATCH FULL
-ON DELETE CASCADE ON UPDATE CASCADE;
--- ddl-end --
-
--- object: varustemateriaali_fk | type: CONSTRAINT --
--- ALTER TABLE kohteet.rakenne DROP CONSTRAINT IF EXISTS varustemateriaali_fk CASCADE;
-ALTER TABLE kohteet.rakenne ADD CONSTRAINT varustemateriaali_fk FOREIGN KEY (materiaali_id)
-REFERENCES koodistot.varustemateriaali (id) MATCH FULL
-ON DELETE CASCADE ON UPDATE CASCADE;
--- ddl-end --
-
--- object: liikennemerkkityyppi_fk | type: CONSTRAINT --
--- ALTER TABLE kohteet.liikennemerkki DROP CONSTRAINT IF EXISTS liikennemerkkityyppi_fk CASCADE;
-ALTER TABLE kohteet.liikennemerkki ADD CONSTRAINT liikennemerkkityyppi_fk FOREIGN KEY (liikennemerkkityyppi_id)
-REFERENCES koodistot.liikennemerkkityyppi (id) MATCH FULL
-ON DELETE CASCADE ON UPDATE CASCADE;
--- ddl-end --
-
--- object: liikennemerkkityyppi2020_fk | type: CONSTRAINT --
--- ALTER TABLE kohteet.liikennemerkki DROP CONSTRAINT IF EXISTS liikennemerkkityyppi2020_fk CASCADE;
-ALTER TABLE kohteet.liikennemerkki ADD CONSTRAINT liikennemerkkityyppi2020_fk FOREIGN KEY (liikennemerkkityyppi2020_id)
-REFERENCES koodistot.liikennemerkkityyppi2020 (id) MATCH FULL
-ON DELETE CASCADE ON UPDATE CASCADE;
--- ddl-end --
-
--- object: vaustemateriaali_fk | type: CONSTRAINT --
--- ALTER TABLE kohteet.liikennemerkki DROP CONSTRAINT IF EXISTS vaustemateriaali_fk CASCADE;
-ALTER TABLE kohteet.liikennemerkki ADD CONSTRAINT vaustemateriaali_fk FOREIGN KEY (materiaali_id)
-REFERENCES koodistot.varustemateriaali (id) MATCH FULL
-ON DELETE CASCADE ON UPDATE CASCADE;
--- ddl-end --
-
--- object: leikkivaline_fk | type: CONSTRAINT --
--- ALTER TABLE kohteet.leikkivaline DROP CONSTRAINT IF EXISTS leikkivaline_fk CASCADE;
-ALTER TABLE kohteet.leikkivaline ADD CONSTRAINT leikkivaline_fk FOREIGN KEY (id)
-REFERENCES koodistot.varustemateriaali (id) MATCH FULL
-ON DELETE CASCADE ON UPDATE CASCADE;
--- ddl-end --
-
--- object: leikkivalinetyyppi_fk | type: CONSTRAINT --
--- ALTER TABLE kohteet.leikkivaline DROP CONSTRAINT IF EXISTS leikkivalinetyyppi_fk CASCADE;
-ALTER TABLE kohteet.leikkivaline ADD CONSTRAINT leikkivalinetyyppi_fk FOREIGN KEY (leikkivalinetyyppi_id)
-REFERENCES koodistot.leikkivalinetyyppi (id) MATCH FULL
-ON DELETE CASCADE ON UPDATE CASCADE;
--- ddl-end --
-
--- object: muuvarustetyyppi_fk | type: CONSTRAINT --
--- ALTER TABLE kohteet.muuvaruste DROP CONSTRAINT IF EXISTS muuvarustetyyppi_fk CASCADE;
-ALTER TABLE kohteet.muuvaruste ADD CONSTRAINT muuvarustetyyppi_fk FOREIGN KEY (muuvarustetyyppi_id)
-REFERENCES koodistot.muuvarustetyyppi (id) MATCH FULL
-ON DELETE CASCADE ON UPDATE CASCADE;
--- ddl-end --
-
--- object: varustemateriaali_fk | type: CONSTRAINT --
--- ALTER TABLE kohteet.muuvaruste DROP CONSTRAINT IF EXISTS varustemateriaali_fk CASCADE;
-ALTER TABLE kohteet.muuvaruste ADD CONSTRAINT varustemateriaali_fk FOREIGN KEY (materiaali_id)
-REFERENCES koodistot.varustemateriaali (id) MATCH FULL
-ON DELETE CASCADE ON UPDATE CASCADE;
--- ddl-end --
-
--- object: varustemateriaali_fk | type: CONSTRAINT --
--- ALTER TABLE kohteet.liikennevalo DROP CONSTRAINT IF EXISTS varustemateriaali_fk CASCADE;
-ALTER TABLE kohteet.liikennevalo ADD CONSTRAINT varustemateriaali_fk FOREIGN KEY (materiaali_id)
-REFERENCES koodistot.varustemateriaali (id) MATCH FULL
-ON DELETE CASCADE ON UPDATE NO ACTION;
 -- ddl-end --
 
 -- object: puulaji_fk | type: CONSTRAINT --
 -- ALTER TABLE abstraktit.abstractkasvillisuus DROP CONSTRAINT IF EXISTS puulaji_fk CASCADE;
 ALTER TABLE abstraktit.abstractkasvillisuus ADD CONSTRAINT puulaji_fk FOREIGN KEY (puulaji_id)
-REFERENCES koodistot.puulaji (id) MATCH FULL
+REFERENCES koodistot.puulaji (cid) MATCH FULL
 ON DELETE CASCADE ON UPDATE CASCADE;
 -- ddl-end --
 
 -- object: puutyyppi_fk | type: CONSTRAINT --
 -- ALTER TABLE abstraktit.abstractkasvillisuus DROP CONSTRAINT IF EXISTS puutyyppi_fk CASCADE;
 ALTER TABLE abstraktit.abstractkasvillisuus ADD CONSTRAINT puutyyppi_fk FOREIGN KEY (puutyyppi_id)
-REFERENCES koodistot.puutyyppi (id) MATCH FULL
-ON DELETE CASCADE ON UPDATE CASCADE;
--- ddl-end --
-
--- object: kalustetyyppi_fk | type: CONSTRAINT --
--- ALTER TABLE kohteet.kaluste DROP CONSTRAINT IF EXISTS kalustetyyppi_fk CASCADE;
-ALTER TABLE kohteet.kaluste ADD CONSTRAINT kalustetyyppi_fk FOREIGN KEY (kalustetyyppi_id)
-REFERENCES koodistot.kalustetyyppi (id) MATCH FULL
-ON DELETE CASCADE ON UPDATE CASCADE;
--- ddl-end --
-
--- object: varustemateriaali_fk | type: CONSTRAINT --
--- ALTER TABLE kohteet.kaluste DROP CONSTRAINT IF EXISTS varustemateriaali_fk CASCADE;
-ALTER TABLE kohteet.kaluste ADD CONSTRAINT varustemateriaali_fk FOREIGN KEY (materiaali_id)
-REFERENCES koodistot.varustemateriaali (id) MATCH FULL
-ON DELETE CASCADE ON UPDATE CASCADE;
--- ddl-end --
-
--- object: hulevesityyppi_fk | type: CONSTRAINT --
--- ALTER TABLE kohteet.hulevesi DROP CONSTRAINT IF EXISTS hulevesityyppi_fk CASCADE;
-ALTER TABLE kohteet.hulevesi ADD CONSTRAINT hulevesityyppi_fk FOREIGN KEY (hulevesityyppi_id)
-REFERENCES koodistot.hulevesityyppi (id) MATCH FULL
-ON DELETE CASCADE ON UPDATE CASCADE;
--- ddl-end --
-
--- object: varustemateriaali_fk | type: CONSTRAINT --
--- ALTER TABLE kohteet.hulevesi DROP CONSTRAINT IF EXISTS varustemateriaali_fk CASCADE;
-ALTER TABLE kohteet.hulevesi ADD CONSTRAINT varustemateriaali_fk FOREIGN KEY (materiaali_id)
-REFERENCES koodistot.varustemateriaali (id) MATCH FULL
-ON DELETE CASCADE ON UPDATE CASCADE;
--- ddl-end --
-
--- object: ajoratamerkintatyyppi_fk | type: CONSTRAINT --
--- ALTER TABLE kohteet.ajoratamerkinta DROP CONSTRAINT IF EXISTS ajoratamerkintatyyppi_fk CASCADE;
-ALTER TABLE kohteet.ajoratamerkinta ADD CONSTRAINT ajoratamerkintatyyppi_fk FOREIGN KEY (ajoratamerkintatyyppi_id)
-REFERENCES koodistot.ajoratamerkintatyyppi (id) MATCH FULL
-ON DELETE CASCADE ON UPDATE CASCADE;
--- ddl-end --
-
--- object: ymparistotaidetyyppi_fk | type: CONSTRAINT --
--- ALTER TABLE kohteet.ymparistotaide DROP CONSTRAINT IF EXISTS ymparistotaidetyyppi_fk CASCADE;
-ALTER TABLE kohteet.ymparistotaide ADD CONSTRAINT ymparistotaidetyyppi_fk FOREIGN KEY (ymparistotaidetyyppi_id)
-REFERENCES koodistot.ymparistotaidetyyppi (id) MATCH FULL
-ON DELETE CASCADE ON UPDATE CASCADE;
--- ddl-end --
-
--- object: varustemateriaali_fk | type: CONSTRAINT --
--- ALTER TABLE kohteet.ymparistotaide DROP CONSTRAINT IF EXISTS varustemateriaali_fk CASCADE;
-ALTER TABLE kohteet.ymparistotaide ADD CONSTRAINT varustemateriaali_fk FOREIGN KEY (materiaali_id)
-REFERENCES koodistot.varustemateriaali (id) MATCH FULL
+REFERENCES koodistot.puutyyppi (cid) MATCH FULL
 ON DELETE CASCADE ON UPDATE CASCADE;
 -- ddl-end --
 
@@ -8714,31 +10481,17 @@ REFERENCES meta.infraokohteet (id) MATCH FULL
 ON DELETE CASCADE ON UPDATE CASCADE;
 -- ddl-end --
 
--- object: varustemateriaali_fk | type: CONSTRAINT --
--- ALTER TABLE kohteet.pysakointiruutu DROP CONSTRAINT IF EXISTS varustemateriaali_fk CASCADE;
-ALTER TABLE kohteet.pysakointiruutu ADD CONSTRAINT varustemateriaali_fk FOREIGN KEY (materiaali_id)
-REFERENCES koodistot.varustemateriaali (id) MATCH FULL
-ON DELETE CASCADE ON UPDATE CASCADE;
--- ddl-end --
-
 -- object: sijaintiepavarmuustyyppi_fk | type: CONSTRAINT --
 -- ALTER TABLE abstraktit.sijainti DROP CONSTRAINT IF EXISTS sijaintiepavarmuustyyppi_fk CASCADE;
 ALTER TABLE abstraktit.sijainti ADD CONSTRAINT sijaintiepavarmuustyyppi_fk FOREIGN KEY (sijaintiepavarmuus_id)
-REFERENCES koodistot.sijaintiepavarmuustyyppi (id) MATCH FULL
+REFERENCES koodistot.sijaintiepavarmuustyyppi (cid) MATCH FULL
 ON DELETE CASCADE ON UPDATE CASCADE;
 -- ddl-end --
 
 -- object: osoitetieto_fk | type: CONSTRAINT --
 -- ALTER TABLE abstraktit.sijainti DROP CONSTRAINT IF EXISTS osoitetieto_fk CASCADE;
 ALTER TABLE abstraktit.sijainti ADD CONSTRAINT osoitetieto_fk FOREIGN KEY (osoitetieto_id)
-REFERENCES abstraktit.osoite (id) MATCH FULL
-ON DELETE CASCADE ON UPDATE CASCADE;
--- ddl-end --
-
--- object: erikoisrakennekerrosmateriaalityyppi_fk | type: CONSTRAINT --
--- ALTER TABLE kohteet.erikoisrakennekerros DROP CONSTRAINT IF EXISTS erikoisrakennekerrosmateriaalityyppi_fk CASCADE;
-ALTER TABLE kohteet.erikoisrakennekerros ADD CONSTRAINT erikoisrakennekerrosmateriaalityyppi_fk FOREIGN KEY (erikoisrakennekerrosmateriaalityyppi_id)
-REFERENCES koodistot.erikoisrakennekerrosmateriaalityyppi (id) MATCH FULL
+REFERENCES osoite.osoite (id) MATCH FULL
 ON DELETE CASCADE ON UPDATE CASCADE;
 -- ddl-end --
 

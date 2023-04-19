@@ -1,5 +1,5 @@
 <!DOCTYPE qgis PUBLIC 'http://mrcc.com/qgis.dtd' 'SYSTEM'>
-<qgis version="3.28.4-Firenze" saveUser="juho-" saveUserFull="Juho Ervasti" saveDateTime="2023-04-19T15:19:30" projectname="">
+<qgis version="3.28.4-Firenze" saveUser="juho-" saveUserFull="Juho Ervasti" saveDateTime="2023-04-19T15:54:10" projectname="">
   <homePath path=""/>
   <title></title>
   <transaction mode="Disabled"/>
@@ -827,8 +827,8 @@
     <relation referencedLayer="viheralueenosa_9635a03c_e63f_4d12_8f60_eb5326355c57" referencingLayer="leikkivaline_geom_poly_cbd8143b_6fb4_4a3a_954d_f583e3f0b622" name="viheralueenosa_fk" id="leikkivaline_geom_poly_cbd8143b_6fb4_4a3a_954d_f583e3f0b622_fid_viheralueenosa_viheralueenosa_9635a03c_e63f_4d12_8f60_eb5326355c57_fid" strength="Association">
       <fieldRef referencedField="fid" referencingField="fid_viheralueenosa"/>
     </relation>
-    <relation referencedLayer="viheralueenosa_9635a03c_e63f_4d12_8f60_eb5326355c57" referencingLayer="liikennemerkki_geom_point_3e043158_0db2_4fe3_8618_056d544c7a59" name="test_relation" id="liikenneme_fid_viheralueenosa_viheraluee_identifier" strength="Association">
-      <fieldRef referencedField="identifier" referencingField="fid_viheralueenosa"/>
+    <relation referencedLayer="viheralueenosa_9635a03c_e63f_4d12_8f60_eb5326355c57" referencingLayer="liikennemerkki_geom_point_3e043158_0db2_4fe3_8618_056d544c7a59" name="" id="liikenneme_fid_viheralueenosa_viheraluee_fid" strength="Association">
+      <fieldRef referencedField="fid" referencingField="fid_viheralueenosa"/>
     </relation>
     <relation referencedLayer="liikennemerkkityyppi2020_64965fba_4390_435e_879a_7201869664ef" referencingLayer="liikennemerkki_geom_line_aee42862_9902_4494_bc63_06158214562b" name="liikennemerkkityyppi2020_fk" id="liikennemerkki_geom_line_aee42862_9902_4494_bc63_06158214562b_cid_liikennemerkkityyppi2020_liikennemerkkityyppi2020_64965fba_4390_435e_879a_7201869664ef_cid" strength="Association">
       <fieldRef referencedField="cid" referencingField="cid_liikennemerkkityyppi2020"/>
@@ -1216,10 +1216,10 @@
   <mapcanvas annotationsVisible="1" name="theMapCanvas">
     <units>meters</units>
     <extent>
-      <xmin>420499.25025601248489693</xmin>
-      <ymin>7113744.91804355289787054</ymin>
-      <xmax>421278.19824368256377056</xmax>
-      <ymax>7113960.95439951028674841</ymax>
+      <xmin>420594.33668028959073126</xmin>
+      <ymin>7113723.99903021287173033</ymin>
+      <xmax>421373.2846679596696049</xmax>
+      <ymax>7113940.0353861702606082</ymax>
     </extent>
     <rotation>0</rotation>
     <destinationsrs>
@@ -15062,7 +15062,7 @@
       <previewExpression>"identifier"</previewExpression>
       <mapTip></mapTip>
     </maplayer>
-    <maplayer autoRefreshEnabled="0" refreshOnNotifyEnabled="0" maxScale="0" type="vector" labelsEnabled="0" minScale="100000000" wkbType="PointZ" geometry="Point" styleCategories="AllStyleCategories" simplifyDrawingHints="1" symbologyReferenceScale="-1" hasScaleBasedVisibilityFlag="0" readOnly="0" legendPlaceholderImage="" autoRefreshTime="0" simplifyDrawingTol="1" refreshOnNotifyMessage="" simplifyMaxScale="1" simplifyAlgorithm="0" simplifyLocal="1">
+    <maplayer autoRefreshEnabled="0" refreshOnNotifyEnabled="0" maxScale="0" type="vector" labelsEnabled="0" minScale="100000000" wkbType="PointZ" geometry="Point" styleCategories="AllStyleCategories" simplifyDrawingHints="0" symbologyReferenceScale="-1" hasScaleBasedVisibilityFlag="0" readOnly="0" legendPlaceholderImage="" autoRefreshTime="0" simplifyDrawingTol="1" refreshOnNotifyMessage="" simplifyMaxScale="1" simplifyAlgorithm="0" simplifyLocal="1">
       <extent>
         <xmin>420760.76287544338265434</xmin>
         <ymin>7113752.26200244668871164</ymin>
@@ -15104,6 +15104,15 @@
 - tarkkaSijaintitieto
 - suunnitelmalinkkitieto
 - metatieto</abstract>
+        <contact>
+          <name></name>
+          <organization></organization>
+          <position></position>
+          <voice></voice>
+          <fax></fax>
+          <email></email>
+          <role></role>
+        </contact>
         <links/>
         <fees></fees>
         <encoding></encoding>
@@ -15120,7 +15129,15 @@
             <geographicflag>false</geographicflag>
           </spatialrefsys>
         </crs>
-        <extent/>
+        <extent>
+          <spatial dimensions="2" maxz="0" minx="0" maxx="0" crs="EPSG:3067" miny="0" maxy="0" minz="0"/>
+          <temporal>
+            <period>
+              <start></start>
+              <end></end>
+            </period>
+          </temporal>
+        </extent>
       </resourceMetadata>
       <provider encoding="">postgres</provider>
       <vectorjoins/>
@@ -15326,21 +15343,85 @@
           <Option type="List" name="dualview/previewExpressions">
             <Option type="QString" value="&quot;identifier&quot;"/>
           </Option>
+          <Option type="int" value="0" name="embeddedWidgets/count"/>
+          <Option name="variableNames"/>
+          <Option name="variableValues"/>
         </Option>
       </customproperties>
       <blendMode>0</blendMode>
       <featureBlendMode>0</featureBlendMode>
       <layerOpacity>1</layerOpacity>
+      <SingleCategoryDiagramRenderer attributeLegend="1" diagramType="Histogram">
+        <DiagramCategory height="15" opacity="1" backgroundAlpha="255" spacingUnitScale="3x:0,0,0,0,0,0" labelPlacementMethod="XHeight" rotationOffset="270" spacingUnit="MM" direction="0" showAxis="1" penWidth="0" barWidth="5" enabled="0" spacing="5" scaleBasedVisibility="0" backgroundColor="#ffffff" sizeScale="3x:0,0,0,0,0,0" penAlpha="255" sizeType="MM" scaleDependency="Area" diagramOrientation="Up" penColor="#000000" lineSizeScale="3x:0,0,0,0,0,0" lineSizeType="MM" maxScaleDenominator="1e+08" minScaleDenominator="0" width="15" minimumSize="0">
+          <fontProperties underline="0" style="" bold="0" italic="0" description="MS Shell Dlg 2,9.75,-1,5,50,0,0,0,0,0" strikethrough="0"/>
+          <axisSymbol>
+            <symbol clip_to_extent="1" frame_rate="10" force_rhr="0" is_animated="0" type="line" name="" alpha="1">
+              <data_defined_properties>
+                <Option type="Map">
+                  <Option type="QString" value="" name="name"/>
+                  <Option name="properties"/>
+                  <Option type="QString" value="collection" name="type"/>
+                </Option>
+              </data_defined_properties>
+              <layer enabled="1" locked="0" pass="0" class="SimpleLine">
+                <Option type="Map">
+                  <Option type="QString" value="0" name="align_dash_pattern"/>
+                  <Option type="QString" value="square" name="capstyle"/>
+                  <Option type="QString" value="5;2" name="customdash"/>
+                  <Option type="QString" value="3x:0,0,0,0,0,0" name="customdash_map_unit_scale"/>
+                  <Option type="QString" value="MM" name="customdash_unit"/>
+                  <Option type="QString" value="0" name="dash_pattern_offset"/>
+                  <Option type="QString" value="3x:0,0,0,0,0,0" name="dash_pattern_offset_map_unit_scale"/>
+                  <Option type="QString" value="MM" name="dash_pattern_offset_unit"/>
+                  <Option type="QString" value="0" name="draw_inside_polygon"/>
+                  <Option type="QString" value="bevel" name="joinstyle"/>
+                  <Option type="QString" value="35,35,35,255" name="line_color"/>
+                  <Option type="QString" value="solid" name="line_style"/>
+                  <Option type="QString" value="0.26" name="line_width"/>
+                  <Option type="QString" value="MM" name="line_width_unit"/>
+                  <Option type="QString" value="0" name="offset"/>
+                  <Option type="QString" value="3x:0,0,0,0,0,0" name="offset_map_unit_scale"/>
+                  <Option type="QString" value="MM" name="offset_unit"/>
+                  <Option type="QString" value="0" name="ring_filter"/>
+                  <Option type="QString" value="0" name="trim_distance_end"/>
+                  <Option type="QString" value="3x:0,0,0,0,0,0" name="trim_distance_end_map_unit_scale"/>
+                  <Option type="QString" value="MM" name="trim_distance_end_unit"/>
+                  <Option type="QString" value="0" name="trim_distance_start"/>
+                  <Option type="QString" value="3x:0,0,0,0,0,0" name="trim_distance_start_map_unit_scale"/>
+                  <Option type="QString" value="MM" name="trim_distance_start_unit"/>
+                  <Option type="QString" value="0" name="tweak_dash_pattern_on_corners"/>
+                  <Option type="QString" value="0" name="use_custom_dash"/>
+                  <Option type="QString" value="3x:0,0,0,0,0,0" name="width_map_unit_scale"/>
+                </Option>
+                <data_defined_properties>
+                  <Option type="Map">
+                    <Option type="QString" value="" name="name"/>
+                    <Option name="properties"/>
+                    <Option type="QString" value="collection" name="type"/>
+                  </Option>
+                </data_defined_properties>
+              </layer>
+            </symbol>
+          </axisSymbol>
+        </DiagramCategory>
+      </SingleCategoryDiagramRenderer>
+      <DiagramLayerSettings zIndex="0" dist="0" linePlacementFlags="18" showAll="1" priority="0" placement="0" obstacle="0">
+        <properties>
+          <Option type="Map">
+            <Option type="QString" value="" name="name"/>
+            <Option name="properties"/>
+            <Option type="QString" value="collection" name="type"/>
+          </Option>
+        </properties>
+      </DiagramLayerSettings>
       <geometryOptions removeDuplicateNodes="0" geometryPrecision="0">
-        <activeChecks type="StringList">
-          <Option type="QString" value=""/>
-        </activeChecks>
+        <activeChecks/>
         <checkConfiguration/>
       </geometryOptions>
       <legend type="default-vector" showLabelLegend="0"/>
       <referencedLayers>
-        <relation layerName="viheralueenosa" layerId="viheralueenosa_9635a03c_e63f_4d12_8f60_eb5326355c57" referencedLayer="viheralueenosa_9635a03c_e63f_4d12_8f60_eb5326355c57" providerKey="postgres" referencingLayer="liikennemerkki_geom_point_3e043158_0db2_4fe3_8618_056d544c7a59" name="test_relation" id="liikenneme_fid_viheralueenosa_viheraluee_identifier" dataSource="dbname='infrao' host=localhost port=5432 sslmode=disable key='fid' srid=3067 type=MultiPolygon checkPrimaryKeyUnicity='1' table=&quot;viheralue&quot;.&quot;viheralueenosa&quot; (geom)" strength="Association">
-          <fieldRef referencedField="identifier" referencingField="fid_viheralueenosa"/>
+        <relation layerName="viheralueenosa" layerId="viheralueenosa_9635a03c_e63f_4d12_8f60_eb5326355c57" referencedLayer="viheralueenosa_9635a03c_e63f_4d12_8f60_eb5326355c57" providerKey="postgres" referencingLayer="liikennemerkki_geom_point_3e043158_0db2_4fe3_8618_056d544c7a59" name="" id="liikenneme_fid_viheralueenosa_viheraluee_fid" dataSource="dbname='infrao' host=localhost port=5432 sslmode=disable key='fid' srid=3067 type=MultiPolygon checkPrimaryKeyUnicity='1' table=&quot;viheralue&quot;.&quot;viheralueenosa&quot; (geom)" strength="Association">
+          <fieldRef referencedField="fid" referencingField="fid_viheralueenosa"/>
         </relation>
         <relation layerName="liikennemerkkityyppi2020" layerId="liikennemerkkityyppi2020_64965fba_4390_435e_879a_7201869664ef" referencedLayer="liikennemerkkityyppi2020_64965fba_4390_435e_879a_7201869664ef" providerKey="postgres" referencingLayer="liikennemerkki_geom_point_3e043158_0db2_4fe3_8618_056d544c7a59" name="liikennemerkkityyppi2020_fk" id="liikennemerkki_geom_point_3e043158_0db2_4fe3_8618_056d544c7a59_cid_liikennemerkkityyppi2020_liikennemerkkityyppi2020_64965fba_4390_435e_879a_7201869664ef_cid" dataSource="dbname='infrao' host=localhost port=5432 sslmode=disable key='cid' checkPrimaryKeyUnicity='1' table=&quot;koodistot&quot;.&quot;liikennemerkkityyppi2020&quot;" strength="Association">
           <fieldRef referencedField="cid" referencingField="cid_liikennemerkkityyppi2020"/>
@@ -15357,170 +15438,183 @@
       </referencedLayers>
       <fieldConfiguration>
         <field configurationFlags="None" name="fid">
-          <editWidget type="">
+          <editWidget type="TextEdit">
             <config>
               <Option/>
             </config>
           </editWidget>
         </field>
         <field configurationFlags="None" name="identifier">
-          <editWidget type="">
+          <editWidget type="TextEdit">
             <config>
               <Option/>
             </config>
           </editWidget>
         </field>
         <field configurationFlags="None" name="nimi">
-          <editWidget type="">
+          <editWidget type="TextEdit">
             <config>
               <Option/>
             </config>
           </editWidget>
         </field>
         <field configurationFlags="None" name="valmistumisvuosi">
-          <editWidget type="">
+          <editWidget type="Range">
             <config>
               <Option/>
             </config>
           </editWidget>
         </field>
         <field configurationFlags="None" name="perusparannusvuosi">
-          <editWidget type="">
+          <editWidget type="Range">
             <config>
               <Option/>
             </config>
           </editWidget>
         </field>
         <field configurationFlags="None" name="alkuhetki">
-          <editWidget type="">
+          <editWidget type="DateTime">
             <config>
               <Option/>
             </config>
           </editWidget>
         </field>
         <field configurationFlags="None" name="loppuhetki">
-          <editWidget type="">
+          <editWidget type="DateTime">
             <config>
               <Option/>
             </config>
           </editWidget>
         </field>
         <field configurationFlags="None" name="malli">
-          <editWidget type="">
+          <editWidget type="TextEdit">
             <config>
               <Option/>
             </config>
           </editWidget>
         </field>
         <field configurationFlags="None" name="suunta">
-          <editWidget type="">
+          <editWidget type="TextEdit">
             <config>
               <Option/>
             </config>
           </editWidget>
         </field>
         <field configurationFlags="None" name="valmistaja">
-          <editWidget type="">
+          <editWidget type="TextEdit">
             <config>
               <Option/>
             </config>
           </editWidget>
         </field>
         <field configurationFlags="None" name="metatieto">
-          <editWidget type="">
+          <editWidget type="TextEdit">
             <config>
               <Option/>
             </config>
           </editWidget>
         </field>
         <field configurationFlags="None" name="omistaja">
-          <editWidget type="">
+          <editWidget type="TextEdit">
             <config>
               <Option/>
             </config>
           </editWidget>
         </field>
         <field configurationFlags="None" name="haltija">
-          <editWidget type="">
+          <editWidget type="TextEdit">
             <config>
               <Option/>
             </config>
           </editWidget>
         </field>
         <field configurationFlags="None" name="kunnossapitaja">
-          <editWidget type="">
+          <editWidget type="TextEdit">
             <config>
               <Option/>
             </config>
           </editWidget>
         </field>
         <field configurationFlags="None" name="teksti">
-          <editWidget type="">
+          <editWidget type="TextEdit">
             <config>
               <Option/>
             </config>
           </editWidget>
         </field>
         <field configurationFlags="None" name="geom_poly">
-          <editWidget type="">
+          <editWidget type="TextEdit">
             <config>
               <Option/>
             </config>
           </editWidget>
         </field>
         <field configurationFlags="None" name="geom_line">
-          <editWidget type="">
+          <editWidget type="TextEdit">
             <config>
               <Option/>
             </config>
           </editWidget>
         </field>
         <field configurationFlags="None" name="cid_varustemateriaali">
-          <editWidget type="">
+          <editWidget type="RelationReference">
             <config>
               <Option/>
             </config>
           </editWidget>
         </field>
         <field configurationFlags="None" name="fid_katualueenosa">
-          <editWidget type="">
+          <editWidget type="RelationReference">
             <config>
               <Option/>
             </config>
           </editWidget>
         </field>
         <field configurationFlags="None" name="cid_liikennemerkkityyppi2020">
-          <editWidget type="">
+          <editWidget type="RelationReference">
             <config>
               <Option/>
             </config>
           </editWidget>
         </field>
         <field configurationFlags="None" name="cid_liikennemerkkityyppi">
-          <editWidget type="">
+          <editWidget type="RelationReference">
             <config>
               <Option/>
             </config>
           </editWidget>
         </field>
         <field configurationFlags="None" name="sijaintitieto">
-          <editWidget type="">
+          <editWidget type="TextEdit">
             <config>
               <Option/>
             </config>
           </editWidget>
         </field>
         <field configurationFlags="None" name="suunnitelmalinkkitieto_id">
-          <editWidget type="">
+          <editWidget type="TextEdit">
             <config>
               <Option/>
             </config>
           </editWidget>
         </field>
         <field configurationFlags="None" name="fid_viheralueenosa">
-          <editWidget type="">
+          <editWidget type="RelationReference">
             <config>
-              <Option/>
+              <Option type="Map">
+                <Option type="bool" value="false" name="AllowAddFeatures"/>
+                <Option type="bool" value="false" name="AllowNULL"/>
+                <Option type="bool" value="true" name="MapIdentification"/>
+                <Option type="bool" value="false" name="OrderByValue"/>
+                <Option type="bool" value="false" name="ReadOnly"/>
+                <Option type="QString" value="dbname='infrao' host=localhost port=5432 sslmode=disable key='fid' srid=3067 type=MultiPolygon checkPrimaryKeyUnicity='1' table=&quot;viheralue&quot;.&quot;viheralueenosa&quot; (geom)" name="ReferencedLayerDataSource"/>
+                <Option type="QString" value="viheralueenosa_9635a03c_e63f_4d12_8f60_eb5326355c57" name="ReferencedLayerId"/>
+                <Option type="QString" value="viheralueenosa" name="ReferencedLayerName"/>
+                <Option type="QString" value="postgres" name="ReferencedLayerProviderKey"/>
+                <Option type="QString" value="liikenneme_fid_viheralueenosa_viheraluee_fid" name="Relation"/>
+                <Option type="bool" value="false" name="ShowForm"/>
+                <Option type="bool" value="true" name="ShowOpenFormButton"/>
+              </Option>
             </config>
           </editWidget>
         </field>
@@ -15653,12 +15747,12 @@
           <column width="197" type="field" name="geom_poly" hidden="0"/>
           <column width="119" type="field" name="geom_line" hidden="0"/>
           <column width="193" type="field" name="cid_varustemateriaali" hidden="0"/>
-          <column width="-1" type="field" name="fid_katualueenosa" hidden="0"/>
+          <column width="193" type="field" name="fid_katualueenosa" hidden="0"/>
           <column width="284" type="field" name="cid_liikennemerkkityyppi2020" hidden="0"/>
           <column width="216" type="field" name="cid_liikennemerkkityyppi" hidden="0"/>
           <column width="-1" type="field" name="sijaintitieto" hidden="0"/>
-          <column width="338" type="field" name="suunnitelmalinkkitieto_id" hidden="0"/>
-          <column width="-1" type="field" name="fid_viheralueenosa" hidden="0"/>
+          <column width="43" type="field" name="suunnitelmalinkkitieto_id" hidden="0"/>
+          <column width="196" type="field" name="fid_viheralueenosa" hidden="0"/>
           <column width="-1" type="actions" hidden="1"/>
         </columns>
       </attributetableconfig>
@@ -15671,12 +15765,103 @@
       <editforminit/>
       <editforminitcodesource>0</editforminitcodesource>
       <editforminitfilepath></editforminitfilepath>
-      <editforminitcode><![CDATA[]]></editforminitcode>
+      <editforminitcode><![CDATA[# -*- coding: utf-8 -*-
+"""
+QGIS forms can have a Python function that is called when the form is
+opened.
+
+Use this function to add extra logic to your forms.
+
+Enter the name of the function in the "Python Init function"
+field.
+An example follows:
+"""
+from qgis.PyQt.QtWidgets import QWidget
+
+def my_form_open(dialog, layer, feature):
+    geom = feature.geometry()
+    control = dialog.findChild(QWidget, "MyLineEdit")
+]]></editforminitcode>
       <featformsuppress>0</featformsuppress>
       <editorlayout>generatedlayout</editorlayout>
-      <editable/>
-      <labelOnTop/>
-      <reuseLastValue/>
+      <editable>
+        <field editable="1" name="alkuhetki"/>
+        <field editable="1" name="cid_liikennemerkkityyppi"/>
+        <field editable="1" name="cid_liikennemerkkityyppi2020"/>
+        <field editable="1" name="cid_varustemateriaali"/>
+        <field editable="1" name="fid"/>
+        <field editable="1" name="fid_katualueenosa"/>
+        <field editable="1" name="fid_viheralueenosa"/>
+        <field editable="1" name="geom_line"/>
+        <field editable="1" name="geom_poly"/>
+        <field editable="1" name="haltija"/>
+        <field editable="1" name="identifier"/>
+        <field editable="1" name="kunnossapitaja"/>
+        <field editable="1" name="loppuhetki"/>
+        <field editable="1" name="malli"/>
+        <field editable="1" name="metatieto"/>
+        <field editable="1" name="nimi"/>
+        <field editable="1" name="omistaja"/>
+        <field editable="1" name="perusparannusvuosi"/>
+        <field editable="1" name="sijaintitieto"/>
+        <field editable="1" name="suunnitelmalinkkitieto_id"/>
+        <field editable="1" name="suunta"/>
+        <field editable="1" name="teksti"/>
+        <field editable="1" name="valmistaja"/>
+        <field editable="1" name="valmistumisvuosi"/>
+      </editable>
+      <labelOnTop>
+        <field name="alkuhetki" labelOnTop="0"/>
+        <field name="cid_liikennemerkkityyppi" labelOnTop="0"/>
+        <field name="cid_liikennemerkkityyppi2020" labelOnTop="0"/>
+        <field name="cid_varustemateriaali" labelOnTop="0"/>
+        <field name="fid" labelOnTop="0"/>
+        <field name="fid_katualueenosa" labelOnTop="0"/>
+        <field name="fid_viheralueenosa" labelOnTop="0"/>
+        <field name="geom_line" labelOnTop="0"/>
+        <field name="geom_poly" labelOnTop="0"/>
+        <field name="haltija" labelOnTop="0"/>
+        <field name="identifier" labelOnTop="0"/>
+        <field name="kunnossapitaja" labelOnTop="0"/>
+        <field name="loppuhetki" labelOnTop="0"/>
+        <field name="malli" labelOnTop="0"/>
+        <field name="metatieto" labelOnTop="0"/>
+        <field name="nimi" labelOnTop="0"/>
+        <field name="omistaja" labelOnTop="0"/>
+        <field name="perusparannusvuosi" labelOnTop="0"/>
+        <field name="sijaintitieto" labelOnTop="0"/>
+        <field name="suunnitelmalinkkitieto_id" labelOnTop="0"/>
+        <field name="suunta" labelOnTop="0"/>
+        <field name="teksti" labelOnTop="0"/>
+        <field name="valmistaja" labelOnTop="0"/>
+        <field name="valmistumisvuosi" labelOnTop="0"/>
+      </labelOnTop>
+      <reuseLastValue>
+        <field reuseLastValue="0" name="alkuhetki"/>
+        <field reuseLastValue="0" name="cid_liikennemerkkityyppi"/>
+        <field reuseLastValue="0" name="cid_liikennemerkkityyppi2020"/>
+        <field reuseLastValue="0" name="cid_varustemateriaali"/>
+        <field reuseLastValue="0" name="fid"/>
+        <field reuseLastValue="0" name="fid_katualueenosa"/>
+        <field reuseLastValue="0" name="fid_viheralueenosa"/>
+        <field reuseLastValue="0" name="geom_line"/>
+        <field reuseLastValue="0" name="geom_poly"/>
+        <field reuseLastValue="0" name="haltija"/>
+        <field reuseLastValue="0" name="identifier"/>
+        <field reuseLastValue="0" name="kunnossapitaja"/>
+        <field reuseLastValue="0" name="loppuhetki"/>
+        <field reuseLastValue="0" name="malli"/>
+        <field reuseLastValue="0" name="metatieto"/>
+        <field reuseLastValue="0" name="nimi"/>
+        <field reuseLastValue="0" name="omistaja"/>
+        <field reuseLastValue="0" name="perusparannusvuosi"/>
+        <field reuseLastValue="0" name="sijaintitieto"/>
+        <field reuseLastValue="0" name="suunnitelmalinkkitieto_id"/>
+        <field reuseLastValue="0" name="suunta"/>
+        <field reuseLastValue="0" name="teksti"/>
+        <field reuseLastValue="0" name="valmistaja"/>
+        <field reuseLastValue="0" name="valmistumisvuosi"/>
+      </reuseLastValue>
       <dataDefinedFieldProperties/>
       <widgets/>
       <previewExpression>"identifier"</previewExpression>
@@ -35418,7 +35603,7 @@ def my_form_open(dialog, layer, feature):
       </reuseLastValue>
       <dataDefinedFieldProperties/>
       <widgets/>
-      <previewExpression>omistaja</previewExpression>
+      <previewExpression>fid</previewExpression>
       <mapTip></mapTip>
     </maplayer>
     <maplayer legendPlaceholderImage="" geometry="No geometry" styleCategories="AllStyleCategories" autoRefreshEnabled="0" type="vector" wkbType="NoGeometry" maxScale="0" refreshOnNotifyEnabled="0" autoRefreshTime="0" refreshOnNotifyMessage="" hasScaleBasedVisibilityFlag="0" minScale="1e+08" readOnly="0">
@@ -37749,7 +37934,7 @@ def my_form_open(dialog, layer, feature):
   <Bookmarks/>
   <ProjectViewSettings UseProjectScales="0" rotation="0">
     <Scales/>
-    <DefaultViewExtent xmin="420395.79622639546869323" ymin="7113744.91804355289787054" ymax="7113960.95439951028674841" xmax="421381.65227329957997426">
+    <DefaultViewExtent xmin="420490.88265067257452756" ymin="7113723.99903021287173033" ymax="7113940.0353861702606082" xmax="421476.7386975766858086">
       <spatialrefsys nativeFormat="Wkt">
         <wkt>PROJCRS["ETRS89 / TM35FIN(E,N)",BASEGEOGCRS["ETRS89",ENSEMBLE["European Terrestrial Reference System 1989 ensemble",MEMBER["European Terrestrial Reference Frame 1989"],MEMBER["European Terrestrial Reference Frame 1990"],MEMBER["European Terrestrial Reference Frame 1991"],MEMBER["European Terrestrial Reference Frame 1992"],MEMBER["European Terrestrial Reference Frame 1993"],MEMBER["European Terrestrial Reference Frame 1994"],MEMBER["European Terrestrial Reference Frame 1996"],MEMBER["European Terrestrial Reference Frame 1997"],MEMBER["European Terrestrial Reference Frame 2000"],MEMBER["European Terrestrial Reference Frame 2005"],MEMBER["European Terrestrial Reference Frame 2014"],ELLIPSOID["GRS 1980",6378137,298.257222101,LENGTHUNIT["metre",1]],ENSEMBLEACCURACY[0.1]],PRIMEM["Greenwich",0,ANGLEUNIT["degree",0.0174532925199433]],ID["EPSG",4258]],CONVERSION["TM35FIN",METHOD["Transverse Mercator",ID["EPSG",9807]],PARAMETER["Latitude of natural origin",0,ANGLEUNIT["degree",0.0174532925199433],ID["EPSG",8801]],PARAMETER["Longitude of natural origin",27,ANGLEUNIT["degree",0.0174532925199433],ID["EPSG",8802]],PARAMETER["Scale factor at natural origin",0.9996,SCALEUNIT["unity",1],ID["EPSG",8805]],PARAMETER["False easting",500000,LENGTHUNIT["metre",1],ID["EPSG",8806]],PARAMETER["False northing",0,LENGTHUNIT["metre",1],ID["EPSG",8807]]],CS[Cartesian,2],AXIS["(E)",east,ORDER[1],LENGTHUNIT["metre",1]],AXIS["(N)",north,ORDER[2],LENGTHUNIT["metre",1]],USAGE[SCOPE["Engineering survey, topographic mapping."],AREA["Finland - onshore and offshore."],BBOX[58.84,19.08,70.09,31.59]],ID["EPSG",3067]]</wkt>
         <proj4>+proj=utm +zone=35 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs</proj4>

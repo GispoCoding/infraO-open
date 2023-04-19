@@ -488,7 +488,7 @@ ALTER SEQUENCE public.katualueenosa_id_seq OWNER TO infrao_admin;
 -- object: viheralue.viheralueenosa | type: TABLE --
 -- DROP TABLE IF EXISTS viheralue.viheralueenosa CASCADE;
 CREATE TABLE viheralue.viheralueenosa (
-	fid bigint NOT NULL,
+	fid bigint NOT NULL GENERATED ALWAYS AS IDENTITY ,
 	identifier uuid DEFAULT gen_random_uuid(),
 	metatieto text,
 	alkuhetki timestamptz,

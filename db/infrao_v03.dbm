@@ -3,7 +3,7 @@
 CAUTION: Do not modify this file unless you know what you are doing.
  Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.9.4" use-changelog="false" last-position="1577,0" last-zoom="0.7" max-obj-count="81"
+<dbmodel pgmodeler-ver="0.9.4" use-changelog="false" last-position="999,0" last-zoom="0.6" max-obj-count="81"
 	 default-schema="public" default-owner="infrao_admin"
 	 layers="Default layer,Codelist relations,Viher_katualue relations"
 	 active-layers="0"
@@ -215,7 +215,7 @@ Ratkottava: kuinka tämä tieto populoidaan jostain muualta? Digitransit API? Op
 	<role name="infrao_admin"/>
 </sequence>
 
-<table name="viheralue" layers="0" collapse-mode="2" max-obj-count="3" z-value="0">
+<table name="viheralue" layers="0" collapse-mode="2" max-obj-count="8" z-value="0">
 	<schema name="viheralue"/>
 	<comment><![CDATA[TODO:
 - sisaltaaViheralueenOsan -> relation?]]></comment>
@@ -225,11 +225,23 @@ Ratkottava: kuinka tämä tieto populoidaan jostain muualta? Digitransit API? Op
 	 identity-type="ALWAYS">
 		<type name="bigint" length="0"/>
 	</column>
+	<column name="identifier" default-value="gen_random_uuid()">
+		<type name="uuid" length="0"/>
+	</column>
 	<column name="nimi">
 		<type name="text" length="0"/>
 	</column>
+	<column name="alkuhetki">
+		<type name="timestamptz" length="0"/>
+	</column>
+	<column name="loppuhetki">
+		<type name="timestamptz" length="0"/>
+	</column>
+	<column name="metatieto">
+		<type name="text" length="0"/>
+	</column>
 	<column name="geom">
-		<type name="geometry" length="0" spatial-type="POLYGON" variation="1" srid="0"/>
+		<type name="geometry" length="0" spatial-type="POLYGON" variation="1" srid="3067"/>
 	</column>
 	<constraint name="viheralue_pk" type="pk-constr" table="viheralue.viheralue">
 		<columns names="fid" ref-type="src-columns"/>
@@ -312,18 +324,28 @@ Ratkottava: kuinka tämä tieto populoidaan jostain muualta? Digitransit API? Op
 	<role name="infrao_admin"/>
 </sequence>
 
-<table name="katualue" layers="0" collapse-mode="2" max-obj-count="3" z-value="0">
+<table name="katualue" layers="0" collapse-mode="2" max-obj-count="8" z-value="0">
 	<schema name="katualue"/>
 	<role name="infrao_admin"/>
-	<comment><![CDATA[TODO:
-- sisaltaaKatualueenOsan -> relation?]]></comment>
 	<tag name="TODO"/>
 	<position x="3180" y="100"/>
 	<column name="fid" not-null="true"
 	 identity-type="ALWAYS">
 		<type name="bigint" length="0"/>
 	</column>
+	<column name="identifier" default-value="gen_random_uuid()">
+		<type name="uuid" length="0"/>
+	</column>
 	<column name="nimi">
+		<type name="text" length="0"/>
+	</column>
+	<column name="alkuhetki">
+		<type name="timestamptz" length="0"/>
+	</column>
+	<column name="loppuhetki">
+		<type name="timestamptz" length="0"/>
+	</column>
+	<column name="metatieto">
 		<type name="text" length="0"/>
 	</column>
 	<column name="geom">
@@ -339,11 +361,24 @@ Ratkottava: kuinka tämä tieto populoidaan jostain muualta? Digitransit API? Op
 	<role name="infrao_admin"/>
 </sequence>
 
-<table name="viheralueenosa" layers="0" collapse-mode="2" max-obj-count="22" z-value="0">
+<table name="viheralueenosa" layers="0" collapse-mode="2" max-obj-count="25" z-value="0">
 	<schema name="viheralue"/>
 	<position x="2480" y="320"/>
-	<column name="fid" not-null="true">
+	<column name="fid" not-null="true"
+	 identity-type="ALWAYS">
 		<type name="bigint" length="0"/>
+	</column>
+	<column name="identifier" default-value="gen_random_uuid()">
+		<type name="uuid" length="0"/>
+	</column>
+	<column name="metatieto">
+		<type name="text" length="0"/>
+	</column>
+	<column name="alkuhetki">
+		<type name="timestamptz" length="0"/>
+	</column>
+	<column name="loppuhetki">
+		<type name="timestamptz" length="0"/>
 	</column>
 	<column name="omistaja">
 		<type name="text" length="255"/>
@@ -387,21 +422,15 @@ Ratkottava: kuinka tämä tieto populoidaan jostain muualta? Digitransit API? Op
 	<column name="muutoshoitoluokka_id">
 		<type name="integer" length="0"/>
 	</column>
-	<column name="sisaltaakasvillisuus">
-		<type name="integer" length="0"/>
-	</column>
-	<column name="sisaltaavaruste">
-		<type name="integer" length="0"/>
-	</column>
 	<column name="geom">
-		<type name="geometry" length="0" spatial-type="MULTIPOLYGON" variation="0" srid="3067"/>
+		<type name="geometry" length="0" spatial-type="POLYGON" variation="1" srid="3067"/>
 	</column>
 	<constraint name="viheralueenosa_fid_pk" type="pk-constr" table="viheralue.viheralueenosa">
 		<columns names="fid" ref-type="src-columns"/>
 	</constraint>
 
 	<customidxs object-type="column">
-		<object name="fid_viheralue" index="18"/>
+		<object name="fid_viheralue" index="19"/>
 	</customidxs>
 
 	<customidxs object-type="constraint">
@@ -467,18 +496,39 @@ Ratkottava: kuinka tämä tieto populoidaan jostain muualta? Digitransit API? Op
 	<role name="infrao_admin"/>
 </sequence>
 
-<table name="katualueenosa" layers="0" collapse-mode="2" max-obj-count="25" z-value="0">
+<table name="katualueenosa" layers="0" collapse-mode="2" max-obj-count="31" z-value="0">
 	<schema name="katualue"/>
 	<position x="3660" y="100"/>
 	<column name="fid" not-null="true"
 	 identity-type="ALWAYS">
 		<type name="bigint" length="0"/>
 	</column>
+	<column name="identifier" default-value="gen_random_uuid()">
+		<type name="uuid" length="0"/>
+	</column>
+	<column name="metatieto">
+		<type name="text" length="0"/>
+	</column>
+	<column name="alkuhetki">
+		<type name="timestamptz" length="0"/>
+	</column>
+	<column name="loppuhetki">
+		<type name="timestamptz" length="0"/>
+	</column>
 	<column name="paatostieto_id">
 		<type name="integer" length="0"/>
 	</column>
+	<column name="omistaja">
+		<type name="text" length="0"/>
+	</column>
+	<column name="haltija">
+		<type name="text" length="0"/>
+	</column>
+	<column name="kunnossapitaja">
+		<type name="text" length="0"/>
+	</column>
 	<column name="kunnossapito">
-		<type name="varchar" length="255"/>
+		<type name="text" length="255"/>
 	</column>
 	<column name="leveys">
 		<type name="double precision" length="0"/>
@@ -493,39 +543,33 @@ Ratkottava: kuinka tämä tieto populoidaan jostain muualta? Digitransit API? Op
 		<type name="double precision" length="0"/>
 	</column>
 	<column name="puhtaanapito">
-		<type name="varchar" length="255"/>
+		<type name="text" length="255"/>
 	</column>
 	<column name="talvikunnossapito">
-		<type name="varchar" length="255"/>
+		<type name="text" length="255"/>
 	</column>
-	<column name="kuuluukatualueeseen_id">
-		<type name="integer" length="0"/>
-	</column>
-	<column name="sisaltaakeskilinja_id">
+	<column name="valmistumisvuosi">
 		<type name="integer" length="0"/>
 	</column>
 	<column name="luokka_id">
 		<type name="integer" length="255"/>
 	</column>
-	<column name="kunnossapitoluokka_id">
+	<column name="katuosanlaji_id">
 		<type name="integer" length="0"/>
 	</column>
-	<column name="katuosanlaji_id">
+	<column name="viherosanlajityypi_id">
 		<type name="integer" length="0"/>
 	</column>
 	<column name="pintamateriaali_id">
 		<type name="integer" length="0"/>
 	</column>
-	<column name="viherosanlajityypi_id">
+	<column name="kunnossapitoluokka_id">
 		<type name="integer" length="0"/>
 	</column>
 	<column name="suunnitelmalinkkitieto_id">
 		<type name="integer" length="0"/>
 	</column>
 	<column name="talvihoidonluokka_id">
-		<type name="integer" length="0"/>
-	</column>
-	<column name="sisaltaakasvillisuus_id">
 		<type name="integer" length="0"/>
 	</column>
 	<column name="geom">
@@ -537,7 +581,7 @@ Ratkottava: kuinka tämä tieto populoidaan jostain muualta? Digitransit API? Op
 	</constraint>
 
 	<customidxs object-type="column">
-		<object name="fid_katualue" index="20"/>
+		<object name="fid_katualue" index="24"/>
 	</customidxs>
 
 	<customidxs object-type="constraint">
@@ -5027,7 +5071,7 @@ Ratkottava: kuinka tämä tieto populoidaan jostain muualta? Digitransit API? Op
 <table name="liite" layers="0" collapse-mode="2" max-obj-count="6" z-value="0">
 	<schema name="abstraktit"/>
 	<role name="infrao_admin"/>
-	<position x="5660" y="1920"/>
+	<position x="5980" y="1840"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
 	</column>
@@ -5293,7 +5337,7 @@ Ratkottava: kuinka tämä tieto populoidaan jostain muualta? Digitransit API? Op
 	<role name="infrao_admin"/>
 	<comment><![CDATA[TODO: tarvitaanko? Jos tarve on pelkästään tallentaa tietoa luontitavasta ja/tai sijaintiepävarmuudesta niin voisi olla kohteen metatiedoissa?]]></comment>
 	<tag name="TODO"/>
-	<position x="5060" y="1800"/>
+	<position x="5240" y="1700"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
 	</column>
@@ -5669,7 +5713,7 @@ Ratkottava: kuinka tämä tieto populoidaan jostain muualta? Digitransit API? Op
 - suunnitelmalinkkitieto
 - metatieto]]></comment>
 	<tag name="TODO"/>
-	<position x="4660" y="2300"/>
+	<position x="4680" y="2080"/>
 	<column name="fid" not-null="true"
 	 identity-type="ALWAYS">
 		<type name="bigint" length="0"/>
@@ -5798,7 +5842,7 @@ Ratkottava: kuinka tämä tieto populoidaan jostain muualta? Digitransit API? Op
 - suunnitelmalinkkitieto
 - metatieto]]></comment>
 	<tag name="TODO"/>
-	<position x="4240" y="2300"/>
+	<position x="4260" y="2080"/>
 	<column name="fid" not-null="true"
 	 identity-type="ALWAYS">
 		<type name="bigint" length="0"/>
@@ -5915,7 +5959,7 @@ Ratkottava: kuinka tämä tieto populoidaan jostain muualta? Digitransit API? Op
 - suunnitelmalinkkitieto
 - metatieto]]></comment>
 	<tag name="TODO"/>
-	<position x="3820" y="2300"/>
+	<position x="3840" y="2080"/>
 	<column name="fid" not-null="true"
 	 identity-type="ALWAYS">
 		<type name="bigint" length="0"/>
@@ -6032,7 +6076,7 @@ Ratkottava: kuinka tämä tieto populoidaan jostain muualta? Digitransit API? Op
 - suunnitelmalinkkitieto
 - metatieto]]></comment>
 	<tag name="TODO"/>
-	<position x="3400" y="2300"/>
+	<position x="3420" y="2080"/>
 	<column name="fid" not-null="true"
 	 identity-type="ALWAYS">
 		<type name="bigint" length="0"/>
@@ -6149,7 +6193,7 @@ Ratkottava: kuinka tämä tieto populoidaan jostain muualta? Digitransit API? Op
 - suunnitelmalinkkitieto
 - metatieto]]></comment>
 	<tag name="TODO"/>
-	<position x="2980" y="2300"/>
+	<position x="3000" y="2080"/>
 	<column name="fid" not-null="true"
 	 identity-type="ALWAYS">
 		<type name="bigint" length="0"/>
@@ -6266,7 +6310,7 @@ Ratkottava: kuinka tämä tieto populoidaan jostain muualta? Digitransit API? Op
 - suunnitelmalinkkitieto
 - metatieto]]></comment>
 	<tag name="TODO"/>
-	<position x="2560" y="2300"/>
+	<position x="2580" y="2080"/>
 	<column name="fid" not-null="true"
 	 identity-type="ALWAYS">
 		<type name="bigint" length="0"/>
@@ -6384,7 +6428,7 @@ Ratkottava: kuinka tämä tieto populoidaan jostain muualta? Digitransit API? Op
 - metatieto
 - onko 'date' oikea tietotyyppi?]]></comment>
 	<tag name="TODO"/>
-	<position x="2100" y="2300"/>
+	<position x="2120" y="2080"/>
 	<column name="fid" not-null="true"
 	 identity-type="ALWAYS">
 		<type name="bigint" length="0"/>
@@ -6507,7 +6551,7 @@ Ratkottava: kuinka tämä tieto populoidaan jostain muualta? Digitransit API? Op
 - suunnitelmalinkkitieto
 - metatieto]]></comment>
 	<tag name="TODO"/>
-	<position x="1660" y="2300"/>
+	<position x="1680" y="2080"/>
 	<column name="fid" not-null="true"
 	 identity-type="ALWAYS">
 		<type name="bigint" length="0"/>

@@ -5,7 +5,7 @@
 -- Model Author: ---
 -- object: infrao_admin | type: ROLE --
 -- DROP ROLE IF EXISTS infrao_admin;
---CREATE ROLE IF NOT EXISTS infrao_admin WITH 
+--CREATE ROLE infrao_admin WITH 
 --	CREATEROLE
 --	LOGIN;
 -- ddl-end --
@@ -327,8 +327,12 @@ ALTER SEQUENCE kohteet.viheralueenosa_id_seq OWNER TO infrao_admin;
 -- DROP TABLE IF EXISTS viheralue.viheralue CASCADE;
 CREATE TABLE viheralue.viheralue (
 	fid bigint NOT NULL GENERATED ALWAYS AS IDENTITY ,
+	identifier uuid DEFAULT gen_random_uuid(),
 	nimi text,
-	geom geometry(POLYGONZ),
+	alkuhetki timestamptz,
+	loppuhetki timestamptz,
+	metatieto text,
+	geom geometry(POLYGONZ, 3067),
 	CONSTRAINT viheralue_pk PRIMARY KEY (fid)
 );
 -- ddl-end --
@@ -454,12 +458,14 @@ ALTER SEQUENCE public.katualue_id_seq OWNER TO infrao_admin;
 -- DROP TABLE IF EXISTS katualue.katualue CASCADE;
 CREATE TABLE katualue.katualue (
 	fid bigint NOT NULL GENERATED ALWAYS AS IDENTITY ,
+	identifier uuid DEFAULT gen_random_uuid(),
 	nimi text,
+	alkuhetki timestamptz,
+	loppuhetki timestamptz,
+	metatieto text,
 	geom geometry(POLYGONZ, 3067),
 	CONSTRAINT katualue_pk PRIMARY KEY (fid)
 );
--- ddl-end --
-COMMENT ON TABLE katualue.katualue IS E'TODO:\n- sisaltaaKatualueenOsan -> relation?';
 -- ddl-end --
 ALTER TABLE katualue.katualue OWNER TO infrao_admin;
 -- ddl-end --
@@ -482,7 +488,11 @@ ALTER SEQUENCE public.katualueenosa_id_seq OWNER TO infrao_admin;
 -- object: viheralue.viheralueenosa | type: TABLE --
 -- DROP TABLE IF EXISTS viheralue.viheralueenosa CASCADE;
 CREATE TABLE viheralue.viheralueenosa (
-	fid bigint NOT NULL,
+	fid bigint NOT NULL GENERATED ALWAYS AS IDENTITY ,
+	identifier uuid DEFAULT gen_random_uuid(),
+	metatieto text,
+	alkuhetki timestamptz,
+	loppuhetki timestamptz,
 	omistaja text,
 	haltija text,
 	kunnossapitaja text,
@@ -497,10 +507,8 @@ CREATE TABLE viheralue.viheralueenosa (
 	talvihoidonluokka_id integer,
 	puhtaanapitoluokka_id integer,
 	muutoshoitoluokka_id integer,
-	sisaltaakasvillisuus integer,
-	sisaltaavaruste integer,
-	geom geometry(MULTIPOLYGON, 3067),
 	fid_viheralue bigint,
+	geom geometry(POLYGONZ, 3067),
 	CONSTRAINT viheralueenosa_fid_pk PRIMARY KEY (fid)
 );
 -- ddl-end --
@@ -561,26 +569,31 @@ ALTER SEQUENCE public.liikunta_id_seq OWNER TO infrao_admin;
 -- DROP TABLE IF EXISTS katualue.katualueenosa CASCADE;
 CREATE TABLE katualue.katualueenosa (
 	fid bigint NOT NULL GENERATED ALWAYS AS IDENTITY ,
+	identifier uuid DEFAULT gen_random_uuid(),
+	metatieto text,
+	alkuhetki timestamptz,
+	loppuhetki timestamptz,
 	paatostieto_id integer,
-	kunnossapito varchar(255),
+	omistaja text,
+	haltija text,
+	kunnossapitaja text,
+	kunnossapito text,
 	leveys double precision,
 	perusparannusvuosi integer,
 	pinta_ala double precision,
 	pituus double precision,
-	puhtaanapito varchar(255),
-	talvikunnossapito varchar(255),
-	kuuluukatualueeseen_id integer,
-	sisaltaakeskilinja_id integer,
+	puhtaanapito text,
+	talvikunnossapito text,
+	valmistumisvuosi integer,
 	luokka_id integer,
-	kunnossapitoluokka_id integer,
 	katuosanlaji_id integer,
-	pintamateriaali_id integer,
 	viherosanlajityypi_id integer,
+	pintamateriaali_id integer,
+	kunnossapitoluokka_id integer,
 	suunnitelmalinkkitieto_id integer,
 	talvihoidonluokka_id integer,
-	sisaltaakasvillisuus_id integer,
-	geom geometry(POLYGONZ, 3067),
 	fid_katualue bigint,
+	geom geometry(POLYGONZ, 3067),
 	CONSTRAINT katualueenosa_pk PRIMARY KEY (fid)
 );
 -- ddl-end --

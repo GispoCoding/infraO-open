@@ -1,5 +1,5 @@
 <!DOCTYPE qgis PUBLIC 'http://mrcc.com/qgis.dtd' 'SYSTEM'>
-<qgis version="3.28.4-Firenze" saveDateTime="2023-04-20T15:16:45" projectname="" saveUserFull="Juho Ervasti" saveUser="juho-">
+<qgis version="3.28.4-Firenze" saveDateTime="2023-04-20T15:17:07" projectname="" saveUserFull="Juho Ervasti" saveUser="juho-">
   <homePath path=""/>
   <title></title>
   <transaction mode="Disabled"/>
@@ -2518,6 +2518,15 @@
         <abstract>TODO: 
 - metatieto
 - skeema</abstract>
+        <contact>
+          <name></name>
+          <organization></organization>
+          <position></position>
+          <voice></voice>
+          <fax></fax>
+          <email></email>
+          <role></role>
+        </contact>
         <links/>
         <fees></fees>
         <encoding></encoding>
@@ -2534,7 +2543,15 @@
             <geographicflag>false</geographicflag>
           </spatialrefsys>
         </crs>
-        <extent/>
+        <extent>
+          <spatial crs="EPSG:3067" maxy="0" minz="0" maxx="0" maxz="0" minx="0" dimensions="2" miny="0"/>
+          <temporal>
+            <period>
+              <start></start>
+              <end></end>
+            </period>
+          </temporal>
+        </extent>
       </resourceMetadata>
       <provider encoding="">postgres</provider>
       <vectorjoins/>
@@ -2744,15 +2761,80 @@
         <sizescale/>
       </renderer-v2>
       <customproperties>
-        <Option/>
+        <Option type="Map">
+          <Option value="0" type="int" name="embeddedWidgets/count"/>
+          <Option name="variableNames"/>
+          <Option name="variableValues"/>
+        </Option>
       </customproperties>
       <blendMode>0</blendMode>
       <featureBlendMode>0</featureBlendMode>
       <layerOpacity>1</layerOpacity>
+      <SingleCategoryDiagramRenderer attributeLegend="1" diagramType="Histogram">
+        <DiagramCategory spacingUnit="MM" lineSizeType="MM" diagramOrientation="Up" rotationOffset="270" spacingUnitScale="3x:0,0,0,0,0,0" backgroundAlpha="255" penWidth="0" penAlpha="255" scaleBasedVisibility="0" height="15" width="15" sizeScale="3x:0,0,0,0,0,0" direction="0" sizeType="MM" minScaleDenominator="0" labelPlacementMethod="XHeight" opacity="1" backgroundColor="#ffffff" showAxis="1" lineSizeScale="3x:0,0,0,0,0,0" scaleDependency="Area" spacing="5" minimumSize="0" maxScaleDenominator="1e+08" penColor="#000000" enabled="0" barWidth="5">
+          <fontProperties bold="0" underline="0" style="" strikethrough="0" description="MS Shell Dlg 2,8.25,-1,5,50,0,0,0,0,0" italic="0"/>
+          <axisSymbol>
+            <symbol clip_to_extent="1" frame_rate="10" alpha="1" force_rhr="0" is_animated="0" type="line" name="">
+              <data_defined_properties>
+                <Option type="Map">
+                  <Option value="" type="QString" name="name"/>
+                  <Option name="properties"/>
+                  <Option value="collection" type="QString" name="type"/>
+                </Option>
+              </data_defined_properties>
+              <layer pass="0" class="SimpleLine" enabled="1" locked="0">
+                <Option type="Map">
+                  <Option value="0" type="QString" name="align_dash_pattern"/>
+                  <Option value="square" type="QString" name="capstyle"/>
+                  <Option value="5;2" type="QString" name="customdash"/>
+                  <Option value="3x:0,0,0,0,0,0" type="QString" name="customdash_map_unit_scale"/>
+                  <Option value="MM" type="QString" name="customdash_unit"/>
+                  <Option value="0" type="QString" name="dash_pattern_offset"/>
+                  <Option value="3x:0,0,0,0,0,0" type="QString" name="dash_pattern_offset_map_unit_scale"/>
+                  <Option value="MM" type="QString" name="dash_pattern_offset_unit"/>
+                  <Option value="0" type="QString" name="draw_inside_polygon"/>
+                  <Option value="bevel" type="QString" name="joinstyle"/>
+                  <Option value="35,35,35,255" type="QString" name="line_color"/>
+                  <Option value="solid" type="QString" name="line_style"/>
+                  <Option value="0.26" type="QString" name="line_width"/>
+                  <Option value="MM" type="QString" name="line_width_unit"/>
+                  <Option value="0" type="QString" name="offset"/>
+                  <Option value="3x:0,0,0,0,0,0" type="QString" name="offset_map_unit_scale"/>
+                  <Option value="MM" type="QString" name="offset_unit"/>
+                  <Option value="0" type="QString" name="ring_filter"/>
+                  <Option value="0" type="QString" name="trim_distance_end"/>
+                  <Option value="3x:0,0,0,0,0,0" type="QString" name="trim_distance_end_map_unit_scale"/>
+                  <Option value="MM" type="QString" name="trim_distance_end_unit"/>
+                  <Option value="0" type="QString" name="trim_distance_start"/>
+                  <Option value="3x:0,0,0,0,0,0" type="QString" name="trim_distance_start_map_unit_scale"/>
+                  <Option value="MM" type="QString" name="trim_distance_start_unit"/>
+                  <Option value="0" type="QString" name="tweak_dash_pattern_on_corners"/>
+                  <Option value="0" type="QString" name="use_custom_dash"/>
+                  <Option value="3x:0,0,0,0,0,0" type="QString" name="width_map_unit_scale"/>
+                </Option>
+                <data_defined_properties>
+                  <Option type="Map">
+                    <Option value="" type="QString" name="name"/>
+                    <Option name="properties"/>
+                    <Option value="collection" type="QString" name="type"/>
+                  </Option>
+                </data_defined_properties>
+              </layer>
+            </symbol>
+          </axisSymbol>
+        </DiagramCategory>
+      </SingleCategoryDiagramRenderer>
+      <DiagramLayerSettings obstacle="0" zIndex="0" dist="0" linePlacementFlags="18" placement="2" priority="0" showAll="1">
+        <properties>
+          <Option type="Map">
+            <Option value="" type="QString" name="name"/>
+            <Option name="properties"/>
+            <Option value="collection" type="QString" name="type"/>
+          </Option>
+        </properties>
+      </DiagramLayerSettings>
       <geometryOptions geometryPrecision="0" removeDuplicateNodes="0">
-        <activeChecks type="StringList">
-          <Option value="" type="QString"/>
-        </activeChecks>
+        <activeChecks/>
         <checkConfiguration/>
       </geometryOptions>
       <legend showLabelLegend="0" type="default-vector"/>
@@ -2763,133 +2845,139 @@
       </referencedLayers>
       <fieldConfiguration>
         <field name="fid" configurationFlags="None">
-          <editWidget type="">
+          <editWidget type="TextEdit">
             <config>
               <Option/>
             </config>
           </editWidget>
         </field>
         <field name="identifier" configurationFlags="None">
-          <editWidget type="">
+          <editWidget type="TextEdit">
             <config>
               <Option/>
             </config>
           </editWidget>
         </field>
         <field name="nimi" configurationFlags="None">
-          <editWidget type="">
+          <editWidget type="TextEdit">
             <config>
               <Option/>
             </config>
           </editWidget>
         </field>
         <field name="valmistumisvuosi" configurationFlags="None">
-          <editWidget type="">
+          <editWidget type="Range">
             <config>
               <Option/>
             </config>
           </editWidget>
         </field>
         <field name="perusparannusvuosi" configurationFlags="None">
-          <editWidget type="">
+          <editWidget type="Range">
             <config>
               <Option/>
             </config>
           </editWidget>
         </field>
         <field name="alkuhetki" configurationFlags="None">
-          <editWidget type="">
+          <editWidget type="DateTime">
             <config>
               <Option/>
             </config>
           </editWidget>
         </field>
         <field name="loppuhetki" configurationFlags="None">
-          <editWidget type="">
+          <editWidget type="DateTime">
             <config>
               <Option/>
             </config>
           </editWidget>
         </field>
         <field name="malli" configurationFlags="None">
-          <editWidget type="">
+          <editWidget type="TextEdit">
             <config>
               <Option/>
             </config>
           </editWidget>
         </field>
         <field name="suunta" configurationFlags="None">
-          <editWidget type="">
+          <editWidget type="TextEdit">
             <config>
               <Option/>
             </config>
           </editWidget>
         </field>
         <field name="valmistaja" configurationFlags="None">
-          <editWidget type="">
+          <editWidget type="TextEdit">
             <config>
               <Option/>
             </config>
           </editWidget>
         </field>
         <field name="metatieto" configurationFlags="None">
-          <editWidget type="">
+          <editWidget type="TextEdit">
             <config>
               <Option/>
             </config>
           </editWidget>
         </field>
         <field name="omistaja" configurationFlags="None">
-          <editWidget type="">
+          <editWidget type="TextEdit">
             <config>
               <Option/>
             </config>
           </editWidget>
         </field>
         <field name="haltija" configurationFlags="None">
-          <editWidget type="">
+          <editWidget type="TextEdit">
             <config>
               <Option/>
             </config>
           </editWidget>
         </field>
         <field name="kunnossapitaja" configurationFlags="None">
-          <editWidget type="">
+          <editWidget type="TextEdit">
             <config>
               <Option/>
             </config>
           </editWidget>
         </field>
         <field name="selite" configurationFlags="None">
-          <editWidget type="">
+          <editWidget type="TextEdit">
             <config>
               <Option/>
             </config>
           </editWidget>
         </field>
         <field name="materiaali" configurationFlags="None">
-          <editWidget type="">
+          <editWidget type="TextEdit">
             <config>
               <Option/>
             </config>
           </editWidget>
         </field>
         <field name="geom_poly" configurationFlags="None">
-          <editWidget type="">
+          <editWidget type="TextEdit">
             <config>
-              <Option/>
+              <Option type="Map">
+                <Option value="false" type="bool" name="IsMultiline"/>
+                <Option value="false" type="bool" name="UseHtml"/>
+              </Option>
             </config>
           </editWidget>
         </field>
         <field name="geom_point" configurationFlags="None">
-          <editWidget type="">
+          <editWidget type="TextEdit">
             <config>
-              <Option/>
+              <Option type="Map">
+                <Option value="false" type="bool" name="IsMultiline"/>
+                <Option value="false" type="bool" name="UseHtml"/>
+              </Option>
             </config>
           </editWidget>
         </field>
         <field name="cid_erikoisrakennekerrosmateriaalityyppi" configurationFlags="None">
-          <editWidget type="">
+          <editWidget type="RelationReference">
             <config>
               <Option/>
             </config>
@@ -2985,7 +3073,28 @@
         <defaultAction value="{00000000-0000-0000-0000-000000000000}" key="Canvas"/>
       </attributeactions>
       <attributetableconfig actionWidgetStyle="dropDown" sortExpression="" sortOrder="0">
-        <columns/>
+        <columns>
+          <column width="-1" hidden="0" type="field" name="fid"/>
+          <column width="-1" hidden="0" type="field" name="identifier"/>
+          <column width="-1" hidden="0" type="field" name="nimi"/>
+          <column width="-1" hidden="0" type="field" name="valmistumisvuosi"/>
+          <column width="-1" hidden="0" type="field" name="perusparannusvuosi"/>
+          <column width="-1" hidden="0" type="field" name="alkuhetki"/>
+          <column width="-1" hidden="0" type="field" name="loppuhetki"/>
+          <column width="-1" hidden="0" type="field" name="malli"/>
+          <column width="-1" hidden="0" type="field" name="suunta"/>
+          <column width="-1" hidden="0" type="field" name="valmistaja"/>
+          <column width="-1" hidden="0" type="field" name="metatieto"/>
+          <column width="-1" hidden="0" type="field" name="omistaja"/>
+          <column width="-1" hidden="0" type="field" name="haltija"/>
+          <column width="-1" hidden="0" type="field" name="kunnossapitaja"/>
+          <column width="-1" hidden="0" type="field" name="selite"/>
+          <column width="-1" hidden="0" type="field" name="materiaali"/>
+          <column width="-1" hidden="0" type="field" name="geom_poly"/>
+          <column width="-1" hidden="0" type="field" name="geom_point"/>
+          <column width="-1" hidden="0" type="field" name="cid_erikoisrakennekerrosmateriaalityyppi"/>
+          <column width="-1" hidden="1" type="actions"/>
+        </columns>
       </attributetableconfig>
       <conditionalstyles>
         <rowstyles/>
@@ -2996,15 +3105,181 @@
       <editforminit/>
       <editforminitcodesource>0</editforminitcodesource>
       <editforminitfilepath></editforminitfilepath>
-      <editforminitcode><![CDATA[]]></editforminitcode>
+      <editforminitcode><![CDATA[# -*- coding: utf-8 -*-
+"""
+QGIS forms can have a Python function that is called when the form is
+opened.
+
+Use this function to add extra logic to your forms.
+
+Enter the name of the function in the "Python Init function"
+field.
+An example follows:
+"""
+from qgis.PyQt.QtWidgets import QWidget
+
+def my_form_open(dialog, layer, feature):
+    geom = feature.geometry()
+    control = dialog.findChild(QWidget, "MyLineEdit")
+]]></editforminitcode>
       <featformsuppress>0</featformsuppress>
-      <editorlayout>generatedlayout</editorlayout>
-      <editable/>
-      <labelOnTop/>
-      <reuseLastValue/>
+      <editorlayout>tablayout</editorlayout>
+      <attributeEditorForm>
+        <labelStyle overrideLabelColor="0" labelColor="0,0,0,255" overrideLabelFont="0">
+          <labelFont bold="0" underline="0" style="" strikethrough="0" description="MS Shell Dlg 2,8.25,-1,5,50,0,0,0,0,0" italic="0"/>
+        </labelStyle>
+        <attributeEditorField index="0" name="fid" showLabel="1">
+          <labelStyle overrideLabelColor="0" labelColor="0,0,0,255" overrideLabelFont="0">
+            <labelFont bold="0" underline="0" style="" strikethrough="0" description="MS Shell Dlg 2,8.25,-1,5,50,0,0,0,0,0" italic="0"/>
+          </labelStyle>
+        </attributeEditorField>
+        <attributeEditorField index="1" name="identifier" showLabel="1">
+          <labelStyle overrideLabelColor="0" labelColor="0,0,0,255" overrideLabelFont="0">
+            <labelFont bold="0" underline="0" style="" strikethrough="0" description="MS Shell Dlg 2,8.25,-1,5,50,0,0,0,0,0" italic="0"/>
+          </labelStyle>
+        </attributeEditorField>
+        <attributeEditorField index="2" name="nimi" showLabel="1">
+          <labelStyle overrideLabelColor="0" labelColor="0,0,0,255" overrideLabelFont="0">
+            <labelFont bold="0" underline="0" style="" strikethrough="0" description="MS Shell Dlg 2,8.25,-1,5,50,0,0,0,0,0" italic="0"/>
+          </labelStyle>
+        </attributeEditorField>
+        <attributeEditorField index="3" name="valmistumisvuosi" showLabel="1">
+          <labelStyle overrideLabelColor="0" labelColor="0,0,0,255" overrideLabelFont="0">
+            <labelFont bold="0" underline="0" style="" strikethrough="0" description="MS Shell Dlg 2,8.25,-1,5,50,0,0,0,0,0" italic="0"/>
+          </labelStyle>
+        </attributeEditorField>
+        <attributeEditorField index="4" name="perusparannusvuosi" showLabel="1">
+          <labelStyle overrideLabelColor="0" labelColor="0,0,0,255" overrideLabelFont="0">
+            <labelFont bold="0" underline="0" style="" strikethrough="0" description="MS Shell Dlg 2,8.25,-1,5,50,0,0,0,0,0" italic="0"/>
+          </labelStyle>
+        </attributeEditorField>
+        <attributeEditorField index="5" name="alkuhetki" showLabel="1">
+          <labelStyle overrideLabelColor="0" labelColor="0,0,0,255" overrideLabelFont="0">
+            <labelFont bold="0" underline="0" style="" strikethrough="0" description="MS Shell Dlg 2,8.25,-1,5,50,0,0,0,0,0" italic="0"/>
+          </labelStyle>
+        </attributeEditorField>
+        <attributeEditorField index="6" name="loppuhetki" showLabel="1">
+          <labelStyle overrideLabelColor="0" labelColor="0,0,0,255" overrideLabelFont="0">
+            <labelFont bold="0" underline="0" style="" strikethrough="0" description="MS Shell Dlg 2,8.25,-1,5,50,0,0,0,0,0" italic="0"/>
+          </labelStyle>
+        </attributeEditorField>
+        <attributeEditorField index="7" name="malli" showLabel="1">
+          <labelStyle overrideLabelColor="0" labelColor="0,0,0,255" overrideLabelFont="0">
+            <labelFont bold="0" underline="0" style="" strikethrough="0" description="MS Shell Dlg 2,8.25,-1,5,50,0,0,0,0,0" italic="0"/>
+          </labelStyle>
+        </attributeEditorField>
+        <attributeEditorField index="8" name="suunta" showLabel="1">
+          <labelStyle overrideLabelColor="0" labelColor="0,0,0,255" overrideLabelFont="0">
+            <labelFont bold="0" underline="0" style="" strikethrough="0" description="MS Shell Dlg 2,8.25,-1,5,50,0,0,0,0,0" italic="0"/>
+          </labelStyle>
+        </attributeEditorField>
+        <attributeEditorField index="9" name="valmistaja" showLabel="1">
+          <labelStyle overrideLabelColor="0" labelColor="0,0,0,255" overrideLabelFont="0">
+            <labelFont bold="0" underline="0" style="" strikethrough="0" description="MS Shell Dlg 2,8.25,-1,5,50,0,0,0,0,0" italic="0"/>
+          </labelStyle>
+        </attributeEditorField>
+        <attributeEditorField index="10" name="metatieto" showLabel="1">
+          <labelStyle overrideLabelColor="0" labelColor="0,0,0,255" overrideLabelFont="0">
+            <labelFont bold="0" underline="0" style="" strikethrough="0" description="MS Shell Dlg 2,8.25,-1,5,50,0,0,0,0,0" italic="0"/>
+          </labelStyle>
+        </attributeEditorField>
+        <attributeEditorField index="11" name="omistaja" showLabel="1">
+          <labelStyle overrideLabelColor="0" labelColor="0,0,0,255" overrideLabelFont="0">
+            <labelFont bold="0" underline="0" style="" strikethrough="0" description="MS Shell Dlg 2,8.25,-1,5,50,0,0,0,0,0" italic="0"/>
+          </labelStyle>
+        </attributeEditorField>
+        <attributeEditorField index="12" name="haltija" showLabel="1">
+          <labelStyle overrideLabelColor="0" labelColor="0,0,0,255" overrideLabelFont="0">
+            <labelFont bold="0" underline="0" style="" strikethrough="0" description="MS Shell Dlg 2,8.25,-1,5,50,0,0,0,0,0" italic="0"/>
+          </labelStyle>
+        </attributeEditorField>
+        <attributeEditorField index="13" name="kunnossapitaja" showLabel="1">
+          <labelStyle overrideLabelColor="0" labelColor="0,0,0,255" overrideLabelFont="0">
+            <labelFont bold="0" underline="0" style="" strikethrough="0" description="MS Shell Dlg 2,8.25,-1,5,50,0,0,0,0,0" italic="0"/>
+          </labelStyle>
+        </attributeEditorField>
+        <attributeEditorField index="14" name="selite" showLabel="1">
+          <labelStyle overrideLabelColor="0" labelColor="0,0,0,255" overrideLabelFont="0">
+            <labelFont bold="0" underline="0" style="" strikethrough="0" description="MS Shell Dlg 2,8.25,-1,5,50,0,0,0,0,0" italic="0"/>
+          </labelStyle>
+        </attributeEditorField>
+        <attributeEditorField index="15" name="materiaali" showLabel="1">
+          <labelStyle overrideLabelColor="0" labelColor="0,0,0,255" overrideLabelFont="0">
+            <labelFont bold="0" underline="0" style="" strikethrough="0" description="MS Shell Dlg 2,8.25,-1,5,50,0,0,0,0,0" italic="0"/>
+          </labelStyle>
+        </attributeEditorField>
+        <attributeEditorField index="18" name="cid_erikoisrakennekerrosmateriaalityyppi" showLabel="1">
+          <labelStyle overrideLabelColor="0" labelColor="0,0,0,255" overrideLabelFont="0">
+            <labelFont bold="0" underline="0" style="" strikethrough="0" description="MS Shell Dlg 2,8.25,-1,5,50,0,0,0,0,0" italic="0"/>
+          </labelStyle>
+        </attributeEditorField>
+      </attributeEditorForm>
+      <editable>
+        <field editable="1" name="alkuhetki"/>
+        <field editable="1" name="cid_erikoisrakennekerrosmateriaalityyppi"/>
+        <field editable="1" name="fid"/>
+        <field editable="1" name="geom_point"/>
+        <field editable="1" name="geom_poly"/>
+        <field editable="1" name="haltija"/>
+        <field editable="1" name="identifier"/>
+        <field editable="1" name="kunnossapitaja"/>
+        <field editable="1" name="loppuhetki"/>
+        <field editable="1" name="malli"/>
+        <field editable="1" name="materiaali"/>
+        <field editable="1" name="metatieto"/>
+        <field editable="1" name="nimi"/>
+        <field editable="1" name="omistaja"/>
+        <field editable="1" name="perusparannusvuosi"/>
+        <field editable="1" name="selite"/>
+        <field editable="1" name="suunta"/>
+        <field editable="1" name="valmistaja"/>
+        <field editable="1" name="valmistumisvuosi"/>
+      </editable>
+      <labelOnTop>
+        <field name="alkuhetki" labelOnTop="0"/>
+        <field name="cid_erikoisrakennekerrosmateriaalityyppi" labelOnTop="0"/>
+        <field name="fid" labelOnTop="0"/>
+        <field name="geom_point" labelOnTop="0"/>
+        <field name="geom_poly" labelOnTop="0"/>
+        <field name="haltija" labelOnTop="0"/>
+        <field name="identifier" labelOnTop="0"/>
+        <field name="kunnossapitaja" labelOnTop="0"/>
+        <field name="loppuhetki" labelOnTop="0"/>
+        <field name="malli" labelOnTop="0"/>
+        <field name="materiaali" labelOnTop="0"/>
+        <field name="metatieto" labelOnTop="0"/>
+        <field name="nimi" labelOnTop="0"/>
+        <field name="omistaja" labelOnTop="0"/>
+        <field name="perusparannusvuosi" labelOnTop="0"/>
+        <field name="selite" labelOnTop="0"/>
+        <field name="suunta" labelOnTop="0"/>
+        <field name="valmistaja" labelOnTop="0"/>
+        <field name="valmistumisvuosi" labelOnTop="0"/>
+      </labelOnTop>
+      <reuseLastValue>
+        <field reuseLastValue="0" name="alkuhetki"/>
+        <field reuseLastValue="0" name="cid_erikoisrakennekerrosmateriaalityyppi"/>
+        <field reuseLastValue="0" name="fid"/>
+        <field reuseLastValue="0" name="geom_point"/>
+        <field reuseLastValue="0" name="geom_poly"/>
+        <field reuseLastValue="0" name="haltija"/>
+        <field reuseLastValue="0" name="identifier"/>
+        <field reuseLastValue="0" name="kunnossapitaja"/>
+        <field reuseLastValue="0" name="loppuhetki"/>
+        <field reuseLastValue="0" name="malli"/>
+        <field reuseLastValue="0" name="materiaali"/>
+        <field reuseLastValue="0" name="metatieto"/>
+        <field reuseLastValue="0" name="nimi"/>
+        <field reuseLastValue="0" name="omistaja"/>
+        <field reuseLastValue="0" name="perusparannusvuosi"/>
+        <field reuseLastValue="0" name="selite"/>
+        <field reuseLastValue="0" name="suunta"/>
+        <field reuseLastValue="0" name="valmistaja"/>
+        <field reuseLastValue="0" name="valmistumisvuosi"/>
+      </reuseLastValue>
       <dataDefinedFieldProperties/>
       <widgets/>
-      <previewExpression></previewExpression>
+      <previewExpression>"identifier"</previewExpression>
       <mapTip></mapTip>
     </maplayer>
     <maplayer styleCategories="AllStyleCategories" simplifyLocal="1" refreshOnNotifyEnabled="0" labelsEnabled="0" minScale="100000000" autoRefreshEnabled="0" symbologyReferenceScale="-1" simplifyDrawingHints="1" type="vector" simplifyAlgorithm="0" autoRefreshTime="0" maxScale="0" hasScaleBasedVisibilityFlag="0" refreshOnNotifyMessage="" geometry="Point" wkbType="PointZ" simplifyDrawingTol="1" legendPlaceholderImage="" readOnly="0" simplifyMaxScale="1">

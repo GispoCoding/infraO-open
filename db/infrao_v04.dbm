@@ -3,7 +3,7 @@
 CAUTION: Do not modify this file unless you know what you are doing.
  Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.9.4" use-changelog="false" last-position="162,1076" last-zoom="0.9" max-obj-count="85"
+<dbmodel pgmodeler-ver="0.9.4" use-changelog="false" last-position="1680,0" last-zoom="0.75" max-obj-count="85"
 	 default-schema="public" default-owner="infrao_admin"
 	 layers="Default layer,Codelist relations,Viher_katualue relations,Abstraktit"
 	 active-layers="0"
@@ -5322,7 +5322,7 @@ change relation types?]]></comment>
 	</initial-data>
 </table>
 
-<table name="keskilinja" layers="0" collapse-mode="2" max-obj-count="6" z-value="0">
+<table name="keskilinja" layers="0" collapse-mode="2" max-obj-count="9" z-value="0">
 	<schema name="katualue"/>
 	<role name="infrao_admin"/>
 	<position x="3760" y="920"/>
@@ -5332,6 +5332,15 @@ change relation types?]]></comment>
 	</column>
 	<column name="identifier" default-value="gen_random_uuid()">
 		<type name="uuid" length="0"/>
+	</column>
+	<column name="metatieto">
+		<type name="text" length="0"/>
+	</column>
+	<column name="alkuhetki">
+		<type name="timestamptz" length="0"/>
+	</column>
+	<column name="loppuhetki">
+		<type name="timestamptz" length="0"/>
 	</column>
 	<column name="digiroadid">
 		<type name="text" length="255"/>
@@ -5345,7 +5354,7 @@ change relation types?]]></comment>
 	</constraint>
 
 	<customidxs object-type="column">
-		<object name="fid_katualueenosa" index="4"/>
+		<object name="fid_katualueenosa" index="7"/>
 	</customidxs>
 
 	<customidxs object-type="constraint">

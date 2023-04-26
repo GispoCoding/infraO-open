@@ -33,7 +33,7 @@ ALTER SCHEMA koodistot OWNER TO infrao_admin;
 -- DROP SCHEMA IF EXISTS kohteet CASCADE;
 --CREATE SCHEMA kohteet;
 -- ddl-end --
-ALTER SCHEMA kohteet OWNER TO infrao_admin;
+--ALTER SCHEMA kohteet OWNER TO infrao_admin;
 -- ddl-end --
 
 -- object: abstraktit | type: SCHEMA --
@@ -512,6 +512,8 @@ CREATE TABLE viheralue.viheralueenosa (
 	CONSTRAINT viheralueenosa_fid_pk PRIMARY KEY (fid)
 );
 -- ddl-end --
+COMMENT ON TABLE viheralue.viheralueenosa IS E'TODO:\n\nchange relation types?';
+-- ddl-end --
 
 -- object: public.melu_id_seq | type: SEQUENCE --
 -- DROP SEQUENCE IF EXISTS public.melu_id_seq CASCADE;
@@ -596,6 +598,8 @@ CREATE TABLE katualue.katualueenosa (
 	geom geometry(POLYGONZ, 3067),
 	CONSTRAINT katualueenosa_pk PRIMARY KEY (fid)
 );
+-- ddl-end --
+COMMENT ON TABLE katualue.katualueenosa IS E'TODO:\n\nchange relation types?';
 -- ddl-end --
 COMMENT ON COLUMN katualue.katualueenosa.geom IS E'sijaintitieto';
 -- ddl-end --
@@ -8865,11 +8869,13 @@ ALTER TABLE abstraktit.abstractinfraomaisuuskohde OWNER TO infrao_admin;
 -- object: abstraktit.liite | type: TABLE --
 -- DROP TABLE IF EXISTS abstraktit.liite CASCADE;
 CREATE TABLE abstraktit.liite (
-	id serial NOT NULL,
-	linkkiliitteeseen varchar(255),
+	id bigint NOT NULL GENERATED ALWAYS AS IDENTITY ,
+	kuvaus text,
+	linkkiliitteeseen text,
 	muokkaushetki timestamptz,
 	versionumero text,
-	kuvaus varchar(2000),
+	id_paatos bigint,
+	id_suunnitelmalinkki bigint,
 	CONSTRAINT liite_pk PRIMARY KEY (id)
 );
 -- ddl-end --
@@ -8895,21 +8901,21 @@ ALTER TABLE abstraktit.nimi OWNER TO infrao_admin;
 -- object: osoite.osoite | type: TABLE --
 -- DROP TABLE IF EXISTS osoite.osoite CASCADE;
 CREATE TABLE osoite.osoite (
-	id integer NOT NULL,
-	kunta varchar(255),
+	id bigint NOT NULL,
+	kunta text,
 	osoitenumero integer,
 	osoitenumero2 integer,
-	jakokirjain varchar(255),
-	jakokirjain2 varchar(255),
-	porras varchar(255),
+	jakokirjain text,
+	jakokirjain2 text,
+	porras text,
 	huoneisto integer,
-	huoneistojakokirjain varchar(255),
-	postinmero varchar(5),
-	postitoimipaikannimi varchar(255),
-	geom_point geometry(POINT, 3067),
-	geom_poly geometry(POLYGON, 3067),
-	geom_line geometry(LINESTRING, 3067),
-	viitesijaintialue varchar(255),
+	huoneistojakokirjain text,
+	postinmero text,
+	postitoimipaikannimi text,
+	geom_point geometry(POINTZ, 3067),
+	geom_poly geometry(POLYGONZ, 3067),
+	geom_line geometry(LINESTRINGZ, 3067),
+	viitesijaintialue text,
 	CONSTRAINT osoite_pk PRIMARY KEY (id)
 );
 -- ddl-end --
@@ -9156,43 +9162,48 @@ INSERT INTO koodistot.viherosanlajityyppi (cid, selite) VALUES (E'61', E'muu');
 INSERT INTO koodistot.viherosanlajityyppi (cid, selite) VALUES (E'62', E'ei tiedossa');
 -- ddl-end --
 
--- object: abstraktit.keskilinja | type: TABLE --
--- DROP TABLE IF EXISTS abstraktit.keskilinja CASCADE;
-CREATE TABLE abstraktit.keskilinja (
-	id serial NOT NULL,
-	digiroadid varchar(255),
-	geom geometry(LINESTRING, 3067),
-	CONSTRAINT keskilinja_pk PRIMARY KEY (id)
+-- object: katualue.keskilinja | type: TABLE --
+-- DROP TABLE IF EXISTS katualue.keskilinja CASCADE;
+CREATE TABLE katualue.keskilinja (
+	fid bigint NOT NULL GENERATED ALWAYS AS IDENTITY ,
+	identifier uuid DEFAULT gen_random_uuid(),
+	metatieto text,
+	alkuhetki timestamptz,
+	loppuhetki timestamptz,
+	digiroadid text,
+	geom geometry(LINESTRINGZ, 3067),
+	fid_katualueenosa bigint,
+	CONSTRAINT keskilinja_pk PRIMARY KEY (fid)
 );
 -- ddl-end --
-COMMENT ON COLUMN abstraktit.keskilinja.geom IS E'sijainti';
+COMMENT ON COLUMN katualue.keskilinja.geom IS E'sijainti';
 -- ddl-end --
-ALTER TABLE abstraktit.keskilinja OWNER TO infrao_admin;
+ALTER TABLE katualue.keskilinja OWNER TO infrao_admin;
 -- ddl-end --
 
--- object: abstraktit.sijainti | type: TABLE --
--- DROP TABLE IF EXISTS abstraktit.sijainti CASCADE;
-CREATE TABLE abstraktit.sijainti (
-	id serial NOT NULL,
+-- object: abstraktit.sijainti_alkuperainen | type: TABLE --
+-- DROP TABLE IF EXISTS abstraktit.sijainti_alkuperainen CASCADE;
+CREATE TABLE abstraktit.sijainti_alkuperainen (
+	id bigint NOT NULL,
 	alue geometry(POLYGON, 3067),
 	piste geometry(POINT, 3067),
 	viiva geometry(LINESTRING, 3067),
 	luontitapa varchar(255),
 	osoitetieto_id integer,
 	sijaintiepavarmuus_id integer,
-	CONSTRAINT sijainti_pk PRIMARY KEY (id)
+	CONSTRAINT sijainti_pk_ap PRIMARY KEY (id)
 );
 -- ddl-end --
-COMMENT ON TABLE abstraktit.sijainti IS E'TODO: tarvitaanko? Jos tarve on pelkästään tallentaa tietoa luontitavasta ja/tai sijaintiepävarmuudesta niin voisi olla kohteen metatiedoissa?';
+COMMENT ON TABLE abstraktit.sijainti_alkuperainen IS E'TODO: tarvitaanko? Jos tarve on pelkästään tallentaa tietoa luontitavasta ja/tai sijaintiepävarmuudesta niin voisi olla kohteen metatiedoissa?';
 -- ddl-end --
-ALTER TABLE abstraktit.sijainti OWNER TO infrao_admin;
+ALTER TABLE abstraktit.sijainti_alkuperainen OWNER TO infrao_admin;
 -- ddl-end --
 
 -- object: koodistot.sijaintiepavarmuustyyppi | type: TABLE --
 -- DROP TABLE IF EXISTS koodistot.sijaintiepavarmuustyyppi CASCADE;
 CREATE TABLE koodistot.sijaintiepavarmuustyyppi (
 	cid integer NOT NULL,
-	selite text,
+	selite float,
 	CONSTRAINT sijaintiepavarmuustyyppi_pk PRIMARY KEY (cid)
 );
 -- ddl-end --
@@ -9256,7 +9267,7 @@ INSERT INTO koodistot.erikoisrakennekerrosmateriaalityyppi (cid, selite) VALUES 
 -- DROP TABLE IF EXISTS abstraktit.suunnitelma CASCADE;
 CREATE TABLE abstraktit.suunnitelma (
 	id serial NOT NULL,
-	kuvaus varchar(2000),
+	kuvaus text,
 	paivamaarapvm date,
 	CONSTRAINT suunnitelma_pk PRIMARY KEY (id)
 );
@@ -9269,25 +9280,13 @@ ALTER TABLE abstraktit.suunnitelma OWNER TO infrao_admin;
 -- object: abstraktit.suunnitelmalinkki | type: TABLE --
 -- DROP TABLE IF EXISTS abstraktit.suunnitelmalinkki CASCADE;
 CREATE TABLE abstraktit.suunnitelmalinkki (
-	id serial NOT NULL,
+	id bigint NOT NULL,
 	suunnitelmakohdeid integer,
-	liitetieto_id integer,
+	fid_liikennemerkki bigint,
 	CONSTRAINT suunnitelmalinkki_pk PRIMARY KEY (id)
 );
 -- ddl-end --
 ALTER TABLE abstraktit.suunnitelmalinkki OWNER TO infrao_admin;
--- ddl-end --
-
--- object: abstraktit.liitetieto | type: TABLE --
--- DROP TABLE IF EXISTS abstraktit.liitetieto CASCADE;
-CREATE TABLE abstraktit.liitetieto (
-	id serial NOT NULL,
-	tiedot varchar(1000),
-	suunnitelma_id integer,
-	CONSTRAINT liitetieto_pk PRIMARY KEY (id)
-);
--- ddl-end --
-ALTER TABLE abstraktit.liitetieto OWNER TO infrao_admin;
 -- ddl-end --
 
 -- object: koodistot.puhtaanapitoluokkatyyppi | type: TABLE --
@@ -9319,10 +9318,10 @@ INSERT INTO koodistot.puhtaanapitoluokkatyyppi (cid, selite) VALUES (E'7', E'P7 
 -- object: abstraktit.paatos | type: TABLE --
 -- DROP TABLE IF EXISTS abstraktit.paatos CASCADE;
 CREATE TABLE abstraktit.paatos (
-	id serial NOT NULL,
-	liitetieto_id integer,
-	kuvaus varchar(2000),
+	id bigint NOT NULL,
+	kuvaus text,
 	paivamaarapvm date,
+	fid_katualueenosa bigint,
 	CONSTRAINT paatos_pk PRIMARY KEY (id)
 );
 -- ddl-end --
@@ -9367,16 +9366,13 @@ ON DELETE SET NULL ON UPDATE CASCADE;
 -- DROP TABLE IF EXISTS kasvillisuus.puu CASCADE;
 CREATE TABLE kasvillisuus.puu (
 	fid bigint NOT NULL GENERATED ALWAYS AS IDENTITY ,
+	metatieto text,
 	identifier uuid DEFAULT gen_random_uuid(),
-	nimi text,
-	valmistumisvuosi smallint,
-	perusparannusvuosi smallint,
 	alkuhetki timestamptz,
 	loppuhetki timestamptz,
-	kunnossapitaja text,
-	haltija text,
 	omistaja text,
-	metatieto text,
+	haltija text,
+	kunnossapitaja text,
 	korkeus float,
 	ymparys float,
 	geom_point geometry(POINTZ, 3067),
@@ -9896,6 +9892,7 @@ CREATE TABLE varusteet.liikennemerkki (
 	fid_katualueenosa bigint,
 	cid_liikennemerkkityyppi2020 integer,
 	cid_liikennemerkkityyppi integer,
+	id_sijainti bigint,
 	CONSTRAINT liikennemerkki_pk PRIMARY KEY (fid)
 );
 -- ddl-end --
@@ -9945,16 +9942,10 @@ ON DELETE SET NULL ON UPDATE CASCADE;
 -- DROP TABLE IF EXISTS kasvillisuus.muukasvi CASCADE;
 CREATE TABLE kasvillisuus.muukasvi (
 	fid bigint NOT NULL GENERATED ALWAYS AS IDENTITY ,
+	metatieto text,
 	identifier uuid DEFAULT gen_random_uuid(),
-	nimi text,
-	valmistumisvuosi smallint,
-	perusparannusvuosi smallint,
 	alkuhetki timestamptz,
 	loppuhetki timestamptz,
-	malli text,
-	suunta float,
-	valmistaja text,
-	metatieto text,
 	omistaja text,
 	haltija text,
 	kunnossapitaja text,
@@ -10354,6 +10345,109 @@ REFERENCES katualue.katualue (fid) MATCH FULL
 ON DELETE SET NULL ON UPDATE CASCADE;
 -- ddl-end --
 
+-- object: katualueenosa_fk | type: CONSTRAINT --
+-- ALTER TABLE katualue.keskilinja DROP CONSTRAINT IF EXISTS katualueenosa_fk CASCADE;
+ALTER TABLE katualue.keskilinja ADD CONSTRAINT katualueenosa_fk FOREIGN KEY (fid_katualueenosa)
+REFERENCES katualue.katualueenosa (fid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: abstraktit.sijainti | type: TABLE --
+-- DROP TABLE IF EXISTS abstraktit.sijainti CASCADE;
+CREATE TABLE abstraktit.sijainti (
+	id bigint NOT NULL GENERATED ALWAYS AS IDENTITY ,
+	cid_luontitapatyyppi integer,
+	cid_sijaintiepavarmuustyyppi integer,
+	CONSTRAINT sijainti_pk PRIMARY KEY (id)
+);
+-- ddl-end --
+COMMENT ON TABLE abstraktit.sijainti IS E'TODO: OSOITETIETO_ID\n\n tarvitaanko? Jos tarve on pelkästään tallentaa tietoa luontitavasta ja/tai sijaintiepävarmuudesta niin voisi olla kohteen metatiedoissa?';
+-- ddl-end --
+ALTER TABLE abstraktit.sijainti OWNER TO infrao_admin;
+-- ddl-end --
+
+-- object: koodistot.luontitapatyyppi | type: TABLE --
+-- DROP TABLE IF EXISTS koodistot.luontitapatyyppi CASCADE;
+CREATE TABLE koodistot.luontitapatyyppi (
+	cid integer NOT NULL,
+	selite text,
+	CONSTRAINT luontitapatyyppi_pk PRIMARY KEY (cid)
+);
+-- ddl-end --
+ALTER TABLE koodistot.luontitapatyyppi OWNER TO infrao_admin;
+-- ddl-end --
+
+INSERT INTO koodistot.luontitapatyyppi (cid, selite) VALUES (E'1', E'digitointi');
+-- ddl-end --
+INSERT INTO koodistot.luontitapatyyppi (cid, selite) VALUES (E'2', E'kiinteistötoimitus');
+-- ddl-end --
+INSERT INTO koodistot.luontitapatyyppi (cid, selite) VALUES (E'3', E'kuvamittaus');
+-- ddl-end --
+INSERT INTO koodistot.luontitapatyyppi (cid, selite) VALUES (E'4', E'laserkeilattu');
+-- ddl-end --
+INSERT INTO koodistot.luontitapatyyppi (cid, selite) VALUES (E'5', E'maastomittaus');
+-- ddl-end --
+INSERT INTO koodistot.luontitapatyyppi (cid, selite) VALUES (E'6', E'skannattu');
+-- ddl-end --
+INSERT INTO koodistot.luontitapatyyppi (cid, selite) VALUES (E'7', E'tuntematon');
+-- ddl-end --
+INSERT INTO koodistot.luontitapatyyppi (cid, selite) VALUES (E'8', E'muu');
+-- ddl-end --
+
+-- object: luontitapatyyppi_fk | type: CONSTRAINT --
+-- ALTER TABLE abstraktit.sijainti DROP CONSTRAINT IF EXISTS luontitapatyyppi_fk CASCADE;
+ALTER TABLE abstraktit.sijainti ADD CONSTRAINT luontitapatyyppi_fk FOREIGN KEY (cid_luontitapatyyppi)
+REFERENCES koodistot.luontitapatyyppi (cid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: sijaintiepavarmuustyyppi_fk | type: CONSTRAINT --
+-- ALTER TABLE abstraktit.sijainti DROP CONSTRAINT IF EXISTS sijaintiepavarmuustyyppi_fk CASCADE;
+ALTER TABLE abstraktit.sijainti ADD CONSTRAINT sijaintiepavarmuustyyppi_fk FOREIGN KEY (cid_sijaintiepavarmuustyyppi)
+REFERENCES koodistot.sijaintiepavarmuustyyppi (cid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: katualueenosa_fk | type: CONSTRAINT --
+-- ALTER TABLE abstraktit.paatos DROP CONSTRAINT IF EXISTS katualueenosa_fk CASCADE;
+ALTER TABLE abstraktit.paatos ADD CONSTRAINT katualueenosa_fk FOREIGN KEY (fid_katualueenosa)
+REFERENCES katualue.katualueenosa (fid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: paatos_fk | type: CONSTRAINT --
+-- ALTER TABLE abstraktit.liite DROP CONSTRAINT IF EXISTS paatos_fk CASCADE;
+ALTER TABLE abstraktit.liite ADD CONSTRAINT paatos_fk FOREIGN KEY (id_paatos)
+REFERENCES abstraktit.paatos (id) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: suunnitelmalinkki_fk | type: CONSTRAINT --
+-- ALTER TABLE abstraktit.liite DROP CONSTRAINT IF EXISTS suunnitelmalinkki_fk CASCADE;
+ALTER TABLE abstraktit.liite ADD CONSTRAINT suunnitelmalinkki_fk FOREIGN KEY (id_suunnitelmalinkki)
+REFERENCES abstraktit.suunnitelmalinkki (id) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: liikennemerkki_fk | type: CONSTRAINT --
+-- ALTER TABLE abstraktit.suunnitelmalinkki DROP CONSTRAINT IF EXISTS liikennemerkki_fk CASCADE;
+ALTER TABLE abstraktit.suunnitelmalinkki ADD CONSTRAINT liikennemerkki_fk FOREIGN KEY (fid_liikennemerkki)
+REFERENCES varusteet.liikennemerkki (fid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: sijainti_fk | type: CONSTRAINT --
+-- ALTER TABLE varusteet.liikennemerkki DROP CONSTRAINT IF EXISTS sijainti_fk CASCADE;
+ALTER TABLE varusteet.liikennemerkki ADD CONSTRAINT sijainti_fk FOREIGN KEY (id_sijainti)
+REFERENCES abstraktit.sijainti (id) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: liikennemerkki_uq | type: CONSTRAINT --
+-- ALTER TABLE varusteet.liikennemerkki DROP CONSTRAINT IF EXISTS liikennemerkki_uq CASCADE;
+ALTER TABLE varusteet.liikennemerkki ADD CONSTRAINT liikennemerkki_uq UNIQUE (id_sijainti);
+-- ddl-end --
+
 -- object: talvihoidonluokka_fk | type: CONSTRAINT --
 -- ALTER TABLE viheralue.viheralueenosa DROP CONSTRAINT IF EXISTS talvihoidonluokka_fk CASCADE;
 ALTER TABLE viheralue.viheralueenosa ADD CONSTRAINT talvihoidonluokka_fk FOREIGN KEY (talvihoidonluokka_id)
@@ -10459,13 +10553,6 @@ REFERENCES koodistot.viherosanlajityyppi (cid) MATCH FULL
 ON DELETE CASCADE ON UPDATE CASCADE;
 -- ddl-end --
 
--- object: paatostieto_id | type: CONSTRAINT --
--- ALTER TABLE katualue.katualueenosa DROP CONSTRAINT IF EXISTS paatostieto_id CASCADE;
-ALTER TABLE katualue.katualueenosa ADD CONSTRAINT paatostieto_id FOREIGN KEY (paatostieto_id)
-REFERENCES abstraktit.paatos (id) MATCH FULL
-ON DELETE CASCADE ON UPDATE CASCADE;
--- ddl-end --
-
 -- object: suunnitelmalinkkitieto_fk | type: CONSTRAINT --
 -- ALTER TABLE katualue.katualueenosa DROP CONSTRAINT IF EXISTS suunnitelmalinkkitieto_fk CASCADE;
 ALTER TABLE katualue.katualueenosa ADD CONSTRAINT suunnitelmalinkkitieto_fk FOREIGN KEY (suunnitelmalinkkitieto_id)
@@ -10495,37 +10582,16 @@ ON DELETE CASCADE ON UPDATE CASCADE;
 -- ddl-end --
 
 -- object: sijaintiepavarmuustyyppi_fk | type: CONSTRAINT --
--- ALTER TABLE abstraktit.sijainti DROP CONSTRAINT IF EXISTS sijaintiepavarmuustyyppi_fk CASCADE;
-ALTER TABLE abstraktit.sijainti ADD CONSTRAINT sijaintiepavarmuustyyppi_fk FOREIGN KEY (sijaintiepavarmuus_id)
+-- ALTER TABLE abstraktit.sijainti_alkuperainen DROP CONSTRAINT IF EXISTS sijaintiepavarmuustyyppi_fk CASCADE;
+ALTER TABLE abstraktit.sijainti_alkuperainen ADD CONSTRAINT sijaintiepavarmuustyyppi_fk FOREIGN KEY (sijaintiepavarmuus_id)
 REFERENCES koodistot.sijaintiepavarmuustyyppi (cid) MATCH FULL
 ON DELETE CASCADE ON UPDATE CASCADE;
 -- ddl-end --
 
 -- object: osoitetieto_fk | type: CONSTRAINT --
--- ALTER TABLE abstraktit.sijainti DROP CONSTRAINT IF EXISTS osoitetieto_fk CASCADE;
-ALTER TABLE abstraktit.sijainti ADD CONSTRAINT osoitetieto_fk FOREIGN KEY (osoitetieto_id)
+-- ALTER TABLE abstraktit.sijainti_alkuperainen DROP CONSTRAINT IF EXISTS osoitetieto_fk CASCADE;
+ALTER TABLE abstraktit.sijainti_alkuperainen ADD CONSTRAINT osoitetieto_fk FOREIGN KEY (osoitetieto_id)
 REFERENCES osoite.osoite (id) MATCH FULL
-ON DELETE CASCADE ON UPDATE CASCADE;
--- ddl-end --
-
--- object: liitetieto_fk | type: CONSTRAINT --
--- ALTER TABLE abstraktit.suunnitelmalinkki DROP CONSTRAINT IF EXISTS liitetieto_fk CASCADE;
-ALTER TABLE abstraktit.suunnitelmalinkki ADD CONSTRAINT liitetieto_fk FOREIGN KEY (liitetieto_id)
-REFERENCES abstraktit.liite (id) MATCH FULL
-ON DELETE CASCADE ON UPDATE CASCADE;
--- ddl-end --
-
--- object: suunnitelma_fk | type: CONSTRAINT --
--- ALTER TABLE abstraktit.liitetieto DROP CONSTRAINT IF EXISTS suunnitelma_fk CASCADE;
-ALTER TABLE abstraktit.liitetieto ADD CONSTRAINT suunnitelma_fk FOREIGN KEY (suunnitelma_id)
-REFERENCES abstraktit.suunnitelma (id) MATCH FULL
-ON DELETE CASCADE ON UPDATE CASCADE;
--- ddl-end --
-
--- object: liitetieto_fk | type: CONSTRAINT --
--- ALTER TABLE abstraktit.paatos DROP CONSTRAINT IF EXISTS liitetieto_fk CASCADE;
-ALTER TABLE abstraktit.paatos ADD CONSTRAINT liitetieto_fk FOREIGN KEY (liitetieto_id)
-REFERENCES abstraktit.liitetieto (id) MATCH FULL
 ON DELETE CASCADE ON UPDATE CASCADE;
 -- ddl-end --
 

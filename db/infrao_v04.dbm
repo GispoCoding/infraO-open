@@ -3,7 +3,7 @@
 CAUTION: Do not modify this file unless you know what you are doing.
  Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.9.4" use-changelog="false" last-position="1680,0" last-zoom="0.75" max-obj-count="85"
+<dbmodel pgmodeler-ver="0.9.4" use-changelog="false" last-position="2046,136" last-zoom="0.85" max-obj-count="127"
 	 default-schema="public" default-owner="infrao_admin"
 	 layers="Default layer,Codelist relations,Viher_katualue relations,Abstraktit"
 	 active-layers="0"
@@ -361,7 +361,7 @@ Ratkottava: kuinka tämä tieto populoidaan jostain muualta? Digitransit API? Op
 	<role name="infrao_admin"/>
 </sequence>
 
-<table name="viheralueenosa" layers="0" collapse-mode="2" max-obj-count="25" z-value="0">
+<table name="viheralueenosa" layers="0" collapse-mode="2" max-obj-count="27" z-value="0">
 	<schema name="viheralue"/>
 	<comment><![CDATA[TODO:
 
@@ -500,7 +500,7 @@ change relation types?]]></comment>
 	<role name="infrao_admin"/>
 </sequence>
 
-<table name="katualueenosa" layers="0" collapse-mode="2" max-obj-count="31" z-value="0">
+<table name="katualueenosa" layers="0" collapse-mode="2" max-obj-count="33" z-value="0">
 	<schema name="katualue"/>
 	<comment><![CDATA[TODO:
 
@@ -565,7 +565,7 @@ change relation types?]]></comment>
 	<column name="katuosanlaji_id">
 		<type name="integer" length="0"/>
 	</column>
-	<column name="viherosanlajityypi_id">
+	<column name="viherosanlajityyppi_id">
 		<type name="integer" length="0"/>
 	</column>
 	<column name="pintamateriaali_id">
@@ -589,11 +589,15 @@ change relation types?]]></comment>
 	</constraint>
 
 	<customidxs object-type="column">
+		<object name="cid_luontitapatyyppi" index="27"/>
+		<object name="cid_sijaintiepavarmuustyyppi" index="26"/>
 		<object name="fid_katualue" index="24"/>
 	</customidxs>
 
 	<customidxs object-type="constraint">
 		<object name="katualue_fk" index="8"/>
+		<object name="luontitapatyyppi_fk" index="10"/>
+		<object name="sijaintiepavarmuustyyppi_fk" index="9"/>
 	</customidxs>
 </table>
 
@@ -5055,7 +5059,7 @@ change relation types?]]></comment>
 	<schema name="meta"/>
 	<role name="infrao_admin"/>
 	<comment><![CDATA[Skeeman juurielementti ]]></comment>
-	<position x="680" y="2260"/>
+	<position x="400" y="2400"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
 	</column>
@@ -5079,7 +5083,7 @@ change relation types?]]></comment>
 <table name="liite" layers="0" collapse-mode="2" max-obj-count="8" z-value="0">
 	<schema name="abstraktit"/>
 	<role name="infrao_admin"/>
-	<position x="5280" y="1060"/>
+	<position x="5220" y="1060"/>
 	<column name="id" not-null="true"
 	 identity-type="ALWAYS">
 		<type name="bigint" length="0"/>
@@ -5125,7 +5129,7 @@ change relation types?]]></comment>
 	<schema name="osoite"/>
 	<comment><![CDATA[Viitesijaintialue: oma taulu, jossa suuralueet tms.?]]></comment>
 	<tag name="TODO"/>
-	<position x="5560" y="2260"/>
+	<position x="5620" y="2240"/>
 	<column name="id" not-null="true">
 		<type name="bigint" length="0"/>
 	</column>
@@ -5158,7 +5162,7 @@ change relation types?]]></comment>
 		<type name="text" length="255"/>
 		<comment><![CDATA[Huoneistonumeron perään tuleva pieni kirjain]]></comment>
 	</column>
-	<column name="postinmero">
+	<column name="postinumero">
 		<type name="text" length="5"/>
 	</column>
 	<column name="postitoimipaikannimi">
@@ -5322,10 +5326,10 @@ change relation types?]]></comment>
 	</initial-data>
 </table>
 
-<table name="keskilinja" layers="0" collapse-mode="2" max-obj-count="9" z-value="0">
+<table name="keskilinja" layers="0" collapse-mode="2" max-obj-count="12" z-value="0">
 	<schema name="katualue"/>
 	<role name="infrao_admin"/>
-	<position x="3760" y="920"/>
+	<position x="3720" y="920"/>
 	<column name="fid" not-null="true"
 	 identity-type="ALWAYS">
 		<type name="bigint" length="0"/>
@@ -5490,7 +5494,7 @@ change relation types?]]></comment>
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
 	<tag name="TODO"/>
-	<position x="1200" y="1880"/>
+	<position x="1080" y="1840"/>
 	<column name="cid" not-null="true">
 		<type name="integer" length="0"/>
 	</column>
@@ -5606,7 +5610,7 @@ change relation types?]]></comment>
 	<comment><![CDATA[https://www.infra-o.fi/skeema/]]></comment>
 </textbox>
 
-<table name="puu" layers="0" collapse-mode="2" max-obj-count="20" z-value="0">
+<table name="puu" layers="0" collapse-mode="2" max-obj-count="22" z-value="0">
 	<schema name="kasvillisuus"/>
 	<comment><![CDATA[TODO: metatieto]]></comment>
 	<tag name="TODO"/>
@@ -5711,7 +5715,7 @@ change relation types?]]></comment>
 	 dst-table="kasvillisuus.puu"
 	 src-required="false" dst-required="false"/>
 
-<table name="jate" layers="0" collapse-mode="2" max-obj-count="30" z-value="0">
+<table name="jate" layers="0" collapse-mode="2" max-obj-count="32" z-value="0">
 	<schema name="varusteet"/>
 	<comment><![CDATA[TODO:
 - tarkkaSijaintitieto
@@ -5767,7 +5771,7 @@ change relation types?]]></comment>
 	<column name="koko">
 		<type name="text" length="0"/>
 	</column>
-	<column name="putkikeraysjarjestelman_kytkin">
+	<column name="putkikeraysjarjestelma_kytkin">
 		<type name="boolean" length="0"/>
 	</column>
 	<column name="sijaintimaanpinnalla_kytkin">
@@ -5791,6 +5795,8 @@ change relation types?]]></comment>
 
 	<customidxs object-type="column">
 		<object name="cid_jatetyyppi" index="21"/>
+		<object name="cid_luontitapatyyppi" index="26"/>
+		<object name="cid_sijaintiepavarmuustyyppi" index="25"/>
 		<object name="cid_varustemateriaali" index="24"/>
 		<object name="fid_katualueenosa" index="23"/>
 		<object name="fid_viheralueenosa" index="22"/>
@@ -5799,6 +5805,8 @@ change relation types?]]></comment>
 	<customidxs object-type="constraint">
 		<object name="jatetyyppi_fk" index="1"/>
 		<object name="katualueenosa_fk" index="3"/>
+		<object name="luontitapatyyppi_fk" index="6"/>
+		<object name="sijaintiepavarmuustyyppi_fk" index="5"/>
 		<object name="varustemateriaali_fk" index="4"/>
 		<object name="viheralueenosa_fk" index="2"/>
 	</customidxs>
@@ -5844,7 +5852,7 @@ change relation types?]]></comment>
 	 dst-table="varusteet.jate"
 	 src-required="false" dst-required="false"/>
 
-<table name="liikunta" layers="0" collapse-mode="2" max-obj-count="25" z-value="0">
+<table name="liikunta" layers="0" collapse-mode="2" max-obj-count="27" z-value="0">
 	<schema name="varusteet"/>
 	<comment><![CDATA[TODO:
 - tarkkaSijaintitieto
@@ -5961,7 +5969,7 @@ change relation types?]]></comment>
 	 dst-table="varusteet.liikunta"
 	 src-required="false" dst-required="false"/>
 
-<table name="opaste" layers="0" collapse-mode="2" max-obj-count="25" z-value="0">
+<table name="opaste" layers="0" collapse-mode="2" max-obj-count="27" z-value="0">
 	<schema name="varusteet"/>
 	<comment><![CDATA[TODO:
 - tarkkaSijaintitieto
@@ -6078,7 +6086,7 @@ change relation types?]]></comment>
 	 dst-table="varusteet.opaste"
 	 src-required="false" dst-required="false"/>
 
-<table name="melukohde" layers="0" collapse-mode="2" max-obj-count="25" z-value="0">
+<table name="melukohde" layers="0" collapse-mode="2" max-obj-count="27" z-value="0">
 	<schema name="varusteet"/>
 	<comment><![CDATA[TODO:
 - tarkkaSijaintitieto
@@ -6195,7 +6203,7 @@ change relation types?]]></comment>
 	 dst-table="varusteet.melukohde"
 	 src-required="false" dst-required="false"/>
 
-<table name="kaluste" layers="0" collapse-mode="2" max-obj-count="25" z-value="0">
+<table name="kaluste" layers="0" collapse-mode="2" max-obj-count="27" z-value="0">
 	<schema name="varusteet"/>
 	<comment><![CDATA[TODO:
 - tarkkaSijaintitieto
@@ -6312,7 +6320,7 @@ change relation types?]]></comment>
 	 dst-table="varusteet.kaluste"
 	 src-required="false" dst-required="false"/>
 
-<table name="muuvaruste" layers="0" collapse-mode="2" max-obj-count="25" z-value="0">
+<table name="muuvaruste" layers="0" collapse-mode="2" max-obj-count="27" z-value="0">
 	<schema name="varusteet"/>
 	<comment><![CDATA[TODO:
 - tarkkaSijaintitieto
@@ -6429,7 +6437,7 @@ change relation types?]]></comment>
 	 dst-table="varusteet.muuvaruste"
 	 src-required="false" dst-required="false"/>
 
-<table name="leikkivaline" layers="0" collapse-mode="2" max-obj-count="27" z-value="0">
+<table name="leikkivaline" layers="0" collapse-mode="2" max-obj-count="30" z-value="0">
 	<schema name="varusteet"/>
 	<comment><![CDATA[TODO:
 - tarkkaSijaintitieto
@@ -6553,7 +6561,7 @@ change relation types?]]></comment>
 	 dst-table="varusteet.leikkivaline"
 	 src-required="false" dst-required="false"/>
 
-<table name="liikennemerkki" layers="0" collapse-mode="2" max-obj-count="28" z-value="0">
+<table name="liikennemerkki" layers="0" collapse-mode="2" max-obj-count="30" z-value="0">
 	<schema name="varusteet"/>
 	<comment><![CDATA[TODO:
 - tarkkaSijaintitieto
@@ -6684,7 +6692,7 @@ change relation types?]]></comment>
 	 dst-table="varusteet.liikennemerkki"
 	 src-required="false" dst-required="false"/>
 
-<table name="muukasvi" layers="0" collapse-mode="2" max-obj-count="18" z-value="0">
+<table name="muukasvi" layers="0" collapse-mode="2" max-obj-count="20" z-value="0">
 	<schema name="kasvillisuus"/>
 	<comment><![CDATA[TODO: metatieto]]></comment>
 	<tag name="TODO"/>
@@ -6780,7 +6788,7 @@ change relation types?]]></comment>
 	 dst-table="kasvillisuus.muukasvi"
 	 src-required="false" dst-required="false"/>
 
-<table name="pysakointiruutu" layers="0" collapse-mode="2" max-obj-count="25" z-value="0">
+<table name="pysakointiruutu" layers="0" collapse-mode="2" max-obj-count="27" z-value="0">
 	<schema name="kohteet"/>
 	<comment><![CDATA[TODO:
 - tarkkaSijaintitieto
@@ -6788,7 +6796,7 @@ change relation types?]]></comment>
 - metatieto
 - skeema]]></comment>
 	<tag name="TODO"/>
-	<position x="3760" y="1160"/>
+	<position x="3720" y="1320"/>
 	<column name="fid" not-null="true"
 	 identity-type="ALWAYS">
 		<type name="bigint" length="0"/>
@@ -6890,13 +6898,13 @@ change relation types?]]></comment>
 	 dst-table="kohteet.pysakointiruutu"
 	 src-required="false" dst-required="false"/>
 
-<table name="erikoisrakennekerros" layers="0" collapse-mode="2" max-obj-count="24" z-value="0">
+<table name="erikoisrakennekerros" layers="0" collapse-mode="2" max-obj-count="26" z-value="0">
 	<schema name="kohteet"/>
 	<comment><![CDATA[TODO: 
 - metatieto
 - skeema]]></comment>
 	<tag name="TODO"/>
-	<position x="3260" y="1160"/>
+	<position x="3220" y="1320"/>
 	<column name="fid" not-null="true"
 	 identity-type="ALWAYS">
 		<type name="bigint" length="0"/>
@@ -6979,7 +6987,7 @@ change relation types?]]></comment>
 	 dst-table="kohteet.erikoisrakennekerros"
 	 src-required="false" dst-required="false"/>
 
-<table name="ymparistotaide" layers="0" collapse-mode="2" max-obj-count="25" z-value="0">
+<table name="ymparistotaide" layers="0" collapse-mode="2" max-obj-count="27" z-value="0">
 	<schema name="kohteet"/>
 	<comment><![CDATA[TODO:
 - tarkkaSijaintitieto
@@ -6987,7 +6995,7 @@ change relation types?]]></comment>
 - suunnitelmalinkkitieto
 - metatieto]]></comment>
 	<tag name="TODO"/>
-	<position x="2860" y="1160"/>
+	<position x="2820" y="1320"/>
 	<column name="fid" not-null="true"
 	 identity-type="ALWAYS">
 		<type name="bigint" length="0"/>
@@ -7083,14 +7091,14 @@ change relation types?]]></comment>
 	 dst-table="kohteet.ymparistotaide"
 	 src-required="false" dst-required="false"/>
 
-<table name="rakenne" layers="0" collapse-mode="2" max-obj-count="25" z-value="0">
+<table name="rakenne" layers="0" collapse-mode="2" max-obj-count="27" z-value="0">
 	<schema name="kohteet"/>
 	<comment><![CDATA[TODO:
 - tarkkaSijaintitieto
 - suunnitelmalinkkitieto
 - metatieto]]></comment>
 	<tag name="TODO"/>
-	<position x="2440" y="1160"/>
+	<position x="2400" y="1320"/>
 	<column name="fid" not-null="true"
 	 identity-type="ALWAYS">
 		<type name="bigint" length="0"/>
@@ -7200,14 +7208,14 @@ change relation types?]]></comment>
 	 dst-table="kohteet.rakenne"
 	 src-required="false" dst-required="false"/>
 
-<table name="hulevesi" layers="0" collapse-mode="2" max-obj-count="25" z-value="0">
+<table name="hulevesi" layers="0" collapse-mode="2" max-obj-count="27" z-value="0">
 	<schema name="kohteet"/>
 	<comment><![CDATA[TODO:
 - tarkkaSijaintitieto
 - suunnitelmalinkkitieto
 - metatieto]]></comment>
 	<tag name="TODO"/>
-	<position x="2020" y="1160"/>
+	<position x="1980" y="1320"/>
 	<column name="fid" not-null="true"
 	 identity-type="ALWAYS">
 		<type name="bigint" length="0"/>
@@ -7311,7 +7319,7 @@ change relation types?]]></comment>
 	 dst-table="kohteet.hulevesi"
 	 src-required="false" dst-required="false"/>
 
-<table name="ajoratamerkinta" layers="0" collapse-mode="2" max-obj-count="26" z-value="0">
+<table name="ajoratamerkinta" layers="0" collapse-mode="2" max-obj-count="28" z-value="0">
 	<schema name="katualue"/>
 	<comment><![CDATA[TODO:
 - tarkkaSijaintitieto
@@ -7452,38 +7460,11 @@ change relation types?]]></comment>
 	</label>
 </relationship>
 
-<table name="sijainti" layers="0" collapse-mode="2" max-obj-count="3" z-value="0">
-	<schema name="abstraktit"/>
-	<role name="infrao_admin"/>
-	<comment><![CDATA[TODO: OSOITETIETO_ID
-
- tarvitaanko? Jos tarve on pelkästään tallentaa tietoa luontitavasta ja/tai sijaintiepävarmuudesta niin voisi olla kohteen metatiedoissa?]]></comment>
-	<tag name="TODO"/>
-	<position x="4560" y="1180"/>
-	<column name="id" not-null="true"
-	 identity-type="ALWAYS">
-		<type name="bigint" length="0"/>
-	</column>
-	<constraint name="sijainti_pk" type="pk-constr" table="abstraktit.sijainti">
-		<columns names="id" ref-type="src-columns"/>
-	</constraint>
-
-	<customidxs object-type="column">
-		<object name="cid_luontitapatyyppi" index="1"/>
-		<object name="cid_sijaintiepavarmuustyyppi" index="2"/>
-	</customidxs>
-
-	<customidxs object-type="constraint">
-		<object name="luontitapatyyppi_fk" index="1"/>
-		<object name="sijaintiepavarmuustyyppi_fk" index="2"/>
-	</customidxs>
-</table>
-
 <table name="luontitapatyyppi" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
 	<tag name="TODO"/>
-	<position x="460" y="1580"/>
+	<position x="1520" y="1780"/>
 	<column name="cid" not-null="true">
 		<type name="integer" length="0"/>
 	</column>
@@ -7505,24 +7486,6 @@ change relation types?]]></comment>
 8•muu]]>
 	</initial-data>
 </table>
-
-<relationship name="luontitapatyyppi_has_many_sijainti" type="rel1n" layers="1"
-	 src-col-pattern="{sc}_{st}"
-	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
-	 src-fk-pattern="{st}_fk"
-	 custom-color="#5b0337"
-	 src-table="koodistot.luontitapatyyppi"
-	 dst-table="abstraktit.sijainti"
-	 src-required="false" dst-required="false"/>
-
-<relationship name="sijaintiepavarmuustyyppi_has_many_sijainti" type="rel1n" layers="1"
-	 src-col-pattern="{sc}_{st}"
-	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
-	 src-fk-pattern="{st}_fk"
-	 custom-color="#3e5dde"
-	 src-table="koodistot.sijaintiepavarmuustyyppi"
-	 dst-table="abstraktit.sijainti"
-	 src-required="false" dst-required="false"/>
 
 <relationship name="katualueenosa_has_many_paatos" type="rel1n" layers="0"
 	 src-col-pattern="{sc}_{st}"
@@ -7564,13 +7527,350 @@ change relation types?]]></comment>
 	 dst-table="abstraktit.suunnitelmalinkki"
 	 src-required="false" dst-required="false"/>
 
-<relationship name="liikennemerkki_has_one_sijainti" type="rel11" layers="0"
+<relationship name="sijaintiepavarmuustyyppi_has_many_hulevesi" type="rel1n" layers="1"
 	 src-col-pattern="{sc}_{st}"
 	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
 	 src-fk-pattern="{st}_fk"
-	 custom-color="#5456c5"
-	 src-table="abstraktit.sijainti"
+	 custom-color="#c5f38f"
+	 src-table="koodistot.sijaintiepavarmuustyyppi"
+	 dst-table="kohteet.hulevesi"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="sijaintiepavarmuustyyppi_has_many_rakenne" type="rel1n" layers="1"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#7a10b2"
+	 src-table="koodistot.sijaintiepavarmuustyyppi"
+	 dst-table="kohteet.rakenne"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="sijaintiepavarmuustyyppi_has_many_ymparistotaide" type="rel1n" layers="1"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#8d7c41"
+	 src-table="koodistot.sijaintiepavarmuustyyppi"
+	 dst-table="kohteet.ymparistotaide"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="sijaintiepavarmuustyyppi_has_many_erikoisrakennekerros" type="rel1n" layers="1"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#ff70d6"
+	 src-table="koodistot.sijaintiepavarmuustyyppi"
+	 dst-table="kohteet.erikoisrakennekerros"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="sijaintiepavarmuustyyppi_has_many_pysakointiruutu" type="rel1n" layers="1"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#864ec6"
+	 src-table="koodistot.sijaintiepavarmuustyyppi"
+	 dst-table="kohteet.pysakointiruutu"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="sijaintiepavarmuustyyppi_has_many_viheralueenosa" type="rel1n" layers="1"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#b67c5f"
+	 src-table="koodistot.sijaintiepavarmuustyyppi"
+	 dst-table="viheralue.viheralueenosa"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="sijaintiepavarmuustyyppi_has_many_ajoratamerkinta" type="rel1n" layers="1"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#204f6a"
+	 src-table="koodistot.sijaintiepavarmuustyyppi"
+	 dst-table="katualue.ajoratamerkinta"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="sijaintiepavarmuustyyppi_has_many_katualueenosa" type="rel1n" layers="1"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#1bbe87"
+	 src-table="koodistot.sijaintiepavarmuustyyppi"
+	 dst-table="katualue.katualueenosa"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="sijaintiepavarmuustyyppi_has_many_keskilinja" type="rel1n" layers="1"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#cb3ee2"
+	 src-table="koodistot.sijaintiepavarmuustyyppi"
+	 dst-table="katualue.keskilinja"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="sijaintiepavarmuustyyppi_has_many_puu" type="rel1n" layers="1"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#92b86c"
+	 src-table="koodistot.sijaintiepavarmuustyyppi"
+	 dst-table="kasvillisuus.puu"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="sijaintiepavarmuustyyppi_has_many_muukasvi" type="rel1n" layers="1"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#a4b255"
+	 src-table="koodistot.sijaintiepavarmuustyyppi"
+	 dst-table="kasvillisuus.muukasvi"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="sijaintiepavarmuustyyppi_has_many_liikennemerkki" type="rel1n" layers="1"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#24538e"
+	 src-table="koodistot.sijaintiepavarmuustyyppi"
 	 dst-table="varusteet.liikennemerkki"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="sijaintiepavarmuustyyppi_has_many_leikkivaline" type="rel1n" layers="1"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#f22823"
+	 src-table="koodistot.sijaintiepavarmuustyyppi"
+	 dst-table="varusteet.leikkivaline"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="sijaintiepavarmuustyyppi_has_many_muuvaruste" type="rel1n" layers="1"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#bd0af7"
+	 src-table="koodistot.sijaintiepavarmuustyyppi"
+	 dst-table="varusteet.muuvaruste"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="sijaintiepavarmuustyyppi_has_many_kaluste" type="rel1n" layers="1"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#159a60"
+	 src-table="koodistot.sijaintiepavarmuustyyppi"
+	 dst-table="varusteet.kaluste"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="sijaintiepavarmuustyyppi_has_many_melukohde" type="rel1n" layers="1"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#c97aaf"
+	 src-table="koodistot.sijaintiepavarmuustyyppi"
+	 dst-table="varusteet.melukohde"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="sijaintiepavarmuustyyppi_has_many_opaste" type="rel1n" layers="1"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#e36b32"
+	 src-table="koodistot.sijaintiepavarmuustyyppi"
+	 dst-table="varusteet.opaste"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="sijaintiepavarmuustyyppi_has_many_liikunta" type="rel1n" layers="1"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#d3e9ea"
+	 src-table="koodistot.sijaintiepavarmuustyyppi"
+	 dst-table="varusteet.liikunta"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="sijaintiepavarmuustyyppi_has_many_jate" type="rel1n" layers="1"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#f46219"
+	 src-table="koodistot.sijaintiepavarmuustyyppi"
+	 dst-table="varusteet.jate"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="luontitapatyyppi_has_many_liikennemerkki" type="rel1n" layers="1"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#628c54"
+	 src-table="koodistot.luontitapatyyppi"
+	 dst-table="varusteet.liikennemerkki"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="luontitapatyyppi_has_many_leikkivaline" type="rel1n" layers="1"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#5fe6b4"
+	 src-table="koodistot.luontitapatyyppi"
+	 dst-table="varusteet.leikkivaline"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="luontitapatyyppi_has_many_muuvaruste" type="rel1n" layers="1"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#2dec17"
+	 src-table="koodistot.luontitapatyyppi"
+	 dst-table="varusteet.muuvaruste"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="luontitapatyyppi_has_many_kaluste" type="rel1n" layers="1"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#bb9a59"
+	 src-table="koodistot.luontitapatyyppi"
+	 dst-table="varusteet.kaluste"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="luontitapatyyppi_has_many_melukohde" type="rel1n" layers="1"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#3f57bd"
+	 src-table="koodistot.luontitapatyyppi"
+	 dst-table="varusteet.melukohde"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="luontitapatyyppi_has_many_opaste" type="rel1n" layers="1"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#852ec8"
+	 src-table="koodistot.luontitapatyyppi"
+	 dst-table="varusteet.opaste"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="luontitapatyyppi_has_many_liikunta" type="rel1n" layers="1"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#c8597b"
+	 src-table="koodistot.luontitapatyyppi"
+	 dst-table="varusteet.liikunta"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="luontitapatyyppi_has_many_jate" type="rel1n" layers="1"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#dfd037"
+	 src-table="koodistot.luontitapatyyppi"
+	 dst-table="varusteet.jate"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="luontitapatyyppi_has_many_hulevesi" type="rel1n" layers="1"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#08e155"
+	 src-table="koodistot.luontitapatyyppi"
+	 dst-table="kohteet.hulevesi"
+	 src-required="false" dst-required="false">
+	<label ref-type="name-label">
+		<position x="0" y="0"/>
+	</label>
+</relationship>
+
+<relationship name="luontitapatyyppi_has_many_rakenne" type="rel1n" layers="1"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#a8cc6d"
+	 src-table="koodistot.luontitapatyyppi"
+	 dst-table="kohteet.rakenne"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="luontitapatyyppi_has_many_ymparistotaide" type="rel1n" layers="1"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#17ac01"
+	 src-table="koodistot.luontitapatyyppi"
+	 dst-table="kohteet.ymparistotaide"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="luontitapatyyppi_has_many_erikoisrakennekerros" type="rel1n" layers="1"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#ec2d03"
+	 src-table="koodistot.luontitapatyyppi"
+	 dst-table="kohteet.erikoisrakennekerros"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="luontitapatyyppi_has_many_pysakointiruutu" type="rel1n" layers="1"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#eca963"
+	 src-table="koodistot.luontitapatyyppi"
+	 dst-table="kohteet.pysakointiruutu"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="luontitapatyyppi_has_many_viheralueenosa" type="rel1n" layers="1"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#606e03"
+	 src-table="koodistot.luontitapatyyppi"
+	 dst-table="viheralue.viheralueenosa"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="luontitapatyyppi_has_many_ajoratamerkinta" type="rel1n" layers="1"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#bd50a9"
+	 src-table="koodistot.luontitapatyyppi"
+	 dst-table="katualue.ajoratamerkinta"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="luontitapatyyppi_has_many_katualueenosa" type="rel1n" layers="1"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#2dc076"
+	 src-table="koodistot.luontitapatyyppi"
+	 dst-table="katualue.katualueenosa"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="luontitapatyyppi_has_many_keskilinja" type="rel1n" layers="1"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#b41574"
+	 src-table="koodistot.luontitapatyyppi"
+	 dst-table="katualue.keskilinja"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="luontitapatyyppi_has_many_puu" type="rel1n" layers="1"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#f64ef5"
+	 src-table="koodistot.luontitapatyyppi"
+	 dst-table="kasvillisuus.puu"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="luontitapatyyppi_has_many_muukasvi" type="rel1n" layers="1"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#d55135"
+	 src-table="koodistot.luontitapatyyppi"
+	 dst-table="kasvillisuus.muukasvi"
 	 src-required="false" dst-required="false"/>
 
 <constraint name="talvihoidonluokka_fk" type="fk-constr" comparison-type="MATCH SIMPLE"
@@ -7659,7 +7959,7 @@ change relation types?]]></comment>
 
 <constraint name="viherosanlajityyppi_fk" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="CASCADE" del-action="CASCADE" ref-table="koodistot.viherosanlajityyppi" table="katualue.katualueenosa">
-	<columns names="viherosanlajityypi_id" ref-type="src-columns"/>
+	<columns names="viherosanlajityyppi_id" ref-type="src-columns"/>
 	<columns names="cid" ref-type="dst-columns"/>
 </constraint>
 
@@ -7763,7 +8063,7 @@ change relation types?]]></comment>
 	 dst-table="koodistot.viherosanlajityyppi" reference-fk="viherosanlajityyppi_fk"
 	 src-required="false" dst-required="false"/>
 
-<relationship name="rel_sijainti_sijaintiepavarmuustyyppi" type="relfk" layers="0"
+<relationship name="rel_sijainti_sijaintiepavarmuustyyppi" type="relfk" layers="1"
 	 src-table="abstraktit.sijainti_alkuperainen"
 	 dst-table="koodistot.sijaintiepavarmuustyyppi" reference-fk="sijaintiepavarmuustyyppi_fk"
 	 src-required="false" dst-required="false"/>
@@ -7780,7 +8080,11 @@ change relation types?]]></comment>
 <relationship name="rel_viheralueenosa_viheralueenkayttotarkoitus" type="relfk" layers="0"
 	 src-table="viheralue.viheralueenosa"
 	 dst-table="koodistot.viheralueenkayttotarkoitus" reference-fk="kayttotarkoitus_fk"
-	 src-required="false" dst-required="false"/>
+	 src-required="false" dst-required="false">
+	<label ref-type="name-label">
+		<position x="0" y="0"/>
+	</label>
+</relationship>
 
 <relationship name="rel_viheralueenosa_viherosanlajityyppi" type="relfk" layers="0"
 	 src-table="viheralue.viheralueenosa"

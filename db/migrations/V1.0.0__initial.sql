@@ -509,6 +509,8 @@ CREATE TABLE viheralue.viheralueenosa (
 	muutoshoitoluokka_id integer,
 	fid_viheralue bigint,
 	geom geometry(POLYGONZ, 3067),
+	cid_sijaintiepavarmuustyyppi integer,
+	cid_luontitapatyyppi integer,
 	CONSTRAINT viheralueenosa_fid_pk PRIMARY KEY (fid)
 );
 -- ddl-end --
@@ -589,13 +591,15 @@ CREATE TABLE katualue.katualueenosa (
 	valmistumisvuosi integer,
 	luokka_id integer,
 	katuosanlaji_id integer,
-	viherosanlajityypi_id integer,
+	viherosanlajityyppi_id integer,
 	pintamateriaali_id integer,
 	kunnossapitoluokka_id integer,
 	suunnitelmalinkkitieto_id integer,
 	talvihoidonluokka_id integer,
 	fid_katualue bigint,
 	geom geometry(POLYGONZ, 3067),
+	cid_sijaintiepavarmuustyyppi integer,
+	cid_luontitapatyyppi integer,
 	CONSTRAINT katualueenosa_pk PRIMARY KEY (fid)
 );
 -- ddl-end --
@@ -8910,7 +8914,7 @@ CREATE TABLE osoite.osoite (
 	porras text,
 	huoneisto integer,
 	huoneistojakokirjain text,
-	postinmero text,
+	postinumero text,
 	postitoimipaikannimi text,
 	geom_point geometry(POINTZ, 3067),
 	geom_poly geometry(POLYGONZ, 3067),
@@ -9173,6 +9177,8 @@ CREATE TABLE katualue.keskilinja (
 	digiroadid text,
 	geom geometry(LINESTRINGZ, 3067),
 	fid_katualueenosa bigint,
+	cid_sijaintiepavarmuustyyppi integer,
+	cid_luontitapatyyppi integer,
 	CONSTRAINT keskilinja_pk PRIMARY KEY (fid)
 );
 -- ddl-end --
@@ -9382,6 +9388,8 @@ CREATE TABLE kasvillisuus.puu (
 	fid_viheralueenosa bigint,
 	cid_puutyyppi integer,
 	cid_puulaji integer,
+	cid_sijaintiepavarmuustyyppi integer,
+	cid_luontitapatyyppi integer,
 	CONSTRAINT puu_fid_pk PRIMARY KEY (fid)
 );
 -- ddl-end --
@@ -9444,7 +9452,7 @@ CREATE TABLE varusteet.jate (
 	haltija text,
 	kunnossapitaja text,
 	koko text,
-	putkikeraysjarjestelman_kytkin boolean,
+	putkikeraysjarjestelma_kytkin boolean,
 	sijaintimaanpinnalla_kytkin boolean,
 	vaarallistenjateastia_kytkin boolean,
 	geom_point geometry(POINTZ, 3067),
@@ -9454,6 +9462,8 @@ CREATE TABLE varusteet.jate (
 	fid_viheralueenosa bigint,
 	fid_katualueenosa bigint,
 	cid_varustemateriaali integer,
+	cid_sijaintiepavarmuustyyppi integer,
+	cid_luontitapatyyppi integer,
 	CONSTRAINT jate_pk PRIMARY KEY (fid)
 );
 -- ddl-end --
@@ -9516,6 +9526,8 @@ CREATE TABLE varusteet.liikunta (
 	fid_viheralueenosa bigint,
 	fid_katualueenosa bigint,
 	cid_liikuntatyyppi integer,
+	cid_sijaintiepavarmuustyyppi integer,
+	cid_luontitapatyyppi integer,
 	CONSTRAINT liikunta_pk PRIMARY KEY (fid)
 );
 -- ddl-end --
@@ -9578,6 +9590,8 @@ CREATE TABLE varusteet.opaste (
 	fid_viheralueenosa bigint,
 	fid_katualueenosa bigint,
 	cid_opastetyyppi integer,
+	cid_sijaintiepavarmuustyyppi integer,
+	cid_luontitapatyyppi integer,
 	CONSTRAINT opaste_pk PRIMARY KEY (fid)
 );
 -- ddl-end --
@@ -9640,6 +9654,8 @@ CREATE TABLE varusteet.melukohde (
 	fid_viheralueenosa bigint,
 	fid_katualueenosa bigint,
 	cid_melutyyppi integer,
+	cid_sijaintiepavarmuustyyppi integer,
+	cid_luontitapatyyppi integer,
 	CONSTRAINT melukohde_pk PRIMARY KEY (fid)
 );
 -- ddl-end --
@@ -9702,6 +9718,8 @@ CREATE TABLE varusteet.kaluste (
 	fid_viheralueenosa bigint,
 	fid_katualueenosa bigint,
 	cid_kalustetyyppi integer,
+	cid_sijaintiepavarmuustyyppi integer,
+	cid_luontitapatyyppi integer,
 	CONSTRAINT kaluste_pk PRIMARY KEY (fid)
 );
 -- ddl-end --
@@ -9764,6 +9782,8 @@ CREATE TABLE varusteet.muuvaruste (
 	fid_viheralueenosa bigint,
 	fid_katualueenosa bigint,
 	cid_muuvarustetyyppi integer,
+	cid_sijaintiepavarmuustyyppi integer,
+	cid_luontitapatyyppi integer,
 	CONSTRAINT muuvaruste_pk PRIMARY KEY (fid)
 );
 -- ddl-end --
@@ -9828,6 +9848,8 @@ CREATE TABLE varusteet.leikkivaline (
 	fid_viheralueenosa bigint,
 	fid_katualueenosa bigint,
 	cid_leikkivalinetyyppi integer,
+	cid_sijaintiepavarmuustyyppi integer,
+	cid_luontitapatyyppi integer,
 	CONSTRAINT leikkivaline_pk PRIMARY KEY (fid)
 );
 -- ddl-end --
@@ -9892,7 +9914,8 @@ CREATE TABLE varusteet.liikennemerkki (
 	fid_katualueenosa bigint,
 	cid_liikennemerkkityyppi2020 integer,
 	cid_liikennemerkkityyppi integer,
-	id_sijainti bigint,
+	cid_sijaintiepavarmuustyyppi integer,
+	cid_luontitapatyyppi integer,
 	CONSTRAINT liikennemerkki_pk PRIMARY KEY (fid)
 );
 -- ddl-end --
@@ -9956,6 +9979,8 @@ CREATE TABLE kasvillisuus.muukasvi (
 	fid_katualueenosa bigint,
 	cid_kasviryhmatyyppi integer,
 	cid_kasvilaji integer,
+	cid_sijaintiepavarmuustyyppi integer,
+	cid_luontitapatyyppi integer,
 	CONSTRAINT muukasvi_pk PRIMARY KEY (fid)
 );
 -- ddl-end --
@@ -10018,6 +10043,8 @@ CREATE TABLE kohteet.pysakointiruutu (
 	cid_varustemateriaali integer,
 	fid_viheralueenosa bigint,
 	fid_katualueenosa bigint,
+	cid_sijaintiepavarmuustyyppi integer,
+	cid_luontitapatyyppi integer,
 	CONSTRAINT pysakointiruutu_pk PRIMARY KEY (fid)
 );
 -- ddl-end --
@@ -10072,6 +10099,8 @@ CREATE TABLE kohteet.erikoisrakennekerros (
 	geom_line geometry(LINESTRINGZ, 3067),
 	geom_point geometry(POINTZ, 3067),
 	cid_erikoisrakennekerrosmateriaalityyppi integer,
+	cid_sijaintiepavarmuustyyppi integer,
+	cid_luontitapatyyppi integer,
 	CONSTRAINT erikoisrakennekerros_pk PRIMARY KEY (fid)
 );
 -- ddl-end --
@@ -10113,6 +10142,8 @@ CREATE TABLE kohteet.ymparistotaide (
 	fid_viheralueenosa bigint,
 	fid_katualueenosa bigint,
 	cid_varustemateriaali integer,
+	cid_sijaintiepavarmuustyyppi integer,
+	cid_luontitapatyyppi integer,
 	CONSTRAINT ymparistotaide_pk PRIMARY KEY (fid)
 );
 -- ddl-end --
@@ -10175,6 +10206,8 @@ CREATE TABLE kohteet.rakenne (
 	fid_viheralueenosa bigint,
 	fid_katualueenosa bigint,
 	cid_rakennetyyppi integer,
+	cid_sijaintiepavarmuustyyppi integer,
+	cid_luontitapatyyppi integer,
 	CONSTRAINT rakenne_pk PRIMARY KEY (fid)
 );
 -- ddl-end --
@@ -10237,6 +10270,8 @@ CREATE TABLE kohteet.hulevesi (
 	fid_viheralueenosa bigint,
 	fid_katualueenosa bigint,
 	cid_hulevesityyppi integer,
+	cid_sijaintiepavarmuustyyppi integer,
+	cid_luontitapatyyppi integer,
 	CONSTRAINT hulevesi_pk PRIMARY KEY (fid)
 );
 -- ddl-end --
@@ -10300,6 +10335,8 @@ CREATE TABLE katualue.ajoratamerkinta (
 	fid_viheralueenosa bigint,
 	fid_katualueenosa bigint,
 	cid_ajoratamerkintatyyppi integer,
+	cid_sijaintiepavarmuustyyppi integer,
+	cid_luontitapatyyppi integer,
 	CONSTRAINT ajoratamerkinta_pk PRIMARY KEY (fid)
 );
 -- ddl-end --
@@ -10352,20 +10389,6 @@ REFERENCES katualue.katualueenosa (fid) MATCH FULL
 ON DELETE SET NULL ON UPDATE CASCADE;
 -- ddl-end --
 
--- object: abstraktit.sijainti | type: TABLE --
--- DROP TABLE IF EXISTS abstraktit.sijainti CASCADE;
-CREATE TABLE abstraktit.sijainti (
-	id bigint NOT NULL GENERATED ALWAYS AS IDENTITY ,
-	cid_luontitapatyyppi integer,
-	cid_sijaintiepavarmuustyyppi integer,
-	CONSTRAINT sijainti_pk PRIMARY KEY (id)
-);
--- ddl-end --
-COMMENT ON TABLE abstraktit.sijainti IS E'TODO: OSOITETIETO_ID\n\n tarvitaanko? Jos tarve on pelkästään tallentaa tietoa luontitavasta ja/tai sijaintiepävarmuudesta niin voisi olla kohteen metatiedoissa?';
--- ddl-end --
-ALTER TABLE abstraktit.sijainti OWNER TO infrao_admin;
--- ddl-end --
-
 -- object: koodistot.luontitapatyyppi | type: TABLE --
 -- DROP TABLE IF EXISTS koodistot.luontitapatyyppi CASCADE;
 CREATE TABLE koodistot.luontitapatyyppi (
@@ -10392,20 +10415,6 @@ INSERT INTO koodistot.luontitapatyyppi (cid, selite) VALUES (E'6', E'skannattu')
 INSERT INTO koodistot.luontitapatyyppi (cid, selite) VALUES (E'7', E'tuntematon');
 -- ddl-end --
 INSERT INTO koodistot.luontitapatyyppi (cid, selite) VALUES (E'8', E'muu');
--- ddl-end --
-
--- object: luontitapatyyppi_fk | type: CONSTRAINT --
--- ALTER TABLE abstraktit.sijainti DROP CONSTRAINT IF EXISTS luontitapatyyppi_fk CASCADE;
-ALTER TABLE abstraktit.sijainti ADD CONSTRAINT luontitapatyyppi_fk FOREIGN KEY (cid_luontitapatyyppi)
-REFERENCES koodistot.luontitapatyyppi (cid) MATCH FULL
-ON DELETE SET NULL ON UPDATE CASCADE;
--- ddl-end --
-
--- object: sijaintiepavarmuustyyppi_fk | type: CONSTRAINT --
--- ALTER TABLE abstraktit.sijainti DROP CONSTRAINT IF EXISTS sijaintiepavarmuustyyppi_fk CASCADE;
-ALTER TABLE abstraktit.sijainti ADD CONSTRAINT sijaintiepavarmuustyyppi_fk FOREIGN KEY (cid_sijaintiepavarmuustyyppi)
-REFERENCES koodistot.sijaintiepavarmuustyyppi (cid) MATCH FULL
-ON DELETE SET NULL ON UPDATE CASCADE;
 -- ddl-end --
 
 -- object: katualueenosa_fk | type: CONSTRAINT --
@@ -10436,16 +10445,270 @@ REFERENCES varusteet.liikennemerkki (fid) MATCH FULL
 ON DELETE SET NULL ON UPDATE CASCADE;
 -- ddl-end --
 
--- object: sijainti_fk | type: CONSTRAINT --
--- ALTER TABLE varusteet.liikennemerkki DROP CONSTRAINT IF EXISTS sijainti_fk CASCADE;
-ALTER TABLE varusteet.liikennemerkki ADD CONSTRAINT sijainti_fk FOREIGN KEY (id_sijainti)
-REFERENCES abstraktit.sijainti (id) MATCH FULL
+-- object: sijaintiepavarmuustyyppi_fk | type: CONSTRAINT --
+-- ALTER TABLE kohteet.hulevesi DROP CONSTRAINT IF EXISTS sijaintiepavarmuustyyppi_fk CASCADE;
+ALTER TABLE kohteet.hulevesi ADD CONSTRAINT sijaintiepavarmuustyyppi_fk FOREIGN KEY (cid_sijaintiepavarmuustyyppi)
+REFERENCES koodistot.sijaintiepavarmuustyyppi (cid) MATCH FULL
 ON DELETE SET NULL ON UPDATE CASCADE;
 -- ddl-end --
 
--- object: liikennemerkki_uq | type: CONSTRAINT --
--- ALTER TABLE varusteet.liikennemerkki DROP CONSTRAINT IF EXISTS liikennemerkki_uq CASCADE;
-ALTER TABLE varusteet.liikennemerkki ADD CONSTRAINT liikennemerkki_uq UNIQUE (id_sijainti);
+-- object: sijaintiepavarmuustyyppi_fk | type: CONSTRAINT --
+-- ALTER TABLE kohteet.rakenne DROP CONSTRAINT IF EXISTS sijaintiepavarmuustyyppi_fk CASCADE;
+ALTER TABLE kohteet.rakenne ADD CONSTRAINT sijaintiepavarmuustyyppi_fk FOREIGN KEY (cid_sijaintiepavarmuustyyppi)
+REFERENCES koodistot.sijaintiepavarmuustyyppi (cid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: sijaintiepavarmuustyyppi_fk | type: CONSTRAINT --
+-- ALTER TABLE kohteet.ymparistotaide DROP CONSTRAINT IF EXISTS sijaintiepavarmuustyyppi_fk CASCADE;
+ALTER TABLE kohteet.ymparistotaide ADD CONSTRAINT sijaintiepavarmuustyyppi_fk FOREIGN KEY (cid_sijaintiepavarmuustyyppi)
+REFERENCES koodistot.sijaintiepavarmuustyyppi (cid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: sijaintiepavarmuustyyppi_fk | type: CONSTRAINT --
+-- ALTER TABLE kohteet.erikoisrakennekerros DROP CONSTRAINT IF EXISTS sijaintiepavarmuustyyppi_fk CASCADE;
+ALTER TABLE kohteet.erikoisrakennekerros ADD CONSTRAINT sijaintiepavarmuustyyppi_fk FOREIGN KEY (cid_sijaintiepavarmuustyyppi)
+REFERENCES koodistot.sijaintiepavarmuustyyppi (cid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: sijaintiepavarmuustyyppi_fk | type: CONSTRAINT --
+-- ALTER TABLE kohteet.pysakointiruutu DROP CONSTRAINT IF EXISTS sijaintiepavarmuustyyppi_fk CASCADE;
+ALTER TABLE kohteet.pysakointiruutu ADD CONSTRAINT sijaintiepavarmuustyyppi_fk FOREIGN KEY (cid_sijaintiepavarmuustyyppi)
+REFERENCES koodistot.sijaintiepavarmuustyyppi (cid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: sijaintiepavarmuustyyppi_fk | type: CONSTRAINT --
+-- ALTER TABLE viheralue.viheralueenosa DROP CONSTRAINT IF EXISTS sijaintiepavarmuustyyppi_fk CASCADE;
+ALTER TABLE viheralue.viheralueenosa ADD CONSTRAINT sijaintiepavarmuustyyppi_fk FOREIGN KEY (cid_sijaintiepavarmuustyyppi)
+REFERENCES koodistot.sijaintiepavarmuustyyppi (cid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: sijaintiepavarmuustyyppi_fk | type: CONSTRAINT --
+-- ALTER TABLE katualue.ajoratamerkinta DROP CONSTRAINT IF EXISTS sijaintiepavarmuustyyppi_fk CASCADE;
+ALTER TABLE katualue.ajoratamerkinta ADD CONSTRAINT sijaintiepavarmuustyyppi_fk FOREIGN KEY (cid_sijaintiepavarmuustyyppi)
+REFERENCES koodistot.sijaintiepavarmuustyyppi (cid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: sijaintiepavarmuustyyppi_fk | type: CONSTRAINT --
+-- ALTER TABLE katualue.katualueenosa DROP CONSTRAINT IF EXISTS sijaintiepavarmuustyyppi_fk CASCADE;
+ALTER TABLE katualue.katualueenosa ADD CONSTRAINT sijaintiepavarmuustyyppi_fk FOREIGN KEY (cid_sijaintiepavarmuustyyppi)
+REFERENCES koodistot.sijaintiepavarmuustyyppi (cid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: sijaintiepavarmuustyyppi_fk | type: CONSTRAINT --
+-- ALTER TABLE katualue.keskilinja DROP CONSTRAINT IF EXISTS sijaintiepavarmuustyyppi_fk CASCADE;
+ALTER TABLE katualue.keskilinja ADD CONSTRAINT sijaintiepavarmuustyyppi_fk FOREIGN KEY (cid_sijaintiepavarmuustyyppi)
+REFERENCES koodistot.sijaintiepavarmuustyyppi (cid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: sijaintiepavarmuustyyppi_fk | type: CONSTRAINT --
+-- ALTER TABLE kasvillisuus.puu DROP CONSTRAINT IF EXISTS sijaintiepavarmuustyyppi_fk CASCADE;
+ALTER TABLE kasvillisuus.puu ADD CONSTRAINT sijaintiepavarmuustyyppi_fk FOREIGN KEY (cid_sijaintiepavarmuustyyppi)
+REFERENCES koodistot.sijaintiepavarmuustyyppi (cid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: sijaintiepavarmuustyyppi_fk | type: CONSTRAINT --
+-- ALTER TABLE kasvillisuus.muukasvi DROP CONSTRAINT IF EXISTS sijaintiepavarmuustyyppi_fk CASCADE;
+ALTER TABLE kasvillisuus.muukasvi ADD CONSTRAINT sijaintiepavarmuustyyppi_fk FOREIGN KEY (cid_sijaintiepavarmuustyyppi)
+REFERENCES koodistot.sijaintiepavarmuustyyppi (cid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: sijaintiepavarmuustyyppi_fk | type: CONSTRAINT --
+-- ALTER TABLE varusteet.liikennemerkki DROP CONSTRAINT IF EXISTS sijaintiepavarmuustyyppi_fk CASCADE;
+ALTER TABLE varusteet.liikennemerkki ADD CONSTRAINT sijaintiepavarmuustyyppi_fk FOREIGN KEY (cid_sijaintiepavarmuustyyppi)
+REFERENCES koodistot.sijaintiepavarmuustyyppi (cid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: sijaintiepavarmuustyyppi_fk | type: CONSTRAINT --
+-- ALTER TABLE varusteet.leikkivaline DROP CONSTRAINT IF EXISTS sijaintiepavarmuustyyppi_fk CASCADE;
+ALTER TABLE varusteet.leikkivaline ADD CONSTRAINT sijaintiepavarmuustyyppi_fk FOREIGN KEY (cid_sijaintiepavarmuustyyppi)
+REFERENCES koodistot.sijaintiepavarmuustyyppi (cid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: sijaintiepavarmuustyyppi_fk | type: CONSTRAINT --
+-- ALTER TABLE varusteet.muuvaruste DROP CONSTRAINT IF EXISTS sijaintiepavarmuustyyppi_fk CASCADE;
+ALTER TABLE varusteet.muuvaruste ADD CONSTRAINT sijaintiepavarmuustyyppi_fk FOREIGN KEY (cid_sijaintiepavarmuustyyppi)
+REFERENCES koodistot.sijaintiepavarmuustyyppi (cid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: sijaintiepavarmuustyyppi_fk | type: CONSTRAINT --
+-- ALTER TABLE varusteet.kaluste DROP CONSTRAINT IF EXISTS sijaintiepavarmuustyyppi_fk CASCADE;
+ALTER TABLE varusteet.kaluste ADD CONSTRAINT sijaintiepavarmuustyyppi_fk FOREIGN KEY (cid_sijaintiepavarmuustyyppi)
+REFERENCES koodistot.sijaintiepavarmuustyyppi (cid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: sijaintiepavarmuustyyppi_fk | type: CONSTRAINT --
+-- ALTER TABLE varusteet.melukohde DROP CONSTRAINT IF EXISTS sijaintiepavarmuustyyppi_fk CASCADE;
+ALTER TABLE varusteet.melukohde ADD CONSTRAINT sijaintiepavarmuustyyppi_fk FOREIGN KEY (cid_sijaintiepavarmuustyyppi)
+REFERENCES koodistot.sijaintiepavarmuustyyppi (cid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: sijaintiepavarmuustyyppi_fk | type: CONSTRAINT --
+-- ALTER TABLE varusteet.opaste DROP CONSTRAINT IF EXISTS sijaintiepavarmuustyyppi_fk CASCADE;
+ALTER TABLE varusteet.opaste ADD CONSTRAINT sijaintiepavarmuustyyppi_fk FOREIGN KEY (cid_sijaintiepavarmuustyyppi)
+REFERENCES koodistot.sijaintiepavarmuustyyppi (cid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: sijaintiepavarmuustyyppi_fk | type: CONSTRAINT --
+-- ALTER TABLE varusteet.liikunta DROP CONSTRAINT IF EXISTS sijaintiepavarmuustyyppi_fk CASCADE;
+ALTER TABLE varusteet.liikunta ADD CONSTRAINT sijaintiepavarmuustyyppi_fk FOREIGN KEY (cid_sijaintiepavarmuustyyppi)
+REFERENCES koodistot.sijaintiepavarmuustyyppi (cid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: sijaintiepavarmuustyyppi_fk | type: CONSTRAINT --
+-- ALTER TABLE varusteet.jate DROP CONSTRAINT IF EXISTS sijaintiepavarmuustyyppi_fk CASCADE;
+ALTER TABLE varusteet.jate ADD CONSTRAINT sijaintiepavarmuustyyppi_fk FOREIGN KEY (cid_sijaintiepavarmuustyyppi)
+REFERENCES koodistot.sijaintiepavarmuustyyppi (cid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: luontitapatyyppi_fk | type: CONSTRAINT --
+-- ALTER TABLE varusteet.liikennemerkki DROP CONSTRAINT IF EXISTS luontitapatyyppi_fk CASCADE;
+ALTER TABLE varusteet.liikennemerkki ADD CONSTRAINT luontitapatyyppi_fk FOREIGN KEY (cid_luontitapatyyppi)
+REFERENCES koodistot.luontitapatyyppi (cid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: luontitapatyyppi_fk | type: CONSTRAINT --
+-- ALTER TABLE varusteet.leikkivaline DROP CONSTRAINT IF EXISTS luontitapatyyppi_fk CASCADE;
+ALTER TABLE varusteet.leikkivaline ADD CONSTRAINT luontitapatyyppi_fk FOREIGN KEY (cid_luontitapatyyppi)
+REFERENCES koodistot.luontitapatyyppi (cid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: luontitapatyyppi_fk | type: CONSTRAINT --
+-- ALTER TABLE varusteet.muuvaruste DROP CONSTRAINT IF EXISTS luontitapatyyppi_fk CASCADE;
+ALTER TABLE varusteet.muuvaruste ADD CONSTRAINT luontitapatyyppi_fk FOREIGN KEY (cid_luontitapatyyppi)
+REFERENCES koodistot.luontitapatyyppi (cid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: luontitapatyyppi_fk | type: CONSTRAINT --
+-- ALTER TABLE varusteet.kaluste DROP CONSTRAINT IF EXISTS luontitapatyyppi_fk CASCADE;
+ALTER TABLE varusteet.kaluste ADD CONSTRAINT luontitapatyyppi_fk FOREIGN KEY (cid_luontitapatyyppi)
+REFERENCES koodistot.luontitapatyyppi (cid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: luontitapatyyppi_fk | type: CONSTRAINT --
+-- ALTER TABLE varusteet.melukohde DROP CONSTRAINT IF EXISTS luontitapatyyppi_fk CASCADE;
+ALTER TABLE varusteet.melukohde ADD CONSTRAINT luontitapatyyppi_fk FOREIGN KEY (cid_luontitapatyyppi)
+REFERENCES koodistot.luontitapatyyppi (cid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: luontitapatyyppi_fk | type: CONSTRAINT --
+-- ALTER TABLE varusteet.opaste DROP CONSTRAINT IF EXISTS luontitapatyyppi_fk CASCADE;
+ALTER TABLE varusteet.opaste ADD CONSTRAINT luontitapatyyppi_fk FOREIGN KEY (cid_luontitapatyyppi)
+REFERENCES koodistot.luontitapatyyppi (cid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: luontitapatyyppi_fk | type: CONSTRAINT --
+-- ALTER TABLE varusteet.liikunta DROP CONSTRAINT IF EXISTS luontitapatyyppi_fk CASCADE;
+ALTER TABLE varusteet.liikunta ADD CONSTRAINT luontitapatyyppi_fk FOREIGN KEY (cid_luontitapatyyppi)
+REFERENCES koodistot.luontitapatyyppi (cid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: luontitapatyyppi_fk | type: CONSTRAINT --
+-- ALTER TABLE varusteet.jate DROP CONSTRAINT IF EXISTS luontitapatyyppi_fk CASCADE;
+ALTER TABLE varusteet.jate ADD CONSTRAINT luontitapatyyppi_fk FOREIGN KEY (cid_luontitapatyyppi)
+REFERENCES koodistot.luontitapatyyppi (cid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: luontitapatyyppi_fk | type: CONSTRAINT --
+-- ALTER TABLE kohteet.hulevesi DROP CONSTRAINT IF EXISTS luontitapatyyppi_fk CASCADE;
+ALTER TABLE kohteet.hulevesi ADD CONSTRAINT luontitapatyyppi_fk FOREIGN KEY (cid_luontitapatyyppi)
+REFERENCES koodistot.luontitapatyyppi (cid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: luontitapatyyppi_fk | type: CONSTRAINT --
+-- ALTER TABLE kohteet.rakenne DROP CONSTRAINT IF EXISTS luontitapatyyppi_fk CASCADE;
+ALTER TABLE kohteet.rakenne ADD CONSTRAINT luontitapatyyppi_fk FOREIGN KEY (cid_luontitapatyyppi)
+REFERENCES koodistot.luontitapatyyppi (cid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: luontitapatyyppi_fk | type: CONSTRAINT --
+-- ALTER TABLE kohteet.ymparistotaide DROP CONSTRAINT IF EXISTS luontitapatyyppi_fk CASCADE;
+ALTER TABLE kohteet.ymparistotaide ADD CONSTRAINT luontitapatyyppi_fk FOREIGN KEY (cid_luontitapatyyppi)
+REFERENCES koodistot.luontitapatyyppi (cid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: luontitapatyyppi_fk | type: CONSTRAINT --
+-- ALTER TABLE kohteet.erikoisrakennekerros DROP CONSTRAINT IF EXISTS luontitapatyyppi_fk CASCADE;
+ALTER TABLE kohteet.erikoisrakennekerros ADD CONSTRAINT luontitapatyyppi_fk FOREIGN KEY (cid_luontitapatyyppi)
+REFERENCES koodistot.luontitapatyyppi (cid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: luontitapatyyppi_fk | type: CONSTRAINT --
+-- ALTER TABLE kohteet.pysakointiruutu DROP CONSTRAINT IF EXISTS luontitapatyyppi_fk CASCADE;
+ALTER TABLE kohteet.pysakointiruutu ADD CONSTRAINT luontitapatyyppi_fk FOREIGN KEY (cid_luontitapatyyppi)
+REFERENCES koodistot.luontitapatyyppi (cid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: luontitapatyyppi_fk | type: CONSTRAINT --
+-- ALTER TABLE viheralue.viheralueenosa DROP CONSTRAINT IF EXISTS luontitapatyyppi_fk CASCADE;
+ALTER TABLE viheralue.viheralueenosa ADD CONSTRAINT luontitapatyyppi_fk FOREIGN KEY (cid_luontitapatyyppi)
+REFERENCES koodistot.luontitapatyyppi (cid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: luontitapatyyppi_fk | type: CONSTRAINT --
+-- ALTER TABLE katualue.ajoratamerkinta DROP CONSTRAINT IF EXISTS luontitapatyyppi_fk CASCADE;
+ALTER TABLE katualue.ajoratamerkinta ADD CONSTRAINT luontitapatyyppi_fk FOREIGN KEY (cid_luontitapatyyppi)
+REFERENCES koodistot.luontitapatyyppi (cid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: luontitapatyyppi_fk | type: CONSTRAINT --
+-- ALTER TABLE katualue.katualueenosa DROP CONSTRAINT IF EXISTS luontitapatyyppi_fk CASCADE;
+ALTER TABLE katualue.katualueenosa ADD CONSTRAINT luontitapatyyppi_fk FOREIGN KEY (cid_luontitapatyyppi)
+REFERENCES koodistot.luontitapatyyppi (cid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: luontitapatyyppi_fk | type: CONSTRAINT --
+-- ALTER TABLE katualue.keskilinja DROP CONSTRAINT IF EXISTS luontitapatyyppi_fk CASCADE;
+ALTER TABLE katualue.keskilinja ADD CONSTRAINT luontitapatyyppi_fk FOREIGN KEY (cid_luontitapatyyppi)
+REFERENCES koodistot.luontitapatyyppi (cid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: luontitapatyyppi_fk | type: CONSTRAINT --
+-- ALTER TABLE kasvillisuus.puu DROP CONSTRAINT IF EXISTS luontitapatyyppi_fk CASCADE;
+ALTER TABLE kasvillisuus.puu ADD CONSTRAINT luontitapatyyppi_fk FOREIGN KEY (cid_luontitapatyyppi)
+REFERENCES koodistot.luontitapatyyppi (cid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: luontitapatyyppi_fk | type: CONSTRAINT --
+-- ALTER TABLE kasvillisuus.muukasvi DROP CONSTRAINT IF EXISTS luontitapatyyppi_fk CASCADE;
+ALTER TABLE kasvillisuus.muukasvi ADD CONSTRAINT luontitapatyyppi_fk FOREIGN KEY (cid_luontitapatyyppi)
+REFERENCES koodistot.luontitapatyyppi (cid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
 -- ddl-end --
 
 -- object: talvihoidonluokka_fk | type: CONSTRAINT --
@@ -10548,7 +10811,7 @@ ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- object: viherosanlajityyppi_fk | type: CONSTRAINT --
 -- ALTER TABLE katualue.katualueenosa DROP CONSTRAINT IF EXISTS viherosanlajityyppi_fk CASCADE;
-ALTER TABLE katualue.katualueenosa ADD CONSTRAINT viherosanlajityyppi_fk FOREIGN KEY (viherosanlajityypi_id)
+ALTER TABLE katualue.katualueenosa ADD CONSTRAINT viherosanlajityyppi_fk FOREIGN KEY (viherosanlajityyppi_id)
 REFERENCES koodistot.viherosanlajityyppi (cid) MATCH FULL
 ON DELETE CASCADE ON UPDATE CASCADE;
 -- ddl-end --

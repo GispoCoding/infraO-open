@@ -31,9 +31,9 @@ ALTER SCHEMA koodistot OWNER TO infrao_admin;
 
 -- object: kohteet | type: SCHEMA --
 -- DROP SCHEMA IF EXISTS kohteet CASCADE;
-CREATE SCHEMA kohteet;
- ddl-end --
-ALTER SCHEMA kohteet OWNER TO infrao_admin;
+--CREATE SCHEMA kohteet;
+-- ddl-end --
+--ALTER SCHEMA kohteet OWNER TO infrao_admin;
 -- ddl-end --
 
 -- object: abstraktit | type: SCHEMA --
@@ -81,7 +81,14 @@ ALTER SCHEMA osoite OWNER TO infrao_admin;
 COMMENT ON SCHEMA osoite IS E'Sisältää kohteiden osoitetietoja.\nRatkottava: kuinka tämä tieto populoidaan jostain muualta? Digitransit API? OpenStreetMap? Kunnan oma osoitetietokanta?';
 -- ddl-end --
 
-SET search_path TO pg_catalog,public,koodistot,kohteet,abstraktit,meta,varusteet,katualue,viheralue,kasvillisuus,osoite;
+-- object: linkit | type: SCHEMA --
+-- DROP SCHEMA IF EXISTS linkit CASCADE;
+CREATE SCHEMA linkit;
+-- ddl-end --
+ALTER SCHEMA linkit OWNER TO infrao_admin;
+-- ddl-end --
+
+SET search_path TO pg_catalog,public,koodistot,kohteet,abstraktit,meta,varusteet,katualue,viheralue,kasvillisuus,osoite,linkit;
 -- ddl-end --
 
 -- object: koodistot.viheralueen_kayttotarkoitus_id_seq | type: SEQUENCE --
@@ -135,6 +142,8 @@ INSERT INTO koodistot.viheralueenkayttotarkoitus (cid, selite) VALUES (E'11', E'
 INSERT INTO koodistot.viheralueenkayttotarkoitus (cid, selite) VALUES (E'12', E'muu');
 -- ddl-end --
 INSERT INTO koodistot.viheralueenkayttotarkoitus (cid, selite) VALUES (E'13', E'ei tiedossa');
+-- ddl-end --
+INSERT INTO koodistot.viheralueenkayttotarkoitus (cid, selite) VALUES (E'-1', E'Tyhjä');
 -- ddl-end --
 
 -- object: koodistot.varuste_materiaali_id_seq | type: SEQUENCE --
@@ -192,6 +201,8 @@ INSERT INTO koodistot.varustemateriaali (cid, selite) VALUES (E'13', E'vaijeri')
 INSERT INTO koodistot.varustemateriaali (cid, selite) VALUES (E'14', E'muu');
 -- ddl-end --
 INSERT INTO koodistot.varustemateriaali (cid, selite) VALUES (E'15', E'ei tiedossa');
+-- ddl-end --
+INSERT INTO koodistot.varustemateriaali (cid, selite) VALUES (E'-1', E'Tyhjä');
 -- ddl-end --
 
 -- object: koodistot.hoitoluokka_id_seq | type: SEQUENCE --
@@ -286,6 +297,8 @@ INSERT INTO koodistot.hoitoluokkatyyppi (cid, selite) VALUES (E'32', E'muu');
 -- ddl-end --
 INSERT INTO koodistot.hoitoluokkatyyppi (cid, selite) VALUES (E'33', E'ei tiedossa');
 -- ddl-end --
+INSERT INTO koodistot.hoitoluokkatyyppi (cid, selite) VALUES (E'-1', E'Tyhjä');
+-- ddl-end --
 
 -- object: public.viheralue_id_seq | type: SEQUENCE --
 -- DROP SEQUENCE IF EXISTS public.viheralue_id_seq CASCADE;
@@ -327,7 +340,7 @@ ALTER SEQUENCE kohteet.viheralueenosa_id_seq OWNER TO infrao_admin;
 -- DROP TABLE IF EXISTS viheralue.viheralue CASCADE;
 CREATE TABLE viheralue.viheralue (
 	fid bigint NOT NULL GENERATED ALWAYS AS IDENTITY ,
-	identifier uuid DEFAULT gen_random_uuid(),
+	identifier text DEFAULT gen_random_uuid(),
 	nimi text,
 	alkuhetki timestamptz,
 	loppuhetki timestamptz,
@@ -401,6 +414,8 @@ INSERT INTO koodistot.katuosanlaji (cid, selite) VALUES (E'17', E'muu');
 -- ddl-end --
 INSERT INTO koodistot.katuosanlaji (cid, selite) VALUES (E'18', E'ei tiedossa');
 -- ddl-end --
+INSERT INTO koodistot.katuosanlaji (cid, selite) VALUES (E'-1', E'Tyhjä');
+-- ddl-end --
 
 -- object: koodistot.talvihoidonluokka_id_seq | type: SEQUENCE --
 -- DROP SEQUENCE IF EXISTS koodistot.talvihoidonluokka_id_seq CASCADE;
@@ -438,6 +453,8 @@ INSERT INTO koodistot.talvihoidonluokka (cid, selite) VALUES (E'4', E'Ei kiireel
 -- ddl-end --
 INSERT INTO koodistot.talvihoidonluokka (cid, selite) VALUES (E'5', E'Ei talvikunnossapitoa');
 -- ddl-end --
+INSERT INTO koodistot.talvihoidonluokka (cid, selite) VALUES (E'-1', E'Tyhjä');
+-- ddl-end --
 
 -- object: public.katualue_id_seq | type: SEQUENCE --
 -- DROP SEQUENCE IF EXISTS public.katualue_id_seq CASCADE;
@@ -458,7 +475,7 @@ ALTER SEQUENCE public.katualue_id_seq OWNER TO infrao_admin;
 -- DROP TABLE IF EXISTS katualue.katualue CASCADE;
 CREATE TABLE katualue.katualue (
 	fid bigint NOT NULL GENERATED ALWAYS AS IDENTITY ,
-	identifier uuid DEFAULT gen_random_uuid(),
+	identifier text DEFAULT gen_random_uuid(),
 	nimi text,
 	alkuhetki timestamptz,
 	loppuhetki timestamptz,
@@ -489,7 +506,7 @@ ALTER SEQUENCE public.katualueenosa_id_seq OWNER TO infrao_admin;
 -- DROP TABLE IF EXISTS viheralue.viheralueenosa CASCADE;
 CREATE TABLE viheralue.viheralueenosa (
 	fid bigint NOT NULL GENERATED ALWAYS AS IDENTITY ,
-	identifier uuid DEFAULT gen_random_uuid(),
+	identifier text DEFAULT gen_random_uuid(),
 	metatieto text,
 	alkuhetki timestamptz,
 	loppuhetki timestamptz,
@@ -499,18 +516,17 @@ CREATE TABLE viheralue.viheralueenosa (
 	perusparannusvuosi smallint,
 	valmistumisvuosi smallint,
 	suojelualuekytkin boolean,
-	kayttotarkoitus_id integer,
-	laji_id integer,
-	hoitoluokka_id integer,
-	katualueenlaji_id integer,
-	suunnitelmalinkkitieto_id integer,
-	talvihoidonluokka_id integer,
-	puhtaanapitoluokka_id integer,
-	muutoshoitoluokka_id integer,
-	fid_viheralue bigint,
 	geom geometry(POLYGONZ, 3067),
+	fid_viheralue bigint,
 	cid_sijaintiepavarmuustyyppi integer,
 	cid_luontitapatyyppi integer,
+	cid_viheralueenkayttotarkoitus integer,
+	cid_viherosanlajityyppi integer,
+	cid_hoitoluokkatyyppi integer,
+	cid_katuosanlaji integer,
+	cid_talvihoidonluokka integer,
+	cid_puhtaanapitoluokkatyyppi integer,
+	cid_muutoshoitoluokkatyyppi integer,
 	CONSTRAINT viheralueenosa_fid_pk PRIMARY KEY (fid)
 );
 -- ddl-end --
@@ -573,7 +589,7 @@ ALTER SEQUENCE public.liikunta_id_seq OWNER TO infrao_admin;
 -- DROP TABLE IF EXISTS katualue.katualueenosa CASCADE;
 CREATE TABLE katualue.katualueenosa (
 	fid bigint NOT NULL GENERATED ALWAYS AS IDENTITY ,
-	identifier uuid DEFAULT gen_random_uuid(),
+	identifier text DEFAULT gen_random_uuid(),
 	metatieto text,
 	alkuhetki timestamptz,
 	loppuhetki timestamptz,
@@ -589,17 +605,16 @@ CREATE TABLE katualue.katualueenosa (
 	puhtaanapito text,
 	talvikunnossapito text,
 	valmistumisvuosi integer,
-	luokka_id integer,
-	katuosanlaji_id integer,
-	viherosanlajityyppi_id integer,
-	pintamateriaali_id integer,
-	kunnossapitoluokka_id integer,
-	suunnitelmalinkkitieto_id integer,
-	talvihoidonluokka_id integer,
-	fid_katualue bigint,
 	geom geometry(POLYGONZ, 3067),
+	fid_katualue bigint,
 	cid_sijaintiepavarmuustyyppi integer,
 	cid_luontitapatyyppi integer,
+	cid_toiminnallinenluokka integer,
+	cid_katuosanlaji integer,
+	cid_viherosanlajityyppi integer,
+	cid_pintamateriaali integer,
+	cid_hoitoluokkatyyppi integer,
+	cid_talvihoidonluokka integer,
 	CONSTRAINT katualueenosa_pk PRIMARY KEY (fid)
 );
 -- ddl-end --
@@ -672,6 +687,8 @@ INSERT INTO koodistot.liikuntatyyppi (cid, selite) VALUES (E'10', E'talviliukum�
 INSERT INTO koodistot.liikuntatyyppi (cid, selite) VALUES (E'11', E'muu');
 -- ddl-end --
 INSERT INTO koodistot.liikuntatyyppi (cid, selite) VALUES (E'12', E'ei tiedossa');
+-- ddl-end --
+INSERT INTO koodistot.liikuntatyyppi (cid, selite) VALUES (E'-1', E'Tyhjä');
 -- ddl-end --
 
 -- object: public.kaluste_id_seq | type: SEQUENCE --
@@ -929,6 +946,8 @@ INSERT INTO koodistot.kunnossapitoluokka (cid, selite) VALUES (E'31', E'muu');
 -- ddl-end --
 INSERT INTO koodistot.kunnossapitoluokka (cid, selite) VALUES (E'32', E'ei tiedossa');
 -- ddl-end --
+INSERT INTO koodistot.kunnossapitoluokka (cid, selite) VALUES (E'-1', E'Tyhjä');
+-- ddl-end --
 
 -- object: public.abstrakti_varuste_id_seq | type: SEQUENCE --
 -- DROP SEQUENCE IF EXISTS public.abstrakti_varuste_id_seq CASCADE;
@@ -967,6 +986,8 @@ INSERT INTO koodistot.melutyyppi (cid, selite) VALUES (E'4', E'meluvalli');
 INSERT INTO koodistot.melutyyppi (cid, selite) VALUES (E'5', E'muu');
 -- ddl-end --
 INSERT INTO koodistot.melutyyppi (cid, selite) VALUES (E'6', E'ei tiedossa');
+-- ddl-end --
+INSERT INTO koodistot.melutyyppi (cid, selite) VALUES (E'-1', E'Tyhjä');
 -- ddl-end --
 
 -- object: abstraktit.abstractpaikkatietopalvelukohde | type: TABLE --
@@ -1018,6 +1039,8 @@ INSERT INTO koodistot.kalustetyyppi (cid, selite) VALUES (E'8', E'muu');
 -- ddl-end --
 INSERT INTO koodistot.kalustetyyppi (cid, selite) VALUES (E'9', E'ei tiedossa');
 -- ddl-end --
+INSERT INTO koodistot.kalustetyyppi (cid, selite) VALUES (E'-1', E'Tyhjä');
+-- ddl-end --
 
 -- object: koodistot.opastetyyppi | type: TABLE --
 -- DROP TABLE IF EXISTS koodistot.opastetyyppi CASCADE;
@@ -1040,6 +1063,8 @@ INSERT INTO koodistot.opastetyyppi (cid, selite) VALUES (E'4', E'muu');
 -- ddl-end --
 INSERT INTO koodistot.opastetyyppi (cid, selite) VALUES (E'5', E'ei tiedossa');
 -- ddl-end --
+INSERT INTO koodistot.opastetyyppi (cid, selite) VALUES (E'-1', E'Tyhjä');
+-- ddl-end --
 
 -- object: koodistot.jatetyyppi | type: TABLE --
 -- DROP TABLE IF EXISTS koodistot.jatetyyppi CASCADE;
@@ -1061,6 +1086,8 @@ INSERT INTO koodistot.jatetyyppi (cid, selite) VALUES (E'3', E'roskakori');
 INSERT INTO koodistot.jatetyyppi (cid, selite) VALUES (E'4', E'muu');
 -- ddl-end --
 INSERT INTO koodistot.jatetyyppi (cid, selite) VALUES (E'5', E'ei tiedossa');
+-- ddl-end --
+INSERT INTO koodistot.jatetyyppi (cid, selite) VALUES (E'-1', E'Tyhjä');
 -- ddl-end --
 
 -- object: koodistot.pintamateriaali | type: TABLE --
@@ -1111,6 +1138,8 @@ INSERT INTO koodistot.pintamateriaali (cid, selite) VALUES (E'17', E'soratien pi
 INSERT INTO koodistot.pintamateriaali (cid, selite) VALUES (E'18', E'muu');
 -- ddl-end --
 INSERT INTO koodistot.pintamateriaali (cid, selite) VALUES (E'19', E'ei tiedossa');
+-- ddl-end --
+INSERT INTO koodistot.pintamateriaali (cid, selite) VALUES (E'-1', E'Tyhjä');
 -- ddl-end --
 
 -- object: koodistot.hulevesityyppi | type: TABLE --
@@ -1174,6 +1203,8 @@ INSERT INTO koodistot.hulevesityyppi (cid, selite) VALUES (E'24', E'muu');
 -- ddl-end --
 INSERT INTO koodistot.hulevesityyppi (cid, selite) VALUES (E'25', E'ei tiedossa');
 -- ddl-end --
+INSERT INTO koodistot.hulevesityyppi (cid, selite) VALUES (E'-1', E'Tyhjä');
+-- ddl-end --
 
 -- object: koodistot.ajoratamerkintatyyppi | type: TABLE --
 -- DROP TABLE IF EXISTS koodistot.ajoratamerkintatyyppi CASCADE;
@@ -1196,6 +1227,8 @@ INSERT INTO koodistot.ajoratamerkintatyyppi (cid, selite) VALUES (E'4', E'muu');
 -- ddl-end --
 INSERT INTO koodistot.ajoratamerkintatyyppi (cid, selite) VALUES (E'5', E'ei tiedossa');
 -- ddl-end --
+INSERT INTO koodistot.ajoratamerkintatyyppi (cid, selite) VALUES (E'-1', E'Tyhjä');
+-- ddl-end --
 
 -- object: koodistot.puutyyppi | type: TABLE --
 -- DROP TABLE IF EXISTS koodistot.puutyyppi CASCADE;
@@ -1208,1249 +1241,15 @@ CREATE TABLE koodistot.puutyyppi (
 ALTER TABLE koodistot.puutyyppi OWNER TO infrao_admin;
 -- ddl-end --
 
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'1', E'Abies amabilis');
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'1', E'havupuu');
 -- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'2', E'Abies balsamea');
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'2', E'lehtipuu');
 -- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'3', E'Abies concolor');
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'3', E'muu');
 -- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'4', E'Abies fraseri');
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'4', E'ei tiedossa');
 -- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'5', E'Abies grandis');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'6', E'Abies holophylla');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'7', E'Abies homolepis');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'8', E'Abies koreana');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'9', E'Abies lasiocarpa');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'10', E'Abies lasiocarpa var. arizonica');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'11', E'Abies mariesii');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'12', E'Abies nephrolepis');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'13', E'Abies nordmanniana');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'14', E'Abies procera');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'15', E'Abies sachalinensis');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'16', E'Abies sibirica');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'17', E'Abies sp');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'18', E'Abies veitchii');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'19', E'Acanthopanax senticosus');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'20', E'Acer barbinerve');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'21', E'Acer campestre');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'22', E'Acer circinatum');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'23', E'Acer japonicum');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'24', E'Acer mono');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'25', E'Acer negundo');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'26', E'Acer palmatum');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'27', E'Acer pensylvanicum');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'28', E'Acer platanoides');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'29', E'Acer platanoides ''Reitenbachii''');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'30', E'Acer platanoides ''Schwedleri''');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'31', E'Acer pseudoplatanus');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'32', E'Acer pseudosieboldianum');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'33', E'Acer rubrum');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'34', E'Acer saccharinum');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'35', E'Acer saccharum');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'36', E'Acer sieboldianum');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'37', E'Acer sp');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'38', E'Acer spicatum');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'39', E'Acer tataricum');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'40', E'Acer tataricum subsp. ginnala');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'41', E'Acer tataricum subsp. semenowii');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'42', E'Acer tataricum subsp. tataricum');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'43', E'Acer tegmentosum');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'44', E'Acer triflorum');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'45', E'Acer ukurunduense');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'46', E'Actinidia arguta');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'47', E'Actinidia kolomikta');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'48', E'Aesculus hippocastanum');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'49', E'Aesculus octandra');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'50', E'Alnus glutinosa');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'51', E'Alnus glutinosa f. quercifolia');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'52', E'Alnus incana');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'53', E'Alnus incana f. gibberosa');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'54', E'Alnus incana f. laciniata');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'55', E'Alnus incana subsp. kolaënsis');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'56', E'Alnus mandshurica');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'57', E'Alnus sp');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'58', E'Alnus viridis');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'59', E'Amelanchier alnifolia');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'60', E'Amelanchier laevis');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'61', E'Amelanchier lamarckii');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'62', E'Amelanchier sp');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'63', E'Amelanchier spicata');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'64', E'Andromeda polifolia');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'65', E'Aralia elata');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'66', E'Arctostaphylos alpinus');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'67', E'Arctostaphylos uva-ursi');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'68', E'Aristolochia macrophylla');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'69', E'Aronia ×prunifolia');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'70', E'Aronia arbutifolia');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'71', E'Aronia melanocarpa');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'72', E'Aronia sp');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'73', E'Artemisia abronatum');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'74', E'Berberis koreana');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'75', E'Berberis sp');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'76', E'Berberis thunbergii');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'77', E'Berberis vulgaris');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'78', E'Betula alleghaniensis');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'79', E'Betula ermanii');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'80', E'Betula fruticosa');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'81', E'Betula lenta');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'82', E'Betula nana');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'83', E'Betula papyrifera');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'84', E'Betula pendula');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'85', E'Betula pendula ''Dalecarlica''');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'86', E'Betula pendula f. bircalensis');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'87', E'Betula pendula f. crispa');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'88', E'Betula pendula f. palmeri');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'89', E'Betula pendula f. tristis');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'90', E'Betula pendula var. carelica');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'91', E'Betula pendula ''Youngii''');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'92', E'Betula pubescens');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'93', E'Betula pubescens f. aurea');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'94', E'Betula pubescens f. rubra');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'95', E'Betula pubescens subsp. czerepanovii');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'96', E'Betula sp');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'97', E'Buddleja davidii');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'98', E'Buxus sempervirens');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'99', E'Calluna vulgaris');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'100', E'Caragana arborescens');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'101', E'Caragana aurantiaca');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'102', E'Caragana frutex');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'103', E'Carpinus betulus');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'104', E'Cassiope hypnoides');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'105', E'Cassiope tetragona');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'106', E'Celastrus orbiculatus');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'107', E'Celastrus scandens');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'108', E'Cercidiphyllum japonicum');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'109', E'Cercidiphyllum magnificum');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'110', E'Chaenomeles japonica');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'111', E'Chamaecyparis lawsoniana');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'112', E'Chamaecyparis nootkatensis');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'113', E'Chamaecyparis pisifera');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'114', E'Chamaecyparis sp');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'115', E'Chamaedaphne calyculata');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'116', E'Chimaphila umbellata');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'117', E'Cladrastis kentukea');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'118', E'Clematis alpina');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'119', E'Clematis ochotensis');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'120', E'Clematis sibirica');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'121', E'Clematis sp');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'122', E'Clematis tangutica');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'123', E'Clematis vitalba');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'124', E'Clematis viticella');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'125', E'Colutea arborescens');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'126', E'Cornus alba');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'127', E'Cornus alba ''Sibirica''');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'128', E'Cornus alba subsp. alba');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'129', E'Cornus alba subsp. stolonifera');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'130', E'Cornus mas');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'131', E'Cornus sanguinea');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'132', E'Cornus sp');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'133', E'Corylus avellana');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'134', E'Corylus colurna');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'135', E'Corylus cornuta');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'136', E'Corylus maxima ''Purpurea''');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'137', E'Corylus sp');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'138', E'Cotoneaster dammeri');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'139', E'Cotoneaster dammeri var. radicans');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'140', E'Cotoneaster divaricatus');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'141', E'Cotoneaster horizontalis');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'142', E'Cotoneaster integerrimus');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'143', E'Cotoneaster lucidus');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'144', E'Cotoneaster nanshan');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'145', E'Cotoneaster niger');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'146', E'Cotoneaster ''Skogholm''');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'147', E'Cotoneaster sp');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'148', E'Crataegus ×mordenensis');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'149', E'Crataegus chlorosarca');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'150', E'Crataegus douglasii');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'151', E'Crataegus flabellata');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'152', E'Crataegus grayana');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'153', E'Crataegus intricata');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'154', E'Crataegus korolkovii');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'155', E'Crataegus laevigata');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'156', E'Crataegus macracantha');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'157', E'Crataegus monogyna');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'158', E'Crataegus nigra');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'159', E'Crataegus rhipidophylla');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'160', E'Crataegus sanguinea');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'161', E'Crataegus sp');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'162', E'Crataegus submollis');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'163', E'Cytisus ×versicolor');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'164', E'Cytisus decumbens');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'165', E'Cytisus glaber');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'166', E'Cytisus purpureus');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'167', E'Cytisus scoparius');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'168', E'Cytisus sp');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'169', E'Daphne blagayana');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'170', E'Daphne cneorum');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'171', E'Daphne mezereum');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'172', E'Daphne sp');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'173', E'Deutzia amurensis');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'174', E'Deutzia scabra');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'175', E'Diapensia lapponica');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'176', E'Diervilla lonicera');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'177', E'Diervilla sessilifolia');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'178', E'Dryas octopetala');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'179', E'Elaeagnus commutata');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'180', E'Empetrum nigrum');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'181', E'Erica herbacea');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'182', E'Erica tetralix');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'183', E'Euonymus alatus');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'184', E'Euonymus europaeus');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'185', E'Euonymus fortunei');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'186', E'Euonymus hamiltonianus');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'187', E'Euonymus nanus');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'188', E'Euonymus planipes');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'189', E'Euonymus sp');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'190', E'Exochorda racemosa');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'191', E'Fagus grandifolia');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'192', E'Fagus sp');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'193', E'Fagus sylvatica');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'194', E'Fagus sylvatica f. purpurea');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'195', E'Forsythia ovata');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'196', E'Fothergilla major');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'197', E'Fraxinus americana');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'198', E'Fraxinus excelsior');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'199', E'Fraxinus mandshurica');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'200', E'Fraxinus nigra');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'201', E'Fraxinus pennsylvanica');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'202', E'Fraxinus sp');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'203', E'Genista tinctoria');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'204', E'Ginkgo biloba');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'205', E'Gleditsia triacanthos');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'206', E'Halesia carolina');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'207', E'Hamamelis virginiana');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'208', E'Hedera helix');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'209', E'Hippophaë rhamnoides');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'210', E'Holodiscus discolor');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'211', E'Hydrangea anomala');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'212', E'Hydrangea anomala subsp. petiolaris');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'213', E'Hydrangea arborescens');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'214', E'Hydrangea heteromalla ''Bretschneideri''');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'215', E'Hydrangea paniculata ''Grandiflora''');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'216', E'Hydrangea sp');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'217', E'Ilex verticillata');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'218', E'Jamesia americana');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'219', E'Juglans ailanthifolia');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'220', E'Juglans cinerea');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'221', E'Juglans mandshurica');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'222', E'Juglans nigra');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'223', E'Juglans sp');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'224', E'Juniperus chinensis');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'225', E'Juniperus communis');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'226', E'Juniperus communis subsp. alpina');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'227', E'Juniperus horizontalis');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'228', E'Juniperus sabina');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'229', E'Juniperus sp');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'230', E'Juniperus squamata');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'231', E'Juniperus virginiana');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'232', E'Kalmia angustifolia');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'233', E'Kalmia latifolia');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'234', E'Kalmia polifolia');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'235', E'Kalmia sp');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'236', E'Kerria japonica');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'237', E'Kolkwitzia amabilis');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'238', E'Laburnum ×watereri');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'239', E'Laburnum alpinum');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'240', E'Larix ×marschlinsii');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'241', E'Larix decidua');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'242', E'Larix decidua subsp. polonica');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'243', E'Larix gmelinii');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'244', E'Larix gmelinii var. gmelinii');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'245', E'Larix gmelinii var. japonica');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'246', E'Larix gmelinii var. olgensis');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'247', E'Larix gmelinii var. principis-rupprechtii');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'248', E'Larix kaempferi');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'249', E'Larix laricina');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'250', E'Larix lyallii');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'251', E'Larix occidentalis');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'252', E'Larix sibirica');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'253', E'Larix sp');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'254', E'Ledum palustre');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'255', E'Ligustrum vulgare');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'256', E'Linnaea borealis');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'257', E'Liquidambar styraciflua');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'258', E'Liriodendron tulipifera');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'259', E'Loiseleuria procumbens');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'260', E'Lonicera ×bella');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'261', E'Lonicera ×brownii');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'262', E'Lonicera ×notha');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'263', E'Lonicera ×xylosteoides');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'264', E'Lonicera albertii');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'265', E'Lonicera alpigena');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'266', E'Lonicera caerulea');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'267', E'Lonicera caprifolium');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'268', E'Lonicera caucasica');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'269', E'Lonicera chrysantha');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'270', E'Lonicera involucrata');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'271', E'Lonicera maackii');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'272', E'Lonicera nigra');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'273', E'Lonicera periclymenum');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'274', E'Lonicera sp');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'275', E'Lonicera tatarica');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'276', E'Lonicera xylosteum');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'277', E'Maackia amurensis');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'278', E'Magnolia acuminata');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'279', E'Magnolia kobus');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'280', E'Magnolia sieboldii');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'281', E'Magnolia sp');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'282', E'Mahonia aquifolium');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'283', E'Malus baccata');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'284', E'Malus domestica');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'285', E'Malus prunifolia');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'286', E'Malus sp');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'287', E'Malus sylvestris');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'288', E'Malus toringo');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'289', E'Malus toringo var. sargentii');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'290', E'Menispermum canadense');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'291', E'Menispermum dauricum');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'292', E'Metasequoia glyptostroboides');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'293', E'Microbiota decussata');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'294', E'Myrica gale');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'295', E'Myricaria germanica');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'296', E'Oplopanax horridus');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'297', E'Ostrya carpinifolia');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'298', E'Pachysandra terminalis');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'299', E'Parthenocissus inserta');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'300', E'Parthenocissus quinquefolia');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'301', E'Paxistima myrtifolia');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'302', E'Phellodendron amurense');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'303', E'Philadelphus ×lemoinei');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'304', E'Philadelphus ×virginalis');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'305', E'Philadelphus coronarius');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'306', E'Philadelphus lewisii');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'307', E'Philadelphus lewisii var. gordonianus');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'308', E'Philadelphus pubescens');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'309', E'Philadelphus sp');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'310', E'Phyllodoce caerulea');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'311', E'Physocarpus opulifolius');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'312', E'Picea ×lutzii');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'313', E'Picea abies');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'314', E'Picea abies f. aurea');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'315', E'Picea abies f. condensata');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'316', E'Picea abies f. cruenta');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'317', E'Picea abies f. globosa');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'318', E'Picea abies f. nana');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'319', E'Picea abies f. nidiformis');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'320', E'Picea abies f. pendula');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'321', E'Picea abies f. tabulaeformis');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'322', E'Picea abies f. variegata');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'323', E'Picea abies f. viminalis');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'324', E'Picea abies f. virgata');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'325', E'Picea abies subsp. abies');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'326', E'Picea abies subsp. obovata');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'327', E'Picea asperata');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'328', E'Picea engelmannii');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'329', E'Picea glauca');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'330', E'Picea glauca var. albertiana');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'331', E'Picea glehnii');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'332', E'Picea jezoënsis');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'333', E'Picea koraiensis');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'334', E'Picea likiangensis');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'335', E'Picea mariana');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'336', E'Picea omorika');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'337', E'Picea pungens');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'338', E'Picea retroflexa');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'339', E'Picea rubens');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'340', E'Picea schrenkiana');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'341', E'Picea sitchensis');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'342', E'Picea sp');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'343', E'Pieris floribunda');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'344', E'Pinus banksiana');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'345', E'Pinus cembra');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'346', E'Pinus cembra subsp. cembra');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'347', E'Pinus cembra subsp. sibirica');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'348', E'Pinus contorta');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'349', E'Pinus contorta var. contorta');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'350', E'Pinus contorta var. latifolia');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'351', E'Pinus koraiensis');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'352', E'Pinus monticola');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'353', E'Pinus mugo');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'354', E'Pinus mugo subsp. uncinata');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'355', E'Pinus nigra');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'356', E'Pinus peuce');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'357', E'Pinus ponderosa');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'358', E'Pinus pumila');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'359', E'Pinus resinosa');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'360', E'Pinus sp');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'361', E'Pinus strobus');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'362', E'Pinus sylvestris');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'363', E'Pinus sylvestris f. aurea');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'364', E'Pinus sylvestris f. condensata');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'365', E'Pinus sylvestris f. globosa');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'366', E'Pinus sylvestris f. virgata');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'367', E'Pinus sylvestris ''Globosa''');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'368', E'Populus ×canadensis');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'369', E'Populus ×jackii ''Gileadensis''');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'370', E'Populus ×wettsteinii');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'371', E'Populus alba');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'372', E'Populus balsamifera');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'373', E'Populus balsamifera ''Tristis''');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'374', E'Populus canescens');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'375', E'Populus deltoides');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'376', E'Populus koreana');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'377', E'Populus laurifolia');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'378', E'Populus nigra');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'379', E'Populus ''Rasumowskiana''');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'380', E'Populus simonii');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'381', E'Populus sp');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'382', E'Populus suaveolens');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'383', E'Populus tremula');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'384', E'Populus tremuloides');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'385', E'Populus trichocarpa');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'386', E'Populus wilsonii');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'387', E'Potentilla fruticosa');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'388', E'Prunus avium');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'389', E'Prunus cerasifera');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'390', E'Prunus cerasus');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'391', E'Prunus domestica');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'392', E'Prunus domestica subsp. domestica');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'393', E'Prunus domestica subsp. insititia');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'394', E'Prunus laurocerasus');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'395', E'Prunus maackii');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'396', E'Prunus maximowiczii');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'397', E'Prunus padus');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'398', E'Prunus pensylvanica');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'399', E'Prunus prostrata');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'400', E'Prunus pumila');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'401', E'Prunus sargentii');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'402', E'Prunus serotina');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'403', E'Prunus sp');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'404', E'Prunus spinosa');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'405', E'Prunus tenella');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'406', E'Prunus tomentosa');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'407', E'Prunus triloba');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'408', E'Prunus virginiana');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'409', E'Pseudolarix amabilis');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'410', E'Pseudotsuga menziesii');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'411', E'Pseudotsuga menziesii var. glauca');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'412', E'Pterocarya pterocarpa');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'413', E'Pterocarya rhoifolia');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'414', E'Pyrus communis');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'415', E'Pyrus ussuriensis');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'416', E'Quercus coccinea');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'417', E'Quercus petraea');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'418', E'Quercus robur');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'419', E'Quercus rubra');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'420', E'Rhamnus cathartica');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'421', E'Rhamnus frangula');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'422', E'Rhododendron ×fraseri');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'423', E'Rhododendron aureum');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'424', E'Rhododendron brachycarpum');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'425', E'Rhododendron brachycarpum subsp. tigerstedtii');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'426', E'Rhododendron canadense');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'427', E'Rhododendron Catawbiense -ryhmä/gruppen/group');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'428', E'Rhododendron ''Cunningham''s White''');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'429', E'Rhododendron dauricum');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'430', E'Rhododendron ferrugineum');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'431', E'Rhododendron Kosterianum -ryhmä/gruppen/group');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'432', E'Rhododendron lapponicum');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'433', E'Rhododendron luteum');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'434', E'Rhododendron molle');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'435', E'Rhododendron molle subsp. japonicum');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'436', E'Rhododendron schlippenbachii');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'437', E'Rhododendron smirnowii');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'438', E'Rhododendron sp');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'439', E'Rhododendron Tigerstedtii -ryhmä/gruppen/group');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'440', E'Rhus hirta');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'441', E'Ribes alpinum');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'442', E'Ribes nigrum');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'443', E'Ribes rubrum');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'444', E'Ribes spicatum');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'445', E'Ribes uva-crispa');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'446', E'Robinia pseudoacacia');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'447', E'Rosa acicularis');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'448', E'Rosa canina');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'449', E'Rosa dumalis');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'450', E'Rosa majalis');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'451', E'Rosa mollis');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'452', E'Rosa pimpinellifolia');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'453', E'Rosa rugosa');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'454', E'Rosa sherardii');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'455', E'Rosa sp');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'456', E'Rubus caesius');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'457', E'Rubus idaeus');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'458', E'Rubus odoratus');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'459', E'Rubus parviflorus');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'460', E'Rubus pruinosus');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'461', E'Rubus sp');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'462', E'Salix alba');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'463', E'Salix arbutifolia');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'464', E'Salix aurita');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'465', E'Salix borealis');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'466', E'Salix caprea');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'467', E'Salix cinerea');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'468', E'Salix daphnoides');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'469', E'Salix daphnoides subsp. acutifolia');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'470', E'Salix daphnoides subsp. daphnoides');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'471', E'Salix fragilis');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'472', E'Salix fragilis ''Bullata''');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'473', E'Salix glauca');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'474', E'Salix hastata');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'475', E'Salix herbacea');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'476', E'Salix lanata');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'477', E'Salix lapponum');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'478', E'Salix lucida');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'479', E'Salix myrsinifolia');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'480', E'Salix myrsinites');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'481', E'Salix myrtilloides');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'482', E'Salix pentandra');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'483', E'Salix phylicifolia');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'484', E'Salix polaris');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'485', E'Salix purpurea');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'486', E'Salix pyrolifolia');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'487', E'Salix repens');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'488', E'Salix reticulata');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'489', E'Salix rosmarinifolia');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'490', E'Salix ''Sibirica''');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'491', E'Salix sp');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'492', E'Salix starkeana');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'493', E'Salix triandra');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'494', E'Salix viminalis');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'495', E'Sambucus canadensis');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'496', E'Sambucus nigra');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'497', E'Sambucus racemosa');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'498', E'Sambucus sp');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'499', E'Schisandra chinensis');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'500', E'Sequoia sempervirens');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'501', E'Sequoiadendron giganteum');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'502', E'Solanum dulcamara');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'503', E'Sorbaria grandiflora');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'504', E'Sorbaria sorbifolia');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'505', E'Sorbaria sp');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'506', E'Sorbus ×thuringiaca ''Fastigiata''');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'507', E'Sorbus alnifolia');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'508', E'Sorbus americana');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'509', E'Sorbus aria');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'510', E'Sorbus aucuparia');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'511', E'Sorbus commixta');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'512', E'Sorbus hybrida');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'513', E'Sorbus intermedia');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'514', E'Sorbus koehneana');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'515', E'Sorbus prattii');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'516', E'Sorbus scopulina');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'517', E'Sorbus sp');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'518', E'Sorbus teodori');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'519', E'Sorbus torminalis');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'520', E'Spiraea ×cinerea');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'521', E'Spiraea ×multiflora');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'522', E'Spiraea ×rosalba');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'523', E'Spiraea ×sanssouciana');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'524', E'Spiraea ×vanhouttei');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'525', E'Spiraea alba');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'526', E'Spiraea ''Arguta''');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'527', E'Spiraea betulifolia');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'528', E'Spiraea Billiardii -ryhmä/gruppen/group');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'529', E'Spiraea cana');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'530', E'Spiraea chamaedryfolia');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'531', E'Spiraea douglasii');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'532', E'Spiraea fritschiana');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'533', E'Spiraea ''Grefsheim''');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'534', E'Spiraea hypericifolia');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'535', E'Spiraea japonica');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'536', E'Spiraea ''Margaritae''');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'537', E'Spiraea media');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'538', E'Spiraea nipponica');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'539', E'Spiraea rosthornii');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'540', E'Spiraea salicifolia');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'541', E'Spiraea sp');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'542', E'Spiraea tomentosa');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'543', E'Spiraea trichocarpa');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'544', E'Spiraea trilobata');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'545', E'Stephanandra incisa');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'546', E'Symphoricarpos albus');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'547', E'Symphoricarpos albus var. laevigatus');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'548', E'Syringa ×chinensis');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'549', E'Syringa ×henryi');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'550', E'Syringa ×josiflexa');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'551', E'Syringa ×nanceana');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'552', E'Syringa ×swegiflexa');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'553', E'Syringa josikaea');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'554', E'Syringa Preston -ryhmä/gruppen/group');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'555', E'Syringa reflexa');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'556', E'Syringa reticulata');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'557', E'Syringa sp');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'558', E'Syringa sweginowii');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'559', E'Syringa tigerstedtii');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'560', E'Syringa tomentella');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'561', E'Syringa villosa');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'562', E'Syringa wolfii');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'563', E'Syringa vulgaris');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'564', E'Tamarix pentandra');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'565', E'Taxus ×media');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'566', E'Taxus baccata');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'567', E'Taxus brevifolia');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'568', E'Taxus cuspidata');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'569', E'Taxus sp');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'570', E'Thuja koraiensis');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'571', E'Thuja occidentalis');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'572', E'Thuja plicata');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'573', E'Thuja sp');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'574', E'Thuja standishii');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'575', E'Thujopsis dolabrata');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'576', E'Tilia ×moltkei');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'577', E'Tilia ×vulgaris');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'578', E'Tilia americana');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'579', E'Tilia cordata');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'580', E'Tilia euchlora');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'581', E'Tilia japonica');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'582', E'Tilia mongolica');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'583', E'Tilia platyphyllos');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'584', E'Tilia sp');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'585', E'Tilia tomentosa');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'586', E'Tripterygium regelii');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'587', E'Tsuga canadensis');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'588', E'Tsuga caroliniana');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'589', E'Tsuga diversifolia');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'590', E'Tsuga heterophylla');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'591', E'Tsuga mertensiana');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'592', E'Tsuga sp');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'593', E'Ulmus americana');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'594', E'Ulmus glabra');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'595', E'Ulmus laevis');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'596', E'Ulmus minor');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'597', E'Ulmus pumila');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'598', E'Ulmus sp');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'599', E'Vaccinium corymbosum');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'600', E'Vaccinium microcarpum');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'601', E'Vaccinium myrtillus');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'602', E'Vaccinium oxycoccos');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'603', E'Vaccinium sp');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'604', E'Vaccinium uliginosum');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'605', E'Vaccinium vitis-idaea');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'606', E'Weigela Florida -ryhmä/gruppen/group');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'607', E'Weigela middendorffiana');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'608', E'Weigela praecox');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'609', E'Weigela sp');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'610', E'Viburnum carlesii');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'611', E'Viburnum cassinoides');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'612', E'Viburnum dentatum');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'613', E'Viburnum dentatum var. lucidum');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'614', E'Viburnum lantana');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'615', E'Viburnum lentago');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'616', E'Viburnum opulus');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'617', E'Viburnum rafinesquianum');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'618', E'Viburnum sargentii');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'619', E'Viburnum sp');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'620', E'Vinca minor');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'621', E'Vitis amurensis');
--- ddl-end --
-INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'622', E'Vitis riparia');
+INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'-1', E'Tyhjä');
 -- ddl-end --
 
 -- object: abstraktit.abstractkasvillisuus | type: TABLE --
@@ -3728,6 +2527,8 @@ INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'621', E'Vitis amurensis');
 -- ddl-end --
 INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'622', E'Vitis riparia');
 -- ddl-end --
+INSERT INTO koodistot.puulaji (cid, selite) VALUES (E'-1', E'Tyhjä');
+-- ddl-end --
 
 -- object: koodistot.ymparistotaidetyyppi | type: TABLE --
 -- DROP TABLE IF EXISTS koodistot.ymparistotaidetyyppi CASCADE;
@@ -3756,6 +2557,8 @@ INSERT INTO koodistot.ymparistotaidetyyppi (cid, selite) VALUES (E'7', E'muu');
 -- ddl-end --
 INSERT INTO koodistot.ymparistotaidetyyppi (cid, selite) VALUES (E'8', E'ei tiedossa');
 -- ddl-end --
+INSERT INTO koodistot.ymparistotaidetyyppi (cid, selite) VALUES (E'-1', E'Tyhjä');
+-- ddl-end --
 
 -- object: koodistot.kantavuusluokkatyyppi | type: TABLE --
 -- DROP TABLE IF EXISTS koodistot.kantavuusluokkatyyppi CASCADE;
@@ -3781,6 +2584,8 @@ INSERT INTO koodistot.kantavuusluokkatyyppi (cid, selite) VALUES (E'5', E'E');
 INSERT INTO koodistot.kantavuusluokkatyyppi (cid, selite) VALUES (E'6', E'F');
 -- ddl-end --
 INSERT INTO koodistot.kantavuusluokkatyyppi (cid, selite) VALUES (E'7', E'G');
+-- ddl-end --
+INSERT INTO koodistot.kantavuusluokkatyyppi (cid, selite) VALUES (E'-1', E'Tyhjä');
 -- ddl-end --
 
 -- object: koodistot.kasvilaji | type: TABLE --
@@ -6768,6 +5573,8 @@ INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1486', E'muu');
 -- ddl-end --
 INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'1487', E'ei tiedossa');
 -- ddl-end --
+INSERT INTO koodistot.kasvilaji (cid, selite) VALUES (E'-1', E'Tyhjä');
+-- ddl-end --
 
 -- object: koodistot.kasviryhmatyyppi | type: TABLE --
 -- DROP TABLE IF EXISTS koodistot.kasviryhmatyyppi CASCADE;
@@ -6801,6 +5608,8 @@ INSERT INTO koodistot.kasviryhmatyyppi (cid, selite) VALUES (E'9', E'yksivuotine
 INSERT INTO koodistot.kasviryhmatyyppi (cid, selite) VALUES (E'10', E'muu');
 -- ddl-end --
 INSERT INTO koodistot.kasviryhmatyyppi (cid, selite) VALUES (E'11', E'ei tiedossa');
+-- ddl-end --
+INSERT INTO koodistot.kasviryhmatyyppi (cid, selite) VALUES (E'-1', E'Tyhjä');
 -- ddl-end --
 
 -- object: koodistot.leikkivalinetyyppi | type: TABLE --
@@ -6847,6 +5656,8 @@ INSERT INTO koodistot.leikkivalinetyyppi (cid, selite) VALUES (E'15', E'tasapain
 INSERT INTO koodistot.leikkivalinetyyppi (cid, selite) VALUES (E'16', E'muu');
 -- ddl-end --
 INSERT INTO koodistot.leikkivalinetyyppi (cid, selite) VALUES (E'17', E'ei tiedossa');
+-- ddl-end --
+INSERT INTO koodistot.leikkivalinetyyppi (cid, selite) VALUES (E'-1', E'Tyhjä');
 -- ddl-end --
 
 -- object: koodistot.liikennemerkkityyppi | type: TABLE --
@@ -7408,6 +6219,8 @@ INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'272', E'872. 
 -- ddl-end --
 INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'273', E'880. Hätäpuhelin ja sammutin');
 -- ddl-end --
+INSERT INTO koodistot.liikennemerkkityyppi (cid, selite) VALUES (E'-1', E'Tyhjä');
+-- ddl-end --
 
 -- object: koodistot.liikennemerkkityyppi2020 | type: TABLE --
 -- DROP TABLE IF EXISTS koodistot.liikennemerkkityyppi2020 CASCADE;
@@ -7420,1249 +6233,725 @@ CREATE TABLE koodistot.liikennemerkkityyppi2020 (
 ALTER TABLE koodistot.liikennemerkkityyppi2020 OWNER TO infrao_admin;
 -- ddl-end --
 
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'1', E'113. Mutkia');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'1', E'A1.2 Mutka');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'2', E'114. Mutkia');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'2', E'A1.1 Mutka');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'3', E'132. Lautta');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'3', E'A2.1 Mutkia');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'4', E'172. Rautatien tasoristeys');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'4', E'A2.2 Mutkia');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'5', E'685. Reitti');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'5', E'A3.1 Jyrkkä mäki');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'6', E'A1.1. Mutka');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'6', E'A3.2 Jyrkkä mäki');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'7', E'A27. Rautatien tasoristeys');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'7', E'A4 Kapeneva tie');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'8', E'A7. Lautta');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'8', E'A5 Kaksisuuntainen liikenne');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'9', E'C36. Ajokaistakohtainen kielto');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'9', E'A6 Avattava silta');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'10', E'F54. Reitti');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'10', E'A7 Lautta, laituri tai ranta');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'11', E'joista ensimmäinen oikealle');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'11', E'A8 Liikenneruuhka');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'12', E'joista ensimmäinen vasemmalle');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'12', E'A9 Epätasainen tie');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'13', E'jolla on portaat');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'13', E'A10 Töyssyjä');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'14', E'jolla on portaat');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'14', E'A11 Tietyö');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'15', E'jossa on puomit');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'15', E'A12 Irtokiviä');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'16', E'laituri tai ranta');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'16', E'A13 Liukas ajorata');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'17', E'rajoitus tai määräys');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'17', E'A14 Vaarallinen tienreuna');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'18', E'A1.2. Mutka');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'18', E'A15 Suojatien ennakkovaroitus');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'19', E'A2.1. Mutkia');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'19', E'A16 Jalankulkijoita');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'20', E'A2.2. Mutkia');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'20', E'A17 Lapsia');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'21', E'A3.1. Jyrkkä mäki');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'21', E'A18 Pyöräilijöitä');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'22', E'A3.2. Jyrkkä mäki');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'22', E'A19 Hiihtolatu');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'23', E'A4. Kapeneva tie');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'23', E'A20.1 Hirvi');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'24', E'A5. Kaksisuuntainen liikenne');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'24', E'A20.2 Poro');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'25', E'A6. Avattava silta');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'25', E'A20.3 Kauriseläin');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'26', E'A8. Liikenneruuhka');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'26', E'A21 Tienristeys');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'27', E'A9. Epätasainen tie');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'27', E'A22.1 Sivutien risteys');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'28', E'A10. Töyssyjä');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'28', E'A22.2 Sivutien risteys');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'29', E'A11. Tietyö');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'29', E'A22.3 Sivutien risteys');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'30', E'A12. Irtokiviä');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'30', E'A22.4 Sivutien risteys');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'31', E'A13. Liukas ajorata');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'31', E'A23 Liikennevalot');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'32', E'A14. Vaarallinen tienreuna');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'32', E'A24 Liikenneympyrä');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'33', E'A15. Suojatien ennakkovaroitus');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'33', E'A25 Raitiovaunu');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'34', E'A16. Jalankulkijoita');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'34', E'A26 Rautatien tasoristeys ilman puomeja');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'35', E'A17. Lapsia');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'35', E'A27 Rautatien tasoristeys, jossa on puomit');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'36', E'A18. Pyöräilijöitä');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'36', E'A28.1 Rautatien tasoristeyksen lähestymismerkki');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'37', E'A19. Hiihtolatu');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'37', E'A28.2 Rautatien tasoristeyksen lähestymismerkki');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'38', E'A20.1. Hirvi');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'38', E'A28.3 Rautatien tasoristeyksen lähestymismerkki');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'39', E'A20.2. Poro');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'39', E'A29.1 Tasoristeys');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'40', E'A20.3. Kauriseläin');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'40', E'A29.2 Tasoristeys');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'41', E'A21. Tienristeys');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'41', E'A30 Putoavia kiviä');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'42', E'A22.1. Sivutien risteys');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'42', E'A31 Matalalla lentäviä lentokoneita');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'43', E'A22.2. Sivutien risteys');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'43', E'A32 Sivutuuli');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'44', E'A22.3. Sivutien risteys');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'44', E'A33 Muu vaara');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'45', E'A22.4. Sivutien risteys');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'45', E'B1 Etuajo-oikeutettu tie');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'46', E'A23. Liikennevalot');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'46', E'B1 Etuajo-oikeutettu tie');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'47', E'A24. Liikenneympyrä');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'47', E'B2 Etuajo-oikeuden päättyminen');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'48', E'A25. Raitiovaunu');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'48', E'B3 Etuajo-oikeus kohdattaessa');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'49', E'A26. Rautatien tasoristeys ilman puomeja');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'49', E'B4 Väistämisvelvollisuus kohdattaessa');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'50', E'A28.1–A28.3. Rautatien tasoristeyksen lähestymismerkit');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'50', E'B5 Väistämisvelvollisuus risteyksessä');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'51', E'A29.1. Tasoristeys');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'51', E'B6 Pakollinen pysäyttäminen');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'52', E'A29.2. Tasoristeys');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'52', E'B7 Väistämisvelvollisuus pyöräilijän tienylityspaikassa');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'53', E'A30. Putoavia kiviä');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'53', E'C1 Ajoneuvolla ajo kielletty');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'54', E'A31. Matalalla lentäviä lentokoneita');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'54', E'C2 Moottorikäyttöisellä ajoneuvolla ajo kielletty');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'55', E'A32. Sivutuuli');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'55', E'C3 Kuorma- ja pakettiautolla ajo kielletty');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'56', E'A33. Muu vaara');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'56', E'C4 Ajoneuvoyhdistelmällä ajo kielletty');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'57', E'B1. Etuajo-oikeutettu tie');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'57', E'C5 Traktorilla ajo kielletty');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'58', E'B2. Etuajo-oikeuden päättyminen');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'58', E'C6 Moottoripyörällä ajo kielletty');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'59', E'B3. Etuajo-oikeus kohdattaessa');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'59', E'C7 Moottorikelkalla ajo kielletty');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'60', E'B4. Väistämisvelvollisuus kohdattaessa');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'60', E'C8 Vaarallisten aineiden kuljetus kielletty');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'61', E'B5. Väistämisvelvollisuus risteyksessä');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'61', E'C9 Linja-autolla ajo kielletty');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'62', E'B6. Pakollinen pysäyttäminen');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'62', E'C10 Mopolla ajo kielletty');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'63', E'B6. Pakollinen pysäyttäminen');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'63', E'C11 Polkupyörällä ajo kielletty');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'64', E'B7. Väistämisvelvollisuus pyöräilijän tienylityspaikassa');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'64', E'C12 Polkupyörällä ja mopolla ajo kielletty');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'65', E'C1. Ajoneuvolla ajo kielletty');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'65', E'C13 Jalankulku kielletty');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'66', E'C2. Moottorikäyttöisellä ajoneuvolla ajo kielletty');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'66', E'C14 Jalankulku ja polkupyörällä ajo kielletty');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'67', E'C3. Kuorma- ja pakettiautolla ajo kielletty');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'67', E'C15 Jalankulku ja polkupyörällä ja mopolla ajo kielletty');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'68', E'C4. Ajoneuvoyhdistelmällä ajo kielletty');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'68', E'C16 Ratsastus kielletty');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'69', E'C5. Traktorilla ajo kielletty');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'69', E'C17 Kielletty ajosuunta');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'70', E'C6. Moottoripyörällä ajo kielletty');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'70', E'C18 Vasemmalle kääntyminen kielletty');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'71', E'C7. Moottorikelkalla ajo kielletty');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'71', E'C19 Oikealle kääntyminen kielletty');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'72', E'C8. Vaarallisten aineiden kuljetus kielletty');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'72', E'C20 U-käännös kielletty');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'73', E'C9. Linja-autolla ajo kielletty');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'73', E'C21 Ajoneuvon suurin sallittu leveys');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'74', E'C10. Mopolla ajo kielletty');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'74', E'C22 Ajoneuvon suurin sallittu korkeus');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'75', E'C11. Polkupyörällä ajo kielletty');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'75', E'C23 Ajoneuvon tai ajoneuvoyhdistelmän suurin sallittu pituus');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'76', E'C12. Polkupyörällä ja mopolla ajo kielletty');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'76', E'C24 Ajoneuvon suurin sallittu massa');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'77', E'C13. Jalankulku kielletty');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'77', E'C25 Ajoneuvoyhdistelmän suurin sallittu massa');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'78', E'C14. Jalankulku ja polkupyörällä ajo kielletty');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'78', E'C26 Ajoneuvon suurin sallittu akselille kohdistuva massa');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'79', E'C15. Jalankulku ja polkupyörällä ja mopolla ajo kielletty');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'79', E'C27 Ajoneuvon suurin sallittu telille kohdistuva massa');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'80', E'C16. Ratsastus kielletty');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'80', E'C28 Ohituskielto');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'81', E'C17. Kielletty ajosuunta');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'81', E'C29 Ohituskielto päättyy');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'82', E'C18. Vasemmalle kääntyminen kielletty');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'82', E'C30 Ohituskielto kuorma-autolla');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'83', E'C19. Oikealle kääntyminen kielletty');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'83', E'C31 Ohituskielto kuorma-autolla päättyy');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'84', E'C20. U-käännös kielletty');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'84', E'C32 Nopeusrajoitus');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'85', E'C21. Ajoneuvon suurin sallittu leveys');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'85', E'C33 Nopeusrajoitus päättyy');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'86', E'C22. Ajoneuvon suurin sallittu korkeus');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'86', E'C34 Nopeusrajoitusalue');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'87', E'C23. Ajoneuvon tai ajoneuvoyhdistelmän suurin sallittu pituus');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'87', E'C35 Nopeusrajoitusalue päättyy');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'88', E'C24. Ajoneuvon suurin sallittu massa');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'88', E'C36 Ajokaistakohtainen kielto, rajoitus tai määräys');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'89', E'C25. Ajoneuvoyhdistelmän suurin sallittu massa');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'89', E'C37 Pysäyttäminen kielletty');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'90', E'C26. Ajoneuvon suurin sallittu akselille kohdistuva massa');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'90', E'C38 Pysäköinti kielletty');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'91', E'C27. Ajoneuvon suurin sallittu telille kohdistuva massa');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'91', E'C39 Pysäköintikieltoalue');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'92', E'C28. Ohituskielto');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'92', E'C40 Pysäköintikieltoalue päättyy');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'93', E'C29. Ohituskielto päättyy');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'93', E'C41 Taksiasema-alue');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'94', E'C30. Ohituskielto kuorma-autolla');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'94', E'C42 Taksin pysäyttämispaikka');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'95', E'C31. Ohituskielto kuorma-autolla päättyy');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'95', E'C43 Kuormauspaikka');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'96', E'C32. Nopeusrajoitus');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'96', E'C44.1 Vuoropysäköinti');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'97', E'C33. Nopeusrajoitus päättyy');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'97', E'C44.2 Vuoropysäköinti');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'98', E'C34. Nopeusrajoitusalue');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'98', E'C45 Pakollinen pysäyttäminen tullitarkastusta varten');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'99', E'C35. Nopeusrajoitusalue päättyy');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'99', E'C46 Pakollinen pysäyttäminen tarkastusta varten');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'100', E'C37. Pysäyttäminen kielletty');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'100', E'C47 Moottorikäyttöisten ajoneuvojen vähimmäisetäisyys');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'101', E'C38. Pysäköinti kielletty');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'101', E'C48 Nastarenkailla varustetulla moottorikäyttöisellä ajoneuvolla ajo kielletty');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'102', E'C39. Pysäköintikieltoalue');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'102', E'D1.1 Pakollinen ajosuunta');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'103', E'C40. Pysäköintikieltoalue päättyy');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'103', E'D1.2 Pakollinen ajosuunta');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'104', E'C41. Taksiasema-alue');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'104', E'D1.3 Pakollinen ajosuunta');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'105', E'C42. Taksin pysäyttämispaikka');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'105', E'D1.4 Pakollinen ajosuunta');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'106', E'C43. Kuormauspaikka');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'106', E'D1.5 Pakollinen ajosuunta');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'107', E'C44.1. Vuoropysäköinti');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'107', E'D1.6 Pakollinen ajosuunta');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'108', E'C44.2. Vuoropysäköinti');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'108', E'D1.7 Pakollinen ajosuunta');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'109', E'C45. Pakollinen pysäyttäminen tullitarkastusta varten');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'109', E'D1.8 Pakollinen ajosuunta');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'110', E'C46. Pakollinen pysäyttäminen tarkastusta varten');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'110', E'D1.9 Pakollinen ajosuunta');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'111', E'C47. Moottorikäyttöisten ajoneuvojen vähimmäisetäisyys');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'111', E'D2 Pakollinen kiertosuunta');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'112', E'C48. Nastarenkailla varustetulla moottorikäyttöisellä ajoneuvolla ajo kielletty');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'112', E'D3.1 Liikenteenjakaja');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'113', E'D1.1. Pakollinen ajosuunta');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'113', E'D3.2 Liikenteenjakaja');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'114', E'D1.2. Pakollinen ajosuunta');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'114', E'D3.3 Liikenteenjakaja');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'115', E'D1.3. Pakollinen ajosuunta');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'115', E'D4 Jalkakäytävä');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'116', E'D1.4. Pakollinen ajosuunta');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'116', E'D5 Pyörätie');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'117', E'D1.5. Pakollinen ajosuunta');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'117', E'D6 Yhdistetty pyörätie ja jalkakäytävä');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'118', E'D1.6. Pakollinen ajosuunta');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'118', E'D7.1 Pyörätie ja jalkakäytävä rinnakkain');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'119', E'D1.7. Pakollinen ajosuunta');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'119', E'D7.2 Pyörätie ja jalkakäytävä rinnakkain');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'120', E'D1.8. Pakollinen ajosuunta');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'120', E'D8 Moottorikelkkailureitti');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'121', E'D1.9. Pakollinen ajosuunta');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'121', E'D9 Ratsastustie');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'122', E'D2. Pakollinen kiertosuunta');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'122', E'D10 Vähimmäisnopeus');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'123', E'D3.1. Liikenteenjakaja');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'123', E'D11 Vähimmäisnopeus päättyy');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'124', E'D3.2. Liikenteenjakaja');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'124', E'E1 Suojatie');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'125', E'D3.3. Liikenteenjakaja');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'125', E'E2 Pysäköintipaikka');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'126', E'D4. Jalkakäytävä');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'126', E'E3.1 Liityntäpysäköintipaikka');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'127', E'D5. Pyörätie');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'127', E'E3.2 Liityntäpysäköintipaikka');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'128', E'D6. Yhdistetty pyörätie ja jalkakäytävä');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'128', E'E3.3 Liityntäpysäköintipaikka');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'129', E'D7.1. Pyörätie ja jalkakäytävä rinnakkain');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'129', E'E3.4 Liityntäpysäköintipaikka');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'130', E'D7.2. Pyörätie ja jalkakäytävä rinnakkain');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'130', E'E3.5 Liityntäpysäköintipaikka');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'131', E'D8. Moottorikelkkailureitti');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'131', E'E4.1 Ajoneuvojen sijoitus pysäköintipaikalla');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'132', E'D9. Ratsastustie');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'132', E'E4.2 Ajoneuvojen sijoitus pysäköintipaikalla');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'133', E'D10. Vähimmäisnopeus');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'133', E'E4.3 Ajoneuvojen sijoitus pysäköintipaikalla');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'134', E'D11. Vähimmäisnopeus päättyy');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'134', E'E5 Kohtaamispaikka');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'135', E'E1. Suojatie');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'135', E'E6 Linja-autopysäkki');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'136', E'E2. Pysäköintipaikka');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'136', E'E7 Raitiovaunupysäkki');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'137', E'E3.1. Liityntäpysäköintipaikka');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'137', E'E8 Taksiasema');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'138', E'E3.2. Liityntäpysäköintipaikka');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'138', E'E9.1 Linja-autokaista');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'139', E'E3.3. Liityntäpysäköintipaikka');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'139', E'E9.2 Linja-autokaista');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'140', E'E3.4. Liityntäpysäköintipaikka');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'140', E'E10.1 Linja-autokaista päättyy');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'141', E'E3.5. Liityntäpysäköintipaikka');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'141', E'E10.2 Linja-autokaista päättyy');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'142', E'E4.1. Ajoneuvojen sijoitus pysäköintipaikalla');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'142', E'E11.1 Raitiovaunukaista');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'143', E'E4.2. Ajoneuvojen sijoitus pysäköintipaikalla');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'143', E'E11.2 Raitiovaunukaista');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'144', E'E4.3. Ajoneuvojen sijoitus pysäköintipaikalla');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'144', E'E12.1 Raitiovaunukaista päättyy');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'145', E'E5. Kohtaamispaikka');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'145', E'E12.2 Raitiovaunukaista päättyy');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'146', E'E6. Linja-autopysäkki');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'146', E'E13.1 Pyöräkaista');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'147', E'E7. Raitiovaunupysäkki');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'147', E'E13.2 Pyöräkaista');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'148', E'E8. Taksiasema');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'148', E'E14.1 Yksisuuntainen tie');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'149', E'E9.1. Linja-autokaista');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'149', E'E14.2 Yksisuuntainen tie');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'150', E'E9.2. Linja-autokaista');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'150', E'E15 Moottoritie');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'151', E'E10.1. Linja-autokaista päättyy');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'151', E'E16 Moottoritie päättyy');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'152', E'E10.2. Linja-autokaista päättyy');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'152', E'E17 Moottoriliikennetie');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'153', E'E11.1. Raitiovaunukaista');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'153', E'E18 Moottoriliikennetie päättyy');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'154', E'E11.2. Raitiovaunukaista');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'154', E'E19 Tunneli');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'155', E'E12.1. Raitiovaunukaista päättyy');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'155', E'E20 Tunneli päättyy');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'156', E'E12.2. Raitiovaunukaista päättyy');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'156', E'E21 Hätäpysäyttämispaikka');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'157', E'E13.1. Pyöräkaista');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'157', E'E22 Taajama');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'158', E'E13.2. Pyöräkaista');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'158', E'E23 Taajama päättyy');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'159', E'E14.1. Yksisuuntainen tie');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'159', E'E24 Pihakatu');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'160', E'E14.2. Yksisuuntainen tie');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'160', E'E25 Pihakatu päättyy');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'161', E'E15. Moottoritie');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'161', E'E26 Kävelykatu');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'162', E'E16. Moottoritie päättyy');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'162', E'E27 Kävelykatu päättyy');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'163', E'E17. Moottoriliikennetie');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'163', E'E28 Pyöräkatu');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'164', E'E18. Moottoriliikennetie päättyy');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'164', E'E29 Pyöräkatu päättyy');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'165', E'E19. Tunneli');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'165', E'E30 Ajokaistojen yhdistyminen');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'166', E'E20. Tunneli päättyy');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'166', E'F1.1 Suunnistustaulu');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'167', E'E21. Hätäpysäyttämispaikka');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'167', E'F1.2 Suunnistustaulu');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'168', E'E22. Taajama');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'168', E'F1.3 Suunnistustaulu');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'169', E'E23. Taajama päättyy');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'169', E'F2.1 Suunnistustaulu');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'170', E'E24. Pihakatu');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'170', E'F2.2 Suunnistustaulu');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'171', E'E25. Pihakatu päättyy');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'171', E'F2.3 Suunnistustaulu');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'172', E'E26. Kävelykatu');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'172', E'F3 Ajokaistakohtainen suunnistustaulu');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'173', E'E27. Kävelykatu päättyy');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'173', E'F4.1 Kiertotien suunnistustaulu');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'174', E'E28. Pyöräkatu');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'174', E'F4.2 Kiertotien suunnistustaulu');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'175', E'E29. Pyöräkatu päättyy');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'175', E'F5 Kiertotieopastus');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'176', E'E30. Ajokaistojen yhdistyminen');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'176', E'F6 Ajoreittiopastus');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'177', E'F1.1. Suunnistustaulu');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'177', E'F7.1 Ajokaistaopastus');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'178', E'F1.2. Suunnistustaulu');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'178', E'F7.2 Ajokaistaopastus');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'179', E'F1.3. Suunnistustaulu');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'179', E'F7.3 Ajokaistaopastus');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'180', E'F2.1. Suunnistustaulu');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'180', E'F7.4 Ajokaistaopastus');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'181', E'F2.2. Suunnistustaulu');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'181', E'F7.5 Ajokaistaopastus');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'182', E'F2.3. Suunnistustaulu');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'182', E'F7.6 Ajokaistaopastus');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'183', E'F3. Ajokaistakohtainen suunnistustaulu');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'183', E'F8.1 Ajokaistan päättyminen');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'184', E'F4.1. Kiertotien suunnistustaulu');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'184', E'F8.2 Ajokaistan päättyminen');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'185', E'F4.2. Kiertotien suunnistustaulu');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'185', E'F9 Viitoituksen koontimerkki');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'186', E'F5. Kiertotieopastus');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'186', E'F10 Ajokaistan yläpuolinen viitta');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'187', E'F6. Ajoreittiopastus');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'187', E'F11 Ajokaistan yläpuolinen viitta');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'188', E'F7.1. Ajokaistaopastus');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'188', E'F12 Ajokaistan yläpuolinen erkanemisviitta');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'189', E'F7.2. Ajokaistaopastus');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'189', E'F13 Tienviitta');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'190', E'F7.3. Ajokaistaopastus');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'190', E'F14 Erkanemisviitta');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'191', E'F7.4. Ajokaistaopastus');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'191', E'F15 Kiertotien viitta');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'192', E'F7.5. Ajokaistaopastus');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'192', E'F16 Osoiteviitta');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'193', E'F7.6. Ajokaistaopastus');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'193', E'F17 Osoiteviitan ennakkomerkki');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'194', E'F8.1. Ajokaistan päättyminen');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'194', E'F18 Liityntäpysäköintiviitta');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'195', E'F8.2. Ajokaistan päättyminen');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'195', E'F19 Jalankulun viitta');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'196', E'F9. Viitoituksen koontimerkki');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'196', E'F20.1 Pyöräilyn viitta');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'197', E'F10. Ajokaistan yläpuolinen viitta');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'197', E'F20.2 Pyöräilyn viitta');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'198', E'F11. Ajokaistan yläpuolinen viitta');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'198', E'F21.1 Pyöräilyn suunnistustaulu');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'199', E'F12. Ajokaistan yläpuolinen erkanemisviitta');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'199', E'F21.2 Pyöräilyn suunnistustaulu');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'200', E'F13. Tienviitta');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'200', E'F22 Pyöräilyn etäisyystaulu');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'201', E'F14. Erkanemisviitta');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'201', E'F23 Pyöräilyn paikannimi');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'202', E'F15. Kiertotien viitta');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'202', E'F24.1 Umpitie');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'203', E'F16. Osoiteviitta');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'203', E'F24.2 Umpitie');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'204', E'F17. Osoiteviitan ennakkomerkki');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'204', E'F25 Enimmäisnopeussuositus');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'205', E'F18. Liityntäpysäköintiviitta');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'205', E'F26 Etäisyystaulu');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'206', E'F19. Jalankulun viitta');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'206', E'F27.1 Paikannimi');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'207', E'F20.1. Pyöräilyn viitta');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'207', E'F27.2 Paikannimi');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'208', E'F20.2. Pyöräilyn viitta');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'208', E'F28 Kansainvälisen pääliikenneväylän numero');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'209', E'F21.1. Pyöräilyn suunnistustaulu');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'209', E'F29 Valtatien numero');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'210', E'F21.2. Pyöräilyn suunnistustaulu');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'210', E'F30 Kantatien numero');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'211', E'F22. Pyöräilyn etäisyystaulu');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'211', E'F30 Kantatien numero');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'212', E'F23. Pyöräilyn paikannimi');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'212', E'F31 Seututien numero');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'213', E'F24.1. Umpitie');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'213', E'F31 Seututien numero');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'214', E'F24.2. Umpitie');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'214', E'F32 Muun maantien numero');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'215', E'F25. Enimmäisnopeussuositus');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'215', E'F33 Kehätien numero');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'216', E'F26. Etäisyystaulu');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'216', E'F33 Kehätien numero');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'217', E'F27.1. Paikannimi');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'217', E'F34 Eritasoliittymän numero');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'218', E'F27.2. Paikannimi');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'218', E'F34 Eritasoliittymän numero');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'219', E'F28. Kansainvälisen pääliikenneväylän numero');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'219', E'F35 Opastus merkin tarkoittamalle tielle');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'220', E'F29. Valtatien numero');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'220', E'F35 Opastus merkin tarkoittamalle tielle');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'221', E'F30. Kantatien numero');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'221', E'F37 Moottoritien tunnus');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'222', E'F31. Seututien numero');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'222', E'F38 Moottoriliikennetien tunnus');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'223', E'F32. Muun maantien numero');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'223', E'F39 Lentoasema');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'224', E'F33. Kehätien numero');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'224', E'F40 Autolautta');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'225', E'F34. Eritasoliittymän numero');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'225', E'F41 Matkustajasatama');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'226', E'F35. Opastus merkin tarkoittamalle tielle');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'226', E'F42 Tavarasatama');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'227', E'F35. Opastus merkin tarkoittamalle tielle');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'227', E'F43 Tavaraterminaali');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'228', E'F37. Moottoritien tunnus');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'228', E'F44 Teollisuusalue tai yritysalue');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'229', E'F38. Moottoriliikennetien tunnus');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'229', E'F45 Vähittäiskaupan suuryksikkö');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'230', E'F39. Lentoasema');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'230', E'F46.1 Pysäköinti');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'231', E'F40. Autolautta');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'231', E'F46.2 Pysäköinti');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'232', E'F41. Matkustajasatama');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'232', E'F47 Rautatieasema');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'233', E'F42. Tavarasatama');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'233', E'F48 Linja-autoasema');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'234', E'F43. Tavaraterminaali');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'234', E'F49 Keskusta');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'235', E'F44. Teollisuusalue tai yritysalue');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'235', E'F50 Tietylle ajoneuvolle tarkoitettu reitti');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'236', E'F45. Vähittäiskaupan suuryksikkö');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'236', E'F51 Vaarallisten aineiden kuljetukselle tarkoitettu reitti');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'237', E'F46.1. Pysäköinti');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'237', E'F52 Jalankulkijalle tarkoitettu reitti');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'238', E'F46.2. Pysäköinti');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'238', E'F53 Esteetön reitti');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'239', E'F47. Rautatieasema');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'239', E'F54 Reitti, jolla on portaat');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'240', E'F48. Linja-autoasema');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'240', E'F55 Reitti ilman portaita');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'241', E'F49. Keskusta');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'241', E'F56 Hätäuloskäynti');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'242', E'F50. Tietylle ajoneuvolle tarkoitettu reitti');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'242', E'F57 Poistumisreitti');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'243', E'F51. Vaarallisten aineiden kuljetukselle tarkoitettu reitti');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'243', E'G1 Palvelukohteen opastustaulu');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'244', E'F52. Jalankulkijalle tarkoitettu reitti');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'244', E'G2 Palvelukohteen opastustaulu');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'245', E'F53. Esteetön reitti');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'245', E'G3 Palvelukohteen erkanemisviitta');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'246', E'F55. Reitti ilman portaita');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'246', E'G4 Palvelukohteen osoiteviitta');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'247', E'F56. Hätäuloskäynti');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'247', E'G5 Palvelukohteen osoiteviitan ennakkomerkki');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'248', E'F57. Poistumisreitti');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'248', E'G6 Radioaseman taajuus');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'249', E'G1. Palvelukohteen opastustaulu');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'249', E'G7 Opastuspiste');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'250', E'G2. Palvelukohteen opastustaulu');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'250', E'G8 Opastustoimisto');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'251', E'G3. Palvelukohteen erkanemisviitta');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'251', E'G9 Ensiapu');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'252', E'G4. Palvelukohteen osoiteviitta');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'252', E'G10 Autokorjaamo');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'253', E'G5. Palvelukohteen osoiteviitan ennakkomerkki');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'253', E'G11.1 Polttoaineen jakelu');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'254', E'G6. Radioaseman taajuus');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'254', E'G11.2 Polttoaineen jakelu');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'255', E'G7. Opastuspiste');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'255', E'G11.3 Polttoaineen jakelu');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'256', E'G8. Opastustoimisto');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'256', E'G11.4 Polttoaineen jakelu');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'257', E'G9. Ensiapu');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'257', E'G12 Hotelli tai motelli');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'258', E'G10. Autokorjaamo');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'258', E'G13 Ruokailupaikka');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'259', E'G11.1. Polttoaineen jakelu');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'259', E'G14 Kahvila tai pikaruokapaikka');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'260', E'G11.2. Polttoaineen jakelu');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'260', E'G15 Käymälä');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'261', E'G11.3. Polttoaineen jakelu');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'261', E'G16 Retkeilymaja');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'262', E'G11.4. Polttoaineen jakelu');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'262', E'G17 Leirintäalue');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'263', E'G12. Hotelli tai motelli');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'263', E'G18 Matkailuajoneuvoalue');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'264', E'G13. Ruokailupaikka');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'264', E'G19 Levähdysalue');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'265', E'G14. Kahvila tai pikaruokapaikka');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'265', E'G20 Ulkoilualue');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'266', E'G15. Käymälä');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'266', E'G21 Hätäpuhelin');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'267', E'G16. Retkeilymaja');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'267', E'G22 Sammutin');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'268', E'G17. Leirintäalue');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'268', E'G23 Museo tai historiallinen rakennus');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'269', E'G18. Matkailuajoneuvoalue');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'269', E'G24 Maailmanperintökohde');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'270', E'G19. Levähdysalue');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'270', E'G25 Luontokohde');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'271', E'G20. Ulkoilualue');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'271', E'G26 Näköalapaikka');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'272', E'G21. Hätäpuhelin');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'272', E'G27 Eläintarha tai -puisto');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'273', E'G22. Sammutin');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'273', E'G28 Muu nähtävyys');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'274', E'G23. Museo tai historiallinen rakennus');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'274', E'G29 Uintipaikka');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'275', E'G24. Maailmanperintökohde');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'275', E'G30 Kalastuspaikka');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'276', E'G25. Luontokohde');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'276', E'G31 Hiihtohissi');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'277', E'G26. Näköalapaikka');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'277', E'G32 Maastohiihtokeskus');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'278', E'G27. Eläintarha tai -puisto');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'278', E'G33 Golfkenttä');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'279', E'G28. Muu nähtävyys');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'279', E'G34 Huvi- ja teemapuisto');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'280', E'G29. Uintipaikka');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'280', E'G35 Mökkimajoitus');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'281', E'G30. Kalastuspaikka');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'281', E'G36 Aamiaismajoitus');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'282', E'G31. Hiihtohissi');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'282', E'G37 Suoramyyntipaikka');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'283', E'G32. Maastohiihtokeskus');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'283', E'G38 Käsityöpaja');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'284', E'G33. Golfkenttä');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'284', E'G39 Kotieläinpiha');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'285', E'G34. Huvi- ja teemapuisto');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'285', E'G40 Ratsastuspaikka');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'286', E'G35. Mökkimajoitus');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'286', E'G41.1 Matkailutie');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'287', E'G36. Aamiaismajoitus');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'287', E'G41.2 Matkailutie');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'288', E'G37. Suoramyyntipaikka');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'288', E'H1 Kohde risteävässä suunnassa');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'289', E'G38. Käsityöpaja');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'289', E'H2.1 Kohde nuolen suunnassa');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'290', E'G39. Kotieläinpiha');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'290', E'H2.2 Kohde nuolen suunnassa');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'291', E'G40. Ratsastuspaikka');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'291', E'H2.3 Kohde nuolen suunnassa');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'292', E'G41.1. Matkailutie');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'292', E'H3 Vaikutusalueen pituus');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'293', E'G41.2. Matkailutie');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'293', E'H4 Etäisyys kohteeseen');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'294', E'H1. Kohde risteävässä suunnassa');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'294', E'H5 Etäisyys pakolliseen pysäyttämiseen');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'295', E'H2.1. Kohde nuolen suunnassa');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'295', E'H6 Vapaa leveys');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'296', E'H2.2. Kohde nuolen suunnassa');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'296', E'H7 Vapaa korkeus');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'297', E'H2.3. Kohde nuolen suunnassa');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'297', E'H8 Sähköjohdon korkeus');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'298', E'H3. Vaikutusalueen pituus');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'298', E'H9.1 Vaikutusalue molempiin suuntiin');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'299', E'H4. Etäisyys kohteeseen');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'299', E'H9.2 Vaikutusalue molempiin suuntiin');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'300', E'H5. Etäisyys pakolliseen pysäyttämiseen');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'300', E'H10 Vaikutusalue nuolen suuntaan');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'301', E'H6. Vapaa leveys');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'301', E'H11 Vaikutusalue päättyy');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'302', E'H7. Vapaa korkeus');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'302', E'H12.1 Henkilöauto');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'303', E'H8. Sähköjohdon korkeus');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'303', E'H12.2 Linja-auto');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'304', E'H9.1. Vaikutusalue molempiin suuntiin');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'304', E'H12.3 Kuorma-auto');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'305', E'H9.2. Vaikutusalue molempiin suuntiin');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'305', E'H12.4 Pakettiauto');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'306', E'H10. Vaikutusalue nuolen suuntaan');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'306', E'H12.5 Matkailuperävaunu');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'307', E'H11. Vaikutusalue päättyy');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'307', E'H12.6 Matkailuauto');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'308', E'H12.1. Henkilöauto');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'308', E'H12.7 Invalidin ajoneuvo');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'309', E'H12.2. Linja-auto');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'309', E'H12.8 Moottoripyörä');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'310', E'H12.3. Kuorma-auto');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'310', E'H12.9 Mopo');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'311', E'H12.4. Pakettiauto');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'311', E'H12.10 Polkupyörä');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'312', E'H12.5. Matkailuperävaunu');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'312', E'H12.11 Moottorikelkka');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'313', E'H12.6. Matkailuauto');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'313', E'H12.12 Traktori');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'314', E'H12.7. Invalidin ajoneuvo');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'314', E'H12.13 Vähäpäästöinen ajoneuvo');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'315', E'H12.8. Moottoripyörä');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'315', E'H13.1 Pysäköintitapa');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'316', E'H12.9. Mopo');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'316', E'H13.2 Pysäköintitapa');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'317', E'H12.10. Polkupyörä');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'317', E'H14 Kielto ryhmän A vaarallisten aineiden kuljetukselle');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'318', E'H12.11. Moottorikelkka');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'318', E'H15 Läpiajokielto ryhmän B vaarallisten aineiden kuljetukselle');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'319', E'H12.12. Traktori');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'319', E'H16 Tunneliluokka');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'320', E'H12.13. Vähäpäästöinen ajoneuvo');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'320', E'H17.1 Voimassaoloaika arkisin');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'321', E'H13.1. Pysäköintitapa');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'321', E'H17.2 Voimassaoloaika lauantaisin');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'322', E'H13.2. Pysäköintitapa');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'322', E'H17.3 Voimassaoloaika sunnuntaisin ja pyhinä');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'323', E'H14. Kielto ryhmän A vaarallisten aineiden kuljetukselle');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'323', E'H18 Aikarajoitus');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'324', E'H15. Läpiajokielto ryhmän B vaarallisten aineiden kuljetukselle');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'324', E'H19.1 Pysäköintiajan alkamisen osoittamisvelvollisuus');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'325', E'H16. Tunneliluokka');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'325', E'H19.2 Pysäköintiajan alkamisen osoittamisvelvollisuus');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'326', E'H17.1. Voimassaoloaika arkisin');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'326', E'H20 Maksullinen pysäköinti');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'327', E'H17.2. Voimassaoloaika lauantaisin');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'327', E'H21 Latauspaikka');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'328', E'H17.3. Voimassaoloaika sunnuntaisin ja pyhinä');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'328', E'H22.1 Etuajo-oikeutetun liikenteen suunta');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'329', E'H18. Aikarajoitus');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'329', E'H22.2 Etuajo-oikeutetun liikenteen suunta');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'330', E'H19.1. Pysäköintiajan alkamisen osoittamisvelvollisuus');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'330', E'H23.1 Kaksisuuntainen pyörätie');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'331', E'H19.2. Pysäköintiajan alkamisen osoittamisvelvollisuus');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'331', E'H23.2 Kaksisuuntainen pyörätie');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'332', E'H20. Maksullinen pysäköinti');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'332', E'H24 Tekstillinen lisäkilpi');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'333', E'H21. Latauspaikka');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'333', E'H25 Huoltoajo sallittu');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'334', E'H22.1. Etuajo-oikeutetun liikenteen suunta');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'334', E'H26 Hätäpuhelin ja sammutin');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'335', E'H22.2. Etuajo-oikeutetun liikenteen suunta');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'335', E'I1 Sulkupuomi');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'336', E'H23.1. Kaksisuuntainen pyörätie');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'336', E'I2.1 Sulkuaita');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'337', E'H23.2. Kaksisuuntainen pyörätie');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'337', E'I3.1 Sulkupylväs');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'338', E'H24. Tekstillinen lisäkilpi');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'338', E'I3.2 Sulkupylväs');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'339', E'H25. Huoltoajo sallittu');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'339', E'I3.3 Sulkupylväs');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'340', E'H26. Hätäpuhelin ja sammutin');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'340', E'I4 Sulkukartio');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'341', E'Aiemman tieliikennelain mukaiset liikennemerkit[muokkaa | muokkaa wikitekstiä]');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'341', E'I5 Taustamerkki');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'342', E'111. Mutka oikealle');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'342', E'I6 Kaarteen suuntamerkki');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'343', E'112. Mutka vasemmalle');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'343', E'I7.1 Reunamerkki');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'344', E'115. Jyrkkä alamäki');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'344', E'I7.2 Reunamerkki');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'345', E'116. Jyrkkä ylämäki');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'345', E'I8 Korkeusmerkki');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'346', E'121. Kapeneva tie');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'346', E'I9 Alikulun korkeusmitta');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'347', E'122. Kaksisuuntainen liikenne');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'347', E'I10.1 Liikennemerkkipylvään tehostamismerkki');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'348', E'131. Avattava silta');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'348', E'I10.2 Liikennemerkkipylvään tehostamismerkki');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'349', E'133. Liikenneruuhka');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'349', E'I11 Erkanemismerkki');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'350', E'141. Epätasainen tie');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'350', E'I12.1 Reunapaalu');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'351', E'141a. Töyssyjä');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'351', E'I12.2 Reunapaalu');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'352', E'142. Tietyö');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'352', E'I13 Siirtokehotus');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'353', E'143. Irtokiviä');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'353', E'I14 Paikannusmerkki');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'354', E'144. Liukas ajorata');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'354', E'I15 Automaattinen liikennevalvonta');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'355', E'147. Vaarallinen tien reuna');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'355', E'I16 Tekninen valvonta');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'356', E'151. Suojatien ennakkovaroitus');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'356', E'I17.1 Poronhoitoalue');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'357', E'152. Lapsia');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'357', E'I17.2 Poronhoitoalue');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'358', E'153. Pyöräilijöitä');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'358', E'I18 Yleinen nopeusrajoitus');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'359', E'154. Hiihtolatu');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'359', E'I19 Valtion raja');
 -- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'360', E'155. Hirvieläimiä');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'361', E'156. Poroja');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'362', E'161. Tienristeys');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'363', E'162. Sivutien risteys');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'364', E'163. Sivutien risteys');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'365', E'164. Sivutien risteys');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'366', E'165. Liikennevalot');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'367', E'166. Liikenneympyrä');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'368', E'167. Raitiotie');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'369', E'171. Rautatien tasoristeys ilman puomeja');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'370', E'173–175. Rautatien tasoristeyksen lähestymismerkit');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'371', E'176. Yksiraiteisen rautatien tasoristeys');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'372', E'177. Kaksi- tai useampiraiteisen rautatien tasoristeys');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'373', E'181. Putoavia kiviä');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'374', E'182. Matalalla lentäviä lentokoneita');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'375', E'183. Sivutuuli');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'376', E'189. Muu vaara');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'377', E'211. Etuajo-oikeutettu tie');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'378', E'212. Etuajo-oikeuden päättyminen');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'379', E'221. Etuajo-oikeus kohdattaessa');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'380', E'222. Väistämisvelvollisuus kohdattaessa');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'381', E'231. Väistämisvelvollisuus risteyksessä');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'382', E'232. Pakollinen pysäyttäminen');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'383', E'311. Ajoneuvolla ajo kielletty');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'384', E'312. Moottorikäyttöisellä ajoneuvolla ajo kielletty');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'385', E'313. Kuorma- ja pakettiautolla ajo kielletty');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'386', E'314. Ajoneuvoyhdistelmällä ajo kielletty');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'387', E'315. Traktorilla ajo kielletty');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'388', E'316. Moottoripyörällä ajo kielletty');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'389', E'317. Moottorikelkalla ajo kielletty');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'390', E'318. Vaarallisten aineiden kuljetus kielletty');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'391', E'319. Linja-autolla ajo kielletty');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'392', E'321. Mopolla ajo kielletty');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'393', E'322. Polkupyörällä ja mopolla ajo kielletty');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'394', E'323. Jalankulku kielletty');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'395', E'324. Jalankulku sekä polkupyörällä ja mopolla ajo kielletty');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'396', E'325. Ratsastus kielletty');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'397', E'331. Kielletty ajosuunta');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'398', E'332. Vasemmalle kääntyminen kielletty');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'399', E'333. Oikealle kääntyminen kielletty');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'400', E'334. U-käännös kielletty');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'401', E'341. Ajoneuvon suurin sallittu leveys');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'402', E'342. Ajoneuvon suurin sallittu korkeus');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'403', E'343. Ajoneuvon tai ajoneuvoyhdistelmän suurin sallittu pituus');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'404', E'344. Ajoneuvon suurin sallittu massa');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'405', E'345. Ajoneuvoyhdistelmän suurin sallittu massa');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'406', E'346. Ajoneuvon suurin sallittu akselille kohdistuva massa');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'407', E'347. Ajoneuvon suurin sallittu telille kohdistuva massa');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'408', E'351. Ohituskielto');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'409', E'352. Ohituskielto päättyy');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'410', E'353. Ohituskielto kuorma-autolla');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'411', E'354. Ohituskielto kuorma-autolla päättyy');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'412', E'361. Nopeusrajoitus');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'413', E'362. Nopeusrajoitus päättyy');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'414', E'363. Nopeusrajoitusalue');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'415', E'364. Nopeusrajoitusalue päättyy');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'416', E'365. Ajokaistakohtainen kielto tai rajoitus');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'417', E'371. Pysäyttäminen kielletty');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'418', E'372. Pysäköinti kielletty');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'419', E'373. Pysäköintikieltoalue');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'420', E'374. Pysäköintikieltoalue päättyy');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'421', E'375. Taksiasema-alue');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'422', E'376. Taksin pysäyttämispaikka');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'423', E'381. Vuoropysäköinti');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'424', E'382. Vuoropysäköinti');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'425', E'391. Pakollinen pysäyttäminen tullitarkastusta varten');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'426', E'392. Pakollinen pysäyttäminen tarkastusta varten');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'427', E'393. Moottorikäyttöisten ajoneuvojen vähimmäisetäisyys');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'428', E'411. Pakollinen ajosuunta');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'429', E'412. Pakollinen ajosuunta');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'430', E'413. Pakollinen ajosuunta');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'431', E'414. Pakollinen ajosuunta');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'432', E'415. Pakollinen ajosuunta');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'433', E'416. Pakollinen kiertosuunta');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'434', E'417. Liikenteen jakaja');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'435', E'418. Liikenteen jakaja');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'436', E'421. Jalkakäytävä');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'437', E'422. Pyörätie');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'438', E'423. Yhdistetty pyörätie ja jalkakäytävä');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'439', E'424. Pyörätie ja jalkakäytävä rinnakkain');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'440', E'425. Pyörätie ja jalkakäytävä rinnakkain');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'441', E'426. Moottorikelkkailureitti');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'442', E'427. Ratsastustie');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'443', E'511. Suojatie');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'444', E'520a. Liityntäpysäköintipaikka');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'445', E'520b. Liityntäpysäköintipaikka');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'446', E'521. Pysäköintipaikka');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'447', E'521a. Ajoneuvojen sijoitus pysäköintipaikalla');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'448', E'521b. Ajoneuvojen sijoitus pysäköintipaikalla');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'449', E'521c. Ajoneuvojen sijoitus pysäköintipaikalla');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'450', E'522. Kohtaamispaikka');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'451', E'531. Paikallisliikenteen linja-auton pysäkki');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'452', E'532. Kaukoliikenteen linja-auton pysäkki');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'453', E'533. Raitiovaunun pysäkki');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'454', E'534. Taksiasema');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'455', E'541a. Linja-autokaista');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'456', E'541b. Linja-auto- ja taksikaista');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'457', E'542a. Linja-autokaista päättyy');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'458', E'542b. Linja-auto- ja taksikaista päättyy');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'459', E'543a. Raitiovaunukaista');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'460', E'543b. Raitiovaunu- ja taksikaista');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'461', E'544a. Raitiovaunukaista päättyy');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'462', E'544b. Raitiovaunu- ja taksikaista päättyy');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'463', E'551. Yksisuuntainen tie');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'464', E'561. Moottoritie');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'465', E'562. Moottoritie päättyy');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'466', E'563. Moottoriliikennetie');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'467', E'564. Moottoriliikennetie päättyy');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'468', E'565. Tunneli');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'469', E'566. Tunneli päättyy');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'470', E'567. Hätäpysäyttämispaikka');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'471', E'571. Taajama');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'472', E'572. Taajama päättyy');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'473', E'573. Pihakatu');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'474', E'574. Pihakatu päättyy');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'475', E'575. Kävelykatu');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'476', E'576. Kävelykatu päättyy');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'477', E'611. Suunnistustaulu');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'478', E'612. Suunnistustaulu');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'479', E'613. Kiertotien suunnistustaulu');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'480', E'614. Kiertotien suunnistustaulu');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'481', E'615. Kiertotieopastus');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'482', E'616. Ajoreittiopastus');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'483', E'621. Ajokaistaopastus');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'484', E'622. Ajokaistaopastus');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'485', E'623. Ajokaistan päättyminen');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'486', E'631. Ajokaistan yläpuolinen viitta');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'487', E'632. Ajokaistan yläpuolinen viitta');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'488', E'633. Ajokaistan yläpuolinen erkanemisviitta');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'489', E'641. Tienviitta');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'490', E'642. Erkanemisviitta');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'491', E'643. Yksityisen tien viitta');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'492', E'643. Yksityisen tien viitta');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'493', E'644. Osoiteviitta');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'494', E'644 a. Osoiteviitan ennakkomerkki');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'495', E'645. Kevyen liikenteen viitta');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'496', E'645. Kevyen liikenteen viitta');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'497', E'646. Kiertotien viitta');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'498', E'647. Kiertotien viitta');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'499', E'648. Paikalliskohteen viitta');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'500', E'649. Moottori- ja moottoriliikennetien viitta');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'501', E'650. Liityntäpysäköintiviitta');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'502', E'651. Umpitie');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'503', E'651a. Umpitie');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'504', E'652. Umpitie');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'505', E'653. Enimmäisnopeussuositus');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'506', E'661. Etäisyystaulu');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'507', E'662. Paikannimi');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'508', E'663. Kansainvälisen pääliikenneväylän numero');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'509', E'663. Kansainvälisen pääliikenneväylän numero');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'510', E'664. Valtatien numero');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'511', E'665. Kantatien numero');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'512', E'665a. Seututien numero');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'513', E'666. Muun yleisen tien numero');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'514', E'666. Muun yleisen tien numero');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'515', E'667. Opastus numeron tarkoittamalle tielle');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'516', E'667. Opastus numeron tarkoittamalle tielle');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'517', E'671. Moottoritien tunnus');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'518', E'672. Moottoriliikennetien tunnus');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'519', E'673. Lentoasema');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'520', E'674. Autolautta');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'521', E'675. Tavarasatama');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'522', E'676. Teollisuusalue');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'523', E'677. Pysäköinti');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'524', E'677a. Katettu pysäköinti');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'525', E'678. Rautatieasema');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'526', E'679. Linja-autoasema');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'527', E'681. Tietyille ajoneuvoille tai ajoneuvoyhdistelmille tarkoitettu reitti');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'528', E'681. Tietyille ajoneuvoille tai ajoneuvoyhdistelmille tarkoitettu reitti');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'529', E'682. Jalankulkijoille tarkoitettu reitti');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'530', E'682. Jalankulkijoille tarkoitettu reitti');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'531', E'683. Vammaisille tarkoitettu reitti');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'532', E'683. Vammaisille tarkoitettu reitti');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'533', E'684. Vaarallisten aineiden kuljetuksille tarkoitettu reitti');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'534', E'686. Reitti ilman portaita');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'535', E'690. Hätäuloskäynti');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'536', E'691. Poistumisreitti');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'537', E'701. Palvelukohteen opastustaulu');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'538', E'702. Palvelukohteen opastustaulu');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'539', E'703. Palvelukohteen erkanemisviitta');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'540', E'704. Palvelukohteen osoiteviitta');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'541', E'704 a. Palvelukohteen osoiteviitan ennakkomerkki');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'542', E'710. Radioaseman taajuus');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'543', E'711. Opastuspiste');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'544', E'712. Opastustoimisto');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'545', E'715. Ensiapu');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'546', E'721. Autokorjaamo');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'547', E'722. Huoltoasema');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'548', E'723. Hotelli tai motelli');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'549', E'724. Ruokailupaikka');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'550', E'725. Kahvila tai pikaruokapaikka');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'551', E'726. Käymälä');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'552', E'731. Retkeilymaja');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'553', E'732. Mökkimajoitus');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'554', E'733. Leirintäalue');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'555', E'734. Matkailuajoneuvoalue');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'556', E'741. Levähdysalue');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'557', E'742. Ulkoilualue');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'558', E'771 a. Matkailutie');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'559', E'771 a. Matkailutie');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'560', E'771 b. Matkailutie');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'561', E'772 a. Museo tai historiallinen rakennus');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'562', E'772 b. Maailmanperintökohde');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'563', E'772 c. Luontokohde');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'564', E'772 d. Näköalapaikka');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'565', E'772 e. Eläintarha tai -puisto');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'566', E'772 f. Muu nähtävyys');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'567', E'773 a. Uintipaikka');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'568', E'773 b. Kalastuspaikka');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'569', E'773 c. Hiihtohissi');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'570', E'773 d. Golfkenttä');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'571', E'773 e. Huvi- tai teemapuisto');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'572', E'774 a. Mökkimajoitus');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'573', E'774 b. Aamiaismajoitus');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'574', E'774 c. Suoramyyntipaikka');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'575', E'774 d. Käsityöpaja');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'576', E'774 e. Kotieläinpiha');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'577', E'774 f. Ratsastuspaikka');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'578', E'791. Hätäpuhelin');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'579', E'792. Sammutin');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'580', E'811. Kohde risteävällä tiellä');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'581', E'812. Kohde nuolen suunnassa');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'582', E'813. Kohde nuolen suunnassa');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'583', E'814. Vaikutusalueen pituus');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'584', E'815. Etäisyys kohteeseen');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'585', E'816. Etäisyys pakolliseen pysäyttämiseen');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'586', E'821. Vapaa leveys');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'587', E'822. Vapaa korkeus');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'588', E'823. Sähköjohdon korkeus');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'589', E'824. Vaikutusalue molempiin suuntiin');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'590', E'825. Vaikutusalue molempiin suuntiin');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'591', E'826. Vaikutusalue nuolen suuntaan');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'592', E'827. Vaikutusalue alkaa');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'593', E'828. Vaikutusalue päättyy');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'594', E'831. Henkilöauto');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'595', E'832. Linja-auto');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'596', E'833. Kuorma-auto');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'597', E'833.2. Ajoneuvoyhdistelmä');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'598', E'834. Pakettiauto');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'599', E'835. Matkailuajoneuvo');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'600', E'836. Invalidin ajoneuvo');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'601', E'841. Moottoripyörä');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'602', E'842. Mopo');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'603', E'843. Polkupyörä');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'604', E'844. Pysäköintitapa');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'605', E'845. Pysäköintitapa');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'606', E'848. Kielto ryhmän A vaarallisten aineiden kuljetukselle');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'607', E'849. Läpiajokielto ryhmän B vaarallisten aineiden kuljetukselle');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'608', E'851. Voimassaoloaika arkisin');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'609', E'852. Voimassaoloaika lauantaisin');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'610', E'853. Voimassaoloaika sunnuntaisin ja pyhinä');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'611', E'854. Aikarajoitus');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'612', E'855a. Maksullinen pysäköinti');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'613', E'855b. Maksullinen pysäköinti');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'614', E'856a. Pysäköintikiekon käyttövelvollisuus');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'615', E'856b. Pysäköintikiekon käyttövelvollisuus');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'616', E'861a. Etuajo-oikeutetun liikenteen suunta');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'617', E'861b. Etuajo-oikeutetun liikenteen suunta');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'618', E'862. Tukkitie');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'619', E'863. Kaksisuuntainen pyörätie');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'620', E'871. Tekstillinen lisäkilpi');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'621', E'872. Tekstillinen lisäkilpi Huoltoajo sallittu');
--- ddl-end --
-INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'622', E'880. Hätäpuhelin ja sammutin');
+INSERT INTO koodistot.liikennemerkkityyppi2020 (cid, selite) VALUES (E'-1', E'Tyhjä');
 -- ddl-end --
 
 -- object: koodistot.muutoshoitoluokkatyyppi | type: TABLE --
@@ -8703,6 +6992,8 @@ INSERT INTO koodistot.muutoshoitoluokkatyyppi (cid, selite) VALUES (E'12', E'M3 
 INSERT INTO koodistot.muutoshoitoluokkatyyppi (cid, selite) VALUES (E'13', E'M4 Suojametsä');
 -- ddl-end --
 INSERT INTO koodistot.muutoshoitoluokkatyyppi (cid, selite) VALUES (E'14', E'M5 Talousmetsä');
+-- ddl-end --
+INSERT INTO koodistot.muutoshoitoluokkatyyppi (cid, selite) VALUES (E'-1', E'Tyhjä');
 -- ddl-end --
 
 -- object: koodistot.muuvarustetyyppi | type: TABLE --
@@ -8750,6 +7041,8 @@ INSERT INTO koodistot.muuvarustetyyppi (cid, selite) VALUES (E'16', E'muu');
 -- ddl-end --
 INSERT INTO koodistot.muuvarustetyyppi (cid, selite) VALUES (E'17', E'ei tiedossa');
 -- ddl-end --
+INSERT INTO koodistot.muuvarustetyyppi (cid, selite) VALUES (E'-1', E'Tyhjä');
+-- ddl-end --
 
 -- object: koodistot.toiminnallinenluokka | type: TABLE --
 -- DROP TABLE IF EXISTS koodistot.toiminnallinenluokka CASCADE;
@@ -8787,6 +7080,8 @@ INSERT INTO koodistot.toiminnallinenluokka (cid, selite) VALUES (E'11', E'yksity
 INSERT INTO koodistot.toiminnallinenluokka (cid, selite) VALUES (E'12', E'muu');
 -- ddl-end --
 INSERT INTO koodistot.toiminnallinenluokka (cid, selite) VALUES (E'13', E'ei tiedossa');
+-- ddl-end --
+INSERT INTO koodistot.toiminnallinenluokka (cid, selite) VALUES (E'-1', E'Tyhjä');
 -- ddl-end --
 
 -- object: meta.aineistotoimituksentiedot | type: TABLE --
@@ -8847,6 +7142,8 @@ INSERT INTO koodistot.aineistotilatype (cid, selite) VALUES (E'3', E'muu');
 -- ddl-end --
 INSERT INTO koodistot.aineistotilatype (cid, selite) VALUES (E'4', E'ei tiedossa');
 -- ddl-end --
+INSERT INTO koodistot.aineistotilatype (cid, selite) VALUES (E'-1', E'Tyhjä');
+-- ddl-end --
 
 -- object: meta.infraokohteet | type: TABLE --
 -- DROP TABLE IF EXISTS meta.infraokohteet CASCADE;
@@ -8870,22 +7167,20 @@ CREATE TABLE abstraktit.abstractinfraomaisuuskohde (
 ALTER TABLE abstraktit.abstractinfraomaisuuskohde OWNER TO infrao_admin;
 -- ddl-end --
 
--- object: abstraktit.liite | type: TABLE --
--- DROP TABLE IF EXISTS abstraktit.liite CASCADE;
-CREATE TABLE abstraktit.liite (
-	id bigint NOT NULL GENERATED ALWAYS AS IDENTITY ,
+-- object: linkit.liite | type: TABLE --
+-- DROP TABLE IF EXISTS linkit.liite CASCADE;
+CREATE TABLE linkit.liite (
+	fid bigint NOT NULL GENERATED ALWAYS AS IDENTITY ,
 	kuvaus text,
 	linkkiliitteeseen text,
 	muokkaushetki timestamptz,
 	versionumero text,
-	id_paatos bigint,
-	id_suunnitelmalinkki bigint,
-	CONSTRAINT liite_pk PRIMARY KEY (id)
+	CONSTRAINT liite_pk PRIMARY KEY (fid)
 );
 -- ddl-end --
-COMMENT ON COLUMN abstraktit.liite.kuvaus IS E'Liitteen sisältöä kuvaava teksti';
+COMMENT ON COLUMN linkit.liite.kuvaus IS E'Liitteen sisältöä kuvaava teksti';
 -- ddl-end --
-ALTER TABLE abstraktit.liite OWNER TO infrao_admin;
+ALTER TABLE linkit.liite OWNER TO infrao_admin;
 -- ddl-end --
 
 -- object: abstraktit.nimi | type: TABLE --
@@ -8905,7 +7200,7 @@ ALTER TABLE abstraktit.nimi OWNER TO infrao_admin;
 -- object: osoite.osoite | type: TABLE --
 -- DROP TABLE IF EXISTS osoite.osoite CASCADE;
 CREATE TABLE osoite.osoite (
-	id bigint NOT NULL,
+	fid bigint NOT NULL GENERATED ALWAYS AS IDENTITY ,
 	kunta text,
 	osoitenumero integer,
 	osoitenumero2 integer,
@@ -8920,7 +7215,8 @@ CREATE TABLE osoite.osoite (
 	geom_poly geometry(POLYGONZ, 3067),
 	geom_line geometry(LINESTRINGZ, 3067),
 	viitesijaintialue text,
-	CONSTRAINT osoite_pk PRIMARY KEY (id)
+	nimitieto text,
+	CONSTRAINT osoite_pk PRIMARY KEY (fid)
 );
 -- ddl-end --
 COMMENT ON TABLE osoite.osoite IS E'Viitesijaintialue: oma taulu, jossa suuralueet tms.?';
@@ -9028,6 +7324,8 @@ INSERT INTO koodistot.rakennetyyppi (cid, selite) VALUES (E'38', E'uima-allas');
 INSERT INTO koodistot.rakennetyyppi (cid, selite) VALUES (E'39', E'muu');
 -- ddl-end --
 INSERT INTO koodistot.rakennetyyppi (cid, selite) VALUES (E'40', E'ei tiedossa');
+-- ddl-end --
+INSERT INTO koodistot.rakennetyyppi (cid, selite) VALUES (E'-1', E'Tyhjä');
 -- ddl-end --
 
 -- object: koodistot.viherosanlajityyppi | type: TABLE --
@@ -9165,12 +7463,14 @@ INSERT INTO koodistot.viherosanlajityyppi (cid, selite) VALUES (E'61', E'muu');
 -- ddl-end --
 INSERT INTO koodistot.viherosanlajityyppi (cid, selite) VALUES (E'62', E'ei tiedossa');
 -- ddl-end --
+INSERT INTO koodistot.viherosanlajityyppi (cid, selite) VALUES (E'-1', E'Tyhjä');
+-- ddl-end --
 
 -- object: katualue.keskilinja | type: TABLE --
 -- DROP TABLE IF EXISTS katualue.keskilinja CASCADE;
 CREATE TABLE katualue.keskilinja (
 	fid bigint NOT NULL GENERATED ALWAYS AS IDENTITY ,
-	identifier uuid DEFAULT gen_random_uuid(),
+	identifier text DEFAULT gen_random_uuid(),
 	metatieto text,
 	alkuhetki timestamptz,
 	loppuhetki timestamptz,
@@ -9209,7 +7509,7 @@ ALTER TABLE abstraktit.sijainti_alkuperainen OWNER TO infrao_admin;
 -- DROP TABLE IF EXISTS koodistot.sijaintiepavarmuustyyppi CASCADE;
 CREATE TABLE koodistot.sijaintiepavarmuustyyppi (
 	cid integer NOT NULL,
-	selite float,
+	selite text,
 	CONSTRAINT sijaintiepavarmuustyyppi_pk PRIMARY KEY (cid)
 );
 -- ddl-end --
@@ -9226,21 +7526,23 @@ INSERT INTO koodistot.sijaintiepavarmuustyyppi (cid, selite) VALUES (E'4', E'0.5
 -- ddl-end --
 INSERT INTO koodistot.sijaintiepavarmuustyyppi (cid, selite) VALUES (E'5', E'0.7');
 -- ddl-end --
-INSERT INTO koodistot.sijaintiepavarmuustyyppi (cid, selite) VALUES (E'6', E'1');
+INSERT INTO koodistot.sijaintiepavarmuustyyppi (cid, selite) VALUES (E'6', E'1.0');
 -- ddl-end --
 INSERT INTO koodistot.sijaintiepavarmuustyyppi (cid, selite) VALUES (E'7', E'1.5');
 -- ddl-end --
-INSERT INTO koodistot.sijaintiepavarmuustyyppi (cid, selite) VALUES (E'8', E'2');
+INSERT INTO koodistot.sijaintiepavarmuustyyppi (cid, selite) VALUES (E'8', E'2.0');
 -- ddl-end --
-INSERT INTO koodistot.sijaintiepavarmuustyyppi (cid, selite) VALUES (E'9', E'3');
+INSERT INTO koodistot.sijaintiepavarmuustyyppi (cid, selite) VALUES (E'9', E'3.0');
 -- ddl-end --
-INSERT INTO koodistot.sijaintiepavarmuustyyppi (cid, selite) VALUES (E'10', E'5');
+INSERT INTO koodistot.sijaintiepavarmuustyyppi (cid, selite) VALUES (E'10', E'5.0');
 -- ddl-end --
 INSERT INTO koodistot.sijaintiepavarmuustyyppi (cid, selite) VALUES (E'11', E'7.5');
 -- ddl-end --
-INSERT INTO koodistot.sijaintiepavarmuustyyppi (cid, selite) VALUES (E'12', E'10');
+INSERT INTO koodistot.sijaintiepavarmuustyyppi (cid, selite) VALUES (E'12', E'10.0');
 -- ddl-end --
-INSERT INTO koodistot.sijaintiepavarmuustyyppi (cid, selite) VALUES (E'13', E'20');
+INSERT INTO koodistot.sijaintiepavarmuustyyppi (cid, selite) VALUES (E'13', E'20.0');
+-- ddl-end --
+INSERT INTO koodistot.sijaintiepavarmuustyyppi (cid, selite) VALUES (E'-1', E'Tyhjä');
 -- ddl-end --
 
 -- object: koodistot.erikoisrakennekerrosmateriaalityyppi | type: TABLE --
@@ -9268,6 +7570,8 @@ INSERT INTO koodistot.erikoisrakennekerrosmateriaalityyppi (cid, selite) VALUES 
 -- ddl-end --
 INSERT INTO koodistot.erikoisrakennekerrosmateriaalityyppi (cid, selite) VALUES (E'6', E'kantava kasvualusta');
 -- ddl-end --
+INSERT INTO koodistot.erikoisrakennekerrosmateriaalityyppi (cid, selite) VALUES (E'-1', E'Tyhjä');
+-- ddl-end --
 
 -- object: abstraktit.suunnitelma | type: TABLE --
 -- DROP TABLE IF EXISTS abstraktit.suunnitelma CASCADE;
@@ -9283,16 +7587,17 @@ COMMENT ON TABLE abstraktit.suunnitelma IS E'Päätöksen tiedot';
 ALTER TABLE abstraktit.suunnitelma OWNER TO infrao_admin;
 -- ddl-end --
 
--- object: abstraktit.suunnitelmalinkki | type: TABLE --
--- DROP TABLE IF EXISTS abstraktit.suunnitelmalinkki CASCADE;
-CREATE TABLE abstraktit.suunnitelmalinkki (
-	id bigint NOT NULL,
+-- object: linkit.suunnitelmalinkki | type: TABLE --
+-- DROP TABLE IF EXISTS linkit.suunnitelmalinkki CASCADE;
+CREATE TABLE linkit.suunnitelmalinkki (
+	fid bigint NOT NULL GENERATED ALWAYS AS IDENTITY ,
 	suunnitelmakohdeid integer,
+	fid_liite bigint,
 	fid_liikennemerkki bigint,
-	CONSTRAINT suunnitelmalinkki_pk PRIMARY KEY (id)
+	CONSTRAINT suunnitelmalinkki_pk PRIMARY KEY (fid)
 );
 -- ddl-end --
-ALTER TABLE abstraktit.suunnitelmalinkki OWNER TO infrao_admin;
+ALTER TABLE linkit.suunnitelmalinkki OWNER TO infrao_admin;
 -- ddl-end --
 
 -- object: koodistot.puhtaanapitoluokkatyyppi | type: TABLE --
@@ -9320,20 +7625,21 @@ INSERT INTO koodistot.puhtaanapitoluokkatyyppi (cid, selite) VALUES (E'6', E'P6 
 -- ddl-end --
 INSERT INTO koodistot.puhtaanapitoluokkatyyppi (cid, selite) VALUES (E'7', E'P7 Vuosittain');
 -- ddl-end --
+INSERT INTO koodistot.puhtaanapitoluokkatyyppi (cid, selite) VALUES (E'-1', E'Tyhjä');
+-- ddl-end --
 
--- object: abstraktit.paatos | type: TABLE --
--- DROP TABLE IF EXISTS abstraktit.paatos CASCADE;
-CREATE TABLE abstraktit.paatos (
+-- object: linkit.paatos | type: TABLE --
+-- DROP TABLE IF EXISTS linkit.paatos CASCADE;
+CREATE TABLE linkit.paatos (
 	id bigint NOT NULL,
 	kuvaus text,
 	paivamaarapvm date,
-	fid_katualueenosa bigint,
 	CONSTRAINT paatos_pk PRIMARY KEY (id)
 );
 -- ddl-end --
-COMMENT ON TABLE abstraktit.paatos IS E'Päätöksen tiedot';
+COMMENT ON TABLE linkit.paatos IS E'Päätöksen tiedot';
 -- ddl-end --
-ALTER TABLE abstraktit.paatos OWNER TO infrao_admin;
+ALTER TABLE linkit.paatos OWNER TO infrao_admin;
 -- ddl-end --
 
 -- object: abstraktit.template_table | type: TABLE --
@@ -9373,7 +7679,7 @@ ON DELETE SET NULL ON UPDATE CASCADE;
 CREATE TABLE kasvillisuus.puu (
 	fid bigint NOT NULL GENERATED ALWAYS AS IDENTITY ,
 	metatieto text,
-	identifier uuid DEFAULT gen_random_uuid(),
+	identifier text DEFAULT gen_random_uuid(),
 	alkuhetki timestamptz,
 	loppuhetki timestamptz,
 	omistaja text,
@@ -9438,7 +7744,7 @@ ON DELETE SET NULL ON UPDATE CASCADE;
 -- DROP TABLE IF EXISTS varusteet.jate CASCADE;
 CREATE TABLE varusteet.jate (
 	fid bigint NOT NULL GENERATED ALWAYS AS IDENTITY ,
-	identifier uuid DEFAULT gen_random_uuid(),
+	identifier text DEFAULT gen_random_uuid(),
 	nimi text,
 	valmistumisvuosi smallint,
 	perusparannusvuosi smallint,
@@ -9506,7 +7812,7 @@ ON DELETE SET NULL ON UPDATE CASCADE;
 -- DROP TABLE IF EXISTS varusteet.liikunta CASCADE;
 CREATE TABLE varusteet.liikunta (
 	fid bigint NOT NULL GENERATED ALWAYS AS IDENTITY ,
-	identifier uuid DEFAULT gen_random_uuid(),
+	identifier text DEFAULT gen_random_uuid(),
 	nimi text,
 	valmistumisvuosi smallint,
 	perusparannusvuosi smallint,
@@ -9570,7 +7876,7 @@ ON DELETE SET NULL ON UPDATE CASCADE;
 -- DROP TABLE IF EXISTS varusteet.opaste CASCADE;
 CREATE TABLE varusteet.opaste (
 	fid bigint NOT NULL GENERATED ALWAYS AS IDENTITY ,
-	identifier uuid DEFAULT gen_random_uuid(),
+	identifier text DEFAULT gen_random_uuid(),
 	nimi text,
 	valmistumisvuosi smallint,
 	perusparannusvuosi smallint,
@@ -9634,7 +7940,7 @@ ON DELETE SET NULL ON UPDATE CASCADE;
 -- DROP TABLE IF EXISTS varusteet.melukohde CASCADE;
 CREATE TABLE varusteet.melukohde (
 	fid bigint NOT NULL GENERATED ALWAYS AS IDENTITY ,
-	identifier uuid DEFAULT gen_random_uuid(),
+	identifier text DEFAULT gen_random_uuid(),
 	nimi text,
 	valmistumisvuosi smallint,
 	perusparannusvuosi smallint,
@@ -9698,7 +8004,7 @@ ON DELETE SET NULL ON UPDATE CASCADE;
 -- DROP TABLE IF EXISTS varusteet.kaluste CASCADE;
 CREATE TABLE varusteet.kaluste (
 	fid bigint NOT NULL GENERATED ALWAYS AS IDENTITY ,
-	identifier uuid DEFAULT gen_random_uuid(),
+	identifier text DEFAULT gen_random_uuid(),
 	nimi text,
 	valmistumisvuosi smallint,
 	perusparannusvuosi smallint,
@@ -9762,7 +8068,7 @@ ON DELETE SET NULL ON UPDATE CASCADE;
 -- DROP TABLE IF EXISTS varusteet.muuvaruste CASCADE;
 CREATE TABLE varusteet.muuvaruste (
 	fid bigint NOT NULL GENERATED ALWAYS AS IDENTITY ,
-	identifier uuid DEFAULT gen_random_uuid(),
+	identifier text DEFAULT gen_random_uuid(),
 	nimi text,
 	valmistumisvuosi smallint,
 	perusparannusvuosi smallint,
@@ -9826,7 +8132,7 @@ ON DELETE SET NULL ON UPDATE CASCADE;
 -- DROP TABLE IF EXISTS varusteet.leikkivaline CASCADE;
 CREATE TABLE varusteet.leikkivaline (
 	fid bigint NOT NULL GENERATED ALWAYS AS IDENTITY ,
-	identifier uuid DEFAULT gen_random_uuid(),
+	identifier text DEFAULT gen_random_uuid(),
 	nimi text,
 	valmistumisvuosi smallint,
 	perusparannusvuosi smallint,
@@ -9892,7 +8198,7 @@ ON DELETE SET NULL ON UPDATE CASCADE;
 -- DROP TABLE IF EXISTS varusteet.liikennemerkki CASCADE;
 CREATE TABLE varusteet.liikennemerkki (
 	fid bigint NOT NULL GENERATED ALWAYS AS IDENTITY ,
-	identifier uuid DEFAULT gen_random_uuid(),
+	identifier text DEFAULT gen_random_uuid(),
 	nimi text,
 	valmistumisvuosi smallint,
 	perusparannusvuosi smallint,
@@ -9906,6 +8212,13 @@ CREATE TABLE varusteet.liikennemerkki (
 	haltija text,
 	kunnossapitaja text,
 	teksti text,
+	meta_datanluoja text,
+	meta_muokkaaja text,
+	meta_muokkauspvm date,
+	meta_omistaja text,
+	meta_lahteenpvm date,
+	meta_mittausera text,
+	meta_lisatietolinkki text,
 	geom_point geometry(POINTZ, 3067),
 	geom_poly geometry(POLYGONZ, 3067),
 	geom_line geometry(LINESTRINGZ, 3067),
@@ -9916,6 +8229,7 @@ CREATE TABLE varusteet.liikennemerkki (
 	cid_liikennemerkkityyppi integer,
 	cid_sijaintiepavarmuustyyppi integer,
 	cid_luontitapatyyppi integer,
+	fid_osoite bigint,
 	CONSTRAINT liikennemerkki_pk PRIMARY KEY (fid)
 );
 -- ddl-end --
@@ -9966,7 +8280,7 @@ ON DELETE SET NULL ON UPDATE CASCADE;
 CREATE TABLE kasvillisuus.muukasvi (
 	fid bigint NOT NULL GENERATED ALWAYS AS IDENTITY ,
 	metatieto text,
-	identifier uuid DEFAULT gen_random_uuid(),
+	identifier text DEFAULT gen_random_uuid(),
 	alkuhetki timestamptz,
 	loppuhetki timestamptz,
 	omistaja text,
@@ -10023,7 +8337,7 @@ ON DELETE SET NULL ON UPDATE CASCADE;
 -- DROP TABLE IF EXISTS kohteet.pysakointiruutu CASCADE;
 CREATE TABLE kohteet.pysakointiruutu (
 	fid bigint NOT NULL GENERATED ALWAYS AS IDENTITY ,
-	identifier uuid DEFAULT gen_random_uuid(),
+	identifier text DEFAULT gen_random_uuid(),
 	nimi text,
 	valmistumisvuosi smallint,
 	perusparannusvuosi smallint,
@@ -10080,7 +8394,7 @@ ON DELETE SET NULL ON UPDATE CASCADE;
 -- DROP TABLE IF EXISTS kohteet.erikoisrakennekerros CASCADE;
 CREATE TABLE kohteet.erikoisrakennekerros (
 	fid bigint NOT NULL GENERATED ALWAYS AS IDENTITY ,
-	identifier uuid DEFAULT gen_random_uuid(),
+	identifier text DEFAULT gen_random_uuid(),
 	nimi text,
 	valmistumisvuosi smallint,
 	perusparannusvuosi smallint,
@@ -10093,7 +8407,7 @@ CREATE TABLE kohteet.erikoisrakennekerros (
 	omistaja text,
 	haltija text,
 	kunnossapitaja text,
-	selite text,
+	erk_selite text,
 	materiaali text,
 	geom_poly geometry(POLYGONZ, 3067),
 	geom_line geometry(LINESTRINGZ, 3067),
@@ -10122,7 +8436,7 @@ ON DELETE SET NULL ON UPDATE CASCADE;
 -- DROP TABLE IF EXISTS kohteet.ymparistotaide CASCADE;
 CREATE TABLE kohteet.ymparistotaide (
 	fid bigint NOT NULL GENERATED ALWAYS AS IDENTITY ,
-	identifier uuid DEFAULT gen_random_uuid(),
+	identifier text DEFAULT gen_random_uuid(),
 	nimi text,
 	valmistumisvuosi smallint,
 	perusparannusvuosi smallint,
@@ -10186,7 +8500,7 @@ ON DELETE SET NULL ON UPDATE CASCADE;
 -- DROP TABLE IF EXISTS kohteet.rakenne CASCADE;
 CREATE TABLE kohteet.rakenne (
 	fid bigint NOT NULL GENERATED ALWAYS AS IDENTITY ,
-	identifier uuid DEFAULT gen_random_uuid(),
+	identifier text DEFAULT gen_random_uuid(),
 	nimi text,
 	valmistumisvuosi smallint,
 	perusparannusvuosi smallint,
@@ -10250,7 +8564,7 @@ ON DELETE SET NULL ON UPDATE CASCADE;
 -- DROP TABLE IF EXISTS kohteet.hulevesi CASCADE;
 CREATE TABLE kohteet.hulevesi (
 	fid bigint NOT NULL GENERATED ALWAYS AS IDENTITY ,
-	identifier uuid DEFAULT gen_random_uuid(),
+	identifier text DEFAULT gen_random_uuid(),
 	nimi text,
 	valmistumisvuosi smallint,
 	perusparannusvuosi smallint,
@@ -10314,7 +8628,7 @@ ON DELETE SET NULL ON UPDATE CASCADE;
 -- DROP TABLE IF EXISTS katualue.ajoratamerkinta CASCADE;
 CREATE TABLE katualue.ajoratamerkinta (
 	fid bigint NOT NULL GENERATED ALWAYS AS IDENTITY ,
-	identifier uuid DEFAULT gen_random_uuid(),
+	identifier text DEFAULT gen_random_uuid(),
 	nimi text,
 	valmistumisvuosi smallint,
 	perusparannusvuosi smallint,
@@ -10416,33 +8730,7 @@ INSERT INTO koodistot.luontitapatyyppi (cid, selite) VALUES (E'7', E'tuntematon'
 -- ddl-end --
 INSERT INTO koodistot.luontitapatyyppi (cid, selite) VALUES (E'8', E'muu');
 -- ddl-end --
-
--- object: katualueenosa_fk | type: CONSTRAINT --
--- ALTER TABLE abstraktit.paatos DROP CONSTRAINT IF EXISTS katualueenosa_fk CASCADE;
-ALTER TABLE abstraktit.paatos ADD CONSTRAINT katualueenosa_fk FOREIGN KEY (fid_katualueenosa)
-REFERENCES katualue.katualueenosa (fid) MATCH FULL
-ON DELETE SET NULL ON UPDATE CASCADE;
--- ddl-end --
-
--- object: paatos_fk | type: CONSTRAINT --
--- ALTER TABLE abstraktit.liite DROP CONSTRAINT IF EXISTS paatos_fk CASCADE;
-ALTER TABLE abstraktit.liite ADD CONSTRAINT paatos_fk FOREIGN KEY (id_paatos)
-REFERENCES abstraktit.paatos (id) MATCH FULL
-ON DELETE SET NULL ON UPDATE CASCADE;
--- ddl-end --
-
--- object: suunnitelmalinkki_fk | type: CONSTRAINT --
--- ALTER TABLE abstraktit.liite DROP CONSTRAINT IF EXISTS suunnitelmalinkki_fk CASCADE;
-ALTER TABLE abstraktit.liite ADD CONSTRAINT suunnitelmalinkki_fk FOREIGN KEY (id_suunnitelmalinkki)
-REFERENCES abstraktit.suunnitelmalinkki (id) MATCH FULL
-ON DELETE SET NULL ON UPDATE CASCADE;
--- ddl-end --
-
--- object: liikennemerkki_fk | type: CONSTRAINT --
--- ALTER TABLE abstraktit.suunnitelmalinkki DROP CONSTRAINT IF EXISTS liikennemerkki_fk CASCADE;
-ALTER TABLE abstraktit.suunnitelmalinkki ADD CONSTRAINT liikennemerkki_fk FOREIGN KEY (fid_liikennemerkki)
-REFERENCES varusteet.liikennemerkki (fid) MATCH FULL
-ON DELETE SET NULL ON UPDATE CASCADE;
+INSERT INTO koodistot.luontitapatyyppi (cid, selite) VALUES (E'-1', E'Tyhjä');
 -- ddl-end --
 
 -- object: sijaintiepavarmuustyyppi_fk | type: CONSTRAINT --
@@ -10711,116 +8999,116 @@ REFERENCES koodistot.luontitapatyyppi (cid) MATCH FULL
 ON DELETE SET NULL ON UPDATE CASCADE;
 -- ddl-end --
 
--- object: talvihoidonluokka_fk | type: CONSTRAINT --
--- ALTER TABLE viheralue.viheralueenosa DROP CONSTRAINT IF EXISTS talvihoidonluokka_fk CASCADE;
-ALTER TABLE viheralue.viheralueenosa ADD CONSTRAINT talvihoidonluokka_fk FOREIGN KEY (talvihoidonluokka_id)
-REFERENCES koodistot.talvihoidonluokka (cid) MATCH SIMPLE
-ON DELETE NO ACTION ON UPDATE NO ACTION;
+-- object: viheralueenkayttotarkoitus_fk | type: CONSTRAINT --
+-- ALTER TABLE viheralue.viheralueenosa DROP CONSTRAINT IF EXISTS viheralueenkayttotarkoitus_fk CASCADE;
+ALTER TABLE viheralue.viheralueenosa ADD CONSTRAINT viheralueenkayttotarkoitus_fk FOREIGN KEY (cid_viheralueenkayttotarkoitus)
+REFERENCES koodistot.viheralueenkayttotarkoitus (cid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
 -- ddl-end --
 
--- object: hoitoluokka_fk | type: CONSTRAINT --
--- ALTER TABLE viheralue.viheralueenosa DROP CONSTRAINT IF EXISTS hoitoluokka_fk CASCADE;
-ALTER TABLE viheralue.viheralueenosa ADD CONSTRAINT hoitoluokka_fk FOREIGN KEY (hoitoluokka_id)
+-- object: viherosanlajityyppi_fk | type: CONSTRAINT --
+-- ALTER TABLE viheralue.viheralueenosa DROP CONSTRAINT IF EXISTS viherosanlajityyppi_fk CASCADE;
+ALTER TABLE viheralue.viheralueenosa ADD CONSTRAINT viherosanlajityyppi_fk FOREIGN KEY (cid_viherosanlajityyppi)
+REFERENCES koodistot.viherosanlajityyppi (cid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: hoitoluokkatyyppi_fk | type: CONSTRAINT --
+-- ALTER TABLE viheralue.viheralueenosa DROP CONSTRAINT IF EXISTS hoitoluokkatyyppi_fk CASCADE;
+ALTER TABLE viheralue.viheralueenosa ADD CONSTRAINT hoitoluokkatyyppi_fk FOREIGN KEY (cid_hoitoluokkatyyppi)
 REFERENCES koodistot.hoitoluokkatyyppi (cid) MATCH FULL
 ON DELETE SET NULL ON UPDATE CASCADE;
 -- ddl-end --
 
--- object: kayttotarkoitus_fk | type: CONSTRAINT --
--- ALTER TABLE viheralue.viheralueenosa DROP CONSTRAINT IF EXISTS kayttotarkoitus_fk CASCADE;
-ALTER TABLE viheralue.viheralueenosa ADD CONSTRAINT kayttotarkoitus_fk FOREIGN KEY (kayttotarkoitus_id)
-REFERENCES koodistot.viheralueenkayttotarkoitus (cid) MATCH FULL
-ON DELETE CASCADE ON UPDATE CASCADE;
--- ddl-end --
-
--- object: laji_fk | type: CONSTRAINT --
--- ALTER TABLE viheralue.viheralueenosa DROP CONSTRAINT IF EXISTS laji_fk CASCADE;
-ALTER TABLE viheralue.viheralueenosa ADD CONSTRAINT laji_fk FOREIGN KEY (laji_id)
-REFERENCES koodistot.viherosanlajityyppi (cid) MATCH FULL
-ON DELETE CASCADE ON UPDATE CASCADE;
--- ddl-end --
-
--- object: katualueenlaji_fk | type: CONSTRAINT --
--- ALTER TABLE viheralue.viheralueenosa DROP CONSTRAINT IF EXISTS katualueenlaji_fk CASCADE;
-ALTER TABLE viheralue.viheralueenosa ADD CONSTRAINT katualueenlaji_fk FOREIGN KEY (katualueenlaji_id)
-REFERENCES koodistot.katuosanlaji (cid) MATCH FULL
-ON DELETE CASCADE ON UPDATE CASCADE;
--- ddl-end --
-
--- object: suunnitelmalinkkitieto_fk | type: CONSTRAINT --
--- ALTER TABLE viheralue.viheralueenosa DROP CONSTRAINT IF EXISTS suunnitelmalinkkitieto_fk CASCADE;
-ALTER TABLE viheralue.viheralueenosa ADD CONSTRAINT suunnitelmalinkkitieto_fk FOREIGN KEY (suunnitelmalinkkitieto_id)
-REFERENCES abstraktit.suunnitelmalinkki (id) MATCH FULL
-ON DELETE CASCADE ON UPDATE CASCADE;
--- ddl-end --
-
--- object: puhtaanapitoluokkatyyppi_fk | type: CONSTRAINT --
--- ALTER TABLE viheralue.viheralueenosa DROP CONSTRAINT IF EXISTS puhtaanapitoluokkatyyppi_fk CASCADE;
-ALTER TABLE viheralue.viheralueenosa ADD CONSTRAINT puhtaanapitoluokkatyyppi_fk FOREIGN KEY (puhtaanapitoluokka_id)
-REFERENCES koodistot.puhtaanapitoluokkatyyppi (cid) MATCH FULL
-ON DELETE CASCADE ON UPDATE CASCADE;
--- ddl-end --
-
--- object: muutoshoitoluokka_fk | type: CONSTRAINT --
--- ALTER TABLE viheralue.viheralueenosa DROP CONSTRAINT IF EXISTS muutoshoitoluokka_fk CASCADE;
-ALTER TABLE viheralue.viheralueenosa ADD CONSTRAINT muutoshoitoluokka_fk FOREIGN KEY (muutoshoitoluokka_id)
-REFERENCES koodistot.muutoshoitoluokkatyyppi (cid) MATCH FULL
-ON DELETE CASCADE ON UPDATE CASCADE;
--- ddl-end --
-
--- object: materiaali_fk | type: CONSTRAINT --
--- ALTER TABLE abstraktit.abstractvaruste DROP CONSTRAINT IF EXISTS materiaali_fk CASCADE;
-ALTER TABLE abstraktit.abstractvaruste ADD CONSTRAINT materiaali_fk FOREIGN KEY (materiaali_id)
-REFERENCES koodistot.varustemateriaali (cid) MATCH FULL
-ON DELETE CASCADE ON UPDATE CASCADE;
--- ddl-end --
-
--- object: kunnossapitoluokka_fk | type: CONSTRAINT --
--- ALTER TABLE katualue.katualueenosa DROP CONSTRAINT IF EXISTS kunnossapitoluokka_fk CASCADE;
-ALTER TABLE katualue.katualueenosa ADD CONSTRAINT kunnossapitoluokka_fk FOREIGN KEY (kunnossapitoluokka_id)
-REFERENCES koodistot.kunnossapitoluokka (cid) MATCH FULL
-ON DELETE SET NULL ON UPDATE CASCADE;
--- ddl-end --
-
 -- object: katuosanlaji_fk | type: CONSTRAINT --
--- ALTER TABLE katualue.katualueenosa DROP CONSTRAINT IF EXISTS katuosanlaji_fk CASCADE;
-ALTER TABLE katualue.katualueenosa ADD CONSTRAINT katuosanlaji_fk FOREIGN KEY (katuosanlaji_id)
+-- ALTER TABLE viheralue.viheralueenosa DROP CONSTRAINT IF EXISTS katuosanlaji_fk CASCADE;
+ALTER TABLE viheralue.viheralueenosa ADD CONSTRAINT katuosanlaji_fk FOREIGN KEY (cid_katuosanlaji)
 REFERENCES koodistot.katuosanlaji (cid) MATCH FULL
 ON DELETE SET NULL ON UPDATE CASCADE;
 -- ddl-end --
 
 -- object: talvihoidonluokka_fk | type: CONSTRAINT --
--- ALTER TABLE katualue.katualueenosa DROP CONSTRAINT IF EXISTS talvihoidonluokka_fk CASCADE;
-ALTER TABLE katualue.katualueenosa ADD CONSTRAINT talvihoidonluokka_fk FOREIGN KEY (talvihoidonluokka_id)
+-- ALTER TABLE viheralue.viheralueenosa DROP CONSTRAINT IF EXISTS talvihoidonluokka_fk CASCADE;
+ALTER TABLE viheralue.viheralueenosa ADD CONSTRAINT talvihoidonluokka_fk FOREIGN KEY (cid_talvihoidonluokka)
 REFERENCES koodistot.talvihoidonluokka (cid) MATCH FULL
 ON DELETE SET NULL ON UPDATE CASCADE;
 -- ddl-end --
 
--- object: pintamateriaali_fk | type: CONSTRAINT --
--- ALTER TABLE katualue.katualueenosa DROP CONSTRAINT IF EXISTS pintamateriaali_fk CASCADE;
-ALTER TABLE katualue.katualueenosa ADD CONSTRAINT pintamateriaali_fk FOREIGN KEY (pintamateriaali_id)
-REFERENCES koodistot.pintamateriaali (cid) MATCH FULL
+-- object: puhtaanapitoluokkatyyppi_fk | type: CONSTRAINT --
+-- ALTER TABLE viheralue.viheralueenosa DROP CONSTRAINT IF EXISTS puhtaanapitoluokkatyyppi_fk CASCADE;
+ALTER TABLE viheralue.viheralueenosa ADD CONSTRAINT puhtaanapitoluokkatyyppi_fk FOREIGN KEY (cid_puhtaanapitoluokkatyyppi)
+REFERENCES koodistot.puhtaanapitoluokkatyyppi (cid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: muutoshoitoluokkatyyppi_fk | type: CONSTRAINT --
+-- ALTER TABLE viheralue.viheralueenosa DROP CONSTRAINT IF EXISTS muutoshoitoluokkatyyppi_fk CASCADE;
+ALTER TABLE viheralue.viheralueenosa ADD CONSTRAINT muutoshoitoluokkatyyppi_fk FOREIGN KEY (cid_muutoshoitoluokkatyyppi)
+REFERENCES koodistot.muutoshoitoluokkatyyppi (cid) MATCH FULL
 ON DELETE SET NULL ON UPDATE CASCADE;
 -- ddl-end --
 
 -- object: toiminnallinenluokka_fk | type: CONSTRAINT --
 -- ALTER TABLE katualue.katualueenosa DROP CONSTRAINT IF EXISTS toiminnallinenluokka_fk CASCADE;
-ALTER TABLE katualue.katualueenosa ADD CONSTRAINT toiminnallinenluokka_fk FOREIGN KEY (luokka_id)
+ALTER TABLE katualue.katualueenosa ADD CONSTRAINT toiminnallinenluokka_fk FOREIGN KEY (cid_toiminnallinenluokka)
 REFERENCES koodistot.toiminnallinenluokka (cid) MATCH FULL
-ON DELETE CASCADE ON UPDATE CASCADE;
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: katuosanlaji_fk | type: CONSTRAINT --
+-- ALTER TABLE katualue.katualueenosa DROP CONSTRAINT IF EXISTS katuosanlaji_fk CASCADE;
+ALTER TABLE katualue.katualueenosa ADD CONSTRAINT katuosanlaji_fk FOREIGN KEY (cid_katuosanlaji)
+REFERENCES koodistot.katuosanlaji (cid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
 -- ddl-end --
 
 -- object: viherosanlajityyppi_fk | type: CONSTRAINT --
 -- ALTER TABLE katualue.katualueenosa DROP CONSTRAINT IF EXISTS viherosanlajityyppi_fk CASCADE;
-ALTER TABLE katualue.katualueenosa ADD CONSTRAINT viherosanlajityyppi_fk FOREIGN KEY (viherosanlajityyppi_id)
+ALTER TABLE katualue.katualueenosa ADD CONSTRAINT viherosanlajityyppi_fk FOREIGN KEY (cid_viherosanlajityyppi)
 REFERENCES koodistot.viherosanlajityyppi (cid) MATCH FULL
-ON DELETE CASCADE ON UPDATE CASCADE;
+ON DELETE SET NULL ON UPDATE CASCADE;
 -- ddl-end --
 
--- object: suunnitelmalinkkitieto_fk | type: CONSTRAINT --
--- ALTER TABLE katualue.katualueenosa DROP CONSTRAINT IF EXISTS suunnitelmalinkkitieto_fk CASCADE;
-ALTER TABLE katualue.katualueenosa ADD CONSTRAINT suunnitelmalinkkitieto_fk FOREIGN KEY (suunnitelmalinkkitieto_id)
-REFERENCES abstraktit.suunnitelmalinkki (id) MATCH FULL
-ON DELETE CASCADE ON UPDATE CASCADE;
+-- object: pintamateriaali_fk | type: CONSTRAINT --
+-- ALTER TABLE katualue.katualueenosa DROP CONSTRAINT IF EXISTS pintamateriaali_fk CASCADE;
+ALTER TABLE katualue.katualueenosa ADD CONSTRAINT pintamateriaali_fk FOREIGN KEY (cid_pintamateriaali)
+REFERENCES koodistot.pintamateriaali (cid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: hoitoluokkatyyppi_fk | type: CONSTRAINT --
+-- ALTER TABLE katualue.katualueenosa DROP CONSTRAINT IF EXISTS hoitoluokkatyyppi_fk CASCADE;
+ALTER TABLE katualue.katualueenosa ADD CONSTRAINT hoitoluokkatyyppi_fk FOREIGN KEY (cid_hoitoluokkatyyppi)
+REFERENCES koodistot.hoitoluokkatyyppi (cid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: talvihoidonluokka_fk | type: CONSTRAINT --
+-- ALTER TABLE katualue.katualueenosa DROP CONSTRAINT IF EXISTS talvihoidonluokka_fk CASCADE;
+ALTER TABLE katualue.katualueenosa ADD CONSTRAINT talvihoidonluokka_fk FOREIGN KEY (cid_talvihoidonluokka)
+REFERENCES koodistot.talvihoidonluokka (cid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: osoite_fk | type: CONSTRAINT --
+-- ALTER TABLE varusteet.liikennemerkki DROP CONSTRAINT IF EXISTS osoite_fk CASCADE;
+ALTER TABLE varusteet.liikennemerkki ADD CONSTRAINT osoite_fk FOREIGN KEY (fid_osoite)
+REFERENCES osoite.osoite (fid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: liite_fk | type: CONSTRAINT --
+-- ALTER TABLE linkit.suunnitelmalinkki DROP CONSTRAINT IF EXISTS liite_fk CASCADE;
+ALTER TABLE linkit.suunnitelmalinkki ADD CONSTRAINT liite_fk FOREIGN KEY (fid_liite)
+REFERENCES linkit.liite (fid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: liikennemerkki_fk | type: CONSTRAINT --
+-- ALTER TABLE linkit.suunnitelmalinkki DROP CONSTRAINT IF EXISTS liikennemerkki_fk CASCADE;
+ALTER TABLE linkit.suunnitelmalinkki ADD CONSTRAINT liikennemerkki_fk FOREIGN KEY (fid_liikennemerkki)
+REFERENCES varusteet.liikennemerkki (fid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
 -- ddl-end --
 
 -- object: puulaji_fk | type: CONSTRAINT --
@@ -10848,13 +9136,6 @@ ON DELETE CASCADE ON UPDATE CASCADE;
 -- ALTER TABLE abstraktit.sijainti_alkuperainen DROP CONSTRAINT IF EXISTS sijaintiepavarmuustyyppi_fk CASCADE;
 ALTER TABLE abstraktit.sijainti_alkuperainen ADD CONSTRAINT sijaintiepavarmuustyyppi_fk FOREIGN KEY (sijaintiepavarmuus_id)
 REFERENCES koodistot.sijaintiepavarmuustyyppi (cid) MATCH FULL
-ON DELETE CASCADE ON UPDATE CASCADE;
--- ddl-end --
-
--- object: osoitetieto_fk | type: CONSTRAINT --
--- ALTER TABLE abstraktit.sijainti_alkuperainen DROP CONSTRAINT IF EXISTS osoitetieto_fk CASCADE;
-ALTER TABLE abstraktit.sijainti_alkuperainen ADD CONSTRAINT osoitetieto_fk FOREIGN KEY (osoitetieto_id)
-REFERENCES osoite.osoite (id) MATCH FULL
 ON DELETE CASCADE ON UPDATE CASCADE;
 -- ddl-end --
 

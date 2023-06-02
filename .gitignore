@@ -1,6 +1,5 @@
 *.zip
 .idea
-out
 /src/_book
 .vscode/launch.json
 *.Rhistory

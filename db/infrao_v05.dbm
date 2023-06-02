@@ -3,19 +3,19 @@
 CAUTION: Do not modify this file unless you know what you are doing.
  Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.9.4" use-changelog="false" last-position="2031,293" last-zoom="0.6" max-obj-count="141"
+<dbmodel pgmodeler-ver="0.9.4" use-changelog="false" last-position="37,2" last-zoom="0.65" max-obj-count="181"
 	 default-schema="public" default-owner="infrao_admin"
-	 layers="Default layer,Codelist relations,Viher_katualue relations,Abstraktit,Adress_relations"
-	 active-layers="0,4"
-	 layer-name-colors="#000000,#000000,#000000,#000000,#000000"
-	 layer-rect-colors="#b4b4b4,#2bdba0,#f89edb,#5a0656,#c42493"
+	 layers="Default layer,Codelist relations,Viher_katualue relations,Abstraktit,Address_relations,Planlink_relations"
+	 active-layers="0,3"
+	 layer-name-colors="#000000,#000000,#000000,#000000,#000000,#000000"
+	 layer-rect-colors="#b4b4b4,#2bdba0,#f89edb,#5a0656,#c42493,#05b556"
 	 show-layer-names="false" show-layer-rects="true">
 <role name="infrao_admin"
  createrole="true"
  login="true">
 </role>
 
-<database name="infrao" is-template="false" allow-conns="true">
+<database name="infrao" encoding="UTF8" is-template="false" allow-conns="true">
 	<role name="infrao_admin"/>
 	<tablespace name="pg_default"/>
 </database>
@@ -28,10 +28,6 @@ CAUTION: Do not modify this file unless you know what you are doing.
 </schema>
 
 <schema name="kohteet" layers="0" rect-visible="true" fill-color="#eb1e15">
-	<role name="infrao_admin"/>
-</schema>
-
-<schema name="abstraktit" layers="3" rect-visible="true" fill-color="#55f7ff">
 	<role name="infrao_admin"/>
 </schema>
 
@@ -81,7 +77,7 @@ Ratkottava: kuinka tämä tieto populoidaan jostain muualta? Digitransit API? Op
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
 	<tag name="TODO"/>
-	<position x="120" y="520"/>
+	<position x="60" y="40"/>
 	<column name="cid" not-null="true">
 		<type name="integer" length="0"/>
 	</column>
@@ -119,7 +115,7 @@ Ratkottava: kuinka tämä tieto populoidaan jostain muualta? Digitransit API? Op
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
 	<tag name="TODO"/>
-	<position x="520" y="520"/>
+	<position x="460" y="40"/>
 	<column name="cid" not-null="true">
 		<type name="integer" length="0"/>
 	</column>
@@ -159,7 +155,7 @@ Ratkottava: kuinka tämä tieto populoidaan jostain muualta? Digitransit API? Op
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
 	<tag name="TODO"/>
-	<position x="920" y="520"/>
+	<position x="860" y="40"/>
 	<column name="cid" not-null="true">
 		<type name="integer" length="0"/>
 	</column>
@@ -189,16 +185,16 @@ Ratkottava: kuinka tämä tieto populoidaan jostain muualta? Digitransit API? Op
 16•ei hoidossa⸣
 17•U urheilualue⸣
 18•ajoradat, luokka I⸣
-19•ajoradat, luokka Il⸣
-20•ajoradat, luokka Ill⸣
-21•kevyen liikenteen raitti, luokka l⸣
-22•kevyen liikenteen raitti, luokka ll⸣
-23•kevyen liikenteen väylä, luokka l⸣
-24•kevyen liikenteen väylä, luokka ll⸣
-25•jalkakäytävä, luokka l⸣
-26•jalkakäytävä, luokka ll⸣
-27•torit ja aukiot, luokka l⸣
-28•torit ja aukiot, luokka ll⸣
+19•ajoradat, luokka II⸣
+20•ajoradat, luokka III⸣
+21•kevyen liikenteen raitti, luokka I⸣
+22•kevyen liikenteen raitti, luokka II⸣
+23•kevyen liikenteen väylä, luokka I⸣
+24•kevyen liikenteen väylä, luokka II⸣
+25•jalkakäytävä, luokka I⸣
+26•jalkakäytävä, luokka II⸣
+27•torit ja aukiot, luokka I⸣
+28•torit ja aukiot, luokka II⸣
 29•kiinteistön kunnossapitovastuu⸣
 30•ei kunnossapitoa⸣
 31•ei talvikunnossapitoa⸣
@@ -222,12 +218,12 @@ Ratkottava: kuinka tämä tieto populoidaan jostain muualta? Digitransit API? Op
 	<role name="infrao_admin"/>
 </sequence>
 
-<table name="viheralue" layers="0" collapse-mode="2" max-obj-count="8" z-value="0">
+<table name="viheralue" layers="0" collapse-mode="2" max-obj-count="16" z-value="0">
 	<schema name="viheralue"/>
 	<comment><![CDATA[TODO:
 - sisaltaaViheralueenOsan -> relation?]]></comment>
 	<tag name="TODO"/>
-	<position x="1840" y="60"/>
+	<position x="1880" y="1000"/>
 	<column name="fid" not-null="true"
 	 identity-type="ALWAYS">
 		<type name="bigint" length="0"/>
@@ -247,6 +243,27 @@ Ratkottava: kuinka tämä tieto populoidaan jostain muualta? Digitransit API? Op
 	<column name="metatieto">
 		<type name="text" length="0"/>
 	</column>
+	<column name="meta_datanluoja">
+		<type name="text" length="0"/>
+	</column>
+	<column name="meta_muokkaaja">
+		<type name="text" length="0"/>
+	</column>
+	<column name="meta_muokkauspvm">
+		<type name="date" length="0"/>
+	</column>
+	<column name="meta_omistaja">
+		<type name="text" length="0"/>
+	</column>
+	<column name="meta_lahteenpvm">
+		<type name="date" length="0"/>
+	</column>
+	<column name="meta_mittausera">
+		<type name="text" length="0"/>
+	</column>
+	<column name="meta_lisatietolinkki">
+		<type name="text" length="0"/>
+	</column>
 	<column name="geom">
 		<type name="geometry" length="0" spatial-type="POLYGON" variation="1" srid="3067"/>
 	</column>
@@ -264,7 +281,7 @@ Ratkottava: kuinka tämä tieto populoidaan jostain muualta? Digitransit API? Op
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
 	<tag name="TODO"/>
-	<position x="1200" y="520"/>
+	<position x="1140" y="40"/>
 	<column name="cid" not-null="true">
 		<type name="integer" length="0"/>
 	</column>
@@ -307,7 +324,7 @@ Ratkottava: kuinka tämä tieto populoidaan jostain muualta? Digitransit API? Op
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
 	<tag name="TODO"/>
-	<position x="1520" y="520"/>
+	<position x="1460" y="40"/>
 	<column name="cid" not-null="true">
 		<type name="integer" length="0"/>
 	</column>
@@ -333,11 +350,11 @@ Ratkottava: kuinka tämä tieto populoidaan jostain muualta? Digitransit API? Op
 	<role name="infrao_admin"/>
 </sequence>
 
-<table name="katualue" layers="0" collapse-mode="2" max-obj-count="8" z-value="0">
+<table name="katualue" layers="0" collapse-mode="2" max-obj-count="16" z-value="0">
 	<schema name="katualue"/>
 	<role name="infrao_admin"/>
 	<tag name="TODO"/>
-	<position x="3220" y="40"/>
+	<position x="3240" y="980"/>
 	<column name="fid" not-null="true"
 	 identity-type="ALWAYS">
 		<type name="bigint" length="0"/>
@@ -357,6 +374,27 @@ Ratkottava: kuinka tämä tieto populoidaan jostain muualta? Digitransit API? Op
 	<column name="metatieto">
 		<type name="text" length="0"/>
 	</column>
+	<column name="meta_datanluoja">
+		<type name="text" length="0"/>
+	</column>
+	<column name="meta_muokkaaja">
+		<type name="text" length="0"/>
+	</column>
+	<column name="meta_muokkauspvm">
+		<type name="date" length="0"/>
+	</column>
+	<column name="meta_omistaja">
+		<type name="text" length="0"/>
+	</column>
+	<column name="meta_lahteenpvm">
+		<type name="date" length="0"/>
+	</column>
+	<column name="meta_mittausera">
+		<type name="text" length="0"/>
+	</column>
+	<column name="meta_lisatietolinkki">
+		<type name="text" length="0"/>
+	</column>
 	<column name="geom">
 		<type name="geometry" length="0" spatial-type="POLYGON" variation="1" srid="3067"/>
 	</column>
@@ -370,13 +408,13 @@ Ratkottava: kuinka tämä tieto populoidaan jostain muualta? Digitransit API? Op
 	<role name="infrao_admin"/>
 </sequence>
 
-<table name="viheralueenosa" layers="0" collapse-mode="2" max-obj-count="26" z-value="0">
+<table name="viheralueenosa" layers="0" collapse-mode="2" max-obj-count="36" z-value="0">
 	<schema name="viheralue"/>
 	<comment><![CDATA[TODO:
 
 change relation types?]]></comment>
 	<tag name="TODO"/>
-	<position x="2240" y="60"/>
+	<position x="2280" y="1000"/>
 	<column name="fid" not-null="true"
 	 identity-type="ALWAYS">
 		<type name="bigint" length="0"/>
@@ -411,6 +449,27 @@ change relation types?]]></comment>
 	<column name="suojelualuekytkin">
 		<type name="boolean" length="0"/>
 	</column>
+	<column name="meta_datanluoja">
+		<type name="text" length="0"/>
+	</column>
+	<column name="meta_muokkaaja">
+		<type name="text" length="0"/>
+	</column>
+	<column name="meta_muokkauspvm">
+		<type name="date" length="0"/>
+	</column>
+	<column name="meta_omistaja">
+		<type name="text" length="0"/>
+	</column>
+	<column name="meta_lahteenpvm">
+		<type name="date" length="0"/>
+	</column>
+	<column name="meta_mittausera">
+		<type name="text" length="0"/>
+	</column>
+	<column name="meta_lisatietolinkki">
+		<type name="text" length="0"/>
+	</column>
 	<column name="geom">
 		<type name="geometry" length="0" spatial-type="POLYGON" variation="1" srid="3067"/>
 	</column>
@@ -436,66 +495,18 @@ change relation types?]]></comment>
 	<role name="infrao_admin"/>
 </sequence>
 
-<table name="abstractvaruste" layers="3" collapse-mode="2" max-obj-count="15" z-value="0">
-	<schema name="abstraktit"/>
-	<role name="infrao_admin"/>
-	<position x="4380" y="680"/>
-	<column name="id" not-null="true">
-		<type name="serial" length="0"/>
-	</column>
-	<column name="malli">
-		<type name="text" length="0"/>
-	</column>
-	<column name="perusparannusvuosi">
-		<type name="smallint" length="0"/>
-	</column>
-	<column name="suunta">
-		<type name="text" length="0"/>
-	</column>
-	<column name="valmistaja">
-		<type name="text" length="0"/>
-	</column>
-	<column name="valmistumisvuosi">
-		<type name="smallint" length="0"/>
-	</column>
-	<column name="kuuluuviheralueenosaan">
-		<type name="integer" length="0"/>
-	</column>
-	<column name="kuuluukatualueenosaan">
-		<type name="integer" length="0"/>
-	</column>
-	<column name="materiaali_id">
-		<type name="integer" length="0"/>
-	</column>
-	<column name="suunnitelmalinkkitieto">
-		<type name="integer" length="0"/>
-	</column>
-	<column name="geom_poly">
-		<type name="geometry" length="0" spatial-type="POLYGON" variation="1" srid="3067"/>
-	</column>
-	<column name="geom_piste">
-		<type name="geometry" length="0" spatial-type="POINT" variation="1" srid="3067"/>
-	</column>
-	<column name="geom_line">
-		<type name="geometry" length="0" spatial-type="LINESTRING" variation="1" srid="3067"/>
-	</column>
-	<constraint name="abstractvaruste_pk" type="pk-constr" table="abstraktit.abstractvaruste">
-		<columns names="id" ref-type="src-columns"/>
-	</constraint>
-</table>
-
 <sequence name="liikunta_id_seq" cycle="false" start="1" increment="1" min-value="1" max-value="2147483647" cache="1">
 	<schema name="public"/>
 	<role name="infrao_admin"/>
 </sequence>
 
-<table name="katualueenosa" layers="0" collapse-mode="2" max-obj-count="32" z-value="0">
+<table name="katualueenosa" layers="0" collapse-mode="2" max-obj-count="40" z-value="0">
 	<schema name="katualue"/>
 	<comment><![CDATA[TODO:
 
 change relation types?]]></comment>
 	<tag name="TODO"/>
-	<position x="3700" y="40"/>
+	<position x="3720" y="980"/>
 	<column name="fid" not-null="true"
 	 identity-type="ALWAYS">
 		<type name="bigint" length="0"/>
@@ -511,9 +522,6 @@ change relation types?]]></comment>
 	</column>
 	<column name="loppuhetki">
 		<type name="timestamptz" length="0"/>
-	</column>
-	<column name="paatostieto_id">
-		<type name="integer" length="0"/>
 	</column>
 	<column name="omistaja">
 		<type name="text" length="0"/>
@@ -548,6 +556,27 @@ change relation types?]]></comment>
 	<column name="valmistumisvuosi">
 		<type name="integer" length="0"/>
 	</column>
+	<column name="meta_datanluoja">
+		<type name="text" length="0"/>
+	</column>
+	<column name="meta_muokkaaja">
+		<type name="text" length="0"/>
+	</column>
+	<column name="meta_muokkauspvm">
+		<type name="date" length="0"/>
+	</column>
+	<column name="meta_omistaja">
+		<type name="text" length="0"/>
+	</column>
+	<column name="meta_lahteenpvm">
+		<type name="date" length="0"/>
+	</column>
+	<column name="meta_mittausera">
+		<type name="text" length="0"/>
+	</column>
+	<column name="meta_lisatietolinkki">
+		<type name="text" length="0"/>
+	</column>
 	<column name="geom">
 		<type name="geometry" length="0" spatial-type="POLYGON" variation="1" srid="3067"/>
 		<comment><![CDATA[sijaintitieto]]></comment>
@@ -557,15 +586,29 @@ change relation types?]]></comment>
 	</constraint>
 
 	<customidxs object-type="column">
-		<object name="cid_luontitapatyyppi" index="20"/>
-		<object name="cid_sijaintiepavarmuustyyppi" index="19"/>
-		<object name="fid_katualue" index="18"/>
+		<object name="cid_hoitoluokkatyyppi" index="31"/>
+		<object name="cid_katuosanlaji" index="28"/>
+		<object name="cid_luontitapatyyppi" index="19"/>
+		<object name="cid_pintamateriaali" index="30"/>
+		<object name="cid_sijaintiepavarmuustyyppi" index="18"/>
+		<object name="cid_talvihoidonluokka" index="32"/>
+		<object name="cid_toiminnallinenluokka" index="27"/>
+		<object name="cid_viherosanlajityyppi" index="29"/>
+		<object name="fid_katualue" index="17"/>
+		<object name="fid_osoite" index="33"/>
 	</customidxs>
 
 	<customidxs object-type="constraint">
+		<object name="hoitoluokkatyyppi_fk" index="8"/>
 		<object name="katualue_fk" index="1"/>
+		<object name="katuosanlaji_fk" index="5"/>
 		<object name="luontitapatyyppi_fk" index="3"/>
+		<object name="osoite_fk" index="10"/>
+		<object name="pintamateriaali_fk" index="7"/>
 		<object name="sijaintiepavarmuustyyppi_fk" index="2"/>
+		<object name="talvihoidonluokka_fk" index="9"/>
+		<object name="toiminnallinenluokka_fk" index="4"/>
+		<object name="viherosanlajityyppi_fk" index="6"/>
 	</customidxs>
 </table>
 
@@ -583,7 +626,7 @@ change relation types?]]></comment>
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
 	<tag name="TODO"/>
-	<position x="120" y="720"/>
+	<position x="60" y="240"/>
 	<column name="cid" not-null="true">
 		<type name="integer" length="0"/>
 	</column>
@@ -671,58 +714,6 @@ change relation types?]]></comment>
 	<role name="infrao_admin"/>
 </sequence>
 
-<table name="kunnossapitoluokka" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
-	<schema name="koodistot"/>
-	<role name="infrao_admin"/>
-	<tag name="TODO"/>
-	<position x="440" y="720"/>
-	<column name="cid" not-null="true">
-		<type name="integer" length="0"/>
-	</column>
-	<column name="selite" not-null="true">
-		<type name="text" length="0"/>
-	</column>
-	<constraint name="kunnossapitoluokka_pk" type="pk-constr" table="koodistot.kunnossapitoluokka">
-		<columns names="cid" ref-type="src-columns"/>
-	</constraint>
-	<initial-data>
-<![CDATA[cid•selite⸣
-1•ajoradat, luokka I⸣
-2•ajoradat, luokka II⸣
-3•ajoradat, luokka III⸣
-4•kevyen liikenteen raitti, luokka I⸣
-5•kevyen liikenteen raitti, luokka II⸣
-6•kevyen liikenteen väylä, luokka I⸣
-7•kevyen liikenteen väylä, luokka II⸣
-8•jalkakäytävä, luokka I⸣
-9•jalkakäytävä, luokka II⸣
-10•torit ja aukiot, luokka I⸣
-11•torit ja aukiot, luokka II⸣
-12•kiinteistön kunnossapitovastuu⸣
-13•ei kunnossapitoa⸣
-14•ei talvikunnosspitoa⸣
-15•A1 edustusviheralue⸣
-16•A2 käyttöviheralue⸣
-17•A3 käyttö- ja suojaviheralue⸣
-18•B1 maisemapelto⸣
-19•B2 käyttöniitty⸣
-20•B3 maisemaniitty ja laidunalue⸣
-21•B4 avoin alue ja näkymät⸣
-22•B5 arvoniitty⸣
-23•C1 lähimetsä⸣
-24•C2 ulkoilu- ja virkistysmetsä⸣
-25•C3 suojametsä⸣
-26•C4 talousmetsä⸣
-27•C5 arvometsä⸣
-28•E erityisalue⸣
-29•ei hoidossa⸣
-30•U urheilualue⸣
-31•muu⸣
-32•ei tiedossa⸣
--1•Tyhjä]]>
-	</initial-data>
-</table>
-
 <sequence name="abstrakti_varuste_id_seq" cycle="false" start="1" increment="1" min-value="1" max-value="2147483647" cache="1">
 	<schema name="public"/>
 	<role name="infrao_admin"/>
@@ -732,7 +723,7 @@ change relation types?]]></comment>
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
 	<tag name="TODO"/>
-	<position x="800" y="720"/>
+	<position x="740" y="240"/>
 	<column name="cid" not-null="true">
 		<type name="integer" length="0"/>
 	</column>
@@ -754,43 +745,11 @@ change relation types?]]></comment>
 	</initial-data>
 </table>
 
-<table name="abstractpaikkatietopalvelukohde" layers="3" collapse-mode="2" max-obj-count="8" z-value="0">
-	<schema name="abstraktit"/>
-	<role name="infrao_admin"/>
-	<position x="4940" y="680"/>
-	<column name="id" not-null="true">
-		<type name="serial" length="0"/>
-	</column>
-	<column name="name">
-		<type name="text" length="0"/>
-	</column>
-	<column name="abstract">
-		<type name="boolean" length="0"/>
-	</column>
-	<column name="metatieto">
-		<type name="text" length="0"/>
-	</column>
-	<column name="yksilointitieto">
-		<type name="text" length="0"/>
-	</column>
-	<column name="alkuhetki">
-		<type name="date" length="0"/>
-		<comment><![CDATA[Kohteen luontipäivämäärä]]></comment>
-	</column>
-	<column name="loppuhetki">
-		<type name="date" length="0"/>
-		<comment><![CDATA[Milloin kohde on poistettu. Tämän avulla voidaan tunnistaa poistetut kohteet, jos järjestelmät tukevat historiatietojen tallentamista]]></comment>
-	</column>
-	<constraint name="abstractpaikkatietopalvelukohde_pk" type="pk-constr" table="abstraktit.abstractpaikkatietopalvelukohde">
-		<columns names="id" ref-type="src-columns"/>
-	</constraint>
-</table>
-
 <table name="kalustetyyppi" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
 	<tag name="TODO"/>
-	<position x="1120" y="720"/>
+	<position x="1060" y="240"/>
 	<column name="cid" not-null="true">
 		<type name="integer" length="0"/>
 	</column>
@@ -819,7 +778,7 @@ change relation types?]]></comment>
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
 	<tag name="TODO"/>
-	<position x="1440" y="720"/>
+	<position x="1380" y="240"/>
 	<column name="cid" not-null="true">
 		<type name="integer" length="0"/>
 	</column>
@@ -844,7 +803,7 @@ change relation types?]]></comment>
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
 	<tag name="TODO"/>
-	<position x="120" y="880"/>
+	<position x="60" y="400"/>
 	<column name="cid" not-null="true">
 		<type name="integer" length="0"/>
 	</column>
@@ -869,7 +828,7 @@ change relation types?]]></comment>
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
 	<tag name="TODO"/>
-	<position x="400" y="880"/>
+	<position x="340" y="400"/>
 	<column name="cid" not-null="true">
 		<type name="integer" length="0"/>
 	</column>
@@ -908,7 +867,7 @@ change relation types?]]></comment>
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
 	<tag name="TODO"/>
-	<position x="760" y="880"/>
+	<position x="700" y="400"/>
 	<column name="cid" not-null="true">
 		<type name="integer" length="0"/>
 	</column>
@@ -953,7 +912,7 @@ change relation types?]]></comment>
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
 	<tag name="TODO"/>
-	<position x="1040" y="880"/>
+	<position x="980" y="400"/>
 	<column name="cid" not-null="true">
 		<type name="integer" length="0"/>
 	</column>
@@ -978,7 +937,7 @@ change relation types?]]></comment>
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
 	<tag name="TODO"/>
-	<position x="1500" y="1600"/>
+	<position x="1440" y="1120"/>
 	<column name="cid" not-null="true">
 		<type name="integer" length="0"/>
 	</column>
@@ -998,53 +957,11 @@ change relation types?]]></comment>
 	</initial-data>
 </table>
 
-<table name="abstractkasvillisuus" layers="3" collapse-mode="2" max-obj-count="13" z-value="0">
-	<schema name="abstraktit"/>
-	<role name="infrao_admin"/>
-	<position x="5400" y="680"/>
-	<column name="id" not-null="true">
-		<type name="serial" length="0"/>
-	</column>
-	<column name="omistaja">
-		<type name="varchar" length="255"/>
-	</column>
-	<column name="haltija">
-		<type name="varchar" length="255"/>
-	</column>
-	<column name="kunnossapitaja">
-		<type name="varchar" length="255"/>
-	</column>
-	<column name="korkeusmitta">
-		<type name="smallint" length="0"/>
-	</column>
-	<column name="ymparysmitta">
-		<type name="smallint" length="0"/>
-	</column>
-	<column name="puutyyppi_id">
-		<type name="integer" length="0"/>
-	</column>
-	<column name="puulaji_id">
-		<type name="integer" length="0"/>
-	</column>
-	<column name="sijaintitieto">
-		<type name="geometry" length="0" spatial-type="POLYGON" variation="0" srid="3067"/>
-	</column>
-	<column name="kuuluuviheralueenosaan">
-		<type name="integer" length="0"/>
-	</column>
-	<column name="kuuluukatualueenosaan">
-		<type name="integer" length="0"/>
-	</column>
-	<constraint name="abstractkasvillisuus_pk" type="pk-constr" table="abstraktit.abstractkasvillisuus">
-		<columns names="id" ref-type="src-columns"/>
-	</constraint>
-</table>
-
 <table name="puulaji" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
 	<tag name="TODO"/>
-	<position x="880" y="1600"/>
+	<position x="820" y="1120"/>
 	<column name="cid" not-null="true">
 		<type name="integer" length="0"/>
 	</column>
@@ -1686,7 +1603,7 @@ change relation types?]]></comment>
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
 	<tag name="TODO"/>
-	<position x="360" y="1040"/>
+	<position x="300" y="560"/>
 	<column name="cid" not-null="true">
 		<type name="integer" length="0"/>
 	</column>
@@ -1714,7 +1631,7 @@ change relation types?]]></comment>
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
 	<tag name="TODO"/>
-	<position x="820" y="1060"/>
+	<position x="760" y="580"/>
 	<column name="cid" not-null="true">
 		<type name="integer" length="0"/>
 	</column>
@@ -1741,7 +1658,7 @@ change relation types?]]></comment>
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
 	<tag name="TODO"/>
-	<position x="1140" y="1600"/>
+	<position x="1080" y="1120"/>
 	<column name="cid" not-null="true">
 		<type name="integer" length="0"/>
 	</column>
@@ -3248,7 +3165,7 @@ change relation types?]]></comment>
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
 	<tag name="TODO"/>
-	<position x="1360" y="1040"/>
+	<position x="1300" y="560"/>
 	<column name="cid" not-null="true">
 		<type name="integer" length="0"/>
 	</column>
@@ -3279,7 +3196,7 @@ change relation types?]]></comment>
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
 	<tag name="TODO"/>
-	<position x="120" y="1240"/>
+	<position x="60" y="760"/>
 	<column name="cid" not-null="true">
 		<type name="integer" length="0"/>
 	</column>
@@ -3317,7 +3234,7 @@ change relation types?]]></comment>
 	<role name="infrao_admin"/>
 	<comment><![CDATA[TODO: add selite in other languages (sv, en)?]]></comment>
 	<tag name="TODO"/>
-	<position x="700" y="1800"/>
+	<position x="640" y="1320"/>
 	<column name="cid" not-null="true">
 		<type name="integer" length="0"/>
 	</column>
@@ -3610,7 +3527,7 @@ change relation types?]]></comment>
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
 	<tag name="TODO"/>
-	<position x="760" y="1240"/>
+	<position x="700" y="760"/>
 	<column name="cid" not-null="true">
 		<type name="integer" length="0"/>
 	</column>
@@ -3989,7 +3906,7 @@ change relation types?]]></comment>
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
 	<tag name="TODO"/>
-	<position x="1160" y="1240"/>
+	<position x="1100" y="760"/>
 	<column name="cid" not-null="true">
 		<type name="integer" length="0"/>
 	</column>
@@ -4023,7 +3940,7 @@ change relation types?]]></comment>
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
 	<tag name="TODO"/>
-	<position x="1520" y="1240"/>
+	<position x="1460" y="760"/>
 	<column name="cid" not-null="true">
 		<type name="integer" length="0"/>
 	</column>
@@ -4060,7 +3977,7 @@ change relation types?]]></comment>
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
 	<tag name="TODO"/>
-	<position x="120" y="1400"/>
+	<position x="60" y="920"/>
 	<column name="cid" not-null="true">
 		<type name="integer" length="0"/>
 	</column>
@@ -4089,15 +4006,13 @@ change relation types?]]></comment>
 	</initial-data>
 </table>
 
-<table name="aineistotoimituksentiedot" layers="0" collapse-mode="2" max-obj-count="14" z-value="0">
+<table name="aineistotoimituksentiedot" layers="0" collapse-mode="2" max-obj-count="15" z-value="0">
 	<schema name="meta"/>
 	<role name="infrao_admin"/>
-	<position x="120" y="2180"/>
-	<column name="id">
-		<type name="serial" length="0"/>
-	</column>
-	<column name="toimitus_id">
-		<type name="integer" length="0"/>
+	<position x="4120" y="120"/>
+	<column name="id" not-null="true"
+	 identity-type="ALWAYS">
+		<type name="bigint" length="0"/>
 	</column>
 	<column name="aineistonnimi">
 		<type name="text" length="0"/>
@@ -4138,13 +4053,22 @@ change relation types?]]></comment>
 		<type name="text" length="0"/>
 		<comment><![CDATA[URL, josta saadaan aineistoon liittyvän tietotuotteen tiedot]]></comment>
 	</column>
+	<column name="viety">
+		<type name="boolean" length="0"/>
+	</column>
+	<column name="lisattyhetki" default-value="now()">
+		<type name="timestamptz" length="0"/>
+	</column>
+	<constraint name="aineistotoimituksentiedot_pk" type="pk-constr" table="meta.aineistotoimituksentiedot">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
 </table>
 
 <table name="aineistotilatype" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
 	<tag name="TODO"/>
-	<position x="460" y="1220"/>
+	<position x="400" y="740"/>
 	<column name="cid" not-null="true">
 		<type name="integer" length="0"/>
 	</column>
@@ -4164,35 +4088,10 @@ change relation types?]]></comment>
 	</initial-data>
 </table>
 
-<table name="infraokohteet" layers="0" collapse-mode="2" max-obj-count="1" z-value="0">
-	<schema name="meta"/>
-	<role name="infrao_admin"/>
-	<comment><![CDATA[Skeeman juurielementti ]]></comment>
-	<position x="400" y="2400"/>
-	<column name="id" not-null="true">
-		<type name="serial" length="0"/>
-	</column>
-	<constraint name="infraokohteet_pk" type="pk-constr" table="meta.infraokohteet">
-		<columns names="id" ref-type="src-columns"/>
-	</constraint>
-</table>
-
-<table name="abstractinfraomaisuuskohde" layers="3" collapse-mode="2" max-obj-count="1" z-value="0">
-	<schema name="abstraktit"/>
-	<role name="infrao_admin"/>
-	<position x="5900" y="1440"/>
-	<column name="id" not-null="true">
-		<type name="serial" length="0"/>
-	</column>
-	<constraint name="abstractinfraomaisuuskohde_pk" type="pk-constr" table="abstraktit.abstractinfraomaisuuskohde">
-		<columns names="id" ref-type="src-columns"/>
-	</constraint>
-</table>
-
-<table name="liite" layers="0" collapse-mode="2" max-obj-count="6" z-value="0">
+<table name="liite" layers="0" collapse-mode="2" max-obj-count="7" z-value="0">
 	<schema name="linkit"/>
 	<role name="infrao_admin"/>
-	<position x="5140" y="860"/>
+	<position x="4220" y="1000"/>
 	<column name="fid" not-null="true"
 	 identity-type="ALWAYS">
 		<type name="bigint" length="0"/>
@@ -4215,30 +4114,11 @@ change relation types?]]></comment>
 	</constraint>
 </table>
 
-<table name="nimi" layers="3" collapse-mode="2" max-obj-count="3" z-value="0">
-	<schema name="abstraktit"/>
-	<role name="infrao_admin"/>
-	<comment><![CDATA[Voidaan käyttää esim. nimistö tai osoitekohteessa]]></comment>
-	<position x="4380" y="1560"/>
-	<column name="id" not-null="true">
-		<type name="serial" length="0"/>
-	</column>
-	<column name="teksti">
-		<type name="text" length="0"/>
-	</column>
-	<column name="lang" default-value="'fi'">
-		<type name="varchar" length="10"/>
-	</column>
-	<constraint name="nimi_pk" type="pk-constr" table="abstraktit.nimi">
-		<columns names="id" ref-type="src-columns"/>
-	</constraint>
-</table>
-
 <table name="osoite" layers="0" collapse-mode="2" max-obj-count="19" z-value="0">
 	<schema name="osoite"/>
 	<comment><![CDATA[Viitesijaintialue: oma taulu, jossa suuralueet tms.?]]></comment>
 	<tag name="TODO"/>
-	<position x="5500" y="2100"/>
+	<position x="900" y="1660"/>
 	<column name="fid" not-null="true"
 	 identity-type="ALWAYS">
 		<type name="bigint" length="0"/>
@@ -4278,8 +4158,12 @@ change relation types?]]></comment>
 	<column name="postitoimipaikannimi">
 		<type name="text" length="255"/>
 	</column>
-	<column name="geom_point">
-		<type name="geometry" length="0" spatial-type="POINT" variation="1" srid="3067"/>
+	<column name="viitesijaintialue">
+		<type name="text" length="255"/>
+		<comment><![CDATA[Esim. Korso, Tikkurila]]></comment>
+	</column>
+	<column name="nimitieto">
+		<type name="text" length="0"/>
 	</column>
 	<column name="geom_poly">
 		<type name="geometry" length="0" spatial-type="POLYGON" variation="1" srid="3067"/>
@@ -4287,12 +4171,8 @@ change relation types?]]></comment>
 	<column name="geom_line">
 		<type name="geometry" length="0" spatial-type="LINESTRING" variation="1" srid="3067"/>
 	</column>
-	<column name="viitesijaintialue">
-		<type name="text" length="255"/>
-		<comment><![CDATA[Esim. Korso, Tikkurila]]></comment>
-	</column>
-	<column name="nimitieto">
-		<type name="text" length="0"/>
+	<column name="geom_point">
+		<type name="geometry" length="0" spatial-type="POINT" variation="1" srid="3067"/>
 	</column>
 	<constraint name="osoite_pk" type="pk-constr" table="osoite.osoite">
 		<columns names="fid" ref-type="src-columns"/>
@@ -4303,7 +4183,7 @@ change relation types?]]></comment>
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
 	<tag name="TODO"/>
-	<position x="760" y="1400"/>
+	<position x="700" y="920"/>
 	<column name="cid" not-null="true">
 		<type name="integer" length="0"/>
 	</column>
@@ -4363,7 +4243,7 @@ change relation types?]]></comment>
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
 	<tag name="TODO"/>
-	<position x="1080" y="1400"/>
+	<position x="1020" y="920"/>
 	<column name="cid" not-null="true">
 		<type name="integer" length="0"/>
 	</column>
@@ -4441,10 +4321,10 @@ change relation types?]]></comment>
 	</initial-data>
 </table>
 
-<table name="keskilinja" layers="0" collapse-mode="2" max-obj-count="12" z-value="0">
+<table name="keskilinja" layers="0" collapse-mode="2" max-obj-count="20" z-value="0">
 	<schema name="katualue"/>
 	<role name="infrao_admin"/>
-	<position x="2760" y="140"/>
+	<position x="2780" y="1080"/>
 	<column name="fid" not-null="true"
 	 identity-type="ALWAYS">
 		<type name="bigint" length="0"/>
@@ -4463,6 +4343,27 @@ change relation types?]]></comment>
 	</column>
 	<column name="digiroadid">
 		<type name="text" length="255"/>
+	</column>
+	<column name="meta_datanluoja">
+		<type name="text" length="0"/>
+	</column>
+	<column name="meta_muokkaaja">
+		<type name="text" length="0"/>
+	</column>
+	<column name="meta_muokkauspvm">
+		<type name="date" length="0"/>
+	</column>
+	<column name="meta_omistaja">
+		<type name="text" length="0"/>
+	</column>
+	<column name="meta_lahteenpvm">
+		<type name="date" length="0"/>
+	</column>
+	<column name="meta_mittausera">
+		<type name="text" length="0"/>
+	</column>
+	<column name="meta_lisatietolinkki">
+		<type name="text" length="0"/>
 	</column>
 	<column name="geom">
 		<type name="geometry" length="0" spatial-type="LINESTRING" variation="1" srid="3067"/>
@@ -4485,43 +4386,11 @@ change relation types?]]></comment>
 	</customidxs>
 </table>
 
-<table name="sijainti_alkuperainen" layers="3" collapse-mode="2" max-obj-count="8" z-value="0">
-	<schema name="abstraktit"/>
-	<role name="infrao_admin"/>
-	<comment><![CDATA[TODO: tarvitaanko? Jos tarve on pelkästään tallentaa tietoa luontitavasta ja/tai sijaintiepävarmuudesta niin voisi olla kohteen metatiedoissa?]]></comment>
-	<tag name="TODO"/>
-	<position x="4500" y="1040"/>
-	<column name="id" not-null="true">
-		<type name="bigint" length="0"/>
-	</column>
-	<column name="alue">
-		<type name="geometry" length="0" spatial-type="POLYGON" variation="0" srid="3067"/>
-	</column>
-	<column name="piste">
-		<type name="geometry" length="0" spatial-type="POINT" variation="0" srid="3067"/>
-	</column>
-	<column name="viiva">
-		<type name="geometry" length="0" spatial-type="LINESTRING" variation="0" srid="3067"/>
-	</column>
-	<column name="luontitapa">
-		<type name="varchar" length="255"/>
-	</column>
-	<column name="osoitetieto_id">
-		<type name="integer" length="0"/>
-	</column>
-	<column name="sijaintiepavarmuus_id">
-		<type name="integer" length="255"/>
-	</column>
-	<constraint name="sijainti_pk_ap" type="pk-constr" table="abstraktit.sijainti_alkuperainen">
-		<columns names="id" ref-type="src-columns"/>
-	</constraint>
-</table>
-
 <table name="sijaintiepavarmuustyyppi" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
 	<tag name="TODO"/>
-	<position x="1440" y="1400"/>
+	<position x="1380" y="920"/>
 	<column name="cid" not-null="true">
 		<type name="integer" length="0"/>
 	</column>
@@ -4555,7 +4424,7 @@ change relation types?]]></comment>
 	<role name="infrao_admin"/>
 	<comment><![CDATA[TODO: id name as cid (codelist id) and move type integer. Change data: Selite is only text]]></comment>
 	<tag name="TODO"/>
-	<position x="140" y="1760"/>
+	<position x="80" y="1280"/>
 	<column name="cid" not-null="true">
 		<type name="integer" length="0"/>
 	</column>
@@ -4577,34 +4446,15 @@ change relation types?]]></comment>
 	</initial-data>
 </table>
 
-<table name="suunnitelma" layers="3" collapse-mode="2" max-obj-count="3" z-value="0">
-	<schema name="abstraktit"/>
-	<role name="infrao_admin"/>
-	<comment><![CDATA[Päätöksen tiedot]]></comment>
-	<position x="5920" y="800"/>
-	<column name="id" not-null="true">
-		<type name="serial" length="0"/>
-	</column>
-	<column name="kuvaus">
-		<type name="text" length="2000"/>
-	</column>
-	<column name="paivamaarapvm">
-		<type name="date" length="0"/>
-	</column>
-	<constraint name="suunnitelma_pk" type="pk-constr" table="abstraktit.suunnitelma">
-		<columns names="id" ref-type="src-columns"/>
-	</constraint>
-</table>
-
-<table name="suunnitelmalinkki" layers="0" collapse-mode="2" max-obj-count="4" z-value="0">
+<table name="suunnitelmalinkki" layers="0" collapse-mode="2" max-obj-count="21" z-value="0">
 	<schema name="linkit"/>
 	<role name="infrao_admin"/>
-	<position x="5780" y="880"/>
+	<position x="4520" y="1000"/>
 	<column name="fid" not-null="true"
 	 identity-type="ALWAYS">
 		<type name="bigint" length="0"/>
 	</column>
-	<column name="suunnitelmakohdeid">
+	<column name="suunnitelmakohdeid" not-null="true">
 		<type name="integer" length="0"/>
 	</column>
 	<constraint name="suunnitelmalinkki_pk" type="pk-constr" table="linkit.suunnitelmalinkki">
@@ -4612,10 +4462,12 @@ change relation types?]]></comment>
 	</constraint>
 
 	<customidxs object-type="column">
+		<object name="fid_liikennemerkki" index="3"/>
 		<object name="fid_liite" index="2"/>
 	</customidxs>
 
 	<customidxs object-type="constraint">
+		<object name="liikennemerkki_fk" index="2"/>
 		<object name="liite_fk" index="1"/>
 	</customidxs>
 </table>
@@ -4624,7 +4476,7 @@ change relation types?]]></comment>
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
 	<tag name="TODO"/>
-	<position x="1080" y="1840"/>
+	<position x="1020" y="1360"/>
 	<column name="cid" not-null="true">
 		<type name="integer" length="0"/>
 	</column>
@@ -4647,12 +4499,13 @@ change relation types?]]></comment>
 	</initial-data>
 </table>
 
-<table name="paatos" layers="0" collapse-mode="2" max-obj-count="3" z-value="0">
+<table name="paatos" layers="0" collapse-mode="2" max-obj-count="4" z-value="0">
 	<schema name="linkit"/>
 	<role name="infrao_admin"/>
 	<comment><![CDATA[Päätöksen tiedot]]></comment>
-	<position x="4920" y="1340"/>
-	<column name="id" not-null="true">
+	<position x="4220" y="1220"/>
+	<column name="id" not-null="true"
+	 identity-type="ALWAYS">
 		<type name="bigint" length="0"/>
 	</column>
 	<column name="kuvaus">
@@ -4664,59 +4517,14 @@ change relation types?]]></comment>
 	<constraint name="paatos_pk" type="pk-constr" table="linkit.paatos">
 		<columns names="id" ref-type="src-columns"/>
 	</constraint>
-</table>
 
-<table name="template_table" layers="3" collapse-mode="2" max-obj-count="16" z-value="0">
-	<schema name="abstraktit"/>
-	<position x="5940" y="680"/>
-	<column name="fid" not-null="true"
-	 identity-type="ALWAYS">
-		<type name="bigint" length="0"/>
-	</column>
-	<column name="identifier" default-value="gen_random_uuid()">
-		<type name="uuid" length="0"/>
-	</column>
-	<column name="nimi">
-		<type name="text" length="0"/>
-	</column>
-	<column name="valmistumisvuosi">
-		<type name="smallint" length="0"/>
-	</column>
-	<column name="perusparannusvuosi">
-		<type name="smallint" length="0"/>
-	</column>
-	<column name="alkuhetki">
-		<type name="timestamptz" length="0"/>
-		<comment><![CDATA[Kohteen luontipäivämäärä]]></comment>
-	</column>
-	<column name="loppuhetki">
-		<type name="timestamptz" length="0"/>
-		<comment><![CDATA[Milloin kohde on poistettu. Tämän avulla voidaan tunnistaa poistetut kohteet, jos järjestelmät tukevat historiatietojen tallentamista]]></comment>
-	</column>
-	<column name="malli">
-		<type name="text" length="0"/>
-	</column>
-	<column name="suunta">
-		<type name="float" length="0"/>
-	</column>
-	<column name="valmistaja">
-		<type name="text" length="0"/>
-	</column>
-	<column name="metatieto">
-		<type name="text" length="0"/>
-	</column>
-	<column name="geom_poly">
-		<type name="geometry" length="0" spatial-type="POLYGON" variation="1" srid="3067"/>
-	</column>
-	<column name="geom_line">
-		<type name="geometry" length="0" spatial-type="LINESTRING" variation="1" srid="3067"/>
-	</column>
-	<column name="geom_point">
-		<type name="geometry" length="0" spatial-type="POINT" variation="1" srid="3067"/>
-	</column>
-	<constraint name="template_table_pk" type="pk-constr" table="abstraktit.template_table">
-		<columns names="fid" ref-type="src-columns"/>
-	</constraint>
+	<customidxs object-type="column">
+		<object name="fid_katualueenosa" index="3"/>
+	</customidxs>
+
+	<customidxs object-type="constraint">
+		<object name="katualueenosa_fk" index="1"/>
+	</customidxs>
 </table>
 
 <relationship name="viheralue_has_many_viheralueenosa" type="rel1n" layers="2"
@@ -4729,15 +4537,15 @@ change relation types?]]></comment>
 	 src-required="false" dst-required="false"/>
 
 <textbox name="Infra-o Skeema" layers="0" z-value="0" font-size="12">
-	<position x="120" y="180"/>
+	<position x="1840" y="680"/>
 	<comment><![CDATA[https://www.infra-o.fi/skeema/]]></comment>
 </textbox>
 
-<table name="puu" layers="0" collapse-mode="2" max-obj-count="22" z-value="0">
+<table name="puu" layers="0" collapse-mode="2" max-obj-count="32" z-value="0">
 	<schema name="kasvillisuus"/>
 	<comment><![CDATA[TODO: metatieto]]></comment>
 	<tag name="TODO"/>
-	<position x="4360" y="60"/>
+	<position x="4480" y="60"/>
 	<column name="fid" not-null="true"
 	 identity-type="ALWAYS">
 		<type name="bigint" length="0"/>
@@ -4773,6 +4581,27 @@ change relation types?]]></comment>
 	<column name="ymparys">
 		<type name="float" length="0"/>
 		<comment><![CDATA[Puun ympärysmitta metreissä]]></comment>
+	</column>
+	<column name="meta_datanluoja">
+		<type name="text" length="0"/>
+	</column>
+	<column name="meta_muokkaaja">
+		<type name="text" length="0"/>
+	</column>
+	<column name="meta_muokkauspvm">
+		<type name="date" length="0"/>
+	</column>
+	<column name="meta_omistaja">
+		<type name="text" length="0"/>
+	</column>
+	<column name="meta_lahteenpvm">
+		<type name="date" length="0"/>
+	</column>
+	<column name="meta_mittausera">
+		<type name="text" length="0"/>
+	</column>
+	<column name="meta_lisatietolinkki">
+		<type name="text" length="0"/>
 	</column>
 	<column name="geom_point">
 		<type name="geometry" length="0" spatial-type="POINT" variation="1" srid="3067"/>
@@ -4842,14 +4671,14 @@ change relation types?]]></comment>
 	 dst-table="kasvillisuus.puu"
 	 src-required="false" dst-required="false"/>
 
-<table name="jate" layers="0" collapse-mode="2" max-obj-count="32" z-value="0">
+<table name="jate" layers="0" collapse-mode="2" max-obj-count="42" z-value="0">
 	<schema name="varusteet"/>
 	<comment><![CDATA[TODO:
 - tarkkaSijaintitieto
 - suunnitelmalinkkitieto
 - metatieto]]></comment>
 	<tag name="TODO"/>
-	<position x="4900" y="1740"/>
+	<position x="3440" y="2260"/>
 	<column name="fid" not-null="true"
 	 identity-type="ALWAYS">
 		<type name="bigint" length="0"/>
@@ -4906,6 +4735,27 @@ change relation types?]]></comment>
 	</column>
 	<column name="vaarallistenjateastia_kytkin">
 		<type name="boolean" length="0"/>
+	</column>
+	<column name="meta_datanluoja">
+		<type name="text" length="0"/>
+	</column>
+	<column name="meta_muokkaaja">
+		<type name="text" length="0"/>
+	</column>
+	<column name="meta_muokkauspvm">
+		<type name="date" length="0"/>
+	</column>
+	<column name="meta_omistaja">
+		<type name="text" length="0"/>
+	</column>
+	<column name="meta_lahteenpvm">
+		<type name="date" length="0"/>
+	</column>
+	<column name="meta_mittausera">
+		<type name="text" length="0"/>
+	</column>
+	<column name="meta_lisatietolinkki">
+		<type name="text" length="0"/>
 	</column>
 	<column name="geom_point">
 		<type name="geometry" length="0" spatial-type="POINT" variation="1" srid="3067"/>
@@ -4979,14 +4829,14 @@ change relation types?]]></comment>
 	 dst-table="varusteet.jate"
 	 src-required="false" dst-required="false"/>
 
-<table name="liikunta" layers="0" collapse-mode="2" max-obj-count="27" z-value="0">
+<table name="liikunta" layers="0" collapse-mode="2" max-obj-count="37" z-value="0">
 	<schema name="varusteet"/>
 	<comment><![CDATA[TODO:
 - tarkkaSijaintitieto
 - suunnitelmalinkkitieto
 - metatieto]]></comment>
 	<tag name="TODO"/>
-	<position x="4480" y="1740"/>
+	<position x="3020" y="2260"/>
 	<column name="fid" not-null="true"
 	 identity-type="ALWAYS">
 		<type name="bigint" length="0"/>
@@ -5030,6 +4880,27 @@ change relation types?]]></comment>
 		<type name="text" length="0"/>
 	</column>
 	<column name="kunnossapitaja">
+		<type name="text" length="0"/>
+	</column>
+	<column name="meta_datanluoja">
+		<type name="text" length="0"/>
+	</column>
+	<column name="meta_muokkaaja">
+		<type name="text" length="0"/>
+	</column>
+	<column name="meta_muokkauspvm">
+		<type name="date" length="0"/>
+	</column>
+	<column name="meta_omistaja">
+		<type name="text" length="0"/>
+	</column>
+	<column name="meta_lahteenpvm">
+		<type name="date" length="0"/>
+	</column>
+	<column name="meta_mittausera">
+		<type name="text" length="0"/>
+	</column>
+	<column name="meta_lisatietolinkki">
 		<type name="text" length="0"/>
 	</column>
 	<column name="geom_poly">
@@ -5100,14 +4971,14 @@ change relation types?]]></comment>
 	 dst-table="varusteet.liikunta"
 	 src-required="false" dst-required="false"/>
 
-<table name="opaste" layers="0" collapse-mode="2" max-obj-count="27" z-value="0">
+<table name="opaste" layers="0" collapse-mode="2" max-obj-count="37" z-value="0">
 	<schema name="varusteet"/>
 	<comment><![CDATA[TODO:
 - tarkkaSijaintitieto
 - suunnitelmalinkkitieto
 - metatieto]]></comment>
 	<tag name="TODO"/>
-	<position x="4060" y="1740"/>
+	<position x="2600" y="2260"/>
 	<column name="fid" not-null="true"
 	 identity-type="ALWAYS">
 		<type name="bigint" length="0"/>
@@ -5151,6 +5022,27 @@ change relation types?]]></comment>
 		<type name="text" length="0"/>
 	</column>
 	<column name="kunnossapitaja">
+		<type name="text" length="0"/>
+	</column>
+	<column name="meta_datanluoja">
+		<type name="text" length="0"/>
+	</column>
+	<column name="meta_muokkaaja">
+		<type name="text" length="0"/>
+	</column>
+	<column name="meta_muokkauspvm">
+		<type name="date" length="0"/>
+	</column>
+	<column name="meta_omistaja">
+		<type name="text" length="0"/>
+	</column>
+	<column name="meta_lahteenpvm">
+		<type name="date" length="0"/>
+	</column>
+	<column name="meta_mittausera">
+		<type name="text" length="0"/>
+	</column>
+	<column name="meta_lisatietolinkki">
 		<type name="text" length="0"/>
 	</column>
 	<column name="geom_poly">
@@ -5221,14 +5113,14 @@ change relation types?]]></comment>
 	 dst-table="varusteet.opaste"
 	 src-required="false" dst-required="false"/>
 
-<table name="melukohde" layers="0" collapse-mode="2" max-obj-count="27" z-value="0">
+<table name="melukohde" layers="0" collapse-mode="2" max-obj-count="37" z-value="0">
 	<schema name="varusteet"/>
 	<comment><![CDATA[TODO:
 - tarkkaSijaintitieto
 - suunnitelmalinkkitieto
 - metatieto]]></comment>
 	<tag name="TODO"/>
-	<position x="3640" y="1740"/>
+	<position x="2180" y="2260"/>
 	<column name="fid" not-null="true"
 	 identity-type="ALWAYS">
 		<type name="bigint" length="0"/>
@@ -5272,6 +5164,27 @@ change relation types?]]></comment>
 		<type name="text" length="0"/>
 	</column>
 	<column name="kunnossapitaja">
+		<type name="text" length="0"/>
+	</column>
+	<column name="meta_datanluoja">
+		<type name="text" length="0"/>
+	</column>
+	<column name="meta_muokkaaja">
+		<type name="text" length="0"/>
+	</column>
+	<column name="meta_muokkauspvm">
+		<type name="date" length="0"/>
+	</column>
+	<column name="meta_omistaja">
+		<type name="text" length="0"/>
+	</column>
+	<column name="meta_lahteenpvm">
+		<type name="date" length="0"/>
+	</column>
+	<column name="meta_mittausera">
+		<type name="text" length="0"/>
+	</column>
+	<column name="meta_lisatietolinkki">
 		<type name="text" length="0"/>
 	</column>
 	<column name="geom_poly">
@@ -5342,14 +5255,14 @@ change relation types?]]></comment>
 	 dst-table="varusteet.melukohde"
 	 src-required="false" dst-required="false"/>
 
-<table name="kaluste" layers="0" collapse-mode="2" max-obj-count="27" z-value="0">
+<table name="kaluste" layers="0" collapse-mode="2" max-obj-count="37" z-value="0">
 	<schema name="varusteet"/>
 	<comment><![CDATA[TODO:
 - tarkkaSijaintitieto
 - suunnitelmalinkkitieto
 - metatieto]]></comment>
 	<tag name="TODO"/>
-	<position x="3220" y="1740"/>
+	<position x="1760" y="2260"/>
 	<column name="fid" not-null="true"
 	 identity-type="ALWAYS">
 		<type name="bigint" length="0"/>
@@ -5393,6 +5306,27 @@ change relation types?]]></comment>
 		<type name="text" length="0"/>
 	</column>
 	<column name="kunnossapitaja">
+		<type name="text" length="0"/>
+	</column>
+	<column name="meta_datanluoja">
+		<type name="text" length="0"/>
+	</column>
+	<column name="meta_muokkaaja">
+		<type name="text" length="0"/>
+	</column>
+	<column name="meta_muokkauspvm">
+		<type name="date" length="0"/>
+	</column>
+	<column name="meta_omistaja">
+		<type name="text" length="0"/>
+	</column>
+	<column name="meta_lahteenpvm">
+		<type name="date" length="0"/>
+	</column>
+	<column name="meta_mittausera">
+		<type name="text" length="0"/>
+	</column>
+	<column name="meta_lisatietolinkki">
 		<type name="text" length="0"/>
 	</column>
 	<column name="geom_poly">
@@ -5463,14 +5397,14 @@ change relation types?]]></comment>
 	 dst-table="varusteet.kaluste"
 	 src-required="false" dst-required="false"/>
 
-<table name="muuvaruste" layers="0" collapse-mode="2" max-obj-count="27" z-value="0">
+<table name="muuvaruste" layers="0" collapse-mode="2" max-obj-count="37" z-value="0">
 	<schema name="varusteet"/>
 	<comment><![CDATA[TODO:
 - tarkkaSijaintitieto
 - suunnitelmalinkkitieto
 - metatieto]]></comment>
 	<tag name="TODO"/>
-	<position x="2800" y="1740"/>
+	<position x="1340" y="2260"/>
 	<column name="fid" not-null="true"
 	 identity-type="ALWAYS">
 		<type name="bigint" length="0"/>
@@ -5514,6 +5448,27 @@ change relation types?]]></comment>
 		<type name="text" length="0"/>
 	</column>
 	<column name="kunnossapitaja">
+		<type name="text" length="0"/>
+	</column>
+	<column name="meta_datanluoja">
+		<type name="text" length="0"/>
+	</column>
+	<column name="meta_muokkaaja">
+		<type name="text" length="0"/>
+	</column>
+	<column name="meta_muokkauspvm">
+		<type name="date" length="0"/>
+	</column>
+	<column name="meta_omistaja">
+		<type name="text" length="0"/>
+	</column>
+	<column name="meta_lahteenpvm">
+		<type name="date" length="0"/>
+	</column>
+	<column name="meta_mittausera">
+		<type name="text" length="0"/>
+	</column>
+	<column name="meta_lisatietolinkki">
 		<type name="text" length="0"/>
 	</column>
 	<column name="geom_poly">
@@ -5584,7 +5539,7 @@ change relation types?]]></comment>
 	 dst-table="varusteet.muuvaruste"
 	 src-required="false" dst-required="false"/>
 
-<table name="leikkivaline" layers="0" collapse-mode="2" max-obj-count="30" z-value="0">
+<table name="leikkivaline" layers="0" collapse-mode="2" max-obj-count="39" z-value="0">
 	<schema name="varusteet"/>
 	<comment><![CDATA[TODO:
 - tarkkaSijaintitieto
@@ -5592,7 +5547,7 @@ change relation types?]]></comment>
 - metatieto
 - onko 'date' oikea tietotyyppi?]]></comment>
 	<tag name="TODO"/>
-	<position x="2340" y="1740"/>
+	<position x="880" y="2260"/>
 	<column name="fid" not-null="true"
 	 identity-type="ALWAYS">
 		<type name="bigint" length="0"/>
@@ -5643,6 +5598,27 @@ change relation types?]]></comment>
 	</column>
 	<column name="vuositarkastus_pvm">
 		<type name="date" length="0"/>
+	</column>
+	<column name="meta_datanluoja">
+		<type name="text" length="0"/>
+	</column>
+	<column name="meta_muokkaaja">
+		<type name="text" length="0"/>
+	</column>
+	<column name="meta_muokkauspvm">
+		<type name="date" length="0"/>
+	</column>
+	<column name="meta_omistaja">
+		<type name="text" length="0"/>
+	</column>
+	<column name="meta_lahteenpvm">
+		<type name="date" length="0"/>
+	</column>
+	<column name="meta_mittausera">
+		<type name="text" length="0"/>
+	</column>
+	<column name="meta_lisatietolinkki">
+		<type name="text" length="0"/>
 	</column>
 	<column name="geom_point">
 		<type name="geometry" length="0" spatial-type="POINT" variation="1" srid="3067"/>
@@ -5719,9 +5695,9 @@ change relation types?]]></comment>
 - suunnitelmalinkkitieto
 - metatieto]]></comment>
 	<tag name="TODO"/>
-	<position x="1900" y="1740"/>
+	<position x="440" y="2260"/>
 	<column name="fid" not-null="true"
-	 identity-type="ALWAYS">
+	 identity-type="ALWAYS" start="1" increment="1" min-value="0" max-value="9223372036854775807" cache="1">
 		<type name="bigint" length="0"/>
 	</column>
 	<column name="identifier" default-value="gen_random_uuid()">
@@ -5809,6 +5785,7 @@ change relation types?]]></comment>
 		<object name="cid_sijaintiepavarmuustyyppi" index="30"/>
 		<object name="cid_varustemateriaali" index="25"/>
 		<object name="fid_katualueenosa" index="27"/>
+		<object name="fid_osoite" index="32"/>
 		<object name="fid_viheralueenosa" index="26"/>
 	</customidxs>
 
@@ -5817,6 +5794,7 @@ change relation types?]]></comment>
 		<object name="liikennemerkkityyppi2020_fk" index="4"/>
 		<object name="liikennemerkkityyppi_fk" index="5"/>
 		<object name="luontitapatyyppi_fk" index="7"/>
+		<object name="osoite_fk" index="8"/>
 		<object name="sijaintiepavarmuustyyppi_fk" index="6"/>
 		<object name="varustemateriaali_fk" index="1"/>
 		<object name="viheralueenosa_fk" index="2"/>
@@ -5868,11 +5846,11 @@ change relation types?]]></comment>
 	 dst-table="varusteet.liikennemerkki"
 	 src-required="false" dst-required="false"/>
 
-<table name="muukasvi" layers="0" collapse-mode="2" max-obj-count="20" z-value="0">
+<table name="muukasvi" layers="0" collapse-mode="2" max-obj-count="30" z-value="0">
 	<schema name="kasvillisuus"/>
 	<comment><![CDATA[TODO: metatieto]]></comment>
 	<tag name="TODO"/>
-	<position x="4780" y="60"/>
+	<position x="4920" y="60"/>
 	<column name="fid" not-null="true"
 	 identity-type="ALWAYS">
 		<type name="bigint" length="0"/>
@@ -5898,6 +5876,27 @@ change relation types?]]></comment>
 		<type name="text" length="0"/>
 	</column>
 	<column name="kunnossapitaja">
+		<type name="text" length="0"/>
+	</column>
+	<column name="meta_datanluoja">
+		<type name="text" length="0"/>
+	</column>
+	<column name="meta_muokkaaja">
+		<type name="text" length="0"/>
+	</column>
+	<column name="meta_muokkauspvm">
+		<type name="date" length="0"/>
+	</column>
+	<column name="meta_omistaja">
+		<type name="text" length="0"/>
+	</column>
+	<column name="meta_lahteenpvm">
+		<type name="date" length="0"/>
+	</column>
+	<column name="meta_mittausera">
+		<type name="text" length="0"/>
+	</column>
+	<column name="meta_lisatietolinkki">
 		<type name="text" length="0"/>
 	</column>
 	<column name="geom_poly">
@@ -5968,7 +5967,7 @@ change relation types?]]></comment>
 	 dst-table="kasvillisuus.muukasvi"
 	 src-required="false" dst-required="false"/>
 
-<table name="pysakointiruutu" layers="0" collapse-mode="2" max-obj-count="27" z-value="0">
+<table name="pysakointiruutu" layers="0" collapse-mode="2" max-obj-count="37" z-value="0">
 	<schema name="kohteet"/>
 	<comment><![CDATA[TODO:
 - tarkkaSijaintitieto
@@ -5976,7 +5975,7 @@ change relation types?]]></comment>
 - metatieto
 - skeema]]></comment>
 	<tag name="TODO"/>
-	<position x="3620" y="1020"/>
+	<position x="3600" y="80"/>
 	<column name="fid" not-null="true"
 	 identity-type="ALWAYS">
 		<type name="bigint" length="0"/>
@@ -6024,6 +6023,27 @@ change relation types?]]></comment>
 	</column>
 	<column name="latauspiste_kytkin">
 		<type name="boolean" length="0"/>
+	</column>
+	<column name="meta_datanluoja">
+		<type name="text" length="0"/>
+	</column>
+	<column name="meta_muokkaaja">
+		<type name="text" length="0"/>
+	</column>
+	<column name="meta_muokkauspvm">
+		<type name="date" length="0"/>
+	</column>
+	<column name="meta_omistaja">
+		<type name="text" length="0"/>
+	</column>
+	<column name="meta_lahteenpvm">
+		<type name="date" length="0"/>
+	</column>
+	<column name="meta_mittausera">
+		<type name="text" length="0"/>
+	</column>
+	<column name="meta_lisatietolinkki">
+		<type name="text" length="0"/>
 	</column>
 	<column name="geom_poly">
 		<type name="geometry" length="0" spatial-type="POLYGON" variation="1" srid="3067"/>
@@ -6082,13 +6102,13 @@ change relation types?]]></comment>
 	 dst-table="kohteet.pysakointiruutu"
 	 src-required="false" dst-required="false"/>
 
-<table name="erikoisrakennekerros" layers="0" collapse-mode="2" max-obj-count="26" z-value="0">
+<table name="erikoisrakennekerros" layers="0" collapse-mode="2" max-obj-count="36" z-value="0">
 	<schema name="kohteet"/>
 	<comment><![CDATA[TODO: 
 - metatieto
 - skeema]]></comment>
 	<tag name="TODO"/>
-	<position x="3140" y="1020"/>
+	<position x="3120" y="80"/>
 	<column name="fid" not-null="true"
 	 identity-type="ALWAYS">
 		<type name="bigint" length="0"/>
@@ -6140,6 +6160,27 @@ change relation types?]]></comment>
 	<column name="materiaali">
 		<type name="text" length="0"/>
 	</column>
+	<column name="meta_datanluoja">
+		<type name="text" length="0"/>
+	</column>
+	<column name="meta_muokkaaja">
+		<type name="text" length="0"/>
+	</column>
+	<column name="meta_muokkauspvm">
+		<type name="date" length="0"/>
+	</column>
+	<column name="meta_omistaja">
+		<type name="text" length="0"/>
+	</column>
+	<column name="meta_lahteenpvm">
+		<type name="date" length="0"/>
+	</column>
+	<column name="meta_mittausera">
+		<type name="text" length="0"/>
+	</column>
+	<column name="meta_lisatietolinkki">
+		<type name="text" length="0"/>
+	</column>
 	<column name="geom_poly">
 		<type name="geometry" length="0" spatial-type="POLYGON" variation="1" srid="3067"/>
 	</column>
@@ -6175,7 +6216,7 @@ change relation types?]]></comment>
 	 dst-table="kohteet.erikoisrakennekerros"
 	 src-required="false" dst-required="false"/>
 
-<table name="ymparistotaide" layers="0" collapse-mode="2" max-obj-count="27" z-value="0">
+<table name="ymparistotaide" layers="0" collapse-mode="2" max-obj-count="37" z-value="0">
 	<schema name="kohteet"/>
 	<comment><![CDATA[TODO:
 - tarkkaSijaintitieto
@@ -6183,7 +6224,7 @@ change relation types?]]></comment>
 - suunnitelmalinkkitieto
 - metatieto]]></comment>
 	<tag name="TODO"/>
-	<position x="2720" y="1020"/>
+	<position x="2700" y="80"/>
 	<column name="fid" not-null="true"
 	 identity-type="ALWAYS">
 		<type name="bigint" length="0"/>
@@ -6227,6 +6268,27 @@ change relation types?]]></comment>
 		<type name="text" length="0"/>
 	</column>
 	<column name="kunnossapitaja">
+		<type name="text" length="0"/>
+	</column>
+	<column name="meta_datanluoja">
+		<type name="text" length="0"/>
+	</column>
+	<column name="meta_muokkaaja">
+		<type name="text" length="0"/>
+	</column>
+	<column name="meta_muokkauspvm">
+		<type name="date" length="0"/>
+	</column>
+	<column name="meta_omistaja">
+		<type name="text" length="0"/>
+	</column>
+	<column name="meta_lahteenpvm">
+		<type name="date" length="0"/>
+	</column>
+	<column name="meta_mittausera">
+		<type name="text" length="0"/>
+	</column>
+	<column name="meta_lisatietolinkki">
 		<type name="text" length="0"/>
 	</column>
 	<column name="geom_poly">
@@ -6297,14 +6359,14 @@ change relation types?]]></comment>
 	 dst-table="kohteet.ymparistotaide"
 	 src-required="false" dst-required="false"/>
 
-<table name="rakenne" layers="0" collapse-mode="2" max-obj-count="27" z-value="0">
+<table name="rakenne" layers="0" collapse-mode="2" max-obj-count="37" z-value="0">
 	<schema name="kohteet"/>
 	<comment><![CDATA[TODO:
 - tarkkaSijaintitieto
 - suunnitelmalinkkitieto
 - metatieto]]></comment>
 	<tag name="TODO"/>
-	<position x="2300" y="1020"/>
+	<position x="2280" y="80"/>
 	<column name="fid" not-null="true"
 	 identity-type="ALWAYS">
 		<type name="bigint" length="0"/>
@@ -6348,6 +6410,27 @@ change relation types?]]></comment>
 		<type name="text" length="0"/>
 	</column>
 	<column name="kunnossapitaja">
+		<type name="text" length="0"/>
+	</column>
+	<column name="meta_datanluoja">
+		<type name="text" length="0"/>
+	</column>
+	<column name="meta_muokkaaja">
+		<type name="text" length="0"/>
+	</column>
+	<column name="meta_muokkauspvm">
+		<type name="date" length="0"/>
+	</column>
+	<column name="meta_omistaja">
+		<type name="text" length="0"/>
+	</column>
+	<column name="meta_lahteenpvm">
+		<type name="date" length="0"/>
+	</column>
+	<column name="meta_mittausera">
+		<type name="text" length="0"/>
+	</column>
+	<column name="meta_lisatietolinkki">
 		<type name="text" length="0"/>
 	</column>
 	<column name="geom_poly">
@@ -6418,14 +6501,14 @@ change relation types?]]></comment>
 	 dst-table="kohteet.rakenne"
 	 src-required="false" dst-required="false"/>
 
-<table name="hulevesi" layers="0" collapse-mode="2" max-obj-count="27" z-value="0">
+<table name="hulevesi" layers="0" collapse-mode="2" max-obj-count="37" z-value="0">
 	<schema name="kohteet"/>
 	<comment><![CDATA[TODO:
 - tarkkaSijaintitieto
 - suunnitelmalinkkitieto
 - metatieto]]></comment>
 	<tag name="TODO"/>
-	<position x="1880" y="1020"/>
+	<position x="1860" y="80"/>
 	<column name="fid" not-null="true"
 	 identity-type="ALWAYS">
 		<type name="bigint" length="0"/>
@@ -6469,6 +6552,27 @@ change relation types?]]></comment>
 		<type name="text" length="0"/>
 	</column>
 	<column name="kunnossapitaja">
+		<type name="text" length="0"/>
+	</column>
+	<column name="meta_datanluoja">
+		<type name="text" length="0"/>
+	</column>
+	<column name="meta_muokkaaja">
+		<type name="text" length="0"/>
+	</column>
+	<column name="meta_muokkauspvm">
+		<type name="date" length="0"/>
+	</column>
+	<column name="meta_omistaja">
+		<type name="text" length="0"/>
+	</column>
+	<column name="meta_lahteenpvm">
+		<type name="date" length="0"/>
+	</column>
+	<column name="meta_mittausera">
+		<type name="text" length="0"/>
+	</column>
+	<column name="meta_lisatietolinkki">
 		<type name="text" length="0"/>
 	</column>
 	<column name="geom_poly">
@@ -6539,7 +6643,7 @@ change relation types?]]></comment>
 	 dst-table="kohteet.hulevesi"
 	 src-required="false" dst-required="false"/>
 
-<table name="ajoratamerkinta" layers="0" collapse-mode="2" max-obj-count="28" z-value="0">
+<table name="ajoratamerkinta" layers="0" collapse-mode="2" max-obj-count="38" z-value="0">
 	<schema name="katualue"/>
 	<comment><![CDATA[TODO:
 - tarkkaSijaintitieto
@@ -6547,7 +6651,7 @@ change relation types?]]></comment>
 - metatieto
 - suunnitelmalinkkitieto]]></comment>
 	<tag name="TODO"/>
-	<position x="3220" y="280"/>
+	<position x="3260" y="1340"/>
 	<column name="fid" not-null="true"
 	 identity-type="ALWAYS">
 		<type name="bigint" length="0"/>
@@ -6591,6 +6695,27 @@ change relation types?]]></comment>
 		<type name="text" length="0"/>
 	</column>
 	<column name="kunnossapitaja">
+		<type name="text" length="0"/>
+	</column>
+	<column name="meta_datanluoja">
+		<type name="text" length="0"/>
+	</column>
+	<column name="meta_muokkaaja">
+		<type name="text" length="0"/>
+	</column>
+	<column name="meta_muokkauspvm">
+		<type name="date" length="0"/>
+	</column>
+	<column name="meta_omistaja">
+		<type name="text" length="0"/>
+	</column>
+	<column name="meta_lahteenpvm">
+		<type name="date" length="0"/>
+	</column>
+	<column name="meta_mittausera">
+		<type name="text" length="0"/>
+	</column>
+	<column name="meta_lisatietolinkki">
 		<type name="text" length="0"/>
 	</column>
 	<column name="geom_poly">
@@ -6690,7 +6815,7 @@ change relation types?]]></comment>
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
 	<tag name="TODO"/>
-	<position x="1520" y="1780"/>
+	<position x="1460" y="1300"/>
 	<column name="cid" not-null="true">
 		<type name="integer" length="0"/>
 	</column>
@@ -7186,7 +7311,7 @@ change relation types?]]></comment>
 	 dst-table="varusteet.liikennemerkki"
 	 src-required="false" dst-required="false"/>
 
-<relationship name="liite_has_many_suunnitelmalinkki" type="rel1n" layers="0"
+<relationship name="liite_has_many_suunnitelmalinkki" type="rel1n" layers="5"
 	 src-col-pattern="{sc}_{st}"
 	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
 	 src-fk-pattern="{st}_fk"
@@ -7195,57 +7320,322 @@ change relation types?]]></comment>
 	 dst-table="linkit.suunnitelmalinkki"
 	 src-required="false" dst-required="false"/>
 
-<relationship name="liikennemerkki_has_many_suunnitelmalinkki" type="rel1n" layers="0"
+<relationship name="liikennemerkki_has_many_suunnitelmalinkki" type="rel1n" layers="5"
 	 src-col-pattern="{sc}_{st}"
 	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
 	 src-fk-pattern="{st}_fk"
-	 custom-color="#cbcfe0"
+	 custom-color="#935e99"
 	 src-table="varusteet.liikennemerkki"
+	 dst-table="linkit.suunnitelmalinkki"
+	 src-required="false" dst-required="false">
+	<label ref-type="name-label">
+		<position x="0" y="0"/>
+	</label>
+</relationship>
+
+<relationship name="leikkivaline_has_many_suunnitelmalinkki" type="rel1n" layers="5"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#8225dd"
+	 src-table="varusteet.leikkivaline"
 	 dst-table="linkit.suunnitelmalinkki"
 	 src-required="false" dst-required="false"/>
 
-<constraint name="puulaji_fk" type="fk-constr" comparison-type="MATCH FULL"
-	 upd-action="CASCADE" del-action="CASCADE" ref-table="koodistot.puulaji" table="abstraktit.abstractkasvillisuus">
-	<columns names="puulaji_id" ref-type="src-columns"/>
-	<columns names="cid" ref-type="dst-columns"/>
-</constraint>
+<relationship name="muuvaruste_has_many_suunnitelmalinkki" type="rel1n" layers="5"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#02a960"
+	 src-table="varusteet.muuvaruste"
+	 dst-table="linkit.suunnitelmalinkki"
+	 src-required="false" dst-required="false">
+	<label ref-type="name-label">
+		<position x="0" y="0"/>
+	</label>
+</relationship>
 
-<constraint name="puutyyppi_fk" type="fk-constr" comparison-type="MATCH FULL"
-	 upd-action="CASCADE" del-action="CASCADE" ref-table="koodistot.puutyyppi" table="abstraktit.abstractkasvillisuus">
-	<columns names="puutyyppi_id" ref-type="src-columns"/>
-	<columns names="cid" ref-type="dst-columns"/>
-</constraint>
+<relationship name="kaluste_has_many_suunnitelmalinkki" type="rel1n" layers="5"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#184602"
+	 src-table="varusteet.kaluste"
+	 dst-table="linkit.suunnitelmalinkki"
+	 src-required="false" dst-required="false">
+	<label ref-type="name-label">
+		<position x="0" y="0"/>
+	</label>
+</relationship>
 
-<constraint name="infraokohteet_fk" type="fk-constr" comparison-type="MATCH FULL"
-	 upd-action="CASCADE" del-action="CASCADE" ref-table="meta.infraokohteet" table="meta.aineistotoimituksentiedot">
-	<columns names="toimitus_id" ref-type="src-columns"/>
-	<columns names="id" ref-type="dst-columns"/>
-</constraint>
-
-<constraint name="sijaintiepavarmuustyyppi_fk" type="fk-constr" comparison-type="MATCH FULL"
-	 upd-action="CASCADE" del-action="CASCADE" ref-table="koodistot.sijaintiepavarmuustyyppi" table="abstraktit.sijainti_alkuperainen">
-	<columns names="sijaintiepavarmuus_id" ref-type="src-columns"/>
-	<columns names="cid" ref-type="dst-columns"/>
-</constraint>
-
-<relationship name="rel_abstractkasvillisuus_puulaji" type="relfk" layers="3"
-	 src-table="abstraktit.abstractkasvillisuus"
-	 dst-table="koodistot.puulaji" reference-fk="puulaji_fk"
+<relationship name="melukohde_has_many_suunnitelmalinkki" type="rel1n" layers="5"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#2e70c8"
+	 src-table="varusteet.melukohde"
+	 dst-table="linkit.suunnitelmalinkki"
 	 src-required="false" dst-required="false"/>
 
-<relationship name="rel_abstractkasvillisuus_puutyyppi" type="relfk" layers="3"
-	 src-table="abstraktit.abstractkasvillisuus"
-	 dst-table="koodistot.puutyyppi" reference-fk="puutyyppi_fk"
+<relationship name="opaste_has_many_suunnitelmalinkki" type="rel1n" layers="5"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#6c98db"
+	 src-table="varusteet.opaste"
+	 dst-table="linkit.suunnitelmalinkki"
 	 src-required="false" dst-required="false"/>
 
-<relationship name="rel_aineistotoimituksentiedot_infraokohteet" type="relfk" layers="0"
-	 src-table="meta.aineistotoimituksentiedot"
-	 dst-table="meta.infraokohteet" reference-fk="infraokohteet_fk"
+<relationship name="liikunta_has_many_suunnitelmalinkki" type="rel1n" layers="5"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#ade72b"
+	 src-table="varusteet.liikunta"
+	 dst-table="linkit.suunnitelmalinkki"
 	 src-required="false" dst-required="false"/>
 
-<relationship name="rel_sijainti_sijaintiepavarmuustyyppi" type="relfk" layers="1"
-	 src-table="abstraktit.sijainti_alkuperainen"
-	 dst-table="koodistot.sijaintiepavarmuustyyppi" reference-fk="sijaintiepavarmuustyyppi_fk"
+<relationship name="jate_has_many_suunnitelmalinkki" type="rel1n" layers="5"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#a9633e"
+	 src-table="varusteet.jate"
+	 dst-table="linkit.suunnitelmalinkki"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="ajoratamerkinta_has_many_suunnitelmalinkki" type="rel1n" layers="5"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#8f4580"
+	 src-table="katualue.ajoratamerkinta"
+	 dst-table="linkit.suunnitelmalinkki"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="hulevesi_has_many_suunnitelmalinkki" type="rel1n" layers="5"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#1bb511"
+	 src-table="kohteet.hulevesi"
+	 dst-table="linkit.suunnitelmalinkki"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="katualueenosa_has_many_suunnitelmalinkki" type="rel1n" layers="5"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#ddb1e1"
+	 src-table="katualue.katualueenosa"
+	 dst-table="linkit.suunnitelmalinkki"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="ymparistotaide_has_many_suunnitelmalinkki" type="rel1n" layers="5"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#7a133d"
+	 src-table="kohteet.ymparistotaide"
+	 dst-table="linkit.suunnitelmalinkki"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="pysakointiruutu_has_many_suunnitelmalinkki" type="rel1n" layers="5"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#9a19cd"
+	 src-table="kohteet.pysakointiruutu"
+	 dst-table="linkit.suunnitelmalinkki"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rakenne_has_many_suunnitelmalinkki" type="rel1n" layers="5"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#6d0c0b"
+	 src-table="kohteet.rakenne"
+	 dst-table="linkit.suunnitelmalinkki"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="osoite_has_many_leikkivaline" type="rel1n" layers="4"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#263ab7"
+	 src-table="osoite.osoite"
+	 dst-table="varusteet.leikkivaline"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="osoite_has_many_muuvaruste" type="rel1n" layers="4"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#4e69e2"
+	 src-table="osoite.osoite"
+	 dst-table="varusteet.muuvaruste"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="osoite_has_many_kaluste" type="rel1n" layers="4"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#83cb3c"
+	 src-table="osoite.osoite"
+	 dst-table="varusteet.kaluste"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="osoite_has_many_melukohde" type="rel1n" layers="4"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#555bb6"
+	 src-table="osoite.osoite"
+	 dst-table="varusteet.melukohde"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="osoite_has_many_opaste" type="rel1n" layers="4"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#f7a974"
+	 src-table="osoite.osoite"
+	 dst-table="varusteet.opaste"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="osoite_has_many_liikunta" type="rel1n" layers="4"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#00f798"
+	 src-table="osoite.osoite"
+	 dst-table="varusteet.liikunta"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="osoite_has_many_jate" type="rel1n" layers="4"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#0479d3"
+	 src-table="osoite.osoite"
+	 dst-table="varusteet.jate"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="osoite_has_many_pysakointiruutu" type="rel1n" layers="4"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#9a72f0"
+	 src-table="osoite.osoite"
+	 dst-table="kohteet.pysakointiruutu"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="osoite_has_many_erikoisrakennekerros" type="rel1n" layers="4"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#c7b7c0"
+	 src-table="osoite.osoite"
+	 dst-table="kohteet.erikoisrakennekerros"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="osoite_has_many_ymparistotaide" type="rel1n" layers="4"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#6a6959"
+	 src-table="osoite.osoite"
+	 dst-table="kohteet.ymparistotaide"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="osoite_has_many_rakenne" type="rel1n" layers="4"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#390a61"
+	 src-table="osoite.osoite"
+	 dst-table="kohteet.rakenne"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="osoite_has_many_hulevesi" type="rel1n" layers="4"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#35a520"
+	 src-table="osoite.osoite"
+	 dst-table="kohteet.hulevesi"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="osoite_has_many_viheralueenosa" type="rel1n" layers="4"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#6415d9"
+	 src-table="osoite.osoite"
+	 dst-table="viheralue.viheralueenosa"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="osoite_has_many_ajoratamerkinta" type="rel1n" layers="4"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#6889ae"
+	 src-table="osoite.osoite"
+	 dst-table="katualue.ajoratamerkinta"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="osoite_has_many_katualueenosa" type="rel1n" layers="4"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#a808f3"
+	 src-table="osoite.osoite"
+	 dst-table="katualue.katualueenosa"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="osoite_has_many_puu" type="rel1n" layers="4"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#a8b8b0"
+	 src-table="osoite.osoite"
+	 dst-table="kasvillisuus.puu"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="osoite_has_many_muukasvi" type="rel1n" layers="4"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#27ea87"
+	 src-table="osoite.osoite"
+	 dst-table="kasvillisuus.muukasvi"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="viheralueenosa_has_many_suunnitelmalinkki" type="rel1n" layers="5"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#04506a"
+	 src-table="viheralue.viheralueenosa"
+	 dst-table="linkit.suunnitelmalinkki"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="paatos_has_many_liite" type="rel1n" layers="5"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#f1f76e"
+	 src-table="linkit.paatos"
+	 dst-table="linkit.liite"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="katualueenosa_has_many_paatos" type="rel1n" layers="5"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#ff3c10"
+	 src-table="katualue.katualueenosa"
+	 dst-table="linkit.paatos"
 	 src-required="false" dst-required="false"/>
 
 <permission>

@@ -1,4 +1,4 @@
-id;selite
+cid;selite
 1;R1 Rakennettu arvoviheralue
 2;R2 Toimintaviheralue
 3;R3 Käyttöviheralue
@@ -17,18 +17,19 @@ id;selite
 16;ei hoidossa
 17;U urheilualue
 18;ajoradat, luokka I
-19;ajoradat, luokka Il
-20;ajoradat, luokka Ill
-21;kevyen liikenteen raitti, luokka l
-22;kevyen liikenteen raitti, luokka ll
-23;kevyen liikenteen väylä, luokka l
-24;kevyen liikenteen väylä, luokka ll
-25;jalkakäytävä, luokka l
-26;jalkakäytävä, luokka ll
-27;torit ja aukiot, luokka l
-28;torit ja aukiot, luokka ll
+19;ajoradat, luokka II
+20;ajoradat, luokka III
+21;kevyen liikenteen raitti, luokka I
+22;kevyen liikenteen raitti, luokka II
+23;kevyen liikenteen väylä, luokka I
+24;kevyen liikenteen väylä, luokka II
+25;jalkakäytävä, luokka I
+26;jalkakäytävä, luokka II
+27;torit ja aukiot, luokka I
+28;torit ja aukiot, luokka II
 29;kiinteistön kunnossapitovastuu
 30;ei kunnossapitoa
 31;ei talvikunnossapitoa
 32;muu
 33;ei tiedossa
+-1;Tyhjä

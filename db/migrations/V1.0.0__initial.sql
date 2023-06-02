@@ -17,6 +17,7 @@
 -- object: infrao | type: DATABASE --
 -- DROP DATABASE IF EXISTS infrao;
 --CREATE DATABASE infrao
+--	ENCODING = 'UTF8'
 --	TABLESPACE = pg_default
 --	OWNER = infrao_admin;
 -- ddl-end --
@@ -34,13 +35,6 @@ ALTER SCHEMA koodistot OWNER TO infrao_admin;
 --CREATE SCHEMA kohteet;
 -- ddl-end --
 --ALTER SCHEMA kohteet OWNER TO infrao_admin;
--- ddl-end --
-
--- object: abstraktit | type: SCHEMA --
--- DROP SCHEMA IF EXISTS abstraktit CASCADE;
-CREATE SCHEMA abstraktit;
--- ddl-end --
-ALTER SCHEMA abstraktit OWNER TO infrao_admin;
 -- ddl-end --
 
 -- object: meta | type: SCHEMA --
@@ -88,7 +82,7 @@ CREATE SCHEMA linkit;
 ALTER SCHEMA linkit OWNER TO infrao_admin;
 -- ddl-end --
 
-SET search_path TO pg_catalog,public,koodistot,kohteet,abstraktit,meta,varusteet,katualue,viheralue,kasvillisuus,osoite,linkit;
+SET search_path TO pg_catalog,public,koodistot,kohteet,meta,varusteet,katualue,viheralue,kasvillisuus,osoite,linkit;
 -- ddl-end --
 
 -- object: koodistot.viheralueen_kayttotarkoitus_id_seq | type: SEQUENCE --
@@ -267,25 +261,25 @@ INSERT INTO koodistot.hoitoluokkatyyppi (cid, selite) VALUES (E'17', E'U urheilu
 -- ddl-end --
 INSERT INTO koodistot.hoitoluokkatyyppi (cid, selite) VALUES (E'18', E'ajoradat, luokka I');
 -- ddl-end --
-INSERT INTO koodistot.hoitoluokkatyyppi (cid, selite) VALUES (E'19', E'ajoradat, luokka Il');
+INSERT INTO koodistot.hoitoluokkatyyppi (cid, selite) VALUES (E'19', E'ajoradat, luokka II');
 -- ddl-end --
-INSERT INTO koodistot.hoitoluokkatyyppi (cid, selite) VALUES (E'20', E'ajoradat, luokka Ill');
+INSERT INTO koodistot.hoitoluokkatyyppi (cid, selite) VALUES (E'20', E'ajoradat, luokka III');
 -- ddl-end --
-INSERT INTO koodistot.hoitoluokkatyyppi (cid, selite) VALUES (E'21', E'kevyen liikenteen raitti, luokka l');
+INSERT INTO koodistot.hoitoluokkatyyppi (cid, selite) VALUES (E'21', E'kevyen liikenteen raitti, luokka I');
 -- ddl-end --
-INSERT INTO koodistot.hoitoluokkatyyppi (cid, selite) VALUES (E'22', E'kevyen liikenteen raitti, luokka ll');
+INSERT INTO koodistot.hoitoluokkatyyppi (cid, selite) VALUES (E'22', E'kevyen liikenteen raitti, luokka II');
 -- ddl-end --
-INSERT INTO koodistot.hoitoluokkatyyppi (cid, selite) VALUES (E'23', E'kevyen liikenteen väylä, luokka l');
+INSERT INTO koodistot.hoitoluokkatyyppi (cid, selite) VALUES (E'23', E'kevyen liikenteen väylä, luokka I');
 -- ddl-end --
-INSERT INTO koodistot.hoitoluokkatyyppi (cid, selite) VALUES (E'24', E'kevyen liikenteen väylä, luokka ll');
+INSERT INTO koodistot.hoitoluokkatyyppi (cid, selite) VALUES (E'24', E'kevyen liikenteen väylä, luokka II');
 -- ddl-end --
-INSERT INTO koodistot.hoitoluokkatyyppi (cid, selite) VALUES (E'25', E'jalkakäytävä, luokka l');
+INSERT INTO koodistot.hoitoluokkatyyppi (cid, selite) VALUES (E'25', E'jalkakäytävä, luokka I');
 -- ddl-end --
-INSERT INTO koodistot.hoitoluokkatyyppi (cid, selite) VALUES (E'26', E'jalkakäytävä, luokka ll');
+INSERT INTO koodistot.hoitoluokkatyyppi (cid, selite) VALUES (E'26', E'jalkakäytävä, luokka II');
 -- ddl-end --
-INSERT INTO koodistot.hoitoluokkatyyppi (cid, selite) VALUES (E'27', E'torit ja aukiot, luokka l');
+INSERT INTO koodistot.hoitoluokkatyyppi (cid, selite) VALUES (E'27', E'torit ja aukiot, luokka I');
 -- ddl-end --
-INSERT INTO koodistot.hoitoluokkatyyppi (cid, selite) VALUES (E'28', E'torit ja aukiot, luokka ll');
+INSERT INTO koodistot.hoitoluokkatyyppi (cid, selite) VALUES (E'28', E'torit ja aukiot, luokka II');
 -- ddl-end --
 INSERT INTO koodistot.hoitoluokkatyyppi (cid, selite) VALUES (E'29', E'kiinteistön kunnossapitovastuu');
 -- ddl-end --
@@ -345,6 +339,13 @@ CREATE TABLE viheralue.viheralue (
 	alkuhetki timestamptz,
 	loppuhetki timestamptz,
 	metatieto text,
+	meta_datanluoja text,
+	meta_muokkaaja text,
+	meta_muokkauspvm date,
+	meta_omistaja text,
+	meta_lahteenpvm date,
+	meta_mittausera text,
+	meta_lisatietolinkki text,
 	geom geometry(POLYGONZ, 3067),
 	CONSTRAINT viheralue_pk PRIMARY KEY (fid)
 );
@@ -480,6 +481,13 @@ CREATE TABLE katualue.katualue (
 	alkuhetki timestamptz,
 	loppuhetki timestamptz,
 	metatieto text,
+	meta_datanluoja text,
+	meta_muokkaaja text,
+	meta_muokkauspvm date,
+	meta_omistaja text,
+	meta_lahteenpvm date,
+	meta_mittausera text,
+	meta_lisatietolinkki text,
 	geom geometry(POLYGONZ, 3067),
 	CONSTRAINT katualue_pk PRIMARY KEY (fid)
 );
@@ -516,10 +524,17 @@ CREATE TABLE viheralue.viheralueenosa (
 	perusparannusvuosi smallint,
 	valmistumisvuosi smallint,
 	suojelualuekytkin boolean,
-	geom geometry(POLYGONZ, 3067),
+	meta_datanluoja text,
 	fid_viheralue bigint,
 	cid_sijaintiepavarmuustyyppi integer,
 	cid_luontitapatyyppi integer,
+	meta_muokkaaja text,
+	meta_muokkauspvm date,
+	meta_omistaja text,
+	meta_lahteenpvm date,
+	meta_mittausera text,
+	meta_lisatietolinkki text,
+	geom geometry(POLYGONZ, 3067),
 	cid_viheralueenkayttotarkoitus integer,
 	cid_viherosanlajityyppi integer,
 	cid_hoitoluokkatyyppi integer,
@@ -527,6 +542,7 @@ CREATE TABLE viheralue.viheralueenosa (
 	cid_talvihoidonluokka integer,
 	cid_puhtaanapitoluokkatyyppi integer,
 	cid_muutoshoitoluokkatyyppi integer,
+	fid_osoite bigint,
 	CONSTRAINT viheralueenosa_fid_pk PRIMARY KEY (fid)
 );
 -- ddl-end --
@@ -546,28 +562,6 @@ CREATE SEQUENCE public.melu_id_seq
 
 -- ddl-end --
 ALTER SEQUENCE public.melu_id_seq OWNER TO infrao_admin;
--- ddl-end --
-
--- object: abstraktit.abstractvaruste | type: TABLE --
--- DROP TABLE IF EXISTS abstraktit.abstractvaruste CASCADE;
-CREATE TABLE abstraktit.abstractvaruste (
-	id serial NOT NULL,
-	malli text,
-	perusparannusvuosi smallint,
-	suunta text,
-	valmistaja text,
-	valmistumisvuosi smallint,
-	kuuluuviheralueenosaan integer,
-	kuuluukatualueenosaan integer,
-	materiaali_id integer,
-	suunnitelmalinkkitieto integer,
-	geom_poly geometry(POLYGONZ, 3067),
-	geom_piste geometry(POINTZ, 3067),
-	geom_line geometry(LINESTRINGZ, 3067),
-	CONSTRAINT abstractvaruste_pk PRIMARY KEY (id)
-);
--- ddl-end --
-ALTER TABLE abstraktit.abstractvaruste OWNER TO infrao_admin;
 -- ddl-end --
 
 -- object: public.liikunta_id_seq | type: SEQUENCE --
@@ -593,7 +587,6 @@ CREATE TABLE katualue.katualueenosa (
 	metatieto text,
 	alkuhetki timestamptz,
 	loppuhetki timestamptz,
-	paatostieto_id integer,
 	omistaja text,
 	haltija text,
 	kunnossapitaja text,
@@ -605,16 +598,24 @@ CREATE TABLE katualue.katualueenosa (
 	puhtaanapito text,
 	talvikunnossapito text,
 	valmistumisvuosi integer,
-	geom geometry(POLYGONZ, 3067),
+	meta_datanluoja text,
 	fid_katualue bigint,
 	cid_sijaintiepavarmuustyyppi integer,
 	cid_luontitapatyyppi integer,
+	meta_muokkaaja text,
+	meta_muokkauspvm date,
+	meta_omistaja text,
+	meta_lahteenpvm date,
+	meta_mittausera text,
+	meta_lisatietolinkki text,
+	geom geometry(POLYGONZ, 3067),
 	cid_toiminnallinenluokka integer,
 	cid_katuosanlaji integer,
 	cid_viherosanlajityyppi integer,
 	cid_pintamateriaali integer,
 	cid_hoitoluokkatyyppi integer,
 	cid_talvihoidonluokka integer,
+	fid_osoite bigint,
 	CONSTRAINT katualueenosa_pk PRIMARY KEY (fid)
 );
 -- ddl-end --
@@ -871,84 +872,6 @@ CREATE SEQUENCE koodistot.kunnossapitoluokka_id_seq
 ALTER SEQUENCE koodistot.kunnossapitoluokka_id_seq OWNER TO infrao_admin;
 -- ddl-end --
 
--- object: koodistot.kunnossapitoluokka | type: TABLE --
--- DROP TABLE IF EXISTS koodistot.kunnossapitoluokka CASCADE;
-CREATE TABLE koodistot.kunnossapitoluokka (
-	cid integer NOT NULL,
-	selite text NOT NULL,
-	CONSTRAINT kunnossapitoluokka_pk PRIMARY KEY (cid)
-);
--- ddl-end --
-ALTER TABLE koodistot.kunnossapitoluokka OWNER TO infrao_admin;
--- ddl-end --
-
-INSERT INTO koodistot.kunnossapitoluokka (cid, selite) VALUES (E'1', E'ajoradat, luokka I');
--- ddl-end --
-INSERT INTO koodistot.kunnossapitoluokka (cid, selite) VALUES (E'2', E'ajoradat, luokka II');
--- ddl-end --
-INSERT INTO koodistot.kunnossapitoluokka (cid, selite) VALUES (E'3', E'ajoradat, luokka III');
--- ddl-end --
-INSERT INTO koodistot.kunnossapitoluokka (cid, selite) VALUES (E'4', E'kevyen liikenteen raitti, luokka I');
--- ddl-end --
-INSERT INTO koodistot.kunnossapitoluokka (cid, selite) VALUES (E'5', E'kevyen liikenteen raitti, luokka II');
--- ddl-end --
-INSERT INTO koodistot.kunnossapitoluokka (cid, selite) VALUES (E'6', E'kevyen liikenteen väylä, luokka I');
--- ddl-end --
-INSERT INTO koodistot.kunnossapitoluokka (cid, selite) VALUES (E'7', E'kevyen liikenteen väylä, luokka II');
--- ddl-end --
-INSERT INTO koodistot.kunnossapitoluokka (cid, selite) VALUES (E'8', E'jalkakäytävä, luokka I');
--- ddl-end --
-INSERT INTO koodistot.kunnossapitoluokka (cid, selite) VALUES (E'9', E'jalkakäytävä, luokka II');
--- ddl-end --
-INSERT INTO koodistot.kunnossapitoluokka (cid, selite) VALUES (E'10', E'torit ja aukiot, luokka I');
--- ddl-end --
-INSERT INTO koodistot.kunnossapitoluokka (cid, selite) VALUES (E'11', E'torit ja aukiot, luokka II');
--- ddl-end --
-INSERT INTO koodistot.kunnossapitoluokka (cid, selite) VALUES (E'12', E'kiinteistön kunnossapitovastuu');
--- ddl-end --
-INSERT INTO koodistot.kunnossapitoluokka (cid, selite) VALUES (E'13', E'ei kunnossapitoa');
--- ddl-end --
-INSERT INTO koodistot.kunnossapitoluokka (cid, selite) VALUES (E'14', E'ei talvikunnosspitoa');
--- ddl-end --
-INSERT INTO koodistot.kunnossapitoluokka (cid, selite) VALUES (E'15', E'A1 edustusviheralue');
--- ddl-end --
-INSERT INTO koodistot.kunnossapitoluokka (cid, selite) VALUES (E'16', E'A2 käyttöviheralue');
--- ddl-end --
-INSERT INTO koodistot.kunnossapitoluokka (cid, selite) VALUES (E'17', E'A3 käyttö- ja suojaviheralue');
--- ddl-end --
-INSERT INTO koodistot.kunnossapitoluokka (cid, selite) VALUES (E'18', E'B1 maisemapelto');
--- ddl-end --
-INSERT INTO koodistot.kunnossapitoluokka (cid, selite) VALUES (E'19', E'B2 käyttöniitty');
--- ddl-end --
-INSERT INTO koodistot.kunnossapitoluokka (cid, selite) VALUES (E'20', E'B3 maisemaniitty ja laidunalue');
--- ddl-end --
-INSERT INTO koodistot.kunnossapitoluokka (cid, selite) VALUES (E'21', E'B4 avoin alue ja näkymät');
--- ddl-end --
-INSERT INTO koodistot.kunnossapitoluokka (cid, selite) VALUES (E'22', E'B5 arvoniitty');
--- ddl-end --
-INSERT INTO koodistot.kunnossapitoluokka (cid, selite) VALUES (E'23', E'C1 lähimetsä');
--- ddl-end --
-INSERT INTO koodistot.kunnossapitoluokka (cid, selite) VALUES (E'24', E'C2 ulkoilu- ja virkistysmetsä');
--- ddl-end --
-INSERT INTO koodistot.kunnossapitoluokka (cid, selite) VALUES (E'25', E'C3 suojametsä');
--- ddl-end --
-INSERT INTO koodistot.kunnossapitoluokka (cid, selite) VALUES (E'26', E'C4 talousmetsä');
--- ddl-end --
-INSERT INTO koodistot.kunnossapitoluokka (cid, selite) VALUES (E'27', E'C5 arvometsä');
--- ddl-end --
-INSERT INTO koodistot.kunnossapitoluokka (cid, selite) VALUES (E'28', E'E erityisalue');
--- ddl-end --
-INSERT INTO koodistot.kunnossapitoluokka (cid, selite) VALUES (E'29', E'ei hoidossa');
--- ddl-end --
-INSERT INTO koodistot.kunnossapitoluokka (cid, selite) VALUES (E'30', E'U urheilualue');
--- ddl-end --
-INSERT INTO koodistot.kunnossapitoluokka (cid, selite) VALUES (E'31', E'muu');
--- ddl-end --
-INSERT INTO koodistot.kunnossapitoluokka (cid, selite) VALUES (E'32', E'ei tiedossa');
--- ddl-end --
-INSERT INTO koodistot.kunnossapitoluokka (cid, selite) VALUES (E'-1', E'Tyhjä');
--- ddl-end --
-
 -- object: public.abstrakti_varuste_id_seq | type: SEQUENCE --
 -- DROP SEQUENCE IF EXISTS public.abstrakti_varuste_id_seq CASCADE;
 CREATE SEQUENCE public.abstrakti_varuste_id_seq
@@ -988,26 +911,6 @@ INSERT INTO koodistot.melutyyppi (cid, selite) VALUES (E'5', E'muu');
 INSERT INTO koodistot.melutyyppi (cid, selite) VALUES (E'6', E'ei tiedossa');
 -- ddl-end --
 INSERT INTO koodistot.melutyyppi (cid, selite) VALUES (E'-1', E'Tyhjä');
--- ddl-end --
-
--- object: abstraktit.abstractpaikkatietopalvelukohde | type: TABLE --
--- DROP TABLE IF EXISTS abstraktit.abstractpaikkatietopalvelukohde CASCADE;
-CREATE TABLE abstraktit.abstractpaikkatietopalvelukohde (
-	id serial NOT NULL,
-	name text,
-	abstract boolean,
-	metatieto text,
-	yksilointitieto text,
-	alkuhetki date,
-	loppuhetki date,
-	CONSTRAINT abstractpaikkatietopalvelukohde_pk PRIMARY KEY (id)
-);
--- ddl-end --
-COMMENT ON COLUMN abstraktit.abstractpaikkatietopalvelukohde.alkuhetki IS E'Kohteen luontipäivämäärä';
--- ddl-end --
-COMMENT ON COLUMN abstraktit.abstractpaikkatietopalvelukohde.loppuhetki IS E'Milloin kohde on poistettu. Tämän avulla voidaan tunnistaa poistetut kohteet, jos järjestelmät tukevat historiatietojen tallentamista';
--- ddl-end --
-ALTER TABLE abstraktit.abstractpaikkatietopalvelukohde OWNER TO infrao_admin;
 -- ddl-end --
 
 -- object: koodistot.kalustetyyppi | type: TABLE --
@@ -1250,26 +1153,6 @@ INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'3', E'muu');
 INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'4', E'ei tiedossa');
 -- ddl-end --
 INSERT INTO koodistot.puutyyppi (cid, selite) VALUES (E'-1', E'Tyhjä');
--- ddl-end --
-
--- object: abstraktit.abstractkasvillisuus | type: TABLE --
--- DROP TABLE IF EXISTS abstraktit.abstractkasvillisuus CASCADE;
-CREATE TABLE abstraktit.abstractkasvillisuus (
-	id serial NOT NULL,
-	omistaja varchar(255),
-	haltija varchar(255),
-	kunnossapitaja varchar(255),
-	korkeusmitta smallint,
-	ymparysmitta smallint,
-	puutyyppi_id integer,
-	puulaji_id integer,
-	sijaintitieto geometry(POLYGON, 3067),
-	kuuluuviheralueenosaan integer,
-	kuuluukatualueenosaan integer,
-	CONSTRAINT abstractkasvillisuus_pk PRIMARY KEY (id)
-);
--- ddl-end --
-ALTER TABLE abstraktit.abstractkasvillisuus OWNER TO infrao_admin;
 -- ddl-end --
 
 -- object: koodistot.puulaji | type: TABLE --
@@ -7087,8 +6970,7 @@ INSERT INTO koodistot.toiminnallinenluokka (cid, selite) VALUES (E'-1', E'Tyhjä
 -- object: meta.aineistotoimituksentiedot | type: TABLE --
 -- DROP TABLE IF EXISTS meta.aineistotoimituksentiedot CASCADE;
 CREATE TABLE meta.aineistotoimituksentiedot (
-	id serial,
-	toimitus_id integer,
+	id bigint NOT NULL GENERATED ALWAYS AS IDENTITY ,
 	aineistonnimi text,
 	aineistotoimittaja text,
 	tila text,
@@ -7098,8 +6980,10 @@ CREATE TABLE meta.aineistotoimituksentiedot (
 	metatietotunniste text,
 	metatietoxmlurl text,
 	metatietourl text,
-	tietotuoteurl text
-
+	tietotuoteurl text,
+	viety boolean,
+	lisattyhetki timestamptz DEFAULT now(),
+	CONSTRAINT aineistotoimituksentiedot_pk PRIMARY KEY (id)
 );
 -- ddl-end --
 COMMENT ON COLUMN meta.aineistotoimituksentiedot.aineistonnimi IS E'Aineistoa kuvaava nimi,';
@@ -7145,28 +7029,6 @@ INSERT INTO koodistot.aineistotilatype (cid, selite) VALUES (E'4', E'ei tiedossa
 INSERT INTO koodistot.aineistotilatype (cid, selite) VALUES (E'-1', E'Tyhjä');
 -- ddl-end --
 
--- object: meta.infraokohteet | type: TABLE --
--- DROP TABLE IF EXISTS meta.infraokohteet CASCADE;
-CREATE TABLE meta.infraokohteet (
-	id serial NOT NULL,
-	CONSTRAINT infraokohteet_pk PRIMARY KEY (id)
-);
--- ddl-end --
-COMMENT ON TABLE meta.infraokohteet IS E'Skeeman juurielementti';
--- ddl-end --
-ALTER TABLE meta.infraokohteet OWNER TO infrao_admin;
--- ddl-end --
-
--- object: abstraktit.abstractinfraomaisuuskohde | type: TABLE --
--- DROP TABLE IF EXISTS abstraktit.abstractinfraomaisuuskohde CASCADE;
-CREATE TABLE abstraktit.abstractinfraomaisuuskohde (
-	id serial NOT NULL,
-	CONSTRAINT abstractinfraomaisuuskohde_pk PRIMARY KEY (id)
-);
--- ddl-end --
-ALTER TABLE abstraktit.abstractinfraomaisuuskohde OWNER TO infrao_admin;
--- ddl-end --
-
 -- object: linkit.liite | type: TABLE --
 -- DROP TABLE IF EXISTS linkit.liite CASCADE;
 CREATE TABLE linkit.liite (
@@ -7175,26 +7037,13 @@ CREATE TABLE linkit.liite (
 	linkkiliitteeseen text,
 	muokkaushetki timestamptz,
 	versionumero text,
+	id_paatos bigint,
 	CONSTRAINT liite_pk PRIMARY KEY (fid)
 );
 -- ddl-end --
 COMMENT ON COLUMN linkit.liite.kuvaus IS E'Liitteen sisältöä kuvaava teksti';
 -- ddl-end --
 ALTER TABLE linkit.liite OWNER TO infrao_admin;
--- ddl-end --
-
--- object: abstraktit.nimi | type: TABLE --
--- DROP TABLE IF EXISTS abstraktit.nimi CASCADE;
-CREATE TABLE abstraktit.nimi (
-	id serial NOT NULL,
-	teksti text,
-	lang varchar(10) DEFAULT 'fi',
-	CONSTRAINT nimi_pk PRIMARY KEY (id)
-);
--- ddl-end --
-COMMENT ON TABLE abstraktit.nimi IS E'Voidaan käyttää esim. nimistö tai osoitekohteessa';
--- ddl-end --
-ALTER TABLE abstraktit.nimi OWNER TO infrao_admin;
 -- ddl-end --
 
 -- object: osoite.osoite | type: TABLE --
@@ -7211,11 +7060,11 @@ CREATE TABLE osoite.osoite (
 	huoneistojakokirjain text,
 	postinumero text,
 	postitoimipaikannimi text,
-	geom_point geometry(POINTZ, 3067),
-	geom_poly geometry(POLYGONZ, 3067),
-	geom_line geometry(LINESTRINGZ, 3067),
 	viitesijaintialue text,
 	nimitieto text,
+	geom_poly geometry(POLYGONZ, 3067),
+	geom_line geometry(LINESTRINGZ, 3067),
+	geom_point geometry(POINTZ, 3067),
 	CONSTRAINT osoite_pk PRIMARY KEY (fid)
 );
 -- ddl-end --
@@ -7475,34 +7324,23 @@ CREATE TABLE katualue.keskilinja (
 	alkuhetki timestamptz,
 	loppuhetki timestamptz,
 	digiroadid text,
-	geom geometry(LINESTRINGZ, 3067),
+	meta_datanluoja text,
 	fid_katualueenosa bigint,
 	cid_sijaintiepavarmuustyyppi integer,
 	cid_luontitapatyyppi integer,
+	meta_muokkaaja text,
+	meta_muokkauspvm date,
+	meta_omistaja text,
+	meta_lahteenpvm date,
+	meta_mittausera text,
+	meta_lisatietolinkki text,
+	geom geometry(LINESTRINGZ, 3067),
 	CONSTRAINT keskilinja_pk PRIMARY KEY (fid)
 );
 -- ddl-end --
 COMMENT ON COLUMN katualue.keskilinja.geom IS E'sijainti';
 -- ddl-end --
 ALTER TABLE katualue.keskilinja OWNER TO infrao_admin;
--- ddl-end --
-
--- object: abstraktit.sijainti_alkuperainen | type: TABLE --
--- DROP TABLE IF EXISTS abstraktit.sijainti_alkuperainen CASCADE;
-CREATE TABLE abstraktit.sijainti_alkuperainen (
-	id bigint NOT NULL,
-	alue geometry(POLYGON, 3067),
-	piste geometry(POINT, 3067),
-	viiva geometry(LINESTRING, 3067),
-	luontitapa varchar(255),
-	osoitetieto_id integer,
-	sijaintiepavarmuus_id integer,
-	CONSTRAINT sijainti_pk_ap PRIMARY KEY (id)
-);
--- ddl-end --
-COMMENT ON TABLE abstraktit.sijainti_alkuperainen IS E'TODO: tarvitaanko? Jos tarve on pelkästään tallentaa tietoa luontitavasta ja/tai sijaintiepävarmuudesta niin voisi olla kohteen metatiedoissa?';
--- ddl-end --
-ALTER TABLE abstraktit.sijainti_alkuperainen OWNER TO infrao_admin;
 -- ddl-end --
 
 -- object: koodistot.sijaintiepavarmuustyyppi | type: TABLE --
@@ -7573,27 +7411,27 @@ INSERT INTO koodistot.erikoisrakennekerrosmateriaalityyppi (cid, selite) VALUES 
 INSERT INTO koodistot.erikoisrakennekerrosmateriaalityyppi (cid, selite) VALUES (E'-1', E'Tyhjä');
 -- ddl-end --
 
--- object: abstraktit.suunnitelma | type: TABLE --
--- DROP TABLE IF EXISTS abstraktit.suunnitelma CASCADE;
-CREATE TABLE abstraktit.suunnitelma (
-	id serial NOT NULL,
-	kuvaus text,
-	paivamaarapvm date,
-	CONSTRAINT suunnitelma_pk PRIMARY KEY (id)
-);
--- ddl-end --
-COMMENT ON TABLE abstraktit.suunnitelma IS E'Päätöksen tiedot';
--- ddl-end --
-ALTER TABLE abstraktit.suunnitelma OWNER TO infrao_admin;
--- ddl-end --
-
 -- object: linkit.suunnitelmalinkki | type: TABLE --
 -- DROP TABLE IF EXISTS linkit.suunnitelmalinkki CASCADE;
 CREATE TABLE linkit.suunnitelmalinkki (
 	fid bigint NOT NULL GENERATED ALWAYS AS IDENTITY ,
-	suunnitelmakohdeid integer,
+	suunnitelmakohdeid integer NOT NULL,
 	fid_liite bigint,
 	fid_liikennemerkki bigint,
+	fid_leikkivaline bigint,
+	fid_muuvaruste bigint,
+	fid_kaluste bigint,
+	fid_melukohde bigint,
+	fid_opaste bigint,
+	fid_liikunta bigint,
+	fid_jate bigint,
+	fid_ajoratamerkinta bigint,
+	fid_hulevesi bigint,
+	fid_katualueenosa bigint,
+	fid_ymparistotaide bigint,
+	fid_pysakointiruutu bigint,
+	fid_rakenne bigint,
+	fid_viheralueenosa bigint,
 	CONSTRAINT suunnitelmalinkki_pk PRIMARY KEY (fid)
 );
 -- ddl-end --
@@ -7631,40 +7469,16 @@ INSERT INTO koodistot.puhtaanapitoluokkatyyppi (cid, selite) VALUES (E'-1', E'Ty
 -- object: linkit.paatos | type: TABLE --
 -- DROP TABLE IF EXISTS linkit.paatos CASCADE;
 CREATE TABLE linkit.paatos (
-	id bigint NOT NULL,
+	id bigint NOT NULL GENERATED ALWAYS AS IDENTITY ,
 	kuvaus text,
 	paivamaarapvm date,
+	fid_katualueenosa bigint,
 	CONSTRAINT paatos_pk PRIMARY KEY (id)
 );
 -- ddl-end --
 COMMENT ON TABLE linkit.paatos IS E'Päätöksen tiedot';
 -- ddl-end --
 ALTER TABLE linkit.paatos OWNER TO infrao_admin;
--- ddl-end --
-
--- object: abstraktit.template_table | type: TABLE --
--- DROP TABLE IF EXISTS abstraktit.template_table CASCADE;
-CREATE TABLE abstraktit.template_table (
-	fid bigint NOT NULL GENERATED ALWAYS AS IDENTITY ,
-	identifier uuid DEFAULT gen_random_uuid(),
-	nimi text,
-	valmistumisvuosi smallint,
-	perusparannusvuosi smallint,
-	alkuhetki timestamptz,
-	loppuhetki timestamptz,
-	malli text,
-	suunta float,
-	valmistaja text,
-	metatieto text,
-	geom_poly geometry(POLYGONZ, 3067),
-	geom_line geometry(LINESTRINGZ, 3067),
-	geom_point geometry(POINTZ, 3067),
-	CONSTRAINT template_table_pk PRIMARY KEY (fid)
-);
--- ddl-end --
-COMMENT ON COLUMN abstraktit.template_table.alkuhetki IS E'Kohteen luontipäivämäärä';
--- ddl-end --
-COMMENT ON COLUMN abstraktit.template_table.loppuhetki IS E'Milloin kohde on poistettu. Tämän avulla voidaan tunnistaa poistetut kohteet, jos järjestelmät tukevat historiatietojen tallentamista';
 -- ddl-end --
 
 -- object: viheralue_fk | type: CONSTRAINT --
@@ -7687,15 +7501,23 @@ CREATE TABLE kasvillisuus.puu (
 	kunnossapitaja text,
 	korkeus float,
 	ymparys float,
-	geom_point geometry(POINTZ, 3067),
-	geom_line geometry(LINESTRINGZ, 3067),
-	geom_poly geometry(POLYGONZ, 3067),
+	meta_datanluoja text,
+	meta_muokkaaja text,
+	meta_muokkauspvm date,
 	fid_katualueenosa bigint,
 	fid_viheralueenosa bigint,
 	cid_puutyyppi integer,
 	cid_puulaji integer,
 	cid_sijaintiepavarmuustyyppi integer,
 	cid_luontitapatyyppi integer,
+	meta_omistaja text,
+	meta_lahteenpvm date,
+	meta_mittausera text,
+	meta_lisatietolinkki text,
+	geom_point geometry(POINTZ, 3067),
+	geom_line geometry(LINESTRINGZ, 3067),
+	geom_poly geometry(POLYGONZ, 3067),
+	fid_osoite bigint,
 	CONSTRAINT puu_fid_pk PRIMARY KEY (fid)
 );
 -- ddl-end --
@@ -7761,15 +7583,23 @@ CREATE TABLE varusteet.jate (
 	putkikeraysjarjestelma_kytkin boolean,
 	sijaintimaanpinnalla_kytkin boolean,
 	vaarallistenjateastia_kytkin boolean,
-	geom_point geometry(POINTZ, 3067),
-	geom_line geometry(LINESTRINGZ, 3067),
-	geom_poly geometry(POLYGONZ, 3067),
+	meta_datanluoja text,
+	meta_muokkaaja text,
+	meta_muokkauspvm date,
 	cid_jatetyyppi integer,
 	fid_viheralueenosa bigint,
 	fid_katualueenosa bigint,
 	cid_varustemateriaali integer,
 	cid_sijaintiepavarmuustyyppi integer,
 	cid_luontitapatyyppi integer,
+	meta_omistaja text,
+	meta_lahteenpvm date,
+	meta_mittausera text,
+	meta_lisatietolinkki text,
+	geom_point geometry(POINTZ, 3067),
+	geom_line geometry(LINESTRINGZ, 3067),
+	geom_poly geometry(POLYGONZ, 3067),
+	fid_osoite bigint,
 	CONSTRAINT jate_pk PRIMARY KEY (fid)
 );
 -- ddl-end --
@@ -7825,15 +7655,23 @@ CREATE TABLE varusteet.liikunta (
 	omistaja text,
 	haltija text,
 	kunnossapitaja text,
-	geom_poly geometry(POLYGONZ, 3067),
-	geom_line geometry(LINESTRINGZ, 3067),
-	geom_point geometry(POINTZ, 3067),
+	meta_datanluoja text,
+	meta_muokkaaja text,
+	meta_muokkauspvm date,
 	cid_varustemateriaali integer,
 	fid_viheralueenosa bigint,
 	fid_katualueenosa bigint,
 	cid_liikuntatyyppi integer,
 	cid_sijaintiepavarmuustyyppi integer,
 	cid_luontitapatyyppi integer,
+	meta_omistaja text,
+	meta_lahteenpvm date,
+	meta_mittausera text,
+	meta_lisatietolinkki text,
+	geom_poly geometry(POLYGONZ, 3067),
+	geom_line geometry(LINESTRINGZ, 3067),
+	geom_point geometry(POINTZ, 3067),
+	fid_osoite bigint,
 	CONSTRAINT liikunta_pk PRIMARY KEY (fid)
 );
 -- ddl-end --
@@ -7889,15 +7727,23 @@ CREATE TABLE varusteet.opaste (
 	omistaja text,
 	haltija text,
 	kunnossapitaja text,
-	geom_poly geometry(POLYGONZ, 3067),
-	geom_line geometry(LINESTRINGZ, 3067),
-	geom_point geometry(POINTZ, 3067),
+	meta_datanluoja text,
+	meta_muokkaaja text,
+	meta_muokkauspvm date,
 	cid_varustemateriaali integer,
 	fid_viheralueenosa bigint,
 	fid_katualueenosa bigint,
 	cid_opastetyyppi integer,
 	cid_sijaintiepavarmuustyyppi integer,
 	cid_luontitapatyyppi integer,
+	meta_omistaja text,
+	meta_lahteenpvm date,
+	meta_mittausera text,
+	meta_lisatietolinkki text,
+	geom_poly geometry(POLYGONZ, 3067),
+	geom_line geometry(LINESTRINGZ, 3067),
+	geom_point geometry(POINTZ, 3067),
+	fid_osoite bigint,
 	CONSTRAINT opaste_pk PRIMARY KEY (fid)
 );
 -- ddl-end --
@@ -7953,15 +7799,23 @@ CREATE TABLE varusteet.melukohde (
 	omistaja text,
 	haltija text,
 	kunnossapitaja text,
-	geom_poly geometry(POLYGONZ, 3067),
-	geom_line geometry(LINESTRINGZ, 3067),
-	geom_point geometry(POINTZ, 3067),
+	meta_datanluoja text,
+	meta_muokkaaja text,
+	meta_muokkauspvm date,
 	cid_varustemateriaali integer,
 	fid_viheralueenosa bigint,
 	fid_katualueenosa bigint,
 	cid_melutyyppi integer,
 	cid_sijaintiepavarmuustyyppi integer,
 	cid_luontitapatyyppi integer,
+	meta_omistaja text,
+	meta_lahteenpvm date,
+	meta_mittausera text,
+	meta_lisatietolinkki text,
+	geom_poly geometry(POLYGONZ, 3067),
+	geom_line geometry(LINESTRINGZ, 3067),
+	geom_point geometry(POINTZ, 3067),
+	fid_osoite bigint,
 	CONSTRAINT melukohde_pk PRIMARY KEY (fid)
 );
 -- ddl-end --
@@ -8017,15 +7871,23 @@ CREATE TABLE varusteet.kaluste (
 	omistaja text,
 	haltija text,
 	kunnossapitaja text,
-	geom_poly geometry(POLYGONZ, 3067),
-	geom_line geometry(LINESTRINGZ, 3067),
-	geom_point geometry(POINTZ, 3067),
+	meta_datanluoja text,
+	meta_muokkaaja text,
+	meta_muokkauspvm date,
 	cid_varustemateriaali integer,
 	fid_viheralueenosa bigint,
 	fid_katualueenosa bigint,
 	cid_kalustetyyppi integer,
 	cid_sijaintiepavarmuustyyppi integer,
 	cid_luontitapatyyppi integer,
+	meta_omistaja text,
+	meta_lahteenpvm date,
+	meta_mittausera text,
+	meta_lisatietolinkki text,
+	geom_poly geometry(POLYGONZ, 3067),
+	geom_line geometry(LINESTRINGZ, 3067),
+	geom_point geometry(POINTZ, 3067),
+	fid_osoite bigint,
 	CONSTRAINT kaluste_pk PRIMARY KEY (fid)
 );
 -- ddl-end --
@@ -8081,15 +7943,23 @@ CREATE TABLE varusteet.muuvaruste (
 	omistaja text,
 	haltija text,
 	kunnossapitaja text,
-	geom_poly geometry(POLYGONZ, 3067),
-	geom_line geometry(LINESTRINGZ, 3067),
-	geom_point geometry(POINTZ, 3067),
+	meta_datanluoja text,
+	meta_muokkaaja text,
+	meta_muokkauspvm date,
 	cid_varustemateriaali integer,
 	fid_viheralueenosa bigint,
 	fid_katualueenosa bigint,
 	cid_muuvarustetyyppi integer,
 	cid_sijaintiepavarmuustyyppi integer,
 	cid_luontitapatyyppi integer,
+	meta_omistaja text,
+	meta_lahteenpvm date,
+	meta_mittausera text,
+	meta_lisatietolinkki text,
+	geom_poly geometry(POLYGONZ, 3067),
+	geom_line geometry(LINESTRINGZ, 3067),
+	geom_point geometry(POINTZ, 3067),
+	fid_osoite bigint,
 	CONSTRAINT muuvaruste_pk PRIMARY KEY (fid)
 );
 -- ddl-end --
@@ -8147,15 +8017,23 @@ CREATE TABLE varusteet.leikkivaline (
 	kunnossapitaja text,
 	toiminnallinentarkastus_pvm date,
 	vuositarkastus_pvm date,
-	geom_point geometry(POINTZ, 3067),
-	geom_line geometry(LINESTRINGZ, 3067),
-	geom_poly geometry(POLYGONZ, 3067),
+	meta_datanluoja text,
+	meta_muokkaaja text,
+	meta_muokkauspvm date,
 	cid_varustemateriaali integer,
 	fid_viheralueenosa bigint,
 	fid_katualueenosa bigint,
 	cid_leikkivalinetyyppi integer,
 	cid_sijaintiepavarmuustyyppi integer,
 	cid_luontitapatyyppi integer,
+	meta_omistaja text,
+	meta_lahteenpvm date,
+	meta_mittausera text,
+	meta_lisatietolinkki text,
+	geom_point geometry(POINTZ, 3067),
+	geom_line geometry(LINESTRINGZ, 3067),
+	geom_poly geometry(POLYGONZ, 3067),
+	fid_osoite bigint,
 	CONSTRAINT leikkivaline_pk PRIMARY KEY (fid)
 );
 -- ddl-end --
@@ -8197,7 +8075,7 @@ ON DELETE SET NULL ON UPDATE CASCADE;
 -- object: varusteet.liikennemerkki | type: TABLE --
 -- DROP TABLE IF EXISTS varusteet.liikennemerkki CASCADE;
 CREATE TABLE varusteet.liikennemerkki (
-	fid bigint NOT NULL GENERATED ALWAYS AS IDENTITY ,
+	fid bigint NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT BY 1 MINVALUE 0 MAXVALUE 9223372036854775807 START WITH 1 CACHE 1 ),
 	identifier text DEFAULT gen_random_uuid(),
 	nimi text,
 	valmistumisvuosi smallint,
@@ -8286,15 +8164,23 @@ CREATE TABLE kasvillisuus.muukasvi (
 	omistaja text,
 	haltija text,
 	kunnossapitaja text,
-	geom_poly geometry(POLYGONZ, 3067),
-	geom_line geometry(LINESTRINGZ, 3067),
-	geom_point geometry(POINTZ, 3067),
+	meta_datanluoja text,
+	meta_muokkaaja text,
+	meta_muokkauspvm date,
 	fid_viheralueenosa bigint,
 	fid_katualueenosa bigint,
 	cid_kasviryhmatyyppi integer,
 	cid_kasvilaji integer,
 	cid_sijaintiepavarmuustyyppi integer,
 	cid_luontitapatyyppi integer,
+	meta_omistaja text,
+	meta_lahteenpvm date,
+	meta_mittausera text,
+	meta_lisatietolinkki text,
+	geom_poly geometry(POLYGONZ, 3067),
+	geom_line geometry(LINESTRINGZ, 3067),
+	geom_point geometry(POINTZ, 3067),
+	fid_osoite bigint,
 	CONSTRAINT muukasvi_pk PRIMARY KEY (fid)
 );
 -- ddl-end --
@@ -8351,14 +8237,22 @@ CREATE TABLE kohteet.pysakointiruutu (
 	haltija text,
 	kunnossapitaja text,
 	latauspiste_kytkin boolean,
-	geom_poly geometry(POLYGONZ, 3067),
-	geom_line geometry(LINESTRINGZ, 3067),
-	geom_point geometry(POINTZ, 3067),
+	meta_datanluoja text,
+	meta_muokkaaja text,
+	meta_muokkauspvm date,
 	cid_varustemateriaali integer,
 	fid_viheralueenosa bigint,
 	fid_katualueenosa bigint,
 	cid_sijaintiepavarmuustyyppi integer,
 	cid_luontitapatyyppi integer,
+	meta_omistaja text,
+	meta_lahteenpvm date,
+	meta_mittausera text,
+	meta_lisatietolinkki text,
+	geom_poly geometry(POLYGONZ, 3067),
+	geom_line geometry(LINESTRINGZ, 3067),
+	geom_point geometry(POINTZ, 3067),
+	fid_osoite bigint,
 	CONSTRAINT pysakointiruutu_pk PRIMARY KEY (fid)
 );
 -- ddl-end --
@@ -8409,12 +8303,20 @@ CREATE TABLE kohteet.erikoisrakennekerros (
 	kunnossapitaja text,
 	erk_selite text,
 	materiaali text,
-	geom_poly geometry(POLYGONZ, 3067),
-	geom_line geometry(LINESTRINGZ, 3067),
-	geom_point geometry(POINTZ, 3067),
+	meta_datanluoja text,
+	meta_muokkaaja text,
+	meta_muokkauspvm date,
 	cid_erikoisrakennekerrosmateriaalityyppi integer,
 	cid_sijaintiepavarmuustyyppi integer,
 	cid_luontitapatyyppi integer,
+	meta_omistaja text,
+	meta_lahteenpvm date,
+	meta_mittausera text,
+	meta_lisatietolinkki text,
+	geom_poly geometry(POLYGONZ, 3067),
+	geom_line geometry(LINESTRINGZ, 3067),
+	geom_point geometry(POINTZ, 3067),
+	fid_osoite bigint,
 	CONSTRAINT erikoisrakennekerros_pk PRIMARY KEY (fid)
 );
 -- ddl-end --
@@ -8449,15 +8351,23 @@ CREATE TABLE kohteet.ymparistotaide (
 	omistaja text,
 	haltija text,
 	kunnossapitaja text,
-	geom_poly geometry(POLYGONZ, 3067),
-	geom_line geometry(LINESTRINGZ, 3067),
-	geom_point geometry(POINTZ, 3067),
+	meta_datanluoja text,
+	meta_muokkaaja text,
+	meta_muokkauspvm date,
 	cid_ymparistotaidetyyppi integer,
 	fid_viheralueenosa bigint,
 	fid_katualueenosa bigint,
 	cid_varustemateriaali integer,
 	cid_sijaintiepavarmuustyyppi integer,
 	cid_luontitapatyyppi integer,
+	meta_omistaja text,
+	meta_lahteenpvm date,
+	meta_mittausera text,
+	meta_lisatietolinkki text,
+	geom_poly geometry(POLYGONZ, 3067),
+	geom_line geometry(LINESTRINGZ, 3067),
+	geom_point geometry(POINTZ, 3067),
+	fid_osoite bigint,
 	CONSTRAINT ymparistotaide_pk PRIMARY KEY (fid)
 );
 -- ddl-end --
@@ -8513,15 +8423,23 @@ CREATE TABLE kohteet.rakenne (
 	omistaja text,
 	haltija text,
 	kunnossapitaja text,
-	geom_poly geometry(POLYGONZ, 3067),
-	geom_line geometry(LINESTRINGZ, 3067),
-	geom_point geometry(POINTZ, 3067),
+	meta_datanluoja text,
+	meta_muokkaaja text,
+	meta_muokkauspvm date,
 	cid_varustemateriaali integer,
 	fid_viheralueenosa bigint,
 	fid_katualueenosa bigint,
 	cid_rakennetyyppi integer,
 	cid_sijaintiepavarmuustyyppi integer,
 	cid_luontitapatyyppi integer,
+	meta_omistaja text,
+	meta_lahteenpvm date,
+	meta_mittausera text,
+	meta_lisatietolinkki text,
+	geom_poly geometry(POLYGONZ, 3067),
+	geom_line geometry(LINESTRINGZ, 3067),
+	geom_point geometry(POINTZ, 3067),
+	fid_osoite bigint,
 	CONSTRAINT rakenne_pk PRIMARY KEY (fid)
 );
 -- ddl-end --
@@ -8577,15 +8495,23 @@ CREATE TABLE kohteet.hulevesi (
 	omistaja text,
 	haltija text,
 	kunnossapitaja text,
-	geom_poly geometry(POLYGONZ, 3067),
-	geom_line geometry(LINESTRINGZ, 3067),
-	geom_point geometry(POINTZ, 3067),
+	meta_datanluoja text,
+	meta_muokkaaja text,
+	meta_muokkauspvm date,
 	cid_varustemateriaali integer,
 	fid_viheralueenosa bigint,
 	fid_katualueenosa bigint,
 	cid_hulevesityyppi integer,
 	cid_sijaintiepavarmuustyyppi integer,
 	cid_luontitapatyyppi integer,
+	meta_omistaja text,
+	meta_lahteenpvm date,
+	meta_mittausera text,
+	meta_lisatietolinkki text,
+	geom_poly geometry(POLYGONZ, 3067),
+	geom_line geometry(LINESTRINGZ, 3067),
+	geom_point geometry(POINTZ, 3067),
+	fid_osoite bigint,
 	CONSTRAINT hulevesi_pk PRIMARY KEY (fid)
 );
 -- ddl-end --
@@ -8641,16 +8567,24 @@ CREATE TABLE katualue.ajoratamerkinta (
 	omistaja text,
 	haltija text,
 	kunnossapitaja text,
-	geom_poly geometry(POLYGONZ, 3067),
-	geom_line geometry(LINESTRINGZ, 3067),
-	geom_point geometry(POINTZ, 3067),
-	jyrsittypinta_kytkin boolean,
+	meta_datanluoja text,
+	meta_muokkaaja text,
+	meta_muokkauspvm date,
+	meta_omistaja text,
 	cid_varustemateriaali integer,
 	fid_viheralueenosa bigint,
 	fid_katualueenosa bigint,
 	cid_ajoratamerkintatyyppi integer,
 	cid_sijaintiepavarmuustyyppi integer,
 	cid_luontitapatyyppi integer,
+	meta_lahteenpvm date,
+	meta_mittausera text,
+	meta_lisatietolinkki text,
+	geom_poly geometry(POLYGONZ, 3067),
+	geom_line geometry(LINESTRINGZ, 3067),
+	geom_point geometry(POINTZ, 3067),
+	jyrsittypinta_kytkin boolean,
+	fid_osoite bigint,
 	CONSTRAINT ajoratamerkinta_pk PRIMARY KEY (fid)
 );
 -- ddl-end --
@@ -9111,32 +9045,235 @@ REFERENCES varusteet.liikennemerkki (fid) MATCH FULL
 ON DELETE SET NULL ON UPDATE CASCADE;
 -- ddl-end --
 
--- object: puulaji_fk | type: CONSTRAINT --
--- ALTER TABLE abstraktit.abstractkasvillisuus DROP CONSTRAINT IF EXISTS puulaji_fk CASCADE;
-ALTER TABLE abstraktit.abstractkasvillisuus ADD CONSTRAINT puulaji_fk FOREIGN KEY (puulaji_id)
-REFERENCES koodistot.puulaji (cid) MATCH FULL
-ON DELETE CASCADE ON UPDATE CASCADE;
+-- object: leikkivaline_fk | type: CONSTRAINT --
+-- ALTER TABLE linkit.suunnitelmalinkki DROP CONSTRAINT IF EXISTS leikkivaline_fk CASCADE;
+ALTER TABLE linkit.suunnitelmalinkki ADD CONSTRAINT leikkivaline_fk FOREIGN KEY (fid_leikkivaline)
+REFERENCES varusteet.leikkivaline (fid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
 -- ddl-end --
 
--- object: puutyyppi_fk | type: CONSTRAINT --
--- ALTER TABLE abstraktit.abstractkasvillisuus DROP CONSTRAINT IF EXISTS puutyyppi_fk CASCADE;
-ALTER TABLE abstraktit.abstractkasvillisuus ADD CONSTRAINT puutyyppi_fk FOREIGN KEY (puutyyppi_id)
-REFERENCES koodistot.puutyyppi (cid) MATCH FULL
-ON DELETE CASCADE ON UPDATE CASCADE;
+-- object: muuvaruste_fk | type: CONSTRAINT --
+-- ALTER TABLE linkit.suunnitelmalinkki DROP CONSTRAINT IF EXISTS muuvaruste_fk CASCADE;
+ALTER TABLE linkit.suunnitelmalinkki ADD CONSTRAINT muuvaruste_fk FOREIGN KEY (fid_muuvaruste)
+REFERENCES varusteet.muuvaruste (fid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
 -- ddl-end --
 
--- object: infraokohteet_fk | type: CONSTRAINT --
--- ALTER TABLE meta.aineistotoimituksentiedot DROP CONSTRAINT IF EXISTS infraokohteet_fk CASCADE;
-ALTER TABLE meta.aineistotoimituksentiedot ADD CONSTRAINT infraokohteet_fk FOREIGN KEY (toimitus_id)
-REFERENCES meta.infraokohteet (id) MATCH FULL
-ON DELETE CASCADE ON UPDATE CASCADE;
+-- object: kaluste_fk | type: CONSTRAINT --
+-- ALTER TABLE linkit.suunnitelmalinkki DROP CONSTRAINT IF EXISTS kaluste_fk CASCADE;
+ALTER TABLE linkit.suunnitelmalinkki ADD CONSTRAINT kaluste_fk FOREIGN KEY (fid_kaluste)
+REFERENCES varusteet.kaluste (fid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
 -- ddl-end --
 
--- object: sijaintiepavarmuustyyppi_fk | type: CONSTRAINT --
--- ALTER TABLE abstraktit.sijainti_alkuperainen DROP CONSTRAINT IF EXISTS sijaintiepavarmuustyyppi_fk CASCADE;
-ALTER TABLE abstraktit.sijainti_alkuperainen ADD CONSTRAINT sijaintiepavarmuustyyppi_fk FOREIGN KEY (sijaintiepavarmuus_id)
-REFERENCES koodistot.sijaintiepavarmuustyyppi (cid) MATCH FULL
-ON DELETE CASCADE ON UPDATE CASCADE;
+-- object: melukohde_fk | type: CONSTRAINT --
+-- ALTER TABLE linkit.suunnitelmalinkki DROP CONSTRAINT IF EXISTS melukohde_fk CASCADE;
+ALTER TABLE linkit.suunnitelmalinkki ADD CONSTRAINT melukohde_fk FOREIGN KEY (fid_melukohde)
+REFERENCES varusteet.melukohde (fid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: opaste_fk | type: CONSTRAINT --
+-- ALTER TABLE linkit.suunnitelmalinkki DROP CONSTRAINT IF EXISTS opaste_fk CASCADE;
+ALTER TABLE linkit.suunnitelmalinkki ADD CONSTRAINT opaste_fk FOREIGN KEY (fid_opaste)
+REFERENCES varusteet.opaste (fid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: liikunta_fk | type: CONSTRAINT --
+-- ALTER TABLE linkit.suunnitelmalinkki DROP CONSTRAINT IF EXISTS liikunta_fk CASCADE;
+ALTER TABLE linkit.suunnitelmalinkki ADD CONSTRAINT liikunta_fk FOREIGN KEY (fid_liikunta)
+REFERENCES varusteet.liikunta (fid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: jate_fk | type: CONSTRAINT --
+-- ALTER TABLE linkit.suunnitelmalinkki DROP CONSTRAINT IF EXISTS jate_fk CASCADE;
+ALTER TABLE linkit.suunnitelmalinkki ADD CONSTRAINT jate_fk FOREIGN KEY (fid_jate)
+REFERENCES varusteet.jate (fid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: ajoratamerkinta_fk | type: CONSTRAINT --
+-- ALTER TABLE linkit.suunnitelmalinkki DROP CONSTRAINT IF EXISTS ajoratamerkinta_fk CASCADE;
+ALTER TABLE linkit.suunnitelmalinkki ADD CONSTRAINT ajoratamerkinta_fk FOREIGN KEY (fid_ajoratamerkinta)
+REFERENCES katualue.ajoratamerkinta (fid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: hulevesi_fk | type: CONSTRAINT --
+-- ALTER TABLE linkit.suunnitelmalinkki DROP CONSTRAINT IF EXISTS hulevesi_fk CASCADE;
+ALTER TABLE linkit.suunnitelmalinkki ADD CONSTRAINT hulevesi_fk FOREIGN KEY (fid_hulevesi)
+REFERENCES kohteet.hulevesi (fid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: katualueenosa_fk | type: CONSTRAINT --
+-- ALTER TABLE linkit.suunnitelmalinkki DROP CONSTRAINT IF EXISTS katualueenosa_fk CASCADE;
+ALTER TABLE linkit.suunnitelmalinkki ADD CONSTRAINT katualueenosa_fk FOREIGN KEY (fid_katualueenosa)
+REFERENCES katualue.katualueenosa (fid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: ymparistotaide_fk | type: CONSTRAINT --
+-- ALTER TABLE linkit.suunnitelmalinkki DROP CONSTRAINT IF EXISTS ymparistotaide_fk CASCADE;
+ALTER TABLE linkit.suunnitelmalinkki ADD CONSTRAINT ymparistotaide_fk FOREIGN KEY (fid_ymparistotaide)
+REFERENCES kohteet.ymparistotaide (fid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: pysakointiruutu_fk | type: CONSTRAINT --
+-- ALTER TABLE linkit.suunnitelmalinkki DROP CONSTRAINT IF EXISTS pysakointiruutu_fk CASCADE;
+ALTER TABLE linkit.suunnitelmalinkki ADD CONSTRAINT pysakointiruutu_fk FOREIGN KEY (fid_pysakointiruutu)
+REFERENCES kohteet.pysakointiruutu (fid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: rakenne_fk | type: CONSTRAINT --
+-- ALTER TABLE linkit.suunnitelmalinkki DROP CONSTRAINT IF EXISTS rakenne_fk CASCADE;
+ALTER TABLE linkit.suunnitelmalinkki ADD CONSTRAINT rakenne_fk FOREIGN KEY (fid_rakenne)
+REFERENCES kohteet.rakenne (fid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: osoite_fk | type: CONSTRAINT --
+-- ALTER TABLE varusteet.leikkivaline DROP CONSTRAINT IF EXISTS osoite_fk CASCADE;
+ALTER TABLE varusteet.leikkivaline ADD CONSTRAINT osoite_fk FOREIGN KEY (fid_osoite)
+REFERENCES osoite.osoite (fid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: osoite_fk | type: CONSTRAINT --
+-- ALTER TABLE varusteet.muuvaruste DROP CONSTRAINT IF EXISTS osoite_fk CASCADE;
+ALTER TABLE varusteet.muuvaruste ADD CONSTRAINT osoite_fk FOREIGN KEY (fid_osoite)
+REFERENCES osoite.osoite (fid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: osoite_fk | type: CONSTRAINT --
+-- ALTER TABLE varusteet.kaluste DROP CONSTRAINT IF EXISTS osoite_fk CASCADE;
+ALTER TABLE varusteet.kaluste ADD CONSTRAINT osoite_fk FOREIGN KEY (fid_osoite)
+REFERENCES osoite.osoite (fid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: osoite_fk | type: CONSTRAINT --
+-- ALTER TABLE varusteet.melukohde DROP CONSTRAINT IF EXISTS osoite_fk CASCADE;
+ALTER TABLE varusteet.melukohde ADD CONSTRAINT osoite_fk FOREIGN KEY (fid_osoite)
+REFERENCES osoite.osoite (fid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: osoite_fk | type: CONSTRAINT --
+-- ALTER TABLE varusteet.opaste DROP CONSTRAINT IF EXISTS osoite_fk CASCADE;
+ALTER TABLE varusteet.opaste ADD CONSTRAINT osoite_fk FOREIGN KEY (fid_osoite)
+REFERENCES osoite.osoite (fid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: osoite_fk | type: CONSTRAINT --
+-- ALTER TABLE varusteet.liikunta DROP CONSTRAINT IF EXISTS osoite_fk CASCADE;
+ALTER TABLE varusteet.liikunta ADD CONSTRAINT osoite_fk FOREIGN KEY (fid_osoite)
+REFERENCES osoite.osoite (fid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: osoite_fk | type: CONSTRAINT --
+-- ALTER TABLE varusteet.jate DROP CONSTRAINT IF EXISTS osoite_fk CASCADE;
+ALTER TABLE varusteet.jate ADD CONSTRAINT osoite_fk FOREIGN KEY (fid_osoite)
+REFERENCES osoite.osoite (fid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: osoite_fk | type: CONSTRAINT --
+-- ALTER TABLE kohteet.pysakointiruutu DROP CONSTRAINT IF EXISTS osoite_fk CASCADE;
+ALTER TABLE kohteet.pysakointiruutu ADD CONSTRAINT osoite_fk FOREIGN KEY (fid_osoite)
+REFERENCES osoite.osoite (fid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: osoite_fk | type: CONSTRAINT --
+-- ALTER TABLE kohteet.erikoisrakennekerros DROP CONSTRAINT IF EXISTS osoite_fk CASCADE;
+ALTER TABLE kohteet.erikoisrakennekerros ADD CONSTRAINT osoite_fk FOREIGN KEY (fid_osoite)
+REFERENCES osoite.osoite (fid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: osoite_fk | type: CONSTRAINT --
+-- ALTER TABLE kohteet.ymparistotaide DROP CONSTRAINT IF EXISTS osoite_fk CASCADE;
+ALTER TABLE kohteet.ymparistotaide ADD CONSTRAINT osoite_fk FOREIGN KEY (fid_osoite)
+REFERENCES osoite.osoite (fid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: osoite_fk | type: CONSTRAINT --
+-- ALTER TABLE kohteet.rakenne DROP CONSTRAINT IF EXISTS osoite_fk CASCADE;
+ALTER TABLE kohteet.rakenne ADD CONSTRAINT osoite_fk FOREIGN KEY (fid_osoite)
+REFERENCES osoite.osoite (fid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: osoite_fk | type: CONSTRAINT --
+-- ALTER TABLE kohteet.hulevesi DROP CONSTRAINT IF EXISTS osoite_fk CASCADE;
+ALTER TABLE kohteet.hulevesi ADD CONSTRAINT osoite_fk FOREIGN KEY (fid_osoite)
+REFERENCES osoite.osoite (fid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: osoite_fk | type: CONSTRAINT --
+-- ALTER TABLE viheralue.viheralueenosa DROP CONSTRAINT IF EXISTS osoite_fk CASCADE;
+ALTER TABLE viheralue.viheralueenosa ADD CONSTRAINT osoite_fk FOREIGN KEY (fid_osoite)
+REFERENCES osoite.osoite (fid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: osoite_fk | type: CONSTRAINT --
+-- ALTER TABLE katualue.ajoratamerkinta DROP CONSTRAINT IF EXISTS osoite_fk CASCADE;
+ALTER TABLE katualue.ajoratamerkinta ADD CONSTRAINT osoite_fk FOREIGN KEY (fid_osoite)
+REFERENCES osoite.osoite (fid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: osoite_fk | type: CONSTRAINT --
+-- ALTER TABLE katualue.katualueenosa DROP CONSTRAINT IF EXISTS osoite_fk CASCADE;
+ALTER TABLE katualue.katualueenosa ADD CONSTRAINT osoite_fk FOREIGN KEY (fid_osoite)
+REFERENCES osoite.osoite (fid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: osoite_fk | type: CONSTRAINT --
+-- ALTER TABLE kasvillisuus.puu DROP CONSTRAINT IF EXISTS osoite_fk CASCADE;
+ALTER TABLE kasvillisuus.puu ADD CONSTRAINT osoite_fk FOREIGN KEY (fid_osoite)
+REFERENCES osoite.osoite (fid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: osoite_fk | type: CONSTRAINT --
+-- ALTER TABLE kasvillisuus.muukasvi DROP CONSTRAINT IF EXISTS osoite_fk CASCADE;
+ALTER TABLE kasvillisuus.muukasvi ADD CONSTRAINT osoite_fk FOREIGN KEY (fid_osoite)
+REFERENCES osoite.osoite (fid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: viheralueenosa_fk | type: CONSTRAINT --
+-- ALTER TABLE linkit.suunnitelmalinkki DROP CONSTRAINT IF EXISTS viheralueenosa_fk CASCADE;
+ALTER TABLE linkit.suunnitelmalinkki ADD CONSTRAINT viheralueenosa_fk FOREIGN KEY (fid_viheralueenosa)
+REFERENCES viheralue.viheralueenosa (fid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: paatos_fk | type: CONSTRAINT --
+-- ALTER TABLE linkit.liite DROP CONSTRAINT IF EXISTS paatos_fk CASCADE;
+ALTER TABLE linkit.liite ADD CONSTRAINT paatos_fk FOREIGN KEY (id_paatos)
+REFERENCES linkit.paatos (id) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: katualueenosa_fk | type: CONSTRAINT --
+-- ALTER TABLE linkit.paatos DROP CONSTRAINT IF EXISTS katualueenosa_fk CASCADE;
+ALTER TABLE linkit.paatos ADD CONSTRAINT katualueenosa_fk FOREIGN KEY (fid_katualueenosa)
+REFERENCES katualue.katualueenosa (fid) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
 -- ddl-end --
 
 -- object: "grant_CcT_46eefe8046" | type: PERMISSION --

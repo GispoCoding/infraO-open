@@ -1,0 +1,24 @@
+name: Render to HTML & Deploy
+on:
+  repository_dispatch:
+    types: [render-deploy]
+
+jobs:
+  render-deploy:
+    name: Render to HTML & Deploy
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Render Rmd to HTML
+        run: ./render.sh
+      - name: Move output to docs
+        run: rm -rf docs && mv out docs
+      - name: Assert index.html exists
+        run: test -f docs/index.html
+
+      - name: Add, Commit & Push
+        uses: EndBug/add-and-commit@v7
+        with:
+          add: "docs"
+          message: "Automatic: Update docs"

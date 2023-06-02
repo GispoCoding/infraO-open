@@ -1,0 +1,26 @@
+name: Pre-deploy
+on:
+  push:
+    branches: main
+
+jobs:
+  check-changes:
+    name: Check if Rmd files changed
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Get modified Rmd files
+        id: changed-rmd
+        uses: tj-actions/changed-files@v10.1
+        with:
+          files: .(Rmd|rmd)$
+
+      - name: Deploy if files changed
+        if: steps.changed-rmd.outputs.any_changed == 'true'
+        uses: peter-evans/repository-dispatch@v1
+        with:
+          token: ${{ secrets.ACCESS_TOKEN }}
+          event-type: render-deploy

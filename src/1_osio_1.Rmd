@@ -1,3 +1,15 @@
-# Tietokantaympäristön pystytys
+# Johdanto
 
-Tee näin: avaa QGIS
+InfraO-open on QGIS-toimintaympristö, joka on suunniteltu avuksi suomalaisten kuntien ja kaupunkien infraomaisuuden tietojen luomiseen ja hallintaan. Ratkaisun avulla kunnat pystyvät hallitsemaan paikkatietoa kunnallisesta infraomaisuudesta, kuten mm. penkkeistä, katuvaloista ja leikkipaikkoista sekä myös katuvaloista, viheralueista ja katualueista.
+
+## Ratkaisun yleiskatsaus
+
+Tässä osiossa esitellään QGIS-pohjainen ratkaisu ja sen tarkoitus. Kunnalliset virkamiehet voivat hyödyntää tätä ohjelmistoratkaisua hallitakseen ja ylläpitääkseen maantieteellistä tietoa kunnallisesta infrastruktuurista. Hyödyntämällä QGIS:in, vakaata avoimen lähdekoodin maantieteellistä tietojärjestelmäalustaa, käyttäjät voivat tehokkaasti hallita, analysoida ja visualisoida maantieteellisiä tietoja.
+
+## Avoin lähdekoodi ja ilmainen käyttö
+
+Ratkaisu pohjautuu avoimen lähdekoodin lisensseihin ja tuotetut työkalut on lisensoitu avoimen lähdekoodin lisenssein. Ratkaisua voi vapaasti käyttää, kopioida tai jakaa kyseessä olevien avoimen lähdekoodin lisenssien mukaisesti. Kuntien ja kaupunkien toimintaympäristössä tämä tuo eri toten vapauden muokata ratkaisua haluamansa mukaisesti sekä valita ja kilpailuttaa yritys, joka heille mahdollisia lisäarvopalveluita tarjoaa.
+
+## Käyttöönotto
+
+Ratkaisun käyttämiseksi käyttäjillä tulee olla PostgreSQL-tietokanta testaustarkoituksiin. Tietokanta voidaan joko asentaa paikalliselle koneelle (localhost) tai etäpalvelimelle. Tämä mahdollistaa tietojen tehokkaan tallentamisen ja hallinnan, varmistaen tietojen eheyden ja luotettavuuden. Tuotantokäyttöä varten kunnan työntekijät voivat rakentaa tietokantojaan omalla palvelimella tai käyttää asianmukaisten avoimen lähdekoodin palveluntarjoajien tarjoamia palveluja (kts. Referenssit, resurssit ja lisäarvopalveluita tarjoavat yritykset).

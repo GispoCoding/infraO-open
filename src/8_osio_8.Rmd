@@ -1,0 +1,7 @@
+# Datan tuonti (importointi) ja vienti (exportointi)
+
+InfraO-open-lisäosa tarjoaa mahdollisuuden datan importointiin ja exportointiin.  
+
+\<sisältö kesken; palaa myöhemmin\>
+
+# 

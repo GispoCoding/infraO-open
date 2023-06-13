@@ -1,0 +1,11 @@
+# QGIS-pohjaisen ratkaisun asennus ja konfigurointi
+
+Tämä luku keskittyy QGIS-pohjaisen ratkaisun asennus- ja konfigurointiprosessiin. Siinä annetaan vaiheittaiset ohjeet ohjelmiston asentamiseen ja käyttöönottoon, jotta käyttäjät pääsevät sujuvasti alkuun kunnallisen infrastruktuurin tietojen hallinnassa.
+
+## Järjestelmävaatimukset
+
+Ratkaisun käyttöönotolla ei ole erityisiä järjestelmävaatimuksia, vaan kyseessä on perinteinen PostgreSQL-tietokannan päälle rakennettu OLTP-prosessi (Online Transaction Process). Tärkeätä on käyttää QGISin ja PostgreSQLn pitkäaikaisversioita. Ratkaisu on alun perin rakennettu vuonna 2023 QGIS:in 3.28-version ja PostgreSQL:n 14 version päälle. 
+
+## QGIS:n lataaminen ja asentaminen
+
+Uusin QGISin pitkäaikaisversio (tunnista LTR esimerkiksi muodossa \"Version 3.28.6 LTR\") voidaan ladata QGISin sivuilta. <https://qgis.org/en/site/>

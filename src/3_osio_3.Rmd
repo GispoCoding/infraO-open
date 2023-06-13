@@ -1,0 +1,23 @@
+# QGIS-toimintaympäristön rakentaminen
+
+Tässä osiossa käydään läpi toimet QGIS-toimintaympäristön käyttöönottoon. 
+
+## InfraO-lisäosan asentaminen
+
+\<sisältö kesken; palaa myöhemmin\>
+
+## Yhteyden muodostaminen tietokantaan
+
+Käyttäjille annetaan ohjeet yhteyden muodostamiseksi PostgreSQL-tietokantaan, oli se sitten paikallisesti tai etäpalvelimella. Tämä vaihe mahdollistaa käyttäjien pääsyn tietoihinsa ja saumattoman tiedon luomisen ja hallinnan.
+
+### Tietokantayhteyden tallentaminen
+
+Tässä on ohjeet PostgreSQL-/PostGIS-yhteyden lisäämiseen QGIS:iin ja QGIS-projektin avaamiseen  ko. tietokannasta:
+
+Avaa QGIS-ohjelma tietokoneellasi.
+
+Klikkaa "PostgreSQL" -kuvaketta "Tietolähteiden hallinta" -valikossa.
+
+## QGIS-projektin (tasoineen ja konfiguraatioineen) rakentaminen lisäosan avulla
+
+\<sisältö kesken; palaa myöhemmin\>

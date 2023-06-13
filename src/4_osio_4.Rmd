@@ -1,0 +1,7 @@
+# QGIS-toimintaympäristön käyttöönotto
+
+Tässä osiossa käydään läpi toimet QGIS-toimintaympäristön käyttöönottoon.
+
+Olettaen, että QGIS-toimintaympäristö on luotu tavoitteiden mukaisesti edellisen luvun ohjeistuksen mukaisesti voidaan ottaa QGIS-toimintaympäristö käyttöön kokonaisuudessaan suoraan PostgreSQL-kannasta. Näin käyttäjä avaa QGIS-projektin tietokannasta. 
+
+\

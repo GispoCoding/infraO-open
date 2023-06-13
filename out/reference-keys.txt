@@ -1,14 +1,7 @@
-infra-o-käyttöohje
-lukuohje
 johdanto
 ratkaisun-yleiskatsaus
 avoin-lähdekoodi-ja-ilmainen-käyttö
 käyttöönotto
-vianmääritys-ja-usein-kysytyt-kysymykset-ukk
-terminologia
-lisätiedot-resurssit-ja-lisäarvopalveluita-tarjoavat-yritykset
-lisäarvopalveluita-tarjoavat-yritykset
-yhteystiedot
 qgis-pohjaisen-ratkaisun-asennus-ja-konfigurointi
 järjestelmävaatimukset
 qgisn-lataaminen-ja-asentaminen
@@ -27,3 +20,8 @@ tarttumisen-asetukset
 datan-tuonti-importointi-ja-vienti-exportointi
 section
 tyylien-ja-visualisoinnin-hallinta
+vianmääritys-ja-usein-kysytyt-kysymykset-ukk
+terminologia
+lisätiedot-resurssit-ja-lisäarvopalveluita-tarjoavat-yritykset
+lisäarvopalveluita-tarjoavat-yritykset
+yhteystiedot

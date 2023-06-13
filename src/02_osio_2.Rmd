@@ -8,4 +8,4 @@ Ratkaisun käyttöönotolla ei ole erityisiä järjestelmävaatimuksia, vaan kys
 
 ## QGIS:n lataaminen ja asentaminen
 
-Uusin QGISin pitkäaikaisversio (tunnista LTR esimerkiksi muodossa \"Version 3.28.6 LTR\") voidaan ladata QGISin sivuilta. <https://qgis.org/en/site/>
+Uusin QGISin pitkäaikaisversio (tunnista LTR esimerkiksi muodossa "Version 3.28.6 LTR") voidaan ladata QGISin sivuilta. <https://qgis.org/en/site/>

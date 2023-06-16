@@ -1,6 +1,6 @@
-CREATE SCHEMA jakelu;
+CREATE SCHEMA IF NOT EXISTS jakelu;
 
-ALTER SCHEMA jakelu OWNER TO infrao_admin;
+ALTER SCHEMA IF EXISTS jakelu OWNER TO infrao_admin;
 
 --infrao:Liikennemerkki
 

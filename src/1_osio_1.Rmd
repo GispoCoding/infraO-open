@@ -1,8 +1,0 @@
-# Tietokantaympäristön pystytys
-
-Tee näin: avaa QGIS
-
-![](img/osio_1/image_1.png)
-
-
-![](img/Gispo_tausta.png)

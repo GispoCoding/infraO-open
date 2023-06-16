@@ -1,0 +1,17 @@
+# Terminologia
+
+**PostgreSQL**: PostgreSQL on avoimen lähdekoodin relaatiotietokanta, joka on suunniteltu tehokkaaseen ja tietoturvalliseen tietokantahallintaan.
+
+**PostGIS**: PostGIS on spatiaalinen tietokannan laajennus PostgreSQL-tietokannalle, joka mahdollistaa spatiaalisten tietojen tallentamisen ja käsittelyn relaatiotietokannassa.
+
+**Tietokantayhteys**: Tietokantayhteys on viestintäreitti tietokannan ja ohjelmiston välillä, joka mahdollistaa ohjelmiston pääsyn tietokantaan ja tietojen manipuloinnin.
+
+**Isäntänimi** (eng. host name): Isäntänimi on yksilöllinen tunniste, joka annetaan tietokoneelle tai laitteelle, joka on kytketty verkkoon, ja sitä käytetään tietokoneen tai laitteen saavuttamiseksi verkon yli.
+
+**Tietokannan nimi**: Tietokannan nimi on nimi, joka annetaan tietylle tietokannalle tietokannanhallintajärjestelmässä tai muunlaisessa tietokantaa hyödyntävässä client-ohjelmistossa, kuten QGISissa.
+
+**Käyttäjänimi ja salasana**: Käyttäjänimi ja salasana ovat tunnistetiedot, joita käytetään käyttäjän todentamiseen ja pääsyn myöntämiseen tietokantaan.
+
+**Porttinumero**: Porttinumero on tietty numero, joka on annettu verkkoyhteydelle, jotta voidaan tunnistaa lähetettävä tai vastaanotettava liikennetyyppi yhteyden kautta.
+
+**QGIS-projekti**: QGIS-projekti on tiedosto, joka sisältää kaikki tiedot ja asetukset, jotka liittyvät tiettyyn QGIS-projektiin. Projektit voivat sisältää useita paikkatietotasoja eri tietolähteistä sekä esim. niihin liittyviä kuvausteknisiä konfiguraatioita.

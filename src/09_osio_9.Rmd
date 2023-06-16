@@ -1,0 +1,3 @@
+# Tyylien ja visualisoinnin hallinta
+
+Käyttäjä voi hallita eri tasojen tyylejä, ml. värejä ja nimiöitä halutessaan. Näin käyttäjä pystyy räätälöimään tietoaineistoa omiin käyttötarpeisiinsa. 

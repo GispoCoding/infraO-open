@@ -1,0 +1,3 @@
+# Yleiskatsaus QGIS-toimintaympäristön toiminnallisuuksiin
+
+QGIS-toimintaympäristö mukailee  normaalia QGIS-projektia tasoineen ja työkaluineen. 

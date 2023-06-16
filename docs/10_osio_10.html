@@ -7,7 +7,7 @@
 <meta charset="utf-8" />
 <meta name="generator" content="pandoc" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta property="og:title" content="11 Vianmääritys ja usein kysytyt kysymykset (UKK) | Infra-O käyttöohje" />
+<meta property="og:title" content="11 Tietojen jakelu rajapinnalta | Infra-O käyttöohje" />
 <meta property="og:type" content="book" />
 
 
@@ -16,17 +16,82 @@
 
 <meta name="author" content="Gispo Ltd." />
 
-<meta name="date" content="2023-06-13" />
+<meta name="date" content="2023-06-16" />
 
 
-<meta name="description" content="11 Vianmääritys ja usein kysytyt kysymykset (UKK) | Infra-O käyttöohje">
+<meta name="description" content="11 Tietojen jakelu rajapinnalta | Infra-O käyttöohje">
 
-<title>11 Vianmääritys ja usein kysytyt kysymykset (UKK) | Infra-O käyttöohje</title>
+<title>11 Tietojen jakelu rajapinnalta | Infra-O käyttöohje</title>
 
 <script src="libs/header-attrs-2.11/header-attrs.js"></script>
 <script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
 
 
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
 
 <link rel="stylesheet" href="custom.css" type="text/css" />
 
@@ -93,13 +158,21 @@ type="button" onclick="navToggle()" aria-label="Toggle navigation">
 <li><a href="08_osio_8.html#datan-tuonti-importointi-ja-vienti-exportointi"><span class="toc-section-number">8</span> Datan tuonti (importointi) ja vienti (exportointi)</a></li>
 <li><a href="08_osio_8.html#section"><span class="toc-section-number">9</span> </a></li>
 <li><a href="09_osio_9.html#tyylien-ja-visualisoinnin-hallinta"><span class="toc-section-number">10</span> Tyylien ja visualisoinnin hallinta</a></li>
-<li><a href="10_osio_10.html#vianmääritys-ja-usein-kysytyt-kysymykset-ukk"><span class="toc-section-number">11</span> Vianmääritys ja usein kysytyt kysymykset (UKK)</a></li>
-<li><a href="11_osio_11.html#terminologia"><span class="toc-section-number">12</span> Terminologia</a></li>
-<li><a href="12_osio_12.html#lisätiedot-resurssit-ja-lisäarvopalveluita-tarjoavat-yritykset"><span class="toc-section-number">13</span> Lisätiedot, resurssit ja lisäarvopalveluita tarjoavat yritykset</a>
+<li><a href="10_osio_10.html#tietojen-jakelu-rajapinnalta"><span class="toc-section-number">11</span> Tietojen jakelu rajapinnalta</a>
 <ul>
-<li><a href="12_osio_12.html#lisäarvopalveluita-tarjoavat-yritykset"><span class="toc-section-number">13.1</span> Lisäarvopalveluita tarjoavat yritykset</a></li>
+<li><a href="10_osio_10.html#geoserver--vaatimukset"><span class="toc-section-number">11.1</span> GeoServer- vaatimukset</a></li>
+<li><a href="10_osio_10.html#jakelutaulujen-luominen-tietokannassa"><span class="toc-section-number">11.2</span> Jakelutaulujen luominen tietokannassa</a></li>
+<li><a href="10_osio_10.html#infra-o-workspace"><span class="toc-section-number">11.3</span> Infra-O workspace</a></li>
+<li><a href="10_osio_10.html#application-schemas-dataaccess--storen-luominen"><span class="toc-section-number">11.4</span> Application Schemas DataAccess- storen luominen</a></li>
+<li><a href="10_osio_10.html#tasojen-julkaiseminen"><span class="toc-section-number">11.5</span> Tasojen julkaiseminen</a></li>
 </ul></li>
-<li><a href="13_osio_13.html#yhteystiedot"><span class="toc-section-number">14</span> Yhteystiedot</a></li>
+<li><a href="11_osio_11.html#vianmääritys-ja-usein-kysytyt-kysymykset-ukk"><span class="toc-section-number">12</span> Vianmääritys ja usein kysytyt kysymykset (UKK)</a></li>
+<li><a href="12_osio_12.html#terminologia"><span class="toc-section-number">13</span> Terminologia</a></li>
+<li><a href="13_osio_13.html#lisätiedot-resurssit-ja-lisäarvopalveluita-tarjoavat-yritykset"><span class="toc-section-number">14</span> Lisätiedot, resurssit ja lisäarvopalveluita tarjoavat yritykset</a>
+<ul>
+<li><a href="13_osio_13.html#lisäarvopalveluita-tarjoavat-yritykset"><span class="toc-section-number">14.1</span> Lisäarvopalveluita tarjoavat yritykset</a></li>
+</ul></li>
+<li><a href="14_osio_14.html#yhteystiedot"><span class="toc-section-number">15</span> Yhteystiedot</a></li>
 </ul>
 </div>
 </nav>
@@ -109,11 +182,64 @@ type="button" onclick="navToggle()" aria-label="Toggle navigation">
 </div>
 <div class="row">
 <div class="col-sm-12">
-<div id="vianmääritys-ja-usein-kysytyt-kysymykset-ukk" class="section level1" number="11">
-<h1><span class="header-section-number">11</span> Vianmääritys ja usein kysytyt kysymykset (UKK)</h1>
-<p>Tässä luvussa on tuotu esille tyypillisiä vianmääritystilanteita ja usein kysyttyjä kysymyksiä (UKK). Luvussa käydään läpi ratkaisut yleisimpiin ongelmiin ja vastauksia usein esitettyihin kysymyksiin. </p>
+<div id="tietojen-jakelu-rajapinnalta" class="section level1" number="11">
+<h1><span class="header-section-number">11</span> Tietojen jakelu rajapinnalta</h1>
+<p>Tässä luku ohjeistaa, miten infraomaisuuden tietoja voidaan jakaa OGC API Features- rajapinnalta Infra-O skeeman mukaisena. Rajapinnan toteutuksessa hyödynnetään GeoServer- palvelinta.</p>
+<div id="geoserver--vaatimukset" class="section level2" number="11.1">
+<h2><span class="header-section-number">11.1</span> GeoServer- vaatimukset</h2>
+<p>Toteutus on tehty GeoServerin 2.24.SNAPSHOT- versiolla, yhteensopivuutta vanhempien versioiden kanssa ei ole testattu. OGC API Features- rajapinnan toteutus vaatii yhteisön kehittämän lisäosan serveriin, joka tulee olla asennettuna GeoServeriin. Rajapinnan GML-tulosteet on määritelty Infra-O skeeman mukaiseksi Application Schemas Extensionilla.</p>
+<p>Vaatimukset:</p>
+<ul>
+<li><p><a href="https://geoserver.org/">GeoServer- palvelin</a></p></li>
+<li><p><a href="https://docs.geoserver.org/latest/en/user/community/ogc-api/index.html">OGC API- community module</a></p></li>
+<li><p><a href="https://docs.geoserver.org/stable/en/user/data/app-schema/index.html">Application schemas extension</a></p></li>
+</ul>
+</div>
+<div id="jakelutaulujen-luominen-tietokannassa" class="section level2" number="11.2">
+<h2><span class="header-section-number">11.2</span> Jakelutaulujen luominen tietokannassa</h2>
+<p>Jakelua varten luodaan erillinen skeema, johon luodaan tarvittavat taulut tietoineen. Taulujen luomiseen on <a href="https://raw.githubusercontent.com/GispoCoding/infraO-open/main/oapif/jakelu_tables.sql">valmis skripti</a>, joka luo jakelu- nimisen skeeman ja kohteita vastaavat taulut (esim. liikennemerkki_ogc, jate_ogc jne). Kohteet kopioidaan QGISissä muokattavista tauluista. Tämän vuoksi kun kohteita on lisätty tietokantaan, taulut tulee päivittää, jotta tiedot päivittyvät rajapinnalle.</p>
+</div>
+<div id="infra-o-workspace" class="section level2" number="11.3">
+<h2><span class="header-section-number">11.3</span> Infra-O workspace</h2>
+<p>Jakelua varten luodaan GeoServeriin oma workspace nimeltä ‘infrao’. Workspacen Namespace- asetukseksi määritetään osoite www.infra-o.fi/infrao:</p>
+<p><img src="img/osio_10/image_1.png" width="311" /></p>
+</div>
+<div id="application-schemas-dataaccess--storen-luominen" class="section level2" number="11.4">
+<h2><span class="header-section-number">11.4</span> Application Schemas DataAccess- storen luominen</h2>
+<p>Application schemas lisää uuden data store- tyypin GeoServeriin nimeltä <strong>Application Schema DataAccess</strong>. Store vaatii kahden xml- tiedoston, jossa sen datalähteet ja skeeman kartoitus on määritetty.</p>
+<p>GeoServerin data (tai data_dir) kansiossa tulisi olla workspaces- kansio, jonka sisällä pitäisi olla aikaisemmin luotu infrao- kansio. Tämän kansion sisälle tulee luoda etukäteen kansio Storea varten. Kansion nimeksi voi valita esimerkiksi ‘ogc_jakelu’. Tähän kansioon tulee lisätä xml- tiedostot:</p>
+<p><a href="https://raw.githubusercontent.com/GispoCoding/infraO-open/main/oapif/geoserver/ogc_jakelu/includedTypes.xml">includedTypes.xml</a></p>
+<p><a href="https://raw.githubusercontent.com/GispoCoding/infraO-open/main/oapif/geoserver/ogc_jakelu/ogc_jakelu.xml">ogc_jakelu.xml</a></p>
+<p>Näihin tiedostoihin pitää korvata tietokantayhteyden parametrit:</p>
+<div class="code-box">
+<div class="sourceCode" id="cb1"><pre class="sourceCode xml"><code class="sourceCode xml"><span id="cb1-1"><a href="10_osio_10.html#cb1-1" aria-hidden="true"></a><span class="kw">&lt;parameters&gt;</span></span>
+<span id="cb1-2"><a href="10_osio_10.html#cb1-2" aria-hidden="true"></a>    <span class="kw">&lt;Parameter&gt;</span></span>
+<span id="cb1-3"><a href="10_osio_10.html#cb1-3" aria-hidden="true"></a>        <span class="kw">&lt;name&gt;</span>host<span class="kw">&lt;/name&gt;</span></span>
+<span id="cb1-4"><a href="10_osio_10.html#cb1-4" aria-hidden="true"></a>        <span class="kw">&lt;value&gt;</span>REPLACE<span class="kw">&lt;/value&gt;</span></span>
+<span id="cb1-5"><a href="10_osio_10.html#cb1-5" aria-hidden="true"></a>    <span class="kw">&lt;/Parameter&gt;</span></span>
+<span id="cb1-6"><a href="10_osio_10.html#cb1-6" aria-hidden="true"></a>    <span class="kw">&lt;Parameter&gt;</span></span>
+<span id="cb1-7"><a href="10_osio_10.html#cb1-7" aria-hidden="true"></a>        <span class="kw">&lt;name&gt;</span>port<span class="kw">&lt;/name&gt;</span></span>
+<span id="cb1-8"><a href="10_osio_10.html#cb1-8" aria-hidden="true"></a>        <span class="kw">&lt;value&gt;</span>REPLACE<span class="kw">&lt;/value&gt;</span></span>
+<span id="cb1-9"><a href="10_osio_10.html#cb1-9" aria-hidden="true"></a>    <span class="kw">&lt;/Parameter&gt;</span></span>
+<span id="cb1-10"><a href="10_osio_10.html#cb1-10" aria-hidden="true"></a>    jne...</span>
+<span id="cb1-11"><a href="10_osio_10.html#cb1-11" aria-hidden="true"></a><span class="kw">&lt;/parameters&gt;</span></span></code></pre></div>
+</div>
+<p>Korvaa kaikki REPLACE tekstillä merkityt arvot Infra-O tietokannan tiedoilla samalla tavalla molempiin tiedostoihin. Osa parametreistä on merkitty esim. infrao/REPLACE. Näissä tapauksissa ensin mainittu oletusarvo. Mikäli oletusarvo pitää paikkansa, poista /REPLACE- teksti.</p>
+<p>Valitulla käyttäjällä tulee olla oikeus valita (SELECT) ‘jakelu’- skeeman tauluista.</p>
+<p>Lisää GeoServerin <strong>Stores</strong>- välilehdeltä uusi Data Store. Valitse sen tyypiksi Application Schema DataAccess:</p>
+<p><img src="img/osio_10/image_2.png" /></p>
+<p>Kirjoita <strong>Data Source Name</strong>- kenttään aikaisemmin luodun xml- tiedostot sisältävän kansion nimi (esim. ogc_jakelu). Kirjoita <strong>Connection Parameters &gt; URL</strong>- kenttään linkki ogc_jakelu.xml tiedostoon:</p>
+<p><img src="img/osio_10/image_3.png" /></p>
+<p>Tallenna lopuksi Data Store.</p>
+</div>
+<div id="tasojen-julkaiseminen" class="section level2" number="11.5">
+<h2><span class="header-section-number">11.5</span> Tasojen julkaiseminen</h2>
+<p>Välittömästi Data Storen luomisen jälkeen GeoServer ehdottaa uuden tason lisäämistä. Säilytä tason nimi ja otsikko oletusarvona, määritä muuten tason asetukset haluamallasi tavalla. Tason tallentamisen minivaatimuksena on koordinaattijärjestelmän ja tason laajuuden määrittäminen. Täydennä tiedot esimerkiksi näin:</p>
+<p><img src="img/osio_10/image_4.png" />
+Kun taso on julkaistu se löytyy välittömästä GeoServerin julkaisemasta OGC API Features- rajapinnasta. Rajapinnan GML- output on nyt Infra-O skeeman mukaista.</p>
 <p>&lt;sisältö kesken; palaa myöhemmin&gt;</p>
 
+</div>
 </div>
 <p style="text-align: center;">
 <a href="09_osio_9.html"><button class="btn btn-default">Previous</button></a>
@@ -128,7 +254,7 @@ type="button" onclick="navToggle()" aria-label="Toggle navigation">
 
 <div class="footer-info">
 <h5 class="footer-title">Infra-O käyttöohje</h5>
-<span class="footer-version">v2023-06-13</span>
+<span class="footer-version">v2023-06-16</span>
 <div class="license"><img src="img/by-nd.svg" width="80px" alt="CC-BY-ND"></div>
 </div>
 

@@ -20,6 +20,12 @@ tarttumisen-asetukset
 datan-tuonti-importointi-ja-vienti-exportointi
 section
 tyylien-ja-visualisoinnin-hallinta
+tietojen-jakelu-rajapinnalta
+geoserver--vaatimukset
+jakelutaulujen-luominen-tietokannassa
+infra-o-workspace
+application-schemas-dataaccess--storen-luominen
+tasojen-julkaiseminen
 vianmääritys-ja-usein-kysytyt-kysymykset-ukk
 terminologia
 lisätiedot-resurssit-ja-lisäarvopalveluita-tarjoavat-yritykset

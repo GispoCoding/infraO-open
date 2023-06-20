@@ -72,8 +72,6 @@ CREATE SCHEMA osoite;
 -- ddl-end --
 ALTER SCHEMA osoite OWNER TO infrao_admin;
 -- ddl-end --
-COMMENT ON SCHEMA osoite IS E'Sisältää kohteiden osoitetietoja.\nRatkottava: kuinka tämä tieto populoidaan jostain muualta? Digitransit API? OpenStreetMap? Kunnan oma osoitetietokanta?';
--- ddl-end --
 
 -- object: linkit | type: SCHEMA --
 -- DROP SCHEMA IF EXISTS linkit CASCADE;
@@ -82,7 +80,14 @@ CREATE SCHEMA linkit;
 ALTER SCHEMA linkit OWNER TO infrao_admin;
 -- ddl-end --
 
-SET search_path TO pg_catalog,public,koodistot,kohteet,meta,varusteet,katualue,viheralue,kasvillisuus,osoite,linkit;
+-- object: jakelu | type: SCHEMA --
+-- DROP SCHEMA IF EXISTS jakelu CASCADE;
+CREATE SCHEMA jakelu;
+-- ddl-end --
+ALTER SCHEMA jakelu OWNER TO infrao_admin;
+-- ddl-end --
+
+SET search_path TO pg_catalog,public,koodistot,kohteet,meta,varusteet,katualue,viheralue,kasvillisuus,osoite,linkit,jakelu;
 -- ddl-end --
 
 -- object: koodistot.viheralueen_kayttotarkoitus_id_seq | type: SEQUENCE --
@@ -349,8 +354,6 @@ CREATE TABLE viheralue.viheralue (
 	CONSTRAINT viheralue_pk PRIMARY KEY (fid)
 );
 -- ddl-end --
-COMMENT ON TABLE viheralue.viheralue IS E'TODO:\n- sisaltaaViheralueenOsan -> relation?';
--- ddl-end --
 
 -- object: koodistot.katuosanlaji_id_seq | type: SEQUENCE --
 -- DROP SEQUENCE IF EXISTS koodistot.katuosanlaji_id_seq CASCADE;
@@ -543,8 +546,6 @@ CREATE TABLE viheralue.viheralueenosa (
 	CONSTRAINT viheralueenosa_fid_pk PRIMARY KEY (fid)
 );
 -- ddl-end --
-COMMENT ON TABLE viheralue.viheralueenosa IS E'TODO:\n\nchange relation types?';
--- ddl-end --
 
 -- object: public.melu_id_seq | type: SEQUENCE --
 -- DROP SEQUENCE IF EXISTS public.melu_id_seq CASCADE;
@@ -614,10 +615,6 @@ CREATE TABLE katualue.katualueenosa (
 	fid_osoite bigint,
 	CONSTRAINT katualueenosa_pk PRIMARY KEY (fid)
 );
--- ddl-end --
-COMMENT ON TABLE katualue.katualueenosa IS E'TODO:\n\nchange relation types?';
--- ddl-end --
-COMMENT ON COLUMN katualue.katualueenosa.geom IS E'sijaintitieto';
 -- ddl-end --
 
 -- object: public.ymparistotaide_id_seq | type: SEQUENCE --
@@ -5547,8 +5544,6 @@ CREATE TABLE koodistot.liikennemerkkityyppi (
 	CONSTRAINT liikennemerkkityyppi_pk PRIMARY KEY (cid)
 );
 -- ddl-end --
-COMMENT ON TABLE koodistot.liikennemerkkityyppi IS E'TODO: add selite in other languages (sv, en)?';
--- ddl-end --
 ALTER TABLE koodistot.liikennemerkkityyppi OWNER TO infrao_admin;
 -- ddl-end --
 
@@ -7386,8 +7381,6 @@ CREATE TABLE koodistot.erikoisrakennekerrosmateriaalityyppi (
 	CONSTRAINT erikoisrakennekerrosmateriaalityyppi_pk PRIMARY KEY (cid)
 );
 -- ddl-end --
-COMMENT ON TABLE koodistot.erikoisrakennekerrosmateriaalityyppi IS E'TODO: id name as cid (codelist id) and move type integer. Change data: Selite is only text';
--- ddl-end --
 ALTER TABLE koodistot.erikoisrakennekerrosmateriaalityyppi OWNER TO infrao_admin;
 -- ddl-end --
 
@@ -7515,8 +7508,6 @@ CREATE TABLE kasvillisuus.puu (
 	CONSTRAINT puu_fid_pk PRIMARY KEY (fid)
 );
 -- ddl-end --
-COMMENT ON TABLE kasvillisuus.puu IS E'TODO: metatieto';
--- ddl-end --
 COMMENT ON COLUMN kasvillisuus.puu.alkuhetki IS E'Kohteen luontipäivämäärä';
 -- ddl-end --
 COMMENT ON COLUMN kasvillisuus.puu.loppuhetki IS E'Milloin kohde on poistettu. Tämän avulla voidaan tunnistaa poistetut kohteet, jos järjestelmät tukevat historiatietojen tallentamista';
@@ -7595,8 +7586,6 @@ CREATE TABLE varusteet.jate (
 	CONSTRAINT jate_pk PRIMARY KEY (fid)
 );
 -- ddl-end --
-COMMENT ON TABLE varusteet.jate IS E'TODO:\n- tarkkaSijaintitieto\n- suunnitelmalinkkitieto\n- metatieto';
--- ddl-end --
 COMMENT ON COLUMN varusteet.jate.alkuhetki IS E'Kohteen luontipäivämäärä';
 -- ddl-end --
 COMMENT ON COLUMN varusteet.jate.loppuhetki IS E'Milloin kohde on poistettu. Tämän avulla voidaan tunnistaa poistetut kohteet, jos järjestelmät tukevat historiatietojen tallentamista';
@@ -7664,8 +7653,6 @@ CREATE TABLE varusteet.liikunta (
 	fid_osoite bigint,
 	CONSTRAINT liikunta_pk PRIMARY KEY (fid)
 );
--- ddl-end --
-COMMENT ON TABLE varusteet.liikunta IS E'TODO:\n- tarkkaSijaintitieto\n- suunnitelmalinkkitieto\n- metatieto';
 -- ddl-end --
 COMMENT ON COLUMN varusteet.liikunta.alkuhetki IS E'Kohteen luontipäivämäärä';
 -- ddl-end --
@@ -7735,8 +7722,6 @@ CREATE TABLE varusteet.opaste (
 	CONSTRAINT opaste_pk PRIMARY KEY (fid)
 );
 -- ddl-end --
-COMMENT ON TABLE varusteet.opaste IS E'TODO:\n- tarkkaSijaintitieto\n- suunnitelmalinkkitieto\n- metatieto';
--- ddl-end --
 COMMENT ON COLUMN varusteet.opaste.alkuhetki IS E'Kohteen luontipäivämäärä';
 -- ddl-end --
 COMMENT ON COLUMN varusteet.opaste.loppuhetki IS E'Milloin kohde on poistettu. Tämän avulla voidaan tunnistaa poistetut kohteet, jos järjestelmät tukevat historiatietojen tallentamista';
@@ -7804,8 +7789,6 @@ CREATE TABLE varusteet.melukohde (
 	fid_osoite bigint,
 	CONSTRAINT melukohde_pk PRIMARY KEY (fid)
 );
--- ddl-end --
-COMMENT ON TABLE varusteet.melukohde IS E'TODO:\n- tarkkaSijaintitieto\n- suunnitelmalinkkitieto\n- metatieto';
 -- ddl-end --
 COMMENT ON COLUMN varusteet.melukohde.alkuhetki IS E'Kohteen luontipäivämäärä';
 -- ddl-end --
@@ -7875,8 +7858,6 @@ CREATE TABLE varusteet.kaluste (
 	CONSTRAINT kaluste_pk PRIMARY KEY (fid)
 );
 -- ddl-end --
-COMMENT ON TABLE varusteet.kaluste IS E'TODO:\n- tarkkaSijaintitieto\n- suunnitelmalinkkitieto\n- metatieto';
--- ddl-end --
 COMMENT ON COLUMN varusteet.kaluste.alkuhetki IS E'Kohteen luontipäivämäärä';
 -- ddl-end --
 COMMENT ON COLUMN varusteet.kaluste.loppuhetki IS E'Milloin kohde on poistettu. Tämän avulla voidaan tunnistaa poistetut kohteet, jos järjestelmät tukevat historiatietojen tallentamista';
@@ -7944,8 +7925,6 @@ CREATE TABLE varusteet.muuvaruste (
 	fid_osoite bigint,
 	CONSTRAINT muuvaruste_pk PRIMARY KEY (fid)
 );
--- ddl-end --
-COMMENT ON TABLE varusteet.muuvaruste IS E'TODO:\n- tarkkaSijaintitieto\n- suunnitelmalinkkitieto\n- metatieto';
 -- ddl-end --
 COMMENT ON COLUMN varusteet.muuvaruste.alkuhetki IS E'Kohteen luontipäivämäärä';
 -- ddl-end --
@@ -8017,8 +7996,6 @@ CREATE TABLE varusteet.leikkivaline (
 	CONSTRAINT leikkivaline_pk PRIMARY KEY (fid)
 );
 -- ddl-end --
-COMMENT ON TABLE varusteet.leikkivaline IS E'TODO:\n- tarkkaSijaintitieto\n- suunnitelmalinkkitieto\n- metatieto\n- onko ''date'' oikea tietotyyppi?';
--- ddl-end --
 COMMENT ON COLUMN varusteet.leikkivaline.alkuhetki IS E'Kohteen luontipäivämäärä';
 -- ddl-end --
 COMMENT ON COLUMN varusteet.leikkivaline.loppuhetki IS E'Milloin kohde on poistettu. Tämän avulla voidaan tunnistaa poistetut kohteet, jos järjestelmät tukevat historiatietojen tallentamista';
@@ -8088,8 +8065,6 @@ CREATE TABLE varusteet.liikennemerkki (
 	fid_osoite bigint,
 	CONSTRAINT liikennemerkki_pk PRIMARY KEY (fid)
 );
--- ddl-end --
-COMMENT ON TABLE varusteet.liikennemerkki IS E'TODO:\n- tarkkaSijaintitieto\n- suunnitelmalinkkitieto\n- metatieto';
 -- ddl-end --
 COMMENT ON COLUMN varusteet.liikennemerkki.alkuhetki IS E'Kohteen luontipäivämäärä';
 -- ddl-end --
@@ -8161,8 +8136,6 @@ CREATE TABLE kasvillisuus.muukasvi (
 	CONSTRAINT muukasvi_pk PRIMARY KEY (fid)
 );
 -- ddl-end --
-COMMENT ON TABLE kasvillisuus.muukasvi IS E'TODO: metatieto';
--- ddl-end --
 COMMENT ON COLUMN kasvillisuus.muukasvi.alkuhetki IS E'Kohteen luontipäivämäärä';
 -- ddl-end --
 COMMENT ON COLUMN kasvillisuus.muukasvi.loppuhetki IS E'Milloin kohde on poistettu. Tämän avulla voidaan tunnistaa poistetut kohteet, jos järjestelmät tukevat historiatietojen tallentamista';
@@ -8230,8 +8203,6 @@ CREATE TABLE kohteet.pysakointiruutu (
 	fid_osoite bigint,
 	CONSTRAINT pysakointiruutu_pk PRIMARY KEY (fid)
 );
--- ddl-end --
-COMMENT ON TABLE kohteet.pysakointiruutu IS E'TODO:\n- tarkkaSijaintitieto\n- suunnitelmalinkkitieto\n- metatieto\n- skeema';
 -- ddl-end --
 COMMENT ON COLUMN kohteet.pysakointiruutu.alkuhetki IS E'Kohteen luontipäivämäärä';
 -- ddl-end --
@@ -8335,8 +8306,6 @@ CREATE TABLE kohteet.ymparistotaide (
 	CONSTRAINT ymparistotaide_pk PRIMARY KEY (fid)
 );
 -- ddl-end --
-COMMENT ON TABLE kohteet.ymparistotaide IS E'TODO:\n- tarkkaSijaintitieto\n- skeema\n- suunnitelmalinkkitieto\n- metatieto';
--- ddl-end --
 COMMENT ON COLUMN kohteet.ymparistotaide.alkuhetki IS E'Kohteen luontipäivämäärä';
 -- ddl-end --
 COMMENT ON COLUMN kohteet.ymparistotaide.loppuhetki IS E'Milloin kohde on poistettu. Tämän avulla voidaan tunnistaa poistetut kohteet, jos järjestelmät tukevat historiatietojen tallentamista';
@@ -8404,8 +8373,6 @@ CREATE TABLE kohteet.rakenne (
 	fid_osoite bigint,
 	CONSTRAINT rakenne_pk PRIMARY KEY (fid)
 );
--- ddl-end --
-COMMENT ON TABLE kohteet.rakenne IS E'TODO:\n- tarkkaSijaintitieto\n- suunnitelmalinkkitieto\n- metatieto';
 -- ddl-end --
 COMMENT ON COLUMN kohteet.rakenne.alkuhetki IS E'Kohteen luontipäivämäärä';
 -- ddl-end --
@@ -8475,8 +8442,6 @@ CREATE TABLE kohteet.hulevesi (
 	CONSTRAINT hulevesi_pk PRIMARY KEY (fid)
 );
 -- ddl-end --
-COMMENT ON TABLE kohteet.hulevesi IS E'TODO:\n- tarkkaSijaintitieto\n- suunnitelmalinkkitieto\n- metatieto';
--- ddl-end --
 COMMENT ON COLUMN kohteet.hulevesi.alkuhetki IS E'Kohteen luontipäivämäärä';
 -- ddl-end --
 COMMENT ON COLUMN kohteet.hulevesi.loppuhetki IS E'Milloin kohde on poistettu. Tämän avulla voidaan tunnistaa poistetut kohteet, jos järjestelmät tukevat historiatietojen tallentamista';
@@ -8545,8 +8510,6 @@ CREATE TABLE katualue.ajoratamerkinta (
 	fid_osoite bigint,
 	CONSTRAINT ajoratamerkinta_pk PRIMARY KEY (fid)
 );
--- ddl-end --
-COMMENT ON TABLE katualue.ajoratamerkinta IS E'TODO:\n- tarkkaSijaintitieto\n- skeema?\n- metatieto\n- suunnitelmalinkkitieto';
 -- ddl-end --
 COMMENT ON COLUMN katualue.ajoratamerkinta.alkuhetki IS E'Kohteen luontipäivämäärä';
 -- ddl-end --

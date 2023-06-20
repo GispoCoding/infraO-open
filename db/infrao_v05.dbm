@@ -3,7 +3,7 @@
 CAUTION: Do not modify this file unless you know what you are doing.
  Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.9.4" use-changelog="false" last-position="1026,702" last-zoom="0.75" max-obj-count="181"
+<dbmodel pgmodeler-ver="0.9.4" use-changelog="false" last-position="0,183" last-zoom="0.4" max-obj-count="181"
 	 default-schema="public" default-owner="infrao_admin"
 	 layers="Default layer,Codelist relations,Viher_katualue relations,Abstraktit,Address_relations,Planlink_relations"
 	 active-layers="0,3"
@@ -50,28 +50,12 @@ CAUTION: Do not modify this file unless you know what you are doing.
 
 <schema name="osoite" layers="0" rect-visible="true" fill-color="#e1e1e1">
 	<role name="infrao_admin"/>
-	<comment><![CDATA[Sisältää kohteiden osoitetietoja.
-Ratkottava: kuinka tämä tieto populoidaan jostain muualta? Digitransit API? OpenStreetMap? Kunnan oma osoitetietokanta?]]></comment>
 </schema>
 
 <schema name="linkit" layers="0" rect-visible="true" fill-color="#e1e1e1">
 	<role name="infrao_admin"/>
 </schema>
 
-<schema name="jakelu" layers="0" rect-visible="true" fill-color="#e1e1e1">
-	<role name="infrao_admin"/>
-</schema>
-
-<tag name="TODO">
-	<style id="table-body" colors="#fcfcfc,#fcfcfc,#d7d7d7"/>
-	<style id="table-ext-body" colors="#fcfcfc,#fcfcfc,#d7d7d7"/>
-	<style id="table-name" colors="#000000"/>
-	<style id="table-schema-name" colors="#000000"/>
-	<style id="table-title" colors="#ff9c2b,#ffa85c,#b07736"/>
-	<style id="table-toggler-body" colors="#fcfcfc,#fcfcfc,#d7d7d7"/>
-	<style id="table-toggler-btns" colors="#f3f3f3,#e1e1e1,#bebebe"/>
-	<comment><![CDATA[Kohteessa tehtävä]]></comment>
-</tag>
 <sequence name="viheralueen_kayttotarkoitus_id_seq" cycle="false" start="1" increment="1" min-value="1" max-value="2147483647" cache="1">
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
@@ -80,7 +64,6 @@ Ratkottava: kuinka tämä tieto populoidaan jostain muualta? Digitransit API? Op
 <table name="viheralueenkayttotarkoitus" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
-	<tag name="TODO"/>
 	<position x="60" y="40"/>
 	<column name="cid" not-null="true">
 		<type name="integer" length="0"/>
@@ -118,7 +101,6 @@ Ratkottava: kuinka tämä tieto populoidaan jostain muualta? Digitransit API? Op
 <table name="varustemateriaali" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
-	<tag name="TODO"/>
 	<position x="460" y="40"/>
 	<column name="cid" not-null="true">
 		<type name="integer" length="0"/>
@@ -158,7 +140,6 @@ Ratkottava: kuinka tämä tieto populoidaan jostain muualta? Digitransit API? Op
 <table name="hoitoluokkatyyppi" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
-	<tag name="TODO"/>
 	<position x="860" y="40"/>
 	<column name="cid" not-null="true">
 		<type name="integer" length="0"/>
@@ -224,9 +205,6 @@ Ratkottava: kuinka tämä tieto populoidaan jostain muualta? Digitransit API? Op
 
 <table name="viheralue" layers="0" collapse-mode="2" max-obj-count="15" z-value="0">
 	<schema name="viheralue"/>
-	<comment><![CDATA[TODO:
-- sisaltaaViheralueenOsan -> relation?]]></comment>
-	<tag name="TODO"/>
 	<position x="1880" y="1000"/>
 	<column name="fid" not-null="true"
 	 identity-type="ALWAYS">
@@ -281,7 +259,6 @@ Ratkottava: kuinka tämä tieto populoidaan jostain muualta? Digitransit API? Op
 <table name="katuosanlaji" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
-	<tag name="TODO"/>
 	<position x="1140" y="40"/>
 	<column name="cid" not-null="true">
 		<type name="integer" length="0"/>
@@ -324,7 +301,6 @@ Ratkottava: kuinka tämä tieto populoidaan jostain muualta? Digitransit API? Op
 <table name="talvihoidonluokka" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
-	<tag name="TODO"/>
 	<position x="1460" y="40"/>
 	<column name="cid" not-null="true">
 		<type name="integer" length="0"/>
@@ -354,7 +330,6 @@ Ratkottava: kuinka tämä tieto populoidaan jostain muualta? Digitransit API? Op
 <table name="katualue" layers="0" collapse-mode="2" max-obj-count="15" z-value="0">
 	<schema name="katualue"/>
 	<role name="infrao_admin"/>
-	<tag name="TODO"/>
 	<position x="3240" y="940"/>
 	<column name="fid" not-null="true"
 	 identity-type="ALWAYS">
@@ -408,10 +383,6 @@ Ratkottava: kuinka tämä tieto populoidaan jostain muualta? Digitransit API? Op
 
 <table name="viheralueenosa" layers="0" collapse-mode="2" max-obj-count="34" z-value="0">
 	<schema name="viheralue"/>
-	<comment><![CDATA[TODO:
-
-change relation types?]]></comment>
-	<tag name="TODO"/>
 	<position x="2280" y="1000"/>
 	<column name="fid" not-null="true"
 	 identity-type="ALWAYS">
@@ -497,10 +468,6 @@ change relation types?]]></comment>
 
 <table name="katualueenosa" layers="0" collapse-mode="2" max-obj-count="39" z-value="0">
 	<schema name="katualue"/>
-	<comment><![CDATA[TODO:
-
-change relation types?]]></comment>
-	<tag name="TODO"/>
 	<position x="3720" y="980"/>
 	<column name="fid" not-null="true"
 	 identity-type="ALWAYS">
@@ -571,7 +538,6 @@ change relation types?]]></comment>
 	</column>
 	<column name="geom">
 		<type name="geometry" length="0" spatial-type="POLYGON" variation="1" srid="3067"/>
-		<comment><![CDATA[sijaintitieto]]></comment>
 	</column>
 	<constraint name="katualueenosa_pk" type="pk-constr" table="katualue.katualueenosa">
 		<columns names="fid" ref-type="src-columns"/>
@@ -617,7 +583,6 @@ change relation types?]]></comment>
 <table name="liikuntatyyppi" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
-	<tag name="TODO"/>
 	<position x="60" y="240"/>
 	<column name="cid" not-null="true">
 		<type name="integer" length="0"/>
@@ -714,7 +679,6 @@ change relation types?]]></comment>
 <table name="melutyyppi" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
-	<tag name="TODO"/>
 	<position x="740" y="240"/>
 	<column name="cid" not-null="true">
 		<type name="integer" length="0"/>
@@ -740,7 +704,6 @@ change relation types?]]></comment>
 <table name="kalustetyyppi" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
-	<tag name="TODO"/>
 	<position x="1060" y="240"/>
 	<column name="cid" not-null="true">
 		<type name="integer" length="0"/>
@@ -769,7 +732,6 @@ change relation types?]]></comment>
 <table name="opastetyyppi" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
-	<tag name="TODO"/>
 	<position x="1380" y="240"/>
 	<column name="cid" not-null="true">
 		<type name="integer" length="0"/>
@@ -794,7 +756,6 @@ change relation types?]]></comment>
 <table name="jatetyyppi" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
-	<tag name="TODO"/>
 	<position x="60" y="400"/>
 	<column name="cid" not-null="true">
 		<type name="integer" length="0"/>
@@ -819,7 +780,6 @@ change relation types?]]></comment>
 <table name="pintamateriaali" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
-	<tag name="TODO"/>
 	<position x="340" y="400"/>
 	<column name="cid" not-null="true">
 		<type name="integer" length="0"/>
@@ -858,7 +818,6 @@ change relation types?]]></comment>
 <table name="hulevesityyppi" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
-	<tag name="TODO"/>
 	<position x="700" y="400"/>
 	<column name="cid" not-null="true">
 		<type name="integer" length="0"/>
@@ -903,7 +862,6 @@ change relation types?]]></comment>
 <table name="ajoratamerkintatyyppi" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
-	<tag name="TODO"/>
 	<position x="980" y="400"/>
 	<column name="cid" not-null="true">
 		<type name="integer" length="0"/>
@@ -928,7 +886,6 @@ change relation types?]]></comment>
 <table name="puutyyppi" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
-	<tag name="TODO"/>
 	<position x="1440" y="1120"/>
 	<column name="cid" not-null="true">
 		<type name="integer" length="0"/>
@@ -952,7 +909,6 @@ change relation types?]]></comment>
 <table name="puulaji" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
-	<tag name="TODO"/>
 	<position x="820" y="1120"/>
 	<column name="cid" not-null="true">
 		<type name="integer" length="0"/>
@@ -1594,7 +1550,6 @@ change relation types?]]></comment>
 <table name="ymparistotaidetyyppi" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
-	<tag name="TODO"/>
 	<position x="300" y="560"/>
 	<column name="cid" not-null="true">
 		<type name="integer" length="0"/>
@@ -1622,7 +1577,6 @@ change relation types?]]></comment>
 <table name="kantavuusluokkatyyppi" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
-	<tag name="TODO"/>
 	<position x="760" y="580"/>
 	<column name="cid" not-null="true">
 		<type name="integer" length="0"/>
@@ -1649,7 +1603,6 @@ change relation types?]]></comment>
 <table name="kasvilaji" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
-	<tag name="TODO"/>
 	<position x="1080" y="1120"/>
 	<column name="cid" not-null="true">
 		<type name="integer" length="0"/>
@@ -3156,7 +3109,6 @@ change relation types?]]></comment>
 <table name="kasviryhmatyyppi" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
-	<tag name="TODO"/>
 	<position x="1300" y="560"/>
 	<column name="cid" not-null="true">
 		<type name="integer" length="0"/>
@@ -3187,7 +3139,6 @@ change relation types?]]></comment>
 <table name="leikkivalinetyyppi" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
-	<tag name="TODO"/>
 	<position x="60" y="760"/>
 	<column name="cid" not-null="true">
 		<type name="integer" length="0"/>
@@ -3224,8 +3175,6 @@ change relation types?]]></comment>
 <table name="liikennemerkkityyppi" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
-	<comment><![CDATA[TODO: add selite in other languages (sv, en)?]]></comment>
-	<tag name="TODO"/>
 	<position x="640" y="1320"/>
 	<column name="cid" not-null="true">
 		<type name="integer" length="0"/>
@@ -3518,7 +3467,6 @@ change relation types?]]></comment>
 <table name="liikennemerkkityyppi2020" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
-	<tag name="TODO"/>
 	<position x="700" y="760"/>
 	<column name="cid" not-null="true">
 		<type name="integer" length="0"/>
@@ -3897,7 +3845,6 @@ change relation types?]]></comment>
 <table name="muutoshoitoluokkatyyppi" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
-	<tag name="TODO"/>
 	<position x="1100" y="760"/>
 	<column name="cid" not-null="true">
 		<type name="integer" length="0"/>
@@ -3931,7 +3878,6 @@ change relation types?]]></comment>
 <table name="muuvarustetyyppi" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
-	<tag name="TODO"/>
 	<position x="1460" y="760"/>
 	<column name="cid" not-null="true">
 		<type name="integer" length="0"/>
@@ -3968,7 +3914,6 @@ change relation types?]]></comment>
 <table name="toiminnallinenluokka" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
-	<tag name="TODO"/>
 	<position x="60" y="920"/>
 	<column name="cid" not-null="true">
 		<type name="integer" length="0"/>
@@ -4059,7 +4004,6 @@ change relation types?]]></comment>
 <table name="aineistotilatype" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
-	<tag name="TODO"/>
 	<position x="400" y="740"/>
 	<column name="cid" not-null="true">
 		<type name="integer" length="0"/>
@@ -4109,7 +4053,6 @@ change relation types?]]></comment>
 <table name="osoite" layers="0" collapse-mode="2" max-obj-count="19" z-value="0">
 	<schema name="osoite"/>
 	<comment><![CDATA[Viitesijaintialue: oma taulu, jossa suuralueet tms.?]]></comment>
-	<tag name="TODO"/>
 	<position x="900" y="1660"/>
 	<column name="fid" not-null="true"
 	 identity-type="ALWAYS">
@@ -4174,7 +4117,6 @@ change relation types?]]></comment>
 <table name="rakennetyyppi" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
-	<tag name="TODO"/>
 	<position x="700" y="920"/>
 	<column name="cid" not-null="true">
 		<type name="integer" length="0"/>
@@ -4234,7 +4176,6 @@ change relation types?]]></comment>
 <table name="viherosanlajityyppi" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
-	<tag name="TODO"/>
 	<position x="1020" y="920"/>
 	<column name="cid" not-null="true">
 		<type name="integer" length="0"/>
@@ -4378,7 +4319,6 @@ change relation types?]]></comment>
 <table name="sijaintiepavarmuustyyppi" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
-	<tag name="TODO"/>
 	<position x="1380" y="920"/>
 	<column name="cid" not-null="true">
 		<type name="integer" length="0"/>
@@ -4411,8 +4351,6 @@ change relation types?]]></comment>
 <table name="erikoisrakennekerrosmateriaalityyppi" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
-	<comment><![CDATA[TODO: id name as cid (codelist id) and move type integer. Change data: Selite is only text]]></comment>
-	<tag name="TODO"/>
 	<position x="80" y="1280"/>
 	<column name="cid" not-null="true">
 		<type name="integer" length="0"/>
@@ -4492,7 +4430,6 @@ change relation types?]]></comment>
 <table name="puhtaanapitoluokkatyyppi" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
-	<tag name="TODO"/>
 	<position x="1020" y="1360"/>
 	<column name="cid" not-null="true">
 		<type name="integer" length="0"/>
@@ -4560,8 +4497,6 @@ change relation types?]]></comment>
 
 <table name="puu" layers="0" collapse-mode="2" max-obj-count="31" z-value="0">
 	<schema name="kasvillisuus"/>
-	<comment><![CDATA[TODO: metatieto]]></comment>
-	<tag name="TODO"/>
 	<position x="4480" y="60"/>
 	<column name="fid" not-null="true"
 	 identity-type="ALWAYS">
@@ -4687,11 +4622,6 @@ change relation types?]]></comment>
 
 <table name="jate" layers="0" collapse-mode="2" max-obj-count="39" z-value="0">
 	<schema name="varusteet"/>
-	<comment><![CDATA[TODO:
-- tarkkaSijaintitieto
-- suunnitelmalinkkitieto
-- metatieto]]></comment>
-	<tag name="TODO"/>
 	<position x="3240" y="2160"/>
 	<column name="fid" not-null="true"
 	 identity-type="ALWAYS">
@@ -4839,11 +4769,6 @@ change relation types?]]></comment>
 
 <table name="liikunta" layers="0" collapse-mode="2" max-obj-count="34" z-value="0">
 	<schema name="varusteet"/>
-	<comment><![CDATA[TODO:
-- tarkkaSijaintitieto
-- suunnitelmalinkkitieto
-- metatieto]]></comment>
-	<tag name="TODO"/>
 	<position x="2820" y="2160"/>
 	<column name="fid" not-null="true"
 	 identity-type="ALWAYS">
@@ -4975,11 +4900,6 @@ change relation types?]]></comment>
 
 <table name="opaste" layers="0" collapse-mode="2" max-obj-count="34" z-value="0">
 	<schema name="varusteet"/>
-	<comment><![CDATA[TODO:
-- tarkkaSijaintitieto
-- suunnitelmalinkkitieto
-- metatieto]]></comment>
-	<tag name="TODO"/>
 	<position x="2400" y="2160"/>
 	<column name="fid" not-null="true"
 	 identity-type="ALWAYS">
@@ -5111,11 +5031,6 @@ change relation types?]]></comment>
 
 <table name="melukohde" layers="0" collapse-mode="2" max-obj-count="34" z-value="0">
 	<schema name="varusteet"/>
-	<comment><![CDATA[TODO:
-- tarkkaSijaintitieto
-- suunnitelmalinkkitieto
-- metatieto]]></comment>
-	<tag name="TODO"/>
 	<position x="1980" y="2160"/>
 	<column name="fid" not-null="true"
 	 identity-type="ALWAYS">
@@ -5247,11 +5162,6 @@ change relation types?]]></comment>
 
 <table name="kaluste" layers="0" collapse-mode="2" max-obj-count="34" z-value="0">
 	<schema name="varusteet"/>
-	<comment><![CDATA[TODO:
-- tarkkaSijaintitieto
-- suunnitelmalinkkitieto
-- metatieto]]></comment>
-	<tag name="TODO"/>
 	<position x="1560" y="2160"/>
 	<column name="fid" not-null="true"
 	 identity-type="ALWAYS">
@@ -5383,11 +5293,6 @@ change relation types?]]></comment>
 
 <table name="muuvaruste" layers="0" collapse-mode="2" max-obj-count="34" z-value="0">
 	<schema name="varusteet"/>
-	<comment><![CDATA[TODO:
-- tarkkaSijaintitieto
-- suunnitelmalinkkitieto
-- metatieto]]></comment>
-	<tag name="TODO"/>
 	<position x="1140" y="2160"/>
 	<column name="fid" not-null="true"
 	 identity-type="ALWAYS">
@@ -5519,12 +5424,6 @@ change relation types?]]></comment>
 
 <table name="leikkivaline" layers="0" collapse-mode="2" max-obj-count="37" z-value="0">
 	<schema name="varusteet"/>
-	<comment><![CDATA[TODO:
-- tarkkaSijaintitieto
-- suunnitelmalinkkitieto
-- metatieto
-- onko 'date' oikea tietotyyppi?]]></comment>
-	<tag name="TODO"/>
 	<position x="680" y="2160"/>
 	<column name="fid" not-null="true"
 	 identity-type="ALWAYS">
@@ -5662,11 +5561,6 @@ change relation types?]]></comment>
 
 <table name="liikennemerkki" layers="0" collapse-mode="2" max-obj-count="37" z-value="0">
 	<schema name="varusteet"/>
-	<comment><![CDATA[TODO:
-- tarkkaSijaintitieto
-- suunnitelmalinkkitieto
-- metatieto]]></comment>
-	<tag name="TODO"/>
 	<position x="240" y="2160"/>
 	<column name="fid" not-null="true"
 	 identity-type="ALWAYS" start="1" increment="1" min-value="0" max-value="9223372036854775807" cache="1">
@@ -5814,8 +5708,6 @@ change relation types?]]></comment>
 
 <table name="muukasvi" layers="0" collapse-mode="2" max-obj-count="28" z-value="0">
 	<schema name="kasvillisuus"/>
-	<comment><![CDATA[TODO: metatieto]]></comment>
-	<tag name="TODO"/>
 	<position x="4920" y="60"/>
 	<column name="fid" not-null="true"
 	 identity-type="ALWAYS">
@@ -5932,12 +5824,6 @@ change relation types?]]></comment>
 
 <table name="pysakointiruutu" layers="0" collapse-mode="2" max-obj-count="34" z-value="0">
 	<schema name="kohteet"/>
-	<comment><![CDATA[TODO:
-- tarkkaSijaintitieto
-- suunnitelmalinkkitieto
-- metatieto
-- skeema]]></comment>
-	<tag name="TODO"/>
 	<position x="3600" y="80"/>
 	<column name="fid" not-null="true"
 	 identity-type="ALWAYS">
@@ -6152,12 +6038,6 @@ change relation types?]]></comment>
 
 <table name="ymparistotaide" layers="0" collapse-mode="2" max-obj-count="34" z-value="0">
 	<schema name="kohteet"/>
-	<comment><![CDATA[TODO:
-- tarkkaSijaintitieto
-- skeema
-- suunnitelmalinkkitieto
-- metatieto]]></comment>
-	<tag name="TODO"/>
 	<position x="2700" y="80"/>
 	<column name="fid" not-null="true"
 	 identity-type="ALWAYS">
@@ -6289,11 +6169,6 @@ change relation types?]]></comment>
 
 <table name="rakenne" layers="0" collapse-mode="2" max-obj-count="34" z-value="0">
 	<schema name="kohteet"/>
-	<comment><![CDATA[TODO:
-- tarkkaSijaintitieto
-- suunnitelmalinkkitieto
-- metatieto]]></comment>
-	<tag name="TODO"/>
 	<position x="2280" y="80"/>
 	<column name="fid" not-null="true"
 	 identity-type="ALWAYS">
@@ -6425,11 +6300,6 @@ change relation types?]]></comment>
 
 <table name="hulevesi" layers="0" collapse-mode="2" max-obj-count="34" z-value="0">
 	<schema name="kohteet"/>
-	<comment><![CDATA[TODO:
-- tarkkaSijaintitieto
-- suunnitelmalinkkitieto
-- metatieto]]></comment>
-	<tag name="TODO"/>
 	<position x="1860" y="80"/>
 	<column name="fid" not-null="true"
 	 identity-type="ALWAYS">
@@ -6561,12 +6431,6 @@ change relation types?]]></comment>
 
 <table name="ajoratamerkinta" layers="0" collapse-mode="2" max-obj-count="36" z-value="0">
 	<schema name="katualue"/>
-	<comment><![CDATA[TODO:
-- tarkkaSijaintitieto
-- skeema?
-- metatieto
-- suunnitelmalinkkitieto]]></comment>
-	<tag name="TODO"/>
 	<position x="3240" y="1280"/>
 	<column name="fid" not-null="true"
 	 identity-type="ALWAYS">
@@ -6724,7 +6588,6 @@ change relation types?]]></comment>
 <table name="luontitapatyyppi" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
 	<schema name="koodistot"/>
 	<role name="infrao_admin"/>
-	<tag name="TODO"/>
 	<position x="1460" y="1300"/>
 	<column name="cid" not-null="true">
 		<type name="integer" length="0"/>

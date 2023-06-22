@@ -9,6 +9,7 @@ Tasot on jaoteltu ryhmiin tyypeittäin (Kohteet, Kasvillisuus, Varusteet, Vihera
 ## Tasot
 
 Jokaista infraomaisuustyyppiä kohden on kolme tasoa, jotka sijaitsevat omassa ryhmässä. Näiden tasojen geometria on erilainen (piste, viiva tai alue). Yleisimmin käytetty geometria on listattu ensimmäisenä.
+
 ![](img/osio_5/image_1.png)
 
 Harvemmin käytetyt geometriatyypit löytyvät ryhmän 'Muut' alikansiosta. Näin tarvittaessa esimerkiksi liikennemerkin voi halutessaan tallentaa viivaksi tai alueeksi.

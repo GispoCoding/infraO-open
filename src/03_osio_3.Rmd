@@ -1,10 +1,19 @@
 # QGIS-toimintaympäristön rakentaminen
 
-Tässä osiossa käydään läpi toimet QGIS-toimintaympäristön käyttöönottoon. 
+Tässä osiossa käydään läpi toimet QGIS-toimintaympäristön käyttöönottoon.
 
-## InfraO-lisäosan asentaminen
+## Infra-O lisäosan asentaminen
 
-\<sisältö kesken; palaa myöhemmin\>
+### Asennus QGISin lisäosarepositoriosta
+
+Infra-O lisäosan voi asentaa suoraan QGISin virallisesta lisäosarepositoriosta. Lisäosia voi asentaa QGISin käyttöliittymästä **Lisäosat** -\> **Hallitse ja asenna lisäosia** -\> **Kaikki**- välilehti. Kirjoita hakukenttään esim. 'infrao' ja lisäosan pitäisi näkyä listassa. Valitse **Infra-O plugin** ja klikkaa **Asenna lisäosa**.
+
+### Asennus GitHub repositoriosta
+
+Asennuksen voi tehdä myös lataamalla .zip tiedoston lisäosan [GitHub- repositoriosta](https://github.com/GispoCoding/infrao-plugin). Valitse oikealta **Releases** -> Uusin julkaisu -> **Assets** -> <b>infrao-v.*.zip</b>.
+
+Avaa yllä kuvattu **Hallitse ja asenna lisäosia**- ikkuna. Valitse **Asenna ZIP-tiedostosta**- välilehti. Hae lataamasi ZIP tiedosto ja klikkaa **Asenna lisäosa**.
+
 
 ## Yhteyden muodostaminen tietokantaan
 
@@ -12,11 +21,11 @@ Käyttäjille annetaan ohjeet yhteyden muodostamiseksi PostgreSQL-tietokantaan, 
 
 ### Tietokantayhteyden tallentaminen
 
-Tässä on ohjeet PostgreSQL-/PostGIS-yhteyden lisäämiseen QGIS:iin ja QGIS-projektin avaamiseen  ko. tietokannasta:
+Tässä on ohjeet PostgreSQL-/PostGIS-yhteyden lisäämiseen QGIS:iin ja QGIS-projektin avaamiseen ko. tietokannasta:
 
 Avaa QGIS-ohjelma tietokoneellasi.
 
-Klikkaa "PostgreSQL" -kuvaketta "Tietolähteiden hallinta" -valikossa.
+Klikkaa "PostgreSQL" -kuvaketta "Tietolähteiden hallinta" -valikossa. Klikkaa "Uusi"
 
 ## QGIS-projektin (tasoineen ja konfiguraatioineen) rakentaminen lisäosan avulla
 

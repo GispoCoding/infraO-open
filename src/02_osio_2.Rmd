@@ -4,7 +4,7 @@ Tämä luku keskittyy QGIS-pohjaisen ratkaisun asennus- ja konfigurointiprosessi
 
 ## Järjestelmävaatimukset
 
-Ratkaisun käyttöönotolla ei ole erityisiä järjestelmävaatimuksia, vaan kyseessä on perinteinen PostgreSQL-tietokannan päälle rakennettu OLTP-prosessi (Online Transaction Process). Tärkeätä on käyttää QGISin ja PostgreSQLn pitkäaikaisversioita. Ratkaisu on alun perin rakennettu vuonna 2023 QGIS:in 3.28-version ja PostgreSQL:n 14 version päälle. 
+Ratkaisun käyttöönotolla ei ole erityisiä järjestelmävaatimuksia, vaan kyseessä on perinteinen PostgreSQL-tietokannan päälle rakennettu OLTP-prosessi (Online Transaction Process). Tärkeätä on käyttää QGISin ja PostgreSQLn pitkäaikaisversioita. Ratkaisu on alun perin rakennettu vuonna 2023 QGIS:in 3.28-version ja PostgreSQL:n 14 version päälle.
 
 ## QGIS:n lataaminen ja asentaminen
 

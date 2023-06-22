@@ -13,3 +13,5 @@ output:
         split_by: rmd
 documentclass: book
 ---
+
+# Infraomaisuuden tiedon hallintajärjestelmän pystytys- ja käyttöohje

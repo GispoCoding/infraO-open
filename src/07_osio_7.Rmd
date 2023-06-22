@@ -10,6 +10,6 @@ Luvussa esitellään luotujen tietokohteiden käsittelyä ja työkaluja, joiden 
 
 \<sisältö kesken; palaa myöhemmin\>
 
-![](https://lh5.googleusercontent.com/ekMp91u5w82eZKZppw4rSnNBJdVu99G9ULChfB9SGcqoFqTOETQQHa2Dko9BsrWAGkbtRAdsqNjz1A-dlNJJE3mQw0SylMgdpPcvPMRcPvbf3VPkFhpWVQbUpBydzxMf-aCfjG0Wg0gtaPlcIGjbKYo)
+![](img/osio_7/image_1.png)
 
 \

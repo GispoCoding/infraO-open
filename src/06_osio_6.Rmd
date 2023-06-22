@@ -4,4 +4,4 @@ Luvussa esitellään QGIS-toimintaympäristön työkalut ja toiminnot, jotka mah
 
 ## Mahdolliset tietolähteet tiedon tuottamisen tueksi
 
-Käyttäjät voivat hyödyntää olemassa olevia paikkatietoaineistoja ja muita tietolähteitä tiedon tuottamiseen. Esimerkiksi kansallisista aineistoista, kuten avoimen datan Digiroad-aineistosta voi olla apua tiedon tuottamisessa. Lisäksi kaupunkien ja kuntien CAD-aineistot voivat olla käyttäjän avuksi. Huom. kysessä olevan QGIS-toimintaympäristö ei automaattisesti tuo edellä mainittujen aineistojen hyödyntämistä, vaan niiden käyttö vaatii aina erillistä työtä käyttäjältä tai lisäarvopalvelun tarjoajalta. 
+Käyttäjät voivat hyödyntää olemassa olevia paikkatietoaineistoja ja muita tietolähteitä tiedon tuottamiseen. Esimerkiksi kansallisista aineistoista, kuten avoimen datan Digiroad-aineistosta voi olla apua tiedon tuottamisessa. Lisäksi kaupunkien ja kuntien CAD-aineistot voivat olla käyttäjän avuksi. Huom. kysessä olevan QGIS-toimintaympäristö ei automaattisesti tuo edellä mainittujen aineistojen hyödyntämistä, vaan niiden käyttö vaatii aina erillistä työtä käyttäjältä tai lisäarvopalvelun tarjoajalta.

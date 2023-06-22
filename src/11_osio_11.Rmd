@@ -1,5 +1,5 @@
 # Vianmääritys ja usein kysytyt kysymykset (UKK)
 
-Tässä luvussa on tuotu esille tyypillisiä vianmääritystilanteita ja usein kysyttyjä kysymyksiä (UKK). Luvussa käydään läpi ratkaisut yleisimpiin ongelmiin ja vastauksia usein esitettyihin kysymyksiin. 
+Tässä luvussa on tuotu esille tyypillisiä vianmääritystilanteita ja usein kysyttyjä kysymyksiä (UKK). Luvussa käydään läpi ratkaisut yleisimpiin ongelmiin ja vastauksia usein esitettyihin kysymyksiin.
 
 \<sisältö kesken; palaa myöhemmin\>

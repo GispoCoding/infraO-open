@@ -7,7 +7,7 @@
 <meta charset="utf-8" />
 <meta name="generator" content="pandoc" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta property="og:title" content="3 QGIS-toimintaympäristön rakentaminen | Infra-O käyttöohje" />
+<meta property="og:title" content="4 QGIS-toimintaympäristön rakentaminen | Infra-O käyttöohje" />
 <meta property="og:type" content="book" />
 
 
@@ -16,12 +16,12 @@
 
 <meta name="author" content="Gispo Ltd." />
 
-<meta name="date" content="2023-06-16" />
+<meta name="date" content="2023-06-22" />
 
 
-<meta name="description" content="3 QGIS-toimintaympäristön rakentaminen | Infra-O käyttöohje">
+<meta name="description" content="4 QGIS-toimintaympäristön rakentaminen | Infra-O käyttöohje">
 
-<title>3 QGIS-toimintaympäristön rakentaminen | Infra-O käyttöohje</title>
+<title>4 QGIS-toimintaympäristön rakentaminen | Infra-O käyttöohje</title>
 
 <script src="libs/header-attrs-2.11/header-attrs.js"></script>
 <script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
@@ -128,35 +128,63 @@ type="button" onclick="navToggle()" aria-label="Toggle navigation">
 <nav class="sidebar-nav">
 <div id="TOC" class="toc">
 <ul>
-<li><a href="01_osio_1.html#johdanto"><span class="toc-section-number">1</span> Johdanto</a>
+<li><a href="index.html#infraomaisuuden-tiedon-hallintajärjestelmän-pystytys--ja-käyttöohje"><span class="toc-section-number">1</span> Infraomaisuuden tiedon hallintajärjestelmän pystytys- ja käyttöohje</a></li>
+<li><a href="01_osio_1.html#johdanto"><span class="toc-section-number">2</span> Johdanto</a>
 <ul>
-<li><a href="01_osio_1.html#ratkaisun-yleiskatsaus"><span class="toc-section-number">1.1</span> Ratkaisun yleiskatsaus</a></li>
-<li><a href="01_osio_1.html#avoin-lähdekoodi-ja-ilmainen-käyttö"><span class="toc-section-number">1.2</span> Avoin lähdekoodi ja ilmainen käyttö</a></li>
-<li><a href="01_osio_1.html#käyttöönotto"><span class="toc-section-number">1.3</span> Käyttöönotto</a></li>
+<li><a href="01_osio_1.html#ratkaisun-yleiskatsaus"><span class="toc-section-number">2.1</span> Ratkaisun yleiskatsaus</a></li>
+<li><a href="01_osio_1.html#avoin-lähdekoodi-ja-ilmainen-käyttö"><span class="toc-section-number">2.2</span> Avoin lähdekoodi ja ilmainen käyttö</a></li>
+<li><a href="01_osio_1.html#käyttöönotto"><span class="toc-section-number">2.3</span> Käyttöönotto</a></li>
 </ul></li>
-<li><a href="02_osio_2.html#qgis-pohjaisen-ratkaisun-asennus-ja-konfigurointi"><span class="toc-section-number">2</span> QGIS-pohjaisen ratkaisun asennus ja konfigurointi</a>
+<li><a href="02_osio_2.html#qgis-pohjaisen-ratkaisun-asennus-ja-konfigurointi"><span class="toc-section-number">3</span> QGIS-pohjaisen ratkaisun asennus ja konfigurointi</a>
 <ul>
-<li><a href="02_osio_2.html#järjestelmävaatimukset"><span class="toc-section-number">2.1</span> Järjestelmävaatimukset</a></li>
-<li><a href="02_osio_2.html#qgisn-lataaminen-ja-asentaminen"><span class="toc-section-number">2.2</span> QGIS:n lataaminen ja asentaminen</a></li>
+<li><a href="02_osio_2.html#järjestelmävaatimukset"><span class="toc-section-number">3.1</span> Järjestelmävaatimukset</a></li>
+<li><a href="02_osio_2.html#qgisn-lataaminen-ja-asentaminen"><span class="toc-section-number">3.2</span> QGIS:n lataaminen ja asentaminen</a></li>
 </ul></li>
-<li><a href="03_osio_3.html#qgis-toimintaympäristön-rakentaminen"><span class="toc-section-number">3</span> QGIS-toimintaympäristön rakentaminen</a>
+<li><a href="03_osio_3.html#qgis-toimintaympäristön-rakentaminen"><span class="toc-section-number">4</span> QGIS-toimintaympäristön rakentaminen</a>
 <ul>
-<li><a href="03_osio_3.html#infrao-lisäosan-asentaminen"><span class="toc-section-number">3.1</span> InfraO-lisäosan asentaminen</a></li>
-<li><a href="03_osio_3.html#yhteyden-muodostaminen-tietokantaan"><span class="toc-section-number">3.2</span> Yhteyden muodostaminen tietokantaan</a>
+<li><a href="03_osio_3.html#infra-o-lisäosan-asentaminen"><span class="toc-section-number">4.1</span> Infra-O lisäosan asentaminen</a>
 <ul>
-<li><a href="03_osio_3.html#tietokantayhteyden-tallentaminen"><span class="toc-section-number">3.2.1</span> Tietokantayhteyden tallentaminen</a></li>
+<li><a href="03_osio_3.html#asennus-qgisin-lisäosarepositoriosta"><span class="toc-section-number">4.1.1</span> Asennus QGISin lisäosarepositoriosta</a></li>
+<li><a href="03_osio_3.html#asennus-github-repositoriosta"><span class="toc-section-number">4.1.2</span> Asennus GitHub repositoriosta</a></li>
 </ul></li>
-<li><a href="03_osio_3.html#qgis-projektin-tasoineen-ja-konfiguraatioineen-rakentaminen-lisäosan-avulla"><span class="toc-section-number">3.3</span> QGIS-projektin (tasoineen ja konfiguraatioineen) rakentaminen lisäosan avulla</a></li>
-</ul></li>
-<li><a href="04_osio_4.html#qgis-toimintaympäristön-käyttöönotto"><span class="toc-section-number">4</span> QGIS-toimintaympäristön käyttöönotto</a></li>
-<li><a href="05_osio_5.html#yleiskatsaus-qgis-toimintaympäristön-toiminnallisuuksiin"><span class="toc-section-number">5</span> Yleiskatsaus QGIS-toimintaympäristön toiminnallisuuksiin</a></li>
-<li><a href="06_osio_6.html#tiedon-tuottaminen-qgis-toimintaympäristössä"><span class="toc-section-number">6</span> Tiedon tuottaminen QGIS-toimintaympäristössä</a>
+<li><a href="03_osio_3.html#tietokanta"><span class="toc-section-number">4.2</span> Tietokanta</a>
 <ul>
-<li><a href="06_osio_6.html#mahdolliset-tietolähteet-tiedon-tuottamisen-tueksi"><span class="toc-section-number">6.1</span> Mahdolliset tietolähteet tiedon tuottamisen tueksi</a></li>
+<li><a href="03_osio_3.html#huomioitavaa-tietokannasta"><span class="toc-section-number">4.2.1</span> Huomioitavaa tietokannasta</a></li>
 </ul></li>
-<li><a href="07_osio_7.html#tietojen-hallinta-ja-editointi"><span class="toc-section-number">7</span> Tietojen hallinta ja editointi</a></li>
-<li><a href="08_osio_8.html#datan-tuonti-importointi-ja-vienti-exportointi"><span class="toc-section-number">8</span> Datan tuonti (importointi) ja vienti (exportointi)</a></li>
-<li><a href="08_osio_8.html#section"><span class="toc-section-number">9</span> </a></li>
+<li><a href="03_osio_3.html#yhteyden-muodostaminen-tietokantaan"><span class="toc-section-number">4.3</span> Yhteyden muodostaminen tietokantaan</a>
+<ul>
+<li><a href="03_osio_3.html#tietokantayhteyden-tallentaminen"><span class="toc-section-number">4.3.1</span> Tietokantayhteyden tallentaminen</a></li>
+</ul></li>
+<li><a href="03_osio_3.html#tietokantarakenne-lisäosalla"><span class="toc-section-number">4.4</span> Tietokantarakenne lisäosalla</a>
+<ul>
+<li><a href="03_osio_3.html#todennusasetusten-rekisteröinti"><span class="toc-section-number">4.4.1</span> Todennusasetusten rekisteröinti</a></li>
+<li><a href="03_osio_3.html#todennusasetusten-määrittäminen-yhteydelle"><span class="toc-section-number">4.4.2</span> Todennusasetusten määrittäminen yhteydelle</a></li>
+</ul></li>
+</ul></li>
+<li><a href="04_osio_4.html#qgis-toimintaympäristön-käyttöönotto"><span class="toc-section-number">5</span> QGIS-toimintaympäristön käyttöönotto</a>
+<ul>
+<li><a href="04_osio_4.html#qgis--projektin-avaaminen"><span class="toc-section-number">5.1</span> QGIS- projektin avaaminen</a>
+<ul>
+<li><a href="04_osio_4.html#avaaminen-lisäosalla"><span class="toc-section-number">5.1.1</span> Avaaminen lisäosalla</a></li>
+<li><a href="04_osio_4.html#avaaminen-tietokannasta"><span class="toc-section-number">5.1.2</span> Avaaminen tietokannasta</a></li>
+</ul></li>
+</ul></li>
+<li><a href="05_osio_5.html#yleiskatsaus-qgis-toimintaympäristön-toiminnallisuuksiin"><span class="toc-section-number">6</span> Yleiskatsaus QGIS-toimintaympäristön toiminnallisuuksiin</a>
+<ul>
+<li><a href="05_osio_5.html#pääryhmät"><span class="toc-section-number">6.1</span> Pääryhmät</a></li>
+<li><a href="05_osio_5.html#tasot"><span class="toc-section-number">6.2</span> Tasot</a></li>
+</ul></li>
+<li><a href="06_osio_6.html#tiedon-tuottaminen-qgis-toimintaympäristössä"><span class="toc-section-number">7</span> Tiedon tuottaminen QGIS-toimintaympäristössä</a>
+<ul>
+<li><a href="06_osio_6.html#mahdolliset-tietolähteet-tiedon-tuottamisen-tueksi"><span class="toc-section-number">7.1</span> Mahdolliset tietolähteet tiedon tuottamisen tueksi</a></li>
+</ul></li>
+<li><a href="07_osio_7.html#tietojen-hallinta-ja-editointi"><span class="toc-section-number">8</span> Tietojen hallinta ja editointi</a></li>
+<li><a href="08_osio_8.html#datan-tuonti-importointi-ja-vienti-exportointi"><span class="toc-section-number">9</span> Datan tuonti (importointi) ja vienti (exportointi)</a>
+<ul>
+<li><a href="08_osio_8.html#export"><span class="toc-section-number">9.1</span> Export</a></li>
+<li><a href="08_osio_8.html#import-tiedostosta"><span class="toc-section-number">9.2</span> Import tiedostosta</a></li>
+<li><a href="08_osio_8.html#import-rajapinnalta"><span class="toc-section-number">9.3</span> Import rajapinnalta</a></li>
+</ul></li>
 <li><a href="09_osio_9.html#tyylien-ja-visualisoinnin-hallinta"><span class="toc-section-number">10</span> Tyylien ja visualisoinnin hallinta</a></li>
 <li><a href="10_osio_10.html#tietojen-jakelu-rajapinnalta"><span class="toc-section-number">11</span> Tietojen jakelu rajapinnalta</a>
 <ul>
@@ -182,27 +210,53 @@ type="button" onclick="navToggle()" aria-label="Toggle navigation">
 </div>
 <div class="row">
 <div class="col-sm-12">
-<div id="qgis-toimintaympäristön-rakentaminen" class="section level1" number="3">
-<h1><span class="header-section-number">3</span> QGIS-toimintaympäristön rakentaminen</h1>
-<p>Tässä osiossa käydään läpi toimet QGIS-toimintaympäristön käyttöönottoon. </p>
-<div id="infrao-lisäosan-asentaminen" class="section level2" number="3.1">
-<h2><span class="header-section-number">3.1</span> InfraO-lisäosan asentaminen</h2>
-<p>&lt;sisältö kesken; palaa myöhemmin&gt;</p>
+<div id="qgis-toimintaympäristön-rakentaminen" class="section level1" number="4">
+<h1><span class="header-section-number">4</span> QGIS-toimintaympäristön rakentaminen</h1>
+<p>Tässä osiossa käydään läpi toimet QGIS-toimintaympäristön käyttöönottoon.</p>
+<div id="infra-o-lisäosan-asentaminen" class="section level2" number="4.1">
+<h2><span class="header-section-number">4.1</span> Infra-O lisäosan asentaminen</h2>
+<div id="asennus-qgisin-lisäosarepositoriosta" class="section level3" number="4.1.1">
+<h3><span class="header-section-number">4.1.1</span> Asennus QGISin lisäosarepositoriosta</h3>
+<p>Infra-O lisäosan voi asentaa suoraan QGISin virallisesta lisäosarepositoriosta. Lisäosia voi asentaa QGISin käyttöliittymästä <strong>Lisäosat</strong> -&gt; <strong>Hallitse ja asenna lisäosia</strong> -&gt; <strong>Kaikki</strong>- välilehti. Kirjoita hakukenttään esim. ‘infrao’ ja lisäosan pitäisi näkyä listassa. Valitse <strong>Infra-O plugin</strong> ja klikkaa <strong>Asenna lisäosa</strong>.</p>
 </div>
-<div id="yhteyden-muodostaminen-tietokantaan" class="section level2" number="3.2">
-<h2><span class="header-section-number">3.2</span> Yhteyden muodostaminen tietokantaan</h2>
+<div id="asennus-github-repositoriosta" class="section level3" number="4.1.2">
+<h3><span class="header-section-number">4.1.2</span> Asennus GitHub repositoriosta</h3>
+<p>Asennuksen voi tehdä myös lataamalla .zip tiedoston lisäosan <a href="https://github.com/GispoCoding/infrao-plugin">GitHub- repositoriosta</a>. Valitse oikealta <strong>Releases</strong> -&gt; Uusin julkaisu -&gt; <strong>Assets</strong> -&gt; <b>infrao-v.*.zip</b>.</p>
+<p>Avaa yllä kuvattu <strong>Hallitse ja asenna lisäosia</strong>- ikkuna. Valitse <strong>Asenna ZIP-tiedostosta</strong>- välilehti. Hae lataamasi ZIP tiedosto ja klikkaa <strong>Asenna lisäosa</strong>.</p>
+</div>
+</div>
+<div id="tietokanta" class="section level2" number="4.2">
+<h2><span class="header-section-number">4.2</span> Tietokanta</h2>
+<p>Toimintaympäristöä varten tarvitaan PostgreSQL- tietokantaklusteri. Klusteriin on suositeltavaa luoda infraomaisuuden hallintaa varten oma tietokanta esimerkiksi nimeltä ‘infrao’. Infrao-tietokantaan tulee asentaa PostGIS- liitännäinen. Tietokannan omistajaksi ja ylläpitäjäksi voidaan luodaan oma käyttäjä, esimerkiksi ‘infrao_admin’. Tietokantaan voi luoda myös muita käyttäjiä tai rooleja. Tiedon tuottaminen, hallinnointi ja lisäosan muiden toimintojen (tietojen vieminen tai tuominen) vaatii vähintään oikeuden valita (SELECT) ja lisätä (INSERT) infrao- tietokannan tauluihin.</p>
+<div id="huomioitavaa-tietokannasta" class="section level3" number="4.2.1">
+<h3><span class="header-section-number">4.2.1</span> Huomioitavaa tietokannasta</h3>
+<p>Toimintaympäristön tietokantarakenteen voi luoda QGISin Infra-O lisäosalla. Tähän tarvitaan käyttäjätunnukset infrao- tietokantaan, jolla on oikeus lisätä skeemoja, tauluja ja sekvenssejä. Lisäksi QGIS- projektin lisääminen tietokantaan vaatii oikeuden lisätä tauluja infrao- tietokannan public- skeemaan. Mikäli käyttäjällä on superuserin oikeudet, PostGIS- liitännäisen lisääminen tietokantaan onnistuu suoraan lisäosan työkalulla. PostGISin voi asentaa kuitenkin myös etukäteen.</p>
+<p>Tietokantarakenteen voi luoda myös manuaalisesti hyödyntämällä <a href="https://github.com/GispoCoding/infraO-open">infraO-open repositorion</a> tietokanta- skriptiä. Tällöin Infra-O -QGIS projektia ei kuitenkaan lisätä automaattisesti tietokantaan.</p>
+</div>
+</div>
+<div id="yhteyden-muodostaminen-tietokantaan" class="section level2" number="4.3">
+<h2><span class="header-section-number">4.3</span> Yhteyden muodostaminen tietokantaan</h2>
 <p>Käyttäjille annetaan ohjeet yhteyden muodostamiseksi PostgreSQL-tietokantaan, oli se sitten paikallisesti tai etäpalvelimella. Tämä vaihe mahdollistaa käyttäjien pääsyn tietoihinsa ja saumattoman tiedon luomisen ja hallinnan.</p>
-<div id="tietokantayhteyden-tallentaminen" class="section level3" number="3.2.1">
-<h3><span class="header-section-number">3.2.1</span> Tietokantayhteyden tallentaminen</h3>
-<p>Tässä on ohjeet PostgreSQL-/PostGIS-yhteyden lisäämiseen QGIS:iin ja QGIS-projektin avaamiseen  ko. tietokannasta:</p>
+<div id="tietokantayhteyden-tallentaminen" class="section level3" number="4.3.1">
+<h3><span class="header-section-number">4.3.1</span> Tietokantayhteyden tallentaminen</h3>
+<p>Tässä on ohjeet PostgreSQL-/PostGIS-yhteyden lisäämiseen QGIS:iin ja QGIS-projektin avaamiseen ko. tietokannasta:</p>
 <p>Avaa QGIS-ohjelma tietokoneellasi.</p>
-<p>Klikkaa “PostgreSQL” -kuvaketta “Tietolähteiden hallinta” -valikossa.</p>
+<p>Klikkaa “PostgreSQL” -kuvaketta “Tietolähteiden hallinta” -valikossa. Klikkaa “Uusi”. Anna nimeksi esimerkiksi ‘infrao’ ja täytä muihin kenttiin tietokantapalvelimen tiedot.</p>
 </div>
 </div>
-<div id="qgis-projektin-tasoineen-ja-konfiguraatioineen-rakentaminen-lisäosan-avulla" class="section level2" number="3.3">
-<h2><span class="header-section-number">3.3</span> QGIS-projektin (tasoineen ja konfiguraatioineen) rakentaminen lisäosan avulla</h2>
-<p>&lt;sisältö kesken; palaa myöhemmin&gt;</p>
+<div id="tietokantarakenne-lisäosalla" class="section level2" number="4.4">
+<h2><span class="header-section-number">4.4</span> Tietokantarakenne lisäosalla</h2>
+<p>Kun tietokantayhteys on tallennettu, tietokantarakenne voidaan luoda lisäosalla. Avaa työkalu <strong>Lisäosat</strong> -&gt; <strong>Infra-O plugin</strong> -&gt; <strong>Alusta tietokanta</strong>. Valitse ‘Tietokantayhteydet’ kenttään yhteys infrao-tietokantaan. Klikkaa sitten <strong>‘Alusta’</strong>. Jos määritellyllä käyttäjällä on riittävät oikeudet, tietokantaan lisätään Infra-O tietomallin mukainen rakenne. Tietokantaan lisätään myös QGIS- projekti (työtila). Työtilan pitäisi päivittyä <strong>‘QGIS työtilat’</strong>- kenttään. Työtilan voi avata klikkaamalla <strong>‘Avaa’</strong>.</p>
+<div id="todennusasetusten-rekisteröinti" class="section level3" number="4.4.1">
+<h3><span class="header-section-number">4.4.1</span> Todennusasetusten rekisteröinti</h3>
+<p>Kun tietokantarakenne luodaan, QGISin autentikaatiotietokantaan tallentuu autentikaatioasetukset tietokantayhteyden mukaisesti. Autentikaatioiden tunnisteeksi asetetaan tietokantayhteyden nimi. Tämä tietokantayhteyden nimi muokataan myös QGIS- projektin tasojen datalähteen tietoihin. Tietokantarakentaan luojalle autentikaatioasetukset tallentuvat automaattisesti.</p>
+<p>Jos tietokantaa hyödyntää useampi käyttäjä, jokaisella käyttäjällä tulee olla tallennettuna autentikaatioasetus samalla tunnisteella. Itse kirjautumistiedot voivat olla kuitenkin erit. Tämä mahdollistaa tietokannan yhteiskäytön eri käyttäjätunnuksilla. <strong>Alusta tietokanta</strong>- työkalulla myös muut käyttäjät voivat rekisteröidä autentikaatioasetuksensa QGISin autentikaatiotietokantaan. Klikkaa ‘Alusta tietokanta’- ikkunassa <strong>‘Rekisteröi’</strong> painiketta ja täydennä tarvittaessa käyttäjänimi ja salasana. Täytä autentikaatiotunniste- kenttään QGIS- projektin tietolähteiden ‘authcfg’ parametrin arvo (alkuperäinen tietokantarakenteen luomisessa käytetty tietokantayhteyden nimi).</p>
+</div>
+<div id="todennusasetusten-määrittäminen-yhteydelle" class="section level3" number="4.4.2">
+<h3><span class="header-section-number">4.4.2</span> Todennusasetusten määrittäminen yhteydelle</h3>
+<p>Lisäosan käyttöä helpottaa, jos tietokantayhteydelle määritetään autentikaatioasetukset. Muokkaa yhteyttä ja valitse todennusasetukseksi rekisteröimäsi todennusasetus.</p>
 
+</div>
 </div>
 </div>
 <p style="text-align: center;">
@@ -218,7 +272,7 @@ type="button" onclick="navToggle()" aria-label="Toggle navigation">
 
 <div class="footer-info">
 <h5 class="footer-title">Infra-O käyttöohje</h5>
-<span class="footer-version">v2023-06-16</span>
+<span class="footer-version">v2023-06-22</span>
 <div class="license"><img src="img/by-nd.svg" width="80px" alt="CC-BY-ND"></div>
 </div>
 

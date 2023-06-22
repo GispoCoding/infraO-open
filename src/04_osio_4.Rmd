@@ -2,6 +2,14 @@
 
 Tässä osiossa käydään läpi toimet QGIS-toimintaympäristön käyttöönottoon.
 
-Olettaen, että QGIS-toimintaympäristö on luotu tavoitteiden mukaisesti edellisen luvun ohjeistuksen mukaisesti voidaan ottaa QGIS-toimintaympäristö käyttöön kokonaisuudessaan suoraan PostgreSQL-kannasta. Näin käyttäjä avaa QGIS-projektin tietokannasta. 
+Olettaen, että QGIS-toimintaympäristö on luotu tavoitteiden mukaisesti edellisen luvun ohjeistuksen mukaisesti voidaan ottaa QGIS-toimintaympäristö käyttöön kokonaisuudessaan suoraan PostgreSQL-kannasta. Näin käyttäjä avaa QGIS-projektin tietokannasta.
 
-\
+## QGIS- projektin avaaminen
+
+### Avaaminen lisäosalla
+
+QGIS- projektin avaaminen onnistuu Infra-O lisäosalla. Avaa lisäosan 'Alusta tietokanta'- työkalu. Valitse infrao- tietokantayhteys ja klikkaa 'QGIS työtilat'- kohdasta 'Päivitä'. Klikkaa tämän jälkeen 'Avaa'.
+
+### Avaaminen tietokannasta
+
+Valitse QGISistä **Projekti** -> **Avaa kohteesta** -> **PostgreSQL**. Valitse infrao- tietokantayhteys. Valitse 'Public'- Skeema. Valitse 'infraO-tyotila'- projekti ja klikkaa 'OK'.

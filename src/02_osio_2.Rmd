@@ -1,4 +1,4 @@
-# QGIS-pohjaisen ratkaisun asennus ja konfigurointi
+# 2 QGIS-pohjaisen ratkaisun asennus ja konfigurointi
 
 Tämä luku keskittyy QGIS-pohjaisen ratkaisun asennus- ja konfigurointiprosessiin. Siinä annetaan vaiheittaiset ohjeet ohjelmiston asentamiseen ja käyttöönottoon, jotta käyttäjät pääsevät sujuvasti alkuun kunnallisen infrastruktuurin tietojen hallinnassa.
 

@@ -1,5 +1,24 @@
-# Vianmääritys ja usein kysytyt kysymykset (UKK)
+# 11. Vianmääritys ja usein kysytyt kysymykset (UKK)
 
 Tässä luvussa on tuotu esille tyypillisiä vianmääritystilanteita ja usein kysyttyjä kysymyksiä (UKK). Luvussa käydään läpi ratkaisut yleisimpiin ongelmiin ja vastauksia usein esitettyihin kysymyksiin.
 
-\<sisältö kesken; palaa myöhemmin\>
+## 11.1. Tietokannan alustus
+
+### 11.1.1 Alustus ei onnistu
+- Varmista, että yhteysasetuksiin määritetyllä käyttäjällä on riittävät oikeudet tietokantaan (skeemojen ja taulujen luominen)
+- Luo PostGIS- lisäosa etukäteen tietokantaan
+## 11.2. Datan tuottaminen
+
+### 11.2.1. Voiko kohteiden geometrioida kopioida?
+Pystyy. Valitsemalla kohteita esimerkiksi toisessa QGIS- ikkunassa ja kopioimalla (huom. editointitila) ne Infra-O työtilaan. Tällöin tiedot kuitenkin pitää syöttää erikseen uusille kohteille.
+
+## 11.3. Datan editointi
+
+### 11.3.1. Voiko useampaa kohdetta editoida kerrallaan?
+[Osion 7.1.](07_osio_7.html#editointi) mukaisesti voit valita tasolta useamman kohteen, joiden tietoja voit muokata.
+
+## 11.4.1. Datan exportointi
+Täydennetään kun yleisiä ongelmia ilmenee. Ilmoita ongelmista tai bugeista luomalla issue [GitHub- repositorioon.](https://github.com/GispoCoding/infrao-plugin)
+
+## 11.5.1. Datan importointi
+Täydennetään kun yleisiä ongelmia ilmenee. Ilmoita ongelmista tai bugeista luomalla issue [GitHub- repositorioon.](https://github.com/GispoCoding/infrao-plugin)

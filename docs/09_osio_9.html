@@ -7,7 +7,7 @@
 <meta charset="utf-8" />
 <meta name="generator" content="pandoc" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta property="og:title" content="10 Tyylien ja visualisoinnin hallinta | Infra-O käyttöohje" />
+<meta property="og:title" content="10 9. Tyylien ja visualisoinnin hallinta | Infra-O käyttöohje" />
 <meta property="og:type" content="book" />
 
 
@@ -16,12 +16,12 @@
 
 <meta name="author" content="Gispo Ltd." />
 
-<meta name="date" content="2023-06-22" />
+<meta name="date" content="2023-06-27" />
 
 
-<meta name="description" content="10 Tyylien ja visualisoinnin hallinta | Infra-O käyttöohje">
+<meta name="description" content="10 9. Tyylien ja visualisoinnin hallinta | Infra-O käyttöohje">
 
-<title>10 Tyylien ja visualisoinnin hallinta | Infra-O käyttöohje</title>
+<title>10 9. Tyylien ja visualisoinnin hallinta | Infra-O käyttöohje</title>
 
 <script src="libs/header-attrs-2.11/header-attrs.js"></script>
 <script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
@@ -129,72 +129,91 @@ type="button" onclick="navToggle()" aria-label="Toggle navigation">
 <div id="TOC" class="toc">
 <ul>
 <li><a href="index.html#infraomaisuuden-tiedon-hallintajärjestelmän-pystytys--ja-käyttöohje"><span class="toc-section-number">1</span> Infraomaisuuden tiedon hallintajärjestelmän pystytys- ja käyttöohje</a></li>
-<li><a href="01_osio_1.html#johdanto"><span class="toc-section-number">2</span> Johdanto</a>
+<li><a href="01_osio_1.html#johdanto"><span class="toc-section-number">2</span> 1. Johdanto</a>
 <ul>
 <li><a href="01_osio_1.html#ratkaisun-yleiskatsaus"><span class="toc-section-number">2.1</span> Ratkaisun yleiskatsaus</a></li>
 <li><a href="01_osio_1.html#avoin-lähdekoodi-ja-ilmainen-käyttö"><span class="toc-section-number">2.2</span> Avoin lähdekoodi ja ilmainen käyttö</a></li>
 <li><a href="01_osio_1.html#käyttöönotto"><span class="toc-section-number">2.3</span> Käyttöönotto</a></li>
 </ul></li>
-<li><a href="02_osio_2.html#qgis-pohjaisen-ratkaisun-asennus-ja-konfigurointi"><span class="toc-section-number">3</span> QGIS-pohjaisen ratkaisun asennus ja konfigurointi</a>
+<li><a href="02_osio_2.html#qgis-pohjaisen-ratkaisun-asennus-ja-konfigurointi"><span class="toc-section-number">3</span> 2 QGIS-pohjaisen ratkaisun asennus ja konfigurointi</a>
 <ul>
 <li><a href="02_osio_2.html#järjestelmävaatimukset"><span class="toc-section-number">3.1</span> Järjestelmävaatimukset</a></li>
 <li><a href="02_osio_2.html#qgisn-lataaminen-ja-asentaminen"><span class="toc-section-number">3.2</span> QGIS:n lataaminen ja asentaminen</a></li>
 </ul></li>
-<li><a href="03_osio_3.html#qgis-toimintaympäristön-rakentaminen"><span class="toc-section-number">4</span> QGIS-toimintaympäristön rakentaminen</a>
+<li><a href="03_osio_3.html#qgis-toimintaympäristön-rakentaminen"><span class="toc-section-number">4</span> 3. QGIS-toimintaympäristön rakentaminen</a>
 <ul>
-<li><a href="03_osio_3.html#infra-o-lisäosan-asentaminen"><span class="toc-section-number">4.1</span> Infra-O lisäosan asentaminen</a>
+<li><a href="03_osio_3.html#infra-o-lisäosan-asentaminen"><span class="toc-section-number">4.1</span> 3.1. Infra-O lisäosan asentaminen</a>
 <ul>
-<li><a href="03_osio_3.html#asennus-qgisin-lisäosarepositoriosta"><span class="toc-section-number">4.1.1</span> Asennus QGISin lisäosarepositoriosta</a></li>
-<li><a href="03_osio_3.html#asennus-github-repositoriosta"><span class="toc-section-number">4.1.2</span> Asennus GitHub repositoriosta</a></li>
+<li><a href="03_osio_3.html#asennus-qgisin-lisäosarepositoriosta"><span class="toc-section-number">4.1.1</span> 3.1.1. Asennus QGISin lisäosarepositoriosta</a></li>
+<li><a href="03_osio_3.html#asennus-github-repositoriosta"><span class="toc-section-number">4.1.2</span> 3.1.2. Asennus GitHub repositoriosta</a></li>
 </ul></li>
-<li><a href="03_osio_3.html#tietokanta"><span class="toc-section-number">4.2</span> Tietokanta</a>
+<li><a href="03_osio_3.html#tietokanta"><span class="toc-section-number">4.2</span> 3.2. Tietokanta</a>
 <ul>
-<li><a href="03_osio_3.html#huomioitavaa-tietokannasta"><span class="toc-section-number">4.2.1</span> Huomioitavaa tietokannasta</a></li>
+<li><a href="03_osio_3.html#huomioitavaa-tietokannasta"><span class="toc-section-number">4.2.1</span> 3.2.1. Huomioitavaa tietokannasta</a></li>
 </ul></li>
-<li><a href="03_osio_3.html#yhteyden-muodostaminen-tietokantaan"><span class="toc-section-number">4.3</span> Yhteyden muodostaminen tietokantaan</a>
+<li><a href="03_osio_3.html#yhteyden-muodostaminen-tietokantaan"><span class="toc-section-number">4.3</span> 3.3. Yhteyden muodostaminen tietokantaan</a>
 <ul>
-<li><a href="03_osio_3.html#tietokantayhteyden-tallentaminen"><span class="toc-section-number">4.3.1</span> Tietokantayhteyden tallentaminen</a></li>
+<li><a href="03_osio_3.html#tietokantayhteyden-tallentaminen"><span class="toc-section-number">4.3.1</span> 3.3.1. Tietokantayhteyden tallentaminen</a></li>
 </ul></li>
-<li><a href="03_osio_3.html#tietokantarakenne-lisäosalla"><span class="toc-section-number">4.4</span> Tietokantarakenne lisäosalla</a>
+<li><a href="03_osio_3.html#tietokantarakenne-lisäosalla"><span class="toc-section-number">4.4</span> 3.4. Tietokantarakenne lisäosalla</a>
 <ul>
-<li><a href="03_osio_3.html#todennusasetusten-rekisteröinti"><span class="toc-section-number">4.4.1</span> Todennusasetusten rekisteröinti</a></li>
-<li><a href="03_osio_3.html#todennusasetusten-määrittäminen-yhteydelle"><span class="toc-section-number">4.4.2</span> Todennusasetusten määrittäminen yhteydelle</a></li>
-</ul></li>
-</ul></li>
-<li><a href="04_osio_4.html#qgis-toimintaympäristön-käyttöönotto"><span class="toc-section-number">5</span> QGIS-toimintaympäristön käyttöönotto</a>
-<ul>
-<li><a href="04_osio_4.html#qgis--projektin-avaaminen"><span class="toc-section-number">5.1</span> QGIS- projektin avaaminen</a>
-<ul>
-<li><a href="04_osio_4.html#avaaminen-lisäosalla"><span class="toc-section-number">5.1.1</span> Avaaminen lisäosalla</a></li>
-<li><a href="04_osio_4.html#avaaminen-tietokannasta"><span class="toc-section-number">5.1.2</span> Avaaminen tietokannasta</a></li>
+<li><a href="03_osio_3.html#todennusasetusten-rekisteröinti"><span class="toc-section-number">4.4.1</span> 3.4.1. Todennusasetusten rekisteröinti</a></li>
+<li><a href="03_osio_3.html#todennusasetusten-määrittäminen-yhteydelle"><span class="toc-section-number">4.4.2</span> 3.4.2. Todennusasetusten määrittäminen yhteydelle</a></li>
 </ul></li>
 </ul></li>
-<li><a href="05_osio_5.html#yleiskatsaus-qgis-toimintaympäristön-toiminnallisuuksiin"><span class="toc-section-number">6</span> Yleiskatsaus QGIS-toimintaympäristön toiminnallisuuksiin</a>
+<li><a href="04_osio_4.html#qgis-toimintaympäristön-käyttöönotto"><span class="toc-section-number">5</span> 4. QGIS-toimintaympäristön käyttöönotto</a>
 <ul>
-<li><a href="05_osio_5.html#pääryhmät"><span class="toc-section-number">6.1</span> Pääryhmät</a></li>
-<li><a href="05_osio_5.html#tasot"><span class="toc-section-number">6.2</span> Tasot</a></li>
-</ul></li>
-<li><a href="06_osio_6.html#tiedon-tuottaminen-qgis-toimintaympäristössä"><span class="toc-section-number">7</span> Tiedon tuottaminen QGIS-toimintaympäristössä</a>
+<li><a href="04_osio_4.html#qgis--projektin-avaaminen"><span class="toc-section-number">5.1</span> 4.1. QGIS- projektin avaaminen</a>
 <ul>
-<li><a href="06_osio_6.html#mahdolliset-tietolähteet-tiedon-tuottamisen-tueksi"><span class="toc-section-number">7.1</span> Mahdolliset tietolähteet tiedon tuottamisen tueksi</a></li>
+<li><a href="04_osio_4.html#avaaminen-lisäosalla"><span class="toc-section-number">5.1.1</span> 4.1.1. Avaaminen lisäosalla</a></li>
+<li><a href="04_osio_4.html#avaaminen-tietokannasta"><span class="toc-section-number">5.1.2</span> 4.1.2. Avaaminen tietokannasta</a></li>
 </ul></li>
-<li><a href="07_osio_7.html#tietojen-hallinta-ja-editointi"><span class="toc-section-number">8</span> Tietojen hallinta ja editointi</a></li>
-<li><a href="08_osio_8.html#datan-tuonti-importointi-ja-vienti-exportointi"><span class="toc-section-number">9</span> Datan tuonti (importointi) ja vienti (exportointi)</a>
+</ul></li>
+<li><a href="05_osio_5.html#yleiskatsaus-qgis-toimintaympäristön-toiminnallisuuksiin"><span class="toc-section-number">6</span> 5. Yleiskatsaus QGIS-toimintaympäristön toiminnallisuuksiin</a>
 <ul>
-<li><a href="08_osio_8.html#export"><span class="toc-section-number">9.1</span> Export</a></li>
-<li><a href="08_osio_8.html#import-tiedostosta"><span class="toc-section-number">9.2</span> Import tiedostosta</a></li>
-<li><a href="08_osio_8.html#import-rajapinnalta"><span class="toc-section-number">9.3</span> Import rajapinnalta</a></li>
+<li><a href="05_osio_5.html#ryhmät"><span class="toc-section-number">6.1</span> 5.1. Ryhmät</a></li>
+<li><a href="05_osio_5.html#tasot"><span class="toc-section-number">6.2</span> 5.2. Tasot</a></li>
 </ul></li>
-<li><a href="09_osio_9.html#tyylien-ja-visualisoinnin-hallinta"><span class="toc-section-number">10</span> Tyylien ja visualisoinnin hallinta</a></li>
-<li><a href="10_osio_10.html#tietojen-jakelu-rajapinnalta"><span class="toc-section-number">11</span> Tietojen jakelu rajapinnalta</a>
+<li><a href="06_osio_6.html#tiedon-tuottaminen-qgis-toimintaympäristössä"><span class="toc-section-number">7</span> 6. Tiedon tuottaminen QGIS-toimintaympäristössä</a>
 <ul>
-<li><a href="10_osio_10.html#geoserver--vaatimukset"><span class="toc-section-number">11.1</span> GeoServer- vaatimukset</a></li>
-<li><a href="10_osio_10.html#jakelutaulujen-luominen-tietokannassa"><span class="toc-section-number">11.2</span> Jakelutaulujen luominen tietokannassa</a></li>
-<li><a href="10_osio_10.html#infra-o-workspace"><span class="toc-section-number">11.3</span> Infra-O workspace</a></li>
-<li><a href="10_osio_10.html#application-schemas-dataaccess--storen-luominen"><span class="toc-section-number">11.4</span> Application Schemas DataAccess- storen luominen</a></li>
-<li><a href="10_osio_10.html#tasojen-julkaiseminen"><span class="toc-section-number">11.5</span> Tasojen julkaiseminen</a></li>
+<li><a href="06_osio_6.html#digitointi"><span class="toc-section-number">7.1</span> 6.1. Digitointi</a></li>
+<li><a href="06_osio_6.html#mahdolliset-tietolähteet-tiedon-tuottamisen-tueksi"><span class="toc-section-number">7.2</span> 6.2. Mahdolliset tietolähteet tiedon tuottamisen tueksi</a></li>
 </ul></li>
-<li><a href="11_osio_11.html#vianmääritys-ja-usein-kysytyt-kysymykset-ukk"><span class="toc-section-number">12</span> Vianmääritys ja usein kysytyt kysymykset (UKK)</a></li>
+<li><a href="07_osio_7.html#tietojen-hallinta-ja-editointi"><span class="toc-section-number">8</span> 7. Tietojen hallinta ja editointi</a>
+<ul>
+<li><a href="07_osio_7.html#editointi"><span class="toc-section-number">8.1</span> 7.1. Editointi</a></li>
+<li><a href="07_osio_7.html#kohteen-tiedot--työkalu"><span class="toc-section-number">8.2</span> 7.2. Kohteen tiedot- työkalu</a></li>
+<li><a href="07_osio_7.html#tarttumisen-asetukset"><span class="toc-section-number">8.3</span> 7.3. Tarttumisen asetukset</a></li>
+</ul></li>
+<li><a href="08_osio_8.html#datan-tuonti-importointi-ja-vienti-exportointi"><span class="toc-section-number">9</span> 8. Datan tuonti (importointi) ja vienti (exportointi)</a>
+<ul>
+<li><a href="08_osio_8.html#export"><span class="toc-section-number">9.1</span> 8.1. Export</a></li>
+<li><a href="08_osio_8.html#import-tiedostosta"><span class="toc-section-number">9.2</span> 8.2. Import tiedostosta</a></li>
+<li><a href="08_osio_8.html#import-rajapinnalta"><span class="toc-section-number">9.3</span> 8.3. Import rajapinnalta</a></li>
+</ul></li>
+<li><a href="09_osio_9.html#tyylien-ja-visualisoinnin-hallinta"><span class="toc-section-number">10</span> 9. Tyylien ja visualisoinnin hallinta</a></li>
+<li><a href="10_osio_10.html#tietojen-jakelu-rajapinnalta"><span class="toc-section-number">11</span> 10. Tietojen jakelu rajapinnalta</a>
+<ul>
+<li><a href="10_osio_10.html#geoserver--vaatimukset"><span class="toc-section-number">11.1</span> 10.1. GeoServer- vaatimukset</a></li>
+<li><a href="10_osio_10.html#jakelutaulujen-luominen-tietokannassa"><span class="toc-section-number">11.2</span> 10.2. Jakelutaulujen luominen tietokannassa</a></li>
+<li><a href="10_osio_10.html#infra-o-workspace"><span class="toc-section-number">11.3</span> 10.3. Infra-O workspace</a></li>
+<li><a href="10_osio_10.html#application-schemas-dataaccess--storen-luominen"><span class="toc-section-number">11.4</span> 10.4. Application Schemas DataAccess- storen luominen</a></li>
+<li><a href="10_osio_10.html#tasojen-julkaiseminen"><span class="toc-section-number">11.5</span> 10.5. Tasojen julkaiseminen</a></li>
+</ul></li>
+<li><a href="11_osio_11.html#vianmääritys-ja-usein-kysytyt-kysymykset-ukk"><span class="toc-section-number">12</span> 11. Vianmääritys ja usein kysytyt kysymykset (UKK)</a>
+<ul>
+<li><a href="11_osio_11.html#tietokannan-alustus"><span class="toc-section-number">12.1</span> 11.1. Tietokannan alustus</a>
+<ul>
+<li><a href="11_osio_11.html#alustus-ei-onnistu"><span class="toc-section-number">12.1.1</span> 11.1.1 Alustus ei onnistu</a></li>
+<li><a href="11_osio_11.html#voiko-kohteiden-geometrioida-kopioida"><span class="toc-section-number">12.1.2</span> 11.2.1. Voiko kohteiden geometrioida kopioida?</a></li>
+</ul></li>
+<li><a href="11_osio_11.html#datan-editointi"><span class="toc-section-number">12.2</span> 11.3. Datan editointi</a>
+<ul>
+<li><a href="11_osio_11.html#voiko-useampaa-kohdetta-editoida-kerrallaan"><span class="toc-section-number">12.2.1</span> 11.3.1. Voiko useampaa kohdetta editoida kerrallaan?</a></li>
+</ul></li>
+<li><a href="11_osio_11.html#datan-exportointi"><span class="toc-section-number">12.3</span> 11.4.1. Datan exportointi</a></li>
+<li><a href="11_osio_11.html#datan-importointi"><span class="toc-section-number">12.4</span> 11.5.1. Datan importointi</a></li>
+</ul></li>
 <li><a href="12_osio_12.html#terminologia"><span class="toc-section-number">13</span> Terminologia</a></li>
 <li><a href="13_osio_13.html#lisätiedot-resurssit-ja-lisäarvopalveluita-tarjoavat-yritykset"><span class="toc-section-number">14</span> Lisätiedot, resurssit ja lisäarvopalveluita tarjoavat yritykset</a>
 <ul>
@@ -211,8 +230,14 @@ type="button" onclick="navToggle()" aria-label="Toggle navigation">
 <div class="row">
 <div class="col-sm-12">
 <div id="tyylien-ja-visualisoinnin-hallinta" class="section level1" number="10">
-<h1><span class="header-section-number">10</span> Tyylien ja visualisoinnin hallinta</h1>
-<p>Käyttäjä voi hallita eri tasojen tyylejä, ml. värejä ja nimiöitä halutessaan. Näin käyttäjä pystyy räätälöimään tietoaineistoa omiin käyttötarpeisiinsa. </p>
+<h1><span class="header-section-number">10</span> 9. Tyylien ja visualisoinnin hallinta</h1>
+<p>Käyttäjä voi hallita eri tasojen tyylejä, ml. värejä ja nimiöitä halutessaan. Näin käyttäjä pystyy räätälöimään tietoaineistoa omiin käyttötarpeisiinsa.</p>
+<p><img src="img/osio_9/image_1.png" /></p>
+<ol style="list-style-type: decimal">
+<li>Valitse taso, jonka tyyliä haluat muokata.</li>
+<li>Avaa tyylipaneeli.</li>
+<li>Muokkaa tason väritystä tai muuta tyyliä tyylipaneelissa.</li>
+</ol>
 
 </div>
 <p style="text-align: center;">
@@ -228,7 +253,7 @@ type="button" onclick="navToggle()" aria-label="Toggle navigation">
 
 <div class="footer-info">
 <h5 class="footer-title">Infra-O käyttöohje</h5>
-<span class="footer-version">v2023-06-22</span>
+<span class="footer-version">v2023-06-27</span>
 <div class="license"><img src="img/by-nd.svg" width="80px" alt="CC-BY-ND"></div>
 </div>
 

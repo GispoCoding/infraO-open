@@ -1,12 +1,12 @@
-# Yleiskatsaus QGIS-toimintaympäristön toiminnallisuuksiin
+# 5. Yleiskatsaus QGIS-toimintaympäristön toiminnallisuuksiin
 
 QGIS-toimintaympäristö mukailee normaalia QGIS-projektia tasoineen ja työkaluineen.
 
-## Pääryhmät
+## 5.1. Ryhmät
 
 Tasot on jaoteltu ryhmiin tyypeittäin (Kohteet, Kasvillisuus, Varusteet, Viheralue, Katualue, Taustakartat, Linkit). Näiden ryhmien sisältä löytyy varsinaiset infraomaisuuden kohteet, joiden tietoja tallennetaan järjestelmään.
 
-## Tasot
+## 5.2. Tasot
 
 Jokaista infraomaisuustyyppiä kohden on kolme tasoa, jotka sijaitsevat omassa ryhmässä. Näiden tasojen geometria on erilainen (piste, viiva tai alue). Yleisimmin käytetty geometria on listattu ensimmäisenä.
 

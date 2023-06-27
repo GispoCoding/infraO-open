@@ -1,8 +1,8 @@
-# Tietojen jakelu rajapinnalta
+# 10. Tietojen jakelu rajapinnalta
 
 Tämä luku ohjeistaa, miten infraomaisuuden tietoja voidaan jakaa OGC API Features- rajapinnalta Infra-O skeeman mukaisena. Rajapinnan toteutuksessa hyödynnetään GeoServer- palvelinta.
 
-## GeoServer- vaatimukset
+## 10.1. GeoServer- vaatimukset
 
 Toteutus on tehty GeoServerin 2.24.SNAPSHOT- versiolla, yhteensopivuutta vanhempien versioiden kanssa ei ole testattu. OGC API Features- rajapinnan toteutus vaatii yhteisön kehittämän lisäosan serveriin, joka tulee olla asennettuna GeoServeriin. Rajapinnan GML-tulosteet on määritelty Infra-O skeeman mukaiseksi Application Schemas Extensionilla.
 
@@ -14,17 +14,17 @@ Vaatimukset:
 
 -   [Application schemas extension](https://docs.geoserver.org/stable/en/user/data/app-schema/index.html)
 
-## Jakelutaulujen luominen tietokannassa
+## 10.2. Jakelutaulujen luominen tietokannassa
 
 Jakelua varten luodaan erillinen skeema, johon luodaan tarvittavat taulut tietoineen. Taulujen luomiseen on [valmis skripti](https://raw.githubusercontent.com/GispoCoding/infraO-open/main/oapif/jakelu_tables.sql), joka luo jakelu- nimisen skeeman ja kohteita vastaavat taulut (esim. liikennemerkki_ogc, jate_ogc jne). Kohteet kopioidaan QGISissä muokattavista tauluista. Tämän vuoksi kun kohteita on lisätty tietokantaan, taulut tulee päivittää, jotta tiedot päivittyvät rajapinnalle.
 
-## Infra-O workspace
+## 10.3. Infra-O workspace
 
 Jakelua varten luodaan GeoServeriin oma workspace nimeltä 'infrao'. Workspacen Namespace- asetukseksi määritetään osoite www.infra-o.fi/infrao:
 
 ![](img/osio_10/image_1.png){width="311"}
 
-## Application Schemas DataAccess- storen luominen
+## 10.4. Application Schemas DataAccess- storen luominen
 
 Application schemas lisää uuden data store- tyypin GeoServeriin nimeltä **Application Schema DataAccess**. Store vaatii kahden xml- tiedoston, jossa sen datalähteet ja skeeman kartoitus on määritetty.
 
@@ -66,7 +66,7 @@ Kirjoita **Data Source Name**- kenttään aikaisemmin luodun xml- tiedostot sis�
 
 Tallenna lopuksi Data Store.
 
-## Tasojen julkaiseminen
+## 10.5. Tasojen julkaiseminen
 
 Välittömästi Data Storen luomisen jälkeen GeoServer ehdottaa uuden tason lisäämistä. Säilytä tason nimi ja otsikko oletusarvona, määritä muuten tason asetukset haluamallasi tavalla. Tason tallentamisen minivaatimuksena on koordinaattijärjestelmän ja tason laajuuden määrittäminen. Täydennä tiedot esimerkiksi näin:
 

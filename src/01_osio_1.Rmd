@@ -1,4 +1,4 @@
-# Johdanto
+# 1. Johdanto
 
 InfraO-open on QGIS-toimintaympristö, joka on suunniteltu avuksi suomalaisten kuntien ja kaupunkien infraomaisuuden tietojen luomiseen ja hallintaan. Ratkaisun avulla kunnat pystyvät hallitsemaan paikkatietoa kunnallisesta infraomaisuudesta, kuten mm. penkeistä, katuvaloista ja leikkipaikkoista sekä myös katuvaloista, viheralueista ja katualueista.
 

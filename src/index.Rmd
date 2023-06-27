@@ -15,3 +15,7 @@ documentclass: book
 ---
 
 # Infraomaisuuden tiedon hallintajärjestelmän pystytys- ja käyttöohje
+
+Tälle sivustolle on koottu ohjeita avoimen lähdekoodin paikkatietoteknologioilla toteutetulle infraomaisuuden tiedon hallintajärjestelmän pystytykseen ja käyttöön.
+
+Vasemmalla sijaitsevasta sivupaneelista tai 'Next' ja 'Previous'- painikkeilla pystyt navigoimaan ohjeen eri osioihin.

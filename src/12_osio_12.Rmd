@@ -1,4 +1,4 @@
-# Terminologia
+# 12. Terminologia
 
 **PostgreSQL**: PostgreSQL on avoimen lähdekoodin relaatiotietokanta, joka on suunniteltu tehokkaaseen ja tietoturvalliseen tietokantahallintaan.
 

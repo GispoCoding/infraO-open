@@ -1,3 +1,3 @@
-# Yhteystiedot
+# 14. Yhteystiedot
 
 Kyseessä on avoimen lähdekoodin projekti, jonka kehittäminen perustuu yhteistyöhön eikä yksittäistä yhteyshenkilöä ole. Jos käyttäjä tunnistaa ongelmia tai työkalun käytöstä tulee kysymyksiä, käyttäjä voi olla yhteydessä lisäarvopalveluita tarjoaviin yrityksiin (kts. edellinen kappale).

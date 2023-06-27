@@ -1,4 +1,4 @@
-# Lisätiedot, resurssit ja lisäarvopalveluita tarjoavat yritykset
+# 13. Lisätiedot, resurssit ja lisäarvopalveluita tarjoavat yritykset
 
 QGIS-toimintaympäristö ja siihen liittyvät työkalut ovat tuotettu osana Valtiovarainministeriön tukemaa hanketta, jonka hankeisäntänä ja projektipäälikkönä toimi Espoon kaupunki. 
 

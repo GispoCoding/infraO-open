@@ -22,6 +22,7 @@ Tietoa voidaan muokata QGISin editointityökaluilla.
 Voit tarkastella ja muokata kohteiden tietoja **Näytä kohteen tiedot**- työkalulla.
 
 ![](img/osio_7/image_2.png)
+
 1. Valitse työkalu.
 2. Valitse kohde.
 3. Tarkastele tietoja.
@@ -32,5 +33,7 @@ Voit tarkastella ja muokata kohteiden tietoja **Näytä kohteen tiedot**- työka
 1. Valitse QGISistä **Näytä** -> **Työkalut** -> **Tarttumisen asetukset**
 2. QGIS- ikkunaan tulee näkyviin tarttumisen työkalupalkki.
 3. Määritä asetukset esimerkiksi kuvan mukaisesti
+
 ![](img/osio_7/image_3.png)
+
 4. Nyt digitoidessa hiiri tarttuu olemassa oleviin kohteiden taitepisteisiin sekä segmentteihin. Tämä helpottaa etenkin vierekkäisten kohteiden digitointia

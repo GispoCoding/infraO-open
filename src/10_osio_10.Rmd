@@ -73,6 +73,3 @@ Välittömästi Data Storen luomisen jälkeen GeoServer ehdottaa uuden tason lis
 ![](img/osio_10/image_4.png)
 
 Kun taso on julkaistu se löytyy välittömästä GeoServerin julkaisemasta OGC API Features- rajapinnasta. Rajapinnan GML- output on nyt Infra-O skeeman mukaista.
-
-
-\<sisältö kesken; palaa myöhemmin\>

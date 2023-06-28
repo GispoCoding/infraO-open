@@ -7,10 +7,11 @@ Tässä luvussa on tuotu esille tyypillisiä vianmääritystilanteita ja usein k
 ### 11.1.1 Alustus ei onnistu
 - Varmista, että yhteysasetuksiin määritetyllä käyttäjällä on riittävät oikeudet tietokantaan (skeemojen ja taulujen luominen)
 - Luo PostGIS- lisäosa etukäteen tietokantaan
+
 ## 11.2. Datan tuottaminen
 
 ### 11.2.1. Voiko kohteiden geometrioida kopioida?
-Pystyy. Valitsemalla kohteita esimerkiksi toisessa QGIS- ikkunassa ja kopioimalla (huom. editointitila) ne Infra-O työtilaan. Tällöin tiedot kuitenkin pitää syöttää erikseen uusille kohteille.
+Pystyy. Valitsemalla kohteita esimerkiksi toisessa QGIS- ikkunassa ja kopioimalla (huom. editointitila) ne Infra-O työtilaan. Tällöin ominaisuustiedot kuitenkin pitää syöttää erikseen uusille kohteille.
 
 ## 11.3. Datan editointi
 

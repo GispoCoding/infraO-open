@@ -31,7 +31,7 @@ tietojen-hallinta-ja-editointi
 editointi
 kohteen-tiedot--työkalu
 tarttumisen-asetukset
-datan-tuonti-importointi-ja-vienti-exportointi
+datan-tuominen-importointi-ja-vienti-exportointi
 export
 import-tiedostosta
 import-rajapinnalta
@@ -45,6 +45,7 @@ tasojen-julkaiseminen
 vianmääritys-ja-usein-kysytyt-kysymykset-ukk
 tietokannan-alustus
 alustus-ei-onnistu
+datan-tuottaminen
 voiko-kohteiden-geometrioida-kopioida
 datan-editointi
 voiko-useampaa-kohdetta-editoida-kerrallaan

@@ -1,5 +1,5 @@
 ---
-title: "Infra-O käyttöohje"
+title: "Infra-O Open käyttöohje"
 author: "Gispo Ltd."
 date: "`r Sys.Date()`"
 site: "bookdown::bookdown_site"

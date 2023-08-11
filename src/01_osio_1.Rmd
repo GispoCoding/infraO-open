@@ -8,7 +8,7 @@ Tässä osiossa esitellään QGIS-pohjainen ratkaisu ja sen tarkoitus. Kunnallis
 
 ## Avoin lähdekoodi ja ilmainen käyttö
 
-Ratkaisu pohjautuu avoimen lähdekoodin lisensseihin ja tuotetut työkalut on lisensoitu avoimen lähdekoodin lisenssein. Ratkaisua voi vapaasti käyttää, kopioida tai jakaa kyseessä olevien avoimen lähdekoodin lisenssien mukaisesti. Kuntien ja kaupunkien toimintaympäristössä tämä tuo eri toten vapauden muokata ratkaisua haluamansa mukaisesti sekä valita ja kilpailuttaa yritys, joka heille mahdollisia lisäarvopalveluita tarjoaa.
+Ratkaisu pohjautuu avoimen lähdekoodin lisensseihin. Ratkaisua voi vapaasti käyttää, kopioida tai jakaa kyseessä olevien avoimen lähdekoodin lisenssien mukaisesti. Kuntien ja kaupunkien toimintaympäristössä tämä tuo eri toten vapauden muokata ratkaisua haluamansa mukaisesti sekä valita ja kilpailuttaa yritys, joka heille mahdollisia lisäarvopalveluita tarjoaa.
 
 ## Käyttöönotto
 

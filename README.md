@@ -4,7 +4,6 @@
 
 ![db/docs/infrao_v02.png](db/docs/infrao_v02.png)
 
-
 ## Set up a dev environment
 
 1. Copy .env.template to .env 

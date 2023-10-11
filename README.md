@@ -2,8 +2,7 @@
 
 ## Database model
 
-![docs/db/schema.png](docs/db/schema.png)
-[docs/db/schema.png](docs/db/schema.png)
+![db/docs/infrao_v02.png](db/docs/infrao_v02.png)
 
 
 ## Set up a dev environment
